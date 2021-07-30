@@ -5,31 +5,40 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Color;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import org.mindrot.jbcrypt.BCrypt;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.sql.Connection;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
+
+import com.aptech.LoanProcessingSystem.database.ConnectDB;
+import com.aptech.LoanProcessingSystem.entities.Account;
+import com.aptech.LoanProcessingSystem.model.AccountModel;
 import com.toedter.calendar.JDateChooser;
+import javax.swing.JCheckBox;
+import java.awt.Toolkit;
 
 public class SignUp extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtName;
-	private JTextField txtEmail;
-	private JPasswordField txtPassword;
-	private JPasswordField txtConfirmPass;
-	private JTextField txtPhone;
-	private JTextField txtAdress;
-	private JTextField txtSalary;
 	private JRadioButton rdbMale;
 	private JRadioButton rdbFemale;
 
@@ -49,14 +58,23 @@ public class SignUp extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-//	ButtonGroup bg;
+	ButtonGroup bg;
+	private JLabel lblNewLabel_2 = new JLabel("");
+	private JTextField txtIdentity;
+	private JTextField txtName;
+	private JTextField txtEmail;
+	private JPasswordField txtPassword;
+	private JPasswordField txtConfirmPass;
+	private JTextField txtPhone;
+	private JDateChooser txtCalendar;
+	private JTextField txtAdress;
+	private JTextField txtSalary;
+	private JCheckBox txtStatus;
 
 	public SignUp() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(SignUp.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
 
-//		bg = new ButtonGroup();
-//		bg.add(rdbMale);
-//		bg.add(rdbFemale);
-//		rdbMale.setSelected(true);
+		bg = new ButtonGroup();
 
 		setFont(new Font("Dialog", Font.BOLD, 12));
 		setLocationRelativeTo(null);
@@ -134,20 +152,25 @@ public class SignUp extends JDialog {
 				rdbMale.setHorizontalAlignment(SwingConstants.CENTER);
 				rdbMale.setBounds(141, 309, 76, 23);
 				panel_1.add(rdbMale);
+				bg.add(rdbMale);
+				bg.add(rdbFemale);
 				rdbMale.setSelected(true);
 
 				rdbFemale = new JRadioButton("Female");
 				rdbFemale.setHorizontalAlignment(SwingConstants.CENTER);
 				rdbFemale.setBounds(259, 309, 76, 23);
 				panel_1.add(rdbFemale);
+				bg.add(rdbMale);
+				bg.add(rdbFemale);
+				rdbMale.setSelected(true);
 
 				JLabel lblNewLabel_8 = new JLabel("Dob *");
 				lblNewLabel_8.setHorizontalAlignment(SwingConstants.LEFT);
-				lblNewLabel_8.setBounds(400, 313, 76, 14);
+				lblNewLabel_8.setBounds(10, 356, 76, 14);
 				panel_1.add(lblNewLabel_8);
 
-				JDateChooser txtCalendar = new JDateChooser();
-				txtCalendar.setBounds(516, 307, 195, 20);
+				txtCalendar = new JDateChooser();
+				txtCalendar.setBounds(140, 356, 195, 20);
 				panel_1.add(txtCalendar);
 
 				JLabel lblNewLabel_9 = new JLabel("Address *");
@@ -160,13 +183,6 @@ public class SignUp extends JDialog {
 				txtPhone.setBounds(140, 269, 195, 20);
 				panel_1.add(txtPhone);
 
-				JButton btnImage = new JButton("Image *");
-				btnImage.setHorizontalAlignment(SwingConstants.LEFT);
-				btnImage.setIcon(new ImageIcon(
-						SignUp.class.getResource("/com/aptech/LoanProcessingSystem/images/document (2).png")));
-				btnImage.setBounds(387, 238, 109, 20);
-				panel_1.add(btnImage);
-
 				txtAdress = new JTextField();
 				txtAdress.setColumns(10);
 				txtAdress.setBounds(516, 106, 195, 20);
@@ -174,7 +190,7 @@ public class SignUp extends JDialog {
 
 				JLabel lblNewLabel_10 = new JLabel("Salary *");
 				lblNewLabel_10.setHorizontalAlignment(SwingConstants.LEFT);
-				lblNewLabel_10.setBounds(400, 162, 96, 17);
+				lblNewLabel_10.setBounds(400, 149, 96, 17);
 				panel_1.add(lblNewLabel_10);
 
 				txtSalary = new JTextField();
@@ -183,30 +199,137 @@ public class SignUp extends JDialog {
 				panel_1.add(txtSalary);
 
 				JButton btnSignUp = new JButton("Sign Up");
+				btnSignUp.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+
+						String name = txtName.getText();
+						String email = txtEmail.getText();
+						String password = txtPassword.getText();
+						String confirm_pass = txtConfirmPass.getText();
+						String phone = txtPhone.getText();
+						String address = txtAdress.getText();
+						String salary = txtSalary.getText();
+						String identity_card = txtIdentity.getText();
+						String gender = "Male";
+						if (rdbFemale.isShowing()) {
+							gender = "Female";
+						}
+
+						Date dob = txtCalendar.getDate();
+
+						// Apply the validation logic checking all controls are empty or not
+						if (name.trim().equals("") || name.trim().equals("Please enter your name")
+								|| email.trim().equals("") || email.trim().equals("Please enter your email")
+								|| email.trim().equals("") || name.trim().equals("Please enter your name")
+								|| password.trim().equals("") || password.trim().equals("Please enter your password")
+								|| confirm_pass.trim().equals("")
+								|| confirm_pass.trim().equals("Please enter your confirm_pass")
+								|| phone.trim().equals("") || phone.trim().equals("Please enter your phone")
+								|| address.trim().equals("") || address.trim().equals("Please enter your address")
+								|| salary.trim().equals("") || salary.trim().equals("Please enter your salary")
+								|| identity_card.trim().equals("")
+								|| identity_card.trim().equals("Please enter your identity_card")
+
+						) {
+							JOptionPane.showMessageDialog(null, "Please enter full information !!!");
+						} else if (password.equals(confirm_pass)) {
+
+							if (dob == null) {
+								JOptionPane.showMessageDialog(null, "Please select Date of Birthday");
+								txtCalendar.grabFocus();
+
+							} else {
+
+								try {
+
+									Account account = new Account();
+									account.setName(txtName.getText());
+									account.setEmail(txtEmail.getText());
+									String pass = new String(txtPassword.getPassword());
+									String hash = BCrypt.hashpw(pass, BCrypt.gensalt());
+									account.setPassword(hash);
+									String pass1 = new String(txtConfirmPass.getPassword());
+									String hash1 = BCrypt.hashpw(pass1, BCrypt.gensalt());
+									account.setPassword(hash1);
+									account.setPhone(txtPhone.getText());
+									account.setAddress(txtAdress.getText());
+									account.setGender(rdbMale.isSelected() ? 1 : 0);
+									account.setDob(txtCalendar.getDate());
+									account.setSalary(txtSalary.getText());
+									account.setIdentity_card(txtIdentity.getText());
+									account.setStatus(txtStatus.isSelected());
+									
+									AccountModel accountModel = new AccountModel();
+									if (accountModel.create(account)) {
+										JOptionPane.showMessageDialog(null, "Successful account registration!");
+										Login login = new Login();
+										login.setVisible(true);
+										SignUp.this.dispose();
+									}else {
+										JOptionPane.showMessageDialog(null, "Please try again!");
+									}
+
+								} catch (Exception e2) {
+									// TODO: handle exception
+									e2.printStackTrace();
+								}
+
+							}
+						} else {
+							JOptionPane.showMessageDialog(null, "Password and Confirm Password must be same !");
+							txtPassword.setText("");
+							txtConfirmPass.setText("");
+						}
+					}
+
+				
+				});
 				btnSignUp.setFont(new Font("Tahoma", Font.BOLD, 11));
 				btnSignUp.setForeground(Color.BLUE);
 				btnSignUp.setIcon(new ImageIcon(
 						SignUp.class.getResource("/com/aptech/LoanProcessingSystem/images/register.png")));
-				btnSignUp.setBounds(226, 357, 109, 34);
+				btnSignUp.setBounds(451, 346, 109, 34);
 				panel_1.add(btnSignUp);
 
 				JButton btnReset = new JButton("Reset");
+				btnReset.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+
+						txtName.setText("");
+						txtEmail.setText("");
+						txtPassword.setText("");
+						txtConfirmPass.setText("");
+						txtPhone.setText("");
+						txtAdress.setText("");
+						txtSalary.setText("");
+						txtCalendar.setDate(null);
+						txtIdentity.setText("");
+
+						bg.clearSelection();
+
+					}
+				});
 				btnReset.setForeground(Color.RED);
 				btnReset.setFont(new Font("Tahoma", Font.BOLD, 11));
 				btnReset.setIcon(new ImageIcon(
 						SignUp.class.getResource("/com/aptech/LoanProcessingSystem/images/arrows-circle.png")));
-				btnReset.setBounds(467, 357, 109, 34);
+				btnReset.setBounds(660, 346, 109, 34);
 				panel_1.add(btnReset);
 
-				JLabel txtImage = new JLabel("Image");
-				txtImage.setIcon(
-						new ImageIcon(SignUp.class.getResource("/com/aptech/LoanProcessingSystem/images/user.png")));
-				txtImage.setHorizontalAlignment(SwingConstants.CENTER);
-				txtImage.setBounds(565, 189, 120, 99);
-				panel_1.add(txtImage);
+				JLabel lblNewLabel_11 = new JLabel("Identity Card");
+				lblNewLabel_11.setBounds(400, 189, 76, 14);
+				panel_1.add(lblNewLabel_11);
+
+				txtStatus = new JCheckBox("Status");
+				txtStatus.setBounds(574, 226, 99, 23);
+				panel_1.add(txtStatus);
+
+				txtIdentity = new JTextField();
+				txtIdentity.setBounds(516, 186, 195, 20);
+				panel_1.add(txtIdentity);
+				txtIdentity.setColumns(10);
 			}
 			{
-				JLabel lblNewLabel_2 = new JLabel("");
 				lblNewLabel_2.setIcon(new ImageIcon(
 						SignUp.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (1).png")));
 				lblNewLabel_2.setBounds(28, 131, 161, 227);

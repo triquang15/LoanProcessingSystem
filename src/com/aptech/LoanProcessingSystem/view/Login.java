@@ -9,6 +9,9 @@ import javax.swing.JPanel;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.border.EmptyBorder;
+
+import com.aptech.LoanProcessingSystem.model.AccountModel;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -18,9 +21,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.util.Map;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.SwingConstants;
+import java.awt.Toolkit;
 
 public class Login extends JDialog {
 
@@ -46,6 +52,7 @@ public class Login extends JDialog {
 	 * Create the dialog.
 	 */
 	public Login() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
 		setFont(new Font("Dialog", Font.BOLD, 12));
 		setLocationRelativeTo(null);
 		setTitle("Login");
@@ -131,9 +138,22 @@ public class Login extends JDialog {
 					btnNewButton.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseClicked(MouseEvent e) {
-							if (txtUsername.getText().equals("admin") && txtPassword.getText().equals("1234567")) {
+							
+							
+							AccountModel accountModel = new AccountModel();
+							String username = txtUsername.getText().trim();
+							String password = new String(txtPassword.getPassword());
+							if (accountModel.login(username,password)) {
 								txtMessage.setText("");
 								JOptionPane.showMessageDialog(null, "Login Successful");
+								Map<String, Object> data = new HashMap<String, Object>();
+								data.put("username", username);
+								data.put("users", accountModel.find(username));
+								
+								Home home = new Home();
+								home.setVisible(true);
+								
+								Login.this.dispose();
 
 							} else if (txtUsername.getText().equals("")
 									|| txtUsername.getText().equals("Enter your email")
@@ -157,6 +177,9 @@ public class Login extends JDialog {
 							new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/exit.png")));
 					btnNewButton_1.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
+							SignUp signUp = new SignUp();
+							signUp.setVisible(true);
+							Login.this.dispose();
 						}
 					});
 					btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -187,8 +210,9 @@ public class Login extends JDialog {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						if (JOptionPane.showConfirmDialog(null, "Are you sure you want to close Application ?",
-								"Confirm", JOptionPane.YES_NO_OPTION) == 0)
-							Login.this.dispose();
+								"Confirm", JOptionPane.YES_NO_OPTION) == 0);
+						System.exit(0);
+							
 					}
 				});
 				cancelButton.setIcon(
