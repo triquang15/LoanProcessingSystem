@@ -119,6 +119,13 @@ public class Home extends JFrame {
 		menuBar.add(mnAbout);
 		
 		JMenu mnHelp = new JMenu("Help");
+		mnHelp.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				Help help = new Help();
+				help.setVisible(true);
+			}
+		});
 		mnHelp.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/help.png")));
 		mnHelp.setForeground(new Color(255, 250, 250));
 		menuBar.add(mnHelp);
