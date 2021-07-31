@@ -77,7 +77,7 @@ public class SignUp extends JDialog {
 		bg = new ButtonGroup();
 
 		setFont(new Font("Dialog", Font.BOLD, 12));
-		setLocationRelativeTo(null);
+		
 		setTitle("Sign Up");
 		setBounds(100, 100, 1057, 587);
 		getContentPane().setLayout(new BorderLayout());
@@ -90,6 +90,7 @@ public class SignUp extends JDialog {
 			panel.setBackground(new Color(176, 224, 230));
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
+			setLocationRelativeTo(null);
 			{
 				JPanel panel_1 = new JPanel();
 				panel_1.setBounds(192, 34, 824, 437);
@@ -286,9 +287,8 @@ public class SignUp extends JDialog {
 				});
 				btnSignUp.setFont(new Font("Tahoma", Font.BOLD, 11));
 				btnSignUp.setForeground(Color.BLUE);
-				btnSignUp.setIcon(new ImageIcon(
-						SignUp.class.getResource("/com/aptech/LoanProcessingSystem/images/register.png")));
-				btnSignUp.setBounds(451, 346, 109, 34);
+				btnSignUp.setIcon(new ImageIcon(SignUp.class.getResource("/com/aptech/LoanProcessingSystem/images/sign-up.png")));
+				btnSignUp.setBounds(447, 349, 109, 29);
 				panel_1.add(btnSignUp);
 
 				JButton btnReset = new JButton("Reset");
@@ -311,9 +311,8 @@ public class SignUp extends JDialog {
 				});
 				btnReset.setForeground(Color.RED);
 				btnReset.setFont(new Font("Tahoma", Font.BOLD, 11));
-				btnReset.setIcon(new ImageIcon(
-						SignUp.class.getResource("/com/aptech/LoanProcessingSystem/images/arrows-circle.png")));
-				btnReset.setBounds(660, 346, 109, 34);
+				btnReset.setIcon(new ImageIcon(SignUp.class.getResource("/com/aptech/LoanProcessingSystem/images/rotation-lock.png")));
+				btnReset.setBounds(660, 351, 109, 29);
 				panel_1.add(btnReset);
 
 				JLabel lblNewLabel_11 = new JLabel("Identity Card");
@@ -348,7 +347,7 @@ public class SignUp extends JDialog {
 					}
 				});
 				cancelButton.setIcon(
-						new ImageIcon(SignUp.class.getResource("/com/aptech/LoanProcessingSystem/images/close.png")));
+						new ImageIcon(SignUp.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
 				cancelButton.setFont(new Font("Tahoma", Font.BOLD, 11));
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);

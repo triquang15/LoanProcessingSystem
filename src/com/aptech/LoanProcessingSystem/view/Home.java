@@ -21,6 +21,8 @@ import javax.swing.JSeparator;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTabbedPane;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Home extends JFrame {
 
@@ -105,6 +107,13 @@ public class Home extends JFrame {
 		menuBar.add(mnAdmin);
 		
 		JMenu mnAbout = new JMenu("About");
+		mnAbout.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				 About about = new About();
+		         about.setVisible(true);
+			}
+		});
 		mnAbout.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/info.png")));
 		mnAbout.setForeground(new Color(255, 250, 250));
 		menuBar.add(mnAbout);
@@ -192,7 +201,7 @@ public class Home extends JFrame {
 		tabbedPane.setBackground(new Color(255, 250, 250));
 		tabbedPane.setBounds(0, 65, 1273, 635);
 		getContentPane().add(tabbedPane);
-		setTitle("LoanManagementSystem");
+		setTitle("Loan Processing System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1297, 737);
 		setLocationRelativeTo(null);

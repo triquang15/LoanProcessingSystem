@@ -8,6 +8,8 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import java.awt.Font;
 import java.awt.Color;
+import java.awt.Cursor;
+
 import javax.swing.border.EmptyBorder;
 
 import com.aptech.LoanProcessingSystem.model.AccountModel;
@@ -27,6 +29,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.SwingConstants;
 import java.awt.Toolkit;
+import java.awt.event.MouseMotionAdapter;
 
 public class Login extends JDialog {
 
@@ -54,7 +57,7 @@ public class Login extends JDialog {
 	public Login() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
 		setFont(new Font("Dialog", Font.BOLD, 12));
-		setLocationRelativeTo(null);
+	
 		setTitle("Login");
 		setBounds(100, 100, 688, 357);
 		getContentPane().setLayout(new BorderLayout());
@@ -64,6 +67,7 @@ public class Login extends JDialog {
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
 			JPanel panel = new JPanel();
+			setLocationRelativeTo(null);
 			panel.setBackground(new Color(176, 224, 230));
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
@@ -75,7 +79,7 @@ public class Login extends JDialog {
 				{
 					JLabel lblNewLabel = new JLabel("Usename");
 					lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
-					lblNewLabel.setBounds(66, 51, 82, 20);
+					lblNewLabel.setBounds(66, 37, 82, 20);
 					panel_1.add(lblNewLabel);
 				}
 				{
@@ -97,14 +101,14 @@ public class Login extends JDialog {
 								txtUsername.setText("Enter your email");
 						}
 					});
-					txtUsername.setBounds(158, 43, 263, 28);
+					txtUsername.setBounds(158, 34, 263, 28);
 					panel_1.add(txtUsername);
 					txtUsername.setColumns(10);
 				}
 				{
 					JLabel lblNewLabel_1 = new JLabel("Password");
 					lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
-					lblNewLabel_1.setBounds(66, 114, 71, 16);
+					lblNewLabel_1.setBounds(66, 95, 71, 16);
 					panel_1.add(lblNewLabel_1);
 				}
 				{
@@ -130,7 +134,7 @@ public class Login extends JDialog {
 							}
 						}
 					});
-					txtPassword.setBounds(158, 101, 263, 28);
+					txtPassword.setBounds(158, 90, 263, 28);
 					panel_1.add(txtPassword);
 				}
 				{
@@ -168,7 +172,7 @@ public class Login extends JDialog {
 					btnNewButton.setIcon(
 							new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/enter.png")));
 					btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 13));
-					btnNewButton.setBounds(158, 171, 122, 28);
+					btnNewButton.setBounds(158, 159, 122, 28);
 					panel_1.add(btnNewButton);
 				}
 				{
@@ -183,13 +187,34 @@ public class Login extends JDialog {
 						}
 					});
 					btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 12));
-					btnNewButton_1.setBounds(299, 171, 122, 28);
+					btnNewButton_1.setBounds(299, 159, 122, 28);
 					panel_1.add(btnNewButton_1);
 				}
 				{
 					txtMessage.setForeground(new Color(255, 0, 0));
-					txtMessage.setBounds(158, 140, 263, 20);
+					txtMessage.setBounds(158, 129, 263, 20);
 					panel_1.add(txtMessage);
+				}
+				{
+					JLabel txtForgotPass = new JLabel("Forgot Password ?");
+					txtForgotPass.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mousePressed(MouseEvent e) {
+							Send_Code send_Code = new Send_Code();
+							send_Code.setVisible(true);
+							Login.this.dispose();
+						}
+					});
+					txtForgotPass.addMouseMotionListener(new MouseMotionAdapter() {
+						@Override
+						public void mouseMoved(MouseEvent e) {
+							txtForgotPass.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+						}
+					});
+					txtForgotPass.setForeground(Color.BLUE);
+					txtForgotPass.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 11));
+					txtForgotPass.setBounds(238, 198, 122, 20);
+					panel_1.add(txtForgotPass);
 				}
 			}
 			{
@@ -216,7 +241,7 @@ public class Login extends JDialog {
 					}
 				});
 				cancelButton.setIcon(
-						new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/close.png")));
+						new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
 				cancelButton.setFont(new Font("Tahoma", Font.BOLD, 11));
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
