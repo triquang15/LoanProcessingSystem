@@ -7,7 +7,6 @@ public class Account {
 	private int id, accountTypeId;
 	private String name, email, password, phone, address, identityCard;
 	private int gender;
-
 	private Date dob;
 	private boolean status;
 
@@ -15,8 +14,11 @@ public class Account {
 		super();
 	}
 
-	public Account(int accountTypeId, String name, String email, String password, String phone, String address,
+
+	public Account(int id, int accountTypeId, String name, String email, String password, String phone, String address,
 			String identityCard, int gender, Date dob, boolean status) {
+		super();
+		this.id = id;
 		this.accountTypeId = accountTypeId;
 		this.name = name;
 		this.email = email;
@@ -119,8 +121,8 @@ public class Account {
 
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", accountTypeId=" + accountTypeId + ", name=" + name + ", email=" + email
-				+ ", password=" + password + ", phone=" + phone + ", address=" + address + ", identityCard="
+		return "Account [id=" + id + ", AccountTypeId=" + accountTypeId + ", name=" + name + ", email=" + email
+				+ ", password=" + password + ", phone=" + phone + ", address=" + address + ", identity_card="
 				+ identityCard + ", gender=" + gender + ", dob=" + dob + ", status=" + status + "]";
 	}
 
