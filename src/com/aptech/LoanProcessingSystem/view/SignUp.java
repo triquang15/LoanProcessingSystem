@@ -35,6 +35,7 @@ import com.aptech.LoanProcessingSystem.model.AccountModel;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JCheckBox;
 import java.awt.Toolkit;
+import javax.swing.JComboBox;
 
 public class SignUp extends JDialog {
 
@@ -68,7 +69,6 @@ public class SignUp extends JDialog {
 	private JTextField txtPhone;
 	private JDateChooser txtCalendar;
 	private JTextField txtAdress;
-	private JTextField txtSalary;
 	private JCheckBox txtStatus;
 
 	public SignUp() {
@@ -142,16 +142,16 @@ public class SignUp extends JDialog {
 				panel_1.add(txtConfirmPass);
 
 				JLabel lblNewLabel_6 = new JLabel("Phone *");
-				lblNewLabel_6.setBounds(10, 271, 76, 17);
+				lblNewLabel_6.setBounds(404, 229, 76, 17);
 				panel_1.add(lblNewLabel_6);
 
 				JLabel lblNewLabel_7 = new JLabel("Gender *");
-				lblNewLabel_7.setBounds(10, 313, 76, 14);
+				lblNewLabel_7.setBounds(10, 280, 76, 14);
 				panel_1.add(lblNewLabel_7);
 
 				rdbMale = new JRadioButton("Male");
 				rdbMale.setHorizontalAlignment(SwingConstants.CENTER);
-				rdbMale.setBounds(141, 309, 76, 23);
+				rdbMale.setBounds(143, 276, 76, 23);
 				panel_1.add(rdbMale);
 				bg.add(rdbMale);
 				bg.add(rdbFemale);
@@ -159,7 +159,7 @@ public class SignUp extends JDialog {
 
 				rdbFemale = new JRadioButton("Female");
 				rdbFemale.setHorizontalAlignment(SwingConstants.CENTER);
-				rdbFemale.setBounds(259, 309, 76, 23);
+				rdbFemale.setBounds(258, 276, 76, 23);
 				panel_1.add(rdbFemale);
 				bg.add(rdbMale);
 				bg.add(rdbFemale);
@@ -167,37 +167,27 @@ public class SignUp extends JDialog {
 
 				JLabel lblNewLabel_8 = new JLabel("Dob *");
 				lblNewLabel_8.setHorizontalAlignment(SwingConstants.LEFT);
-				lblNewLabel_8.setBounds(10, 356, 76, 14);
+				lblNewLabel_8.setBounds(10, 333, 76, 14);
 				panel_1.add(lblNewLabel_8);
 
 				txtCalendar = new JDateChooser();
-				txtCalendar.setBounds(140, 356, 195, 20);
+				txtCalendar.setBounds(140, 327, 195, 20);
 				panel_1.add(txtCalendar);
 
 				JLabel lblNewLabel_9 = new JLabel("Address *");
 				lblNewLabel_9.setHorizontalAlignment(SwingConstants.LEFT);
-				lblNewLabel_9.setBounds(400, 109, 80, 14);
+				lblNewLabel_9.setBounds(404, 109, 88, 14);
 				panel_1.add(lblNewLabel_9);
 
 				txtPhone = new JTextField();
 				txtPhone.setColumns(10);
-				txtPhone.setBounds(140, 269, 195, 20);
+				txtPhone.setBounds(516, 227, 195, 20);
 				panel_1.add(txtPhone);
 
 				txtAdress = new JTextField();
 				txtAdress.setColumns(10);
 				txtAdress.setBounds(516, 106, 195, 20);
 				panel_1.add(txtAdress);
-
-				JLabel lblNewLabel_10 = new JLabel("Salary *");
-				lblNewLabel_10.setHorizontalAlignment(SwingConstants.LEFT);
-				lblNewLabel_10.setBounds(400, 149, 96, 17);
-				panel_1.add(lblNewLabel_10);
-
-				txtSalary = new JTextField();
-				txtSalary.setColumns(10);
-				txtSalary.setBounds(516, 147, 195, 20);
-				panel_1.add(txtSalary);
 
 				JButton btnSignUp = new JButton("Sign Up");
 				btnSignUp.addActionListener(new ActionListener() {
@@ -209,7 +199,6 @@ public class SignUp extends JDialog {
 						String confirm_pass = txtConfirmPass.getText();
 						String phone = txtPhone.getText();
 						String address = txtAdress.getText();
-						String salary = txtSalary.getText();
 						String identity_card = txtIdentity.getText();
 						String gender = "Male";
 						if (rdbFemale.isShowing()) {
@@ -227,7 +216,6 @@ public class SignUp extends JDialog {
 								|| confirm_pass.trim().equals("Please enter your confirm_pass")
 								|| phone.trim().equals("") || phone.trim().equals("Please enter your phone")
 								|| address.trim().equals("") || address.trim().equals("Please enter your address")
-								|| salary.trim().equals("") || salary.trim().equals("Please enter your salary")
 								|| identity_card.trim().equals("")
 								|| identity_card.trim().equals("Please enter your identity_card")
 
@@ -256,7 +244,6 @@ public class SignUp extends JDialog {
 									account.setAddress(txtAdress.getText());
 									account.setGender(rdbMale.isSelected() ? 1 : 0);
 									account.setDob(txtCalendar.getDate());
-									account.setSalary(txtSalary.getText());
 									account.setIdentity_card(txtIdentity.getText());
 									account.setStatus(txtStatus.isSelected());
 									
@@ -301,7 +288,6 @@ public class SignUp extends JDialog {
 						txtConfirmPass.setText("");
 						txtPhone.setText("");
 						txtAdress.setText("");
-						txtSalary.setText("");
 						txtCalendar.setDate(null);
 						txtIdentity.setText("");
 
@@ -316,15 +302,16 @@ public class SignUp extends JDialog {
 				panel_1.add(btnReset);
 
 				JLabel lblNewLabel_11 = new JLabel("Identity Card");
-				lblNewLabel_11.setBounds(400, 189, 76, 14);
+				lblNewLabel_11.setHorizontalAlignment(SwingConstants.LEFT);
+				lblNewLabel_11.setBounds(404, 153, 88, 14);
 				panel_1.add(lblNewLabel_11);
 
 				txtStatus = new JCheckBox("Status");
-				txtStatus.setBounds(574, 226, 99, 23);
+				txtStatus.setBounds(574, 185, 99, 23);
 				panel_1.add(txtStatus);
 
 				txtIdentity = new JTextField();
-				txtIdentity.setBounds(516, 186, 195, 20);
+				txtIdentity.setBounds(516, 150, 195, 20);
 				panel_1.add(txtIdentity);
 				txtIdentity.setColumns(10);
 			}

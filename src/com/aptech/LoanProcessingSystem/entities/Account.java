@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class Account {
 
-	private int id;
-	private String name, email, password, phone, address, salary, identity_card;
+	private int id, AccountTypeId;
+	private String name, email, password, phone, address, identity_card;
 	private int gender;
 
 	private Date dob;
@@ -15,21 +15,27 @@ public class Account {
 		super();
 	}
 
-	public Account(String name, String email, String password, String phone, String address, String salary,
-			String identity_card, int gender, Date dob, boolean status) {
+	public Account(String name, String email, String password, String phone, String address, String identity_card,
+			int gender, int AccountTypeId, Date dob, boolean status) {
 		super();
-
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.phone = phone;
 		this.address = address;
-		this.salary = salary;
 		this.identity_card = identity_card;
 		this.gender = gender;
-
 		this.dob = dob;
 		this.status = status;
+		this.AccountTypeId = AccountTypeId;
+	}
+
+	public int getAccountTypeId() {
+		return AccountTypeId;
+	}
+
+	public void setAccountTypeId(int accountTypeId) {
+		AccountTypeId = accountTypeId;
 	}
 
 	public int getId() {
@@ -80,14 +86,6 @@ public class Account {
 		this.address = address;
 	}
 
-	public String getSalary() {
-		return salary;
-	}
-
-	public void setSalary(String salary) {
-		this.salary = salary;
-	}
-
 	public String getIdentity_card() {
 		return identity_card;
 	}
@@ -118,6 +116,13 @@ public class Account {
 
 	public void setStatus(boolean status) {
 		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "Account [id=" + id + ", AccountTypeId=" + AccountTypeId + ", name=" + name + ", email=" + email
+				+ ", password=" + password + ", phone=" + phone + ", address=" + address + ", identity_card="
+				+ identity_card + ", gender=" + gender + ", dob=" + dob + ", status=" + status + "]";
 	}
 
 }
