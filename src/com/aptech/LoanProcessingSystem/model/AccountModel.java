@@ -79,7 +79,7 @@ public class AccountModel {
 		boolean result = true;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
-				"update users set password = ?, name = ?, email = ?, dob = ?, status = ?, phone = ?, address = ?, identity_card = ?, gender = ? where email = ?");
+				"update account set Password = ? where Email = ?");
 			preparedStatement.setString(1, account.getPassword());
 			preparedStatement.setString(2, account.getName());
 			preparedStatement.setString(3, account.getEmail());
@@ -100,23 +100,6 @@ public class AccountModel {
 		return result;
 	}
 	
-	public boolean resetPass(Account account) {
-		boolean result = true;
-		try {
-			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
-				"update users set password = ? where email = ?");
-			
-			preparedStatement.setString(1, account.getPassword());		
-			preparedStatement.setString(2, account.getEmail());
-					
-			result = preparedStatement.executeUpdate() > 0;
-		} catch (Exception e) {
-			e.printStackTrace();
-			result = false;
-		} finally {
-			ConnectDB.disconnect();
-		}
-		return result;
-	}
+	
 
 }

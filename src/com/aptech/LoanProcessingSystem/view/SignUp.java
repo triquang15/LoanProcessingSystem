@@ -327,10 +327,12 @@ public class SignUp extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton cancelButton = new JButton("Close");
+				JButton cancelButton = new JButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						System.exit(0);
+						Login login = new Login();
+						login.setVisible(true);
+						SignUp.this.dispose();
 					}
 				});
 				cancelButton.setIcon(
