@@ -14,16 +14,16 @@ public class AccountModel {
 		boolean result = true;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
-					"insert into account(Name,Email, Password,  Phone, Address,Gender, DOB, IdentityCard, Status) values(?,?,?,?,?,?,?,?,?)");
+					"insert into account(Name, Email, Password,  Phone, Address, Gender, DOB, IdentityCard, Status) values(?,?,?,?,?,?,?,?,?)");
 			preparedStatement.setString(1, account.getName());
 			preparedStatement.setString(2, account.getEmail());
 			preparedStatement.setString(3, account.getPassword());
 			preparedStatement.setString(4, account.getPhone());
 			preparedStatement.setString(5, account.getAddress());
-			preparedStatement.setInt(6, account.getGender());
+			preparedStatement.setBoolean(6, account.isGender());
 			preparedStatement.setDate(7, new java.sql.Date(account.getDob().getTime()));
 			preparedStatement.setString(8, account.getIdentityCard());
-			preparedStatement.setBoolean(9, account.isStatus());
+			preparedStatement.setBoolean(9, false);
 			result = preparedStatement.executeUpdate() > 0;
 
 		} catch (Exception e) {
@@ -34,7 +34,7 @@ public class AccountModel {
 		}
 		return result;
 	}
-	
+
 	public Account find(String email) {
 		Account account = null;
 		try {
@@ -53,8 +53,8 @@ public class AccountModel {
 				account.setAddress(resultSet.getString("Address"));
 				account.setPhone(resultSet.getString("Phone"));
 				account.setIdentityCard(resultSet.getString("IdentityCard"));
-				account.setGender(resultSet.getInt("Gender"));
-				
+				account.setGender(resultSet.getBoolean("Gender"));
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -74,12 +74,12 @@ public class AccountModel {
 		}
 		return false;
 	}
-	
+
 	public boolean update(Account account) {
 		boolean result = true;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
-				"update users set password = ?, name = ?, email = ?, dob = ?, status = ?, phone = ?, address = ?, identity_card = ?, gender = ? where email = ?");
+					"update users set password = ?, name = ?, email = ?, dob = ?, status = ?, phone = ?, address = ?, identity_card = ?, gender = ? where email = ?");
 			preparedStatement.setString(1, account.getPassword());
 			preparedStatement.setString(2, account.getName());
 			preparedStatement.setString(3, account.getEmail());
@@ -88,8 +88,8 @@ public class AccountModel {
 			preparedStatement.setString(6, account.getPhone());
 			preparedStatement.setString(7, account.getAddress());
 			preparedStatement.setString(8, account.getIdentityCard());
-			preparedStatement.setInt(10, account.getGender());
-			
+			preparedStatement.setBoolean(10, account.isGender());
+
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,16 +99,16 @@ public class AccountModel {
 		}
 		return result;
 	}
-	
+
 	public boolean resetPass(Account account) {
 		boolean result = true;
 		try {
-			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
-				"update users set password = ? where email = ?");
-			
-			preparedStatement.setString(1, account.getPassword());		
+			PreparedStatement preparedStatement = ConnectDB.connection()
+					.prepareStatement("update users set password = ? where email = ?");
+
+			preparedStatement.setString(1, account.getPassword());
 			preparedStatement.setString(2, account.getEmail());
-					
+
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -39,7 +39,7 @@ import java.util.Random;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class Send_Code extends JDialog {
+public class SendCode extends JDialog {
 
 	int randomCode;
 
@@ -52,7 +52,7 @@ public class Send_Code extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			Send_Code dialog = new Send_Code();
+			SendCode dialog = new SendCode();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -63,10 +63,10 @@ public class Send_Code extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public Send_Code() {
+	public SendCode() {
 
 		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage(Send_Code.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
+				.getImage(SendCode.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
 		setFont(new Font("Dialog", Font.BOLD, 14));
 		setTitle("Send Email");
 		setBounds(100, 100, 782, 312);
@@ -183,9 +183,9 @@ public class Send_Code extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 
 				if (Integer.valueOf(txtCode.getText()) == randomCode) {
-					Reset_Pass reset_Pass = new Reset_Pass();
-					reset_Pass.setVisible(true);
-					Send_Code.this.dispose();
+					ResetPass resetPass = new ResetPass();
+					resetPass.setVisible(true);
+					SendCode.this.dispose();
 				}else {
 					JOptionPane.showMessageDialog(null, "code do not match");
 				}
@@ -199,7 +199,7 @@ public class Send_Code extends JDialog {
 		JLabel lblNewLabel_6 = new JLabel("");
 		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_6.setIcon(
-				new ImageIcon(Send_Code.class.getResource("/com/aptech/LoanProcessingSystem/images/secure.png")));
+				new ImageIcon(SendCode.class.getResource("/com/aptech/LoanProcessingSystem/images/secure.png")));
 		lblNewLabel_6.setBounds(38, 145, 92, 64);
 		contentPanel.add(lblNewLabel_6);
 		{
@@ -210,12 +210,12 @@ public class Send_Code extends JDialog {
 			{
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.setIcon(new ImageIcon(
-						Send_Code.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
+						SendCode.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Login login = new Login();
 						login.setVisible(true);
-						Send_Code.this.dispose();
+						SendCode.this.dispose();
 					}
 				});
 				cancelButton.setBackground(Color.GRAY);
