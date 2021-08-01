@@ -6,17 +6,15 @@ public class Account {
 
 	private int id, accountTypeId;
 	private String name, email, password, phone, address, identityCard;
-	private int gender;
 	private Date dob;
-	private boolean status;
+	private boolean gender, status;
 
 	public Account() {
 		super();
 	}
 
-
 	public Account(int id, int accountTypeId, String name, String email, String password, String phone, String address,
-			String identityCard, int gender, Date dob, boolean status) {
+			String identityCard, Date dob, boolean gender, boolean status) {
 		super();
 		this.id = id;
 		this.accountTypeId = accountTypeId;
@@ -26,8 +24,8 @@ public class Account {
 		this.phone = phone;
 		this.address = address;
 		this.identityCard = identityCard;
-		this.gender = gender;
 		this.dob = dob;
+		this.gender = gender;
 		this.status = status;
 	}
 
@@ -95,20 +93,20 @@ public class Account {
 		this.identityCard = identityCard;
 	}
 
-	public int getGender() {
-		return gender;
-	}
-
-	public void setGender(int gender) {
-		this.gender = gender;
-	}
-
 	public Date getDob() {
 		return dob;
 	}
 
 	public void setDob(Date dob) {
 		this.dob = dob;
+	}
+
+	public boolean isGender() {
+		return gender;
+	}
+
+	public void setGender(boolean gender) {
+		this.gender = gender;
 	}
 
 	public boolean isStatus() {

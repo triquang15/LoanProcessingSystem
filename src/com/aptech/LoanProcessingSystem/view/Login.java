@@ -44,6 +44,7 @@ public class Login extends JFrame {
 	/**
 	 * Launch the application.
 	 */
+
 	public static void main(String[] args) {
 //		Add theme
 		try {
@@ -56,6 +57,15 @@ public class Login extends JFrame {
 				try {
 					Login frame = new Login();
 					frame.setVisible(true);
+					frame.addWindowListener(new java.awt.event.WindowAdapter() {
+						@Override
+						public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+							if (JOptionPane.showConfirmDialog(null, "Are you sure you want to close Application ?",
+									"Confirm", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+								System.exit(0);
+							}
+						}
+					});
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -67,6 +77,7 @@ public class Login extends JFrame {
 	 * Create the dialog.
 	 */
 	public Login() {
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
 		setFont(new Font("Dialog", Font.BOLD, 12));
@@ -94,22 +105,13 @@ public class Login extends JFrame {
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel.setBounds(66, 37, 82, 20);
 		panel_1.add(lblNewLabel);
-		String userNameHint = "Enter your email";
+
+		String hintUserName = "Enter your email";
 		txtUsername = new JTextField();
 		txtUsername.setForeground(new Color(255, 192, 203));
-		txtUsername.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				setTextFocus(txtUsername, userNameHint);
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				setTextUnfocus(txtUsername, userNameHint);
-			}
-		});
+		setTextHint(txtUsername, hintUserName);
 		txtUsername.setBounds(158, 34, 263, 28);
-		txtUsername.setText(userNameHint);
+		txtUsername.setText(hintUserName);
 		panel_1.add(txtUsername);
 		txtUsername.setColumns(10);
 
@@ -117,22 +119,14 @@ public class Login extends JFrame {
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel_1.setBounds(66, 95, 71, 16);
 		panel_1.add(lblNewLabel_1);
-		String passwordHint = "Enter your password";
+
+		String hintPassword = "Enter your password";
 		txtPassword = new JPasswordField();
 		txtPassword.setForeground(new Color(255, 192, 203));
-		txtPassword.addFocusListener(new FocusAdapter() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				setTextFocus(txtPassword, passwordHint);
-			}
 
-			@Override
-			public void focusLost(FocusEvent e) {
-				setTextUnfocus(txtPassword, passwordHint);
-			}
-		});
+		setTextHint(txtPassword, hintPassword);
 		txtPassword.setBounds(158, 90, 263, 28);
-		txtPassword.setText(passwordHint);
+		txtPassword.setText(hintPassword);
 		txtPassword.setEchoChar((char) 0);
 		panel_1.add(txtPassword);
 
@@ -149,8 +143,7 @@ public class Login extends JFrame {
 		panel_1.add(btnLogin);
 
 		JButton btnSignUp = new JButton("Sign Up");
-		btnSignUp
-				.setIcon(new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/exit.png")));
+		btnSignUp.setIcon(new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/exit.png")));
 		btnSignUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SignUp signUp = new SignUp();
@@ -170,10 +163,11 @@ public class Login extends JFrame {
 		txtForgotPass.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
-				Send_Code send_Code = new Send_Code();
-				send_Code.setVisible(true);
+				SendCode sendCode = new SendCode();
+				sendCode.setVisible(true);
 				Login.this.dispose();
 			}
+
 		});
 		txtForgotPass.addMouseMotionListener(new MouseMotionAdapter() {
 			@Override
@@ -193,49 +187,34 @@ public class Login extends JFrame {
 		lblNewLabel_2.setBounds(28, 31, 161, 227);
 		panel.add(lblNewLabel_2);
 
-		JPanel buttonPane = new JPanel();
-		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		getContentPane().add(buttonPane, BorderLayout.SOUTH);
+	}
 
-		JButton cancelButton = new JButton("Close");
-		cancelButton.setPreferredSize(new Dimension(120, 35));
-		cancelButton.addMouseListener(new MouseAdapter() {
+	protected void setTextHint(JTextField textField, String hint) {
+		textField.addFocusListener(new FocusAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (JOptionPane.showConfirmDialog(null, "Are you sure you want to close Application ?", "Confirm",
-						JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-					System.exit(0);
+			public void focusGained(FocusEvent e) {
+				if (textField.getText().equals(hint)) {
+					textField.setText("");
+					if (textField instanceof JPasswordField) {
+						((JPasswordField) textField).setEchoChar('●');
+					}
+					textField.setForeground(Color.DARK_GRAY);
+				} else {
+					textField.selectAll();
+				}
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (textField.getText().equals("")) {
+					textField.setText(hint);
+					textField.setForeground(new Color(255, 192, 203));
+					if (textField instanceof JPasswordField) {
+						((JPasswordField) textField).setEchoChar((char) 0);
+					}
 				}
 			}
 		});
-		cancelButton.setIcon(
-				new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
-		cancelButton.setFont(new Font("Tahoma", Font.BOLD, 11));
-		cancelButton.setActionCommand("Cancel");
-		buttonPane.add(cancelButton);
-
-	}
-
-	protected void setTextFocus(JTextField textField, String hint) {
-		if (textField.getText().equals(hint)) {
-			textField.setText("");
-			if (textField instanceof JPasswordField) {
-				((JPasswordField) textField).setEchoChar('●');
-			}
-			textField.setForeground(Color.DARK_GRAY);
-		} else {
-			textField.selectAll();
-		}
-	}
-
-	protected void setTextUnfocus(JTextField textField, String hint) {
-		if (textField.getText().equals("")) {
-			textField.setText(hint);
-			textField.setForeground(new Color(255, 192, 203));
-			if (textField instanceof JPasswordField) {
-				((JPasswordField) textField).setEchoChar((char) 0);
-			}
-		}
 	}
 
 	protected void loginAction(MouseEvent agr) {

@@ -33,7 +33,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 
-public class Reset_Pass extends JDialog {
+public class ResetPass extends JDialog {
 
 	Connection conn = null;
 	ResultSet rs = null;
@@ -48,7 +48,7 @@ public class Reset_Pass extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			Reset_Pass dialog = new Reset_Pass();
+			ResetPass dialog = new ResetPass();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -59,9 +59,9 @@ public class Reset_Pass extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public Reset_Pass() {
+	public ResetPass() {
 		
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Reset_Pass.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ResetPass.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
 		setFont(new Font("Dialog", Font.BOLD, 14));
 		setTitle("Forgot Password ");
 		setBounds(100, 100, 782, 312);
@@ -137,7 +137,7 @@ public class Reset_Pass extends JDialog {
 		
 		JLabel lblNewLabel_6 = new JLabel("");
 		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_6.setIcon(new ImageIcon(Reset_Pass.class.getResource("/com/aptech/LoanProcessingSystem/images/secure.png")));
+		lblNewLabel_6.setIcon(new ImageIcon(ResetPass.class.getResource("/com/aptech/LoanProcessingSystem/images/secure.png")));
 		lblNewLabel_6.setBounds(38, 145, 92, 64);
 		contentPanel.add(lblNewLabel_6);
 		{
@@ -147,10 +147,10 @@ public class Reset_Pass extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton cancelButton = new JButton("Close");
-				cancelButton.setIcon(new ImageIcon(Reset_Pass.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
+				cancelButton.setIcon(new ImageIcon(ResetPass.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						 Reset_Pass.this.dispose();
+						 ResetPass.this.dispose();
 					}
 				});
 				cancelButton.setBackground(Color.GRAY);
