@@ -22,7 +22,7 @@ public class AccountModel {
 			preparedStatement.setString(5, account.getAddress());
 			preparedStatement.setInt(6, account.getGender());
 			preparedStatement.setDate(7, new java.sql.Date(account.getDob().getTime()));
-			preparedStatement.setString(8, account.getIdentity_card());
+			preparedStatement.setString(8, account.getIdentityCard());
 			preparedStatement.setBoolean(9, account.isStatus());
 			result = preparedStatement.executeUpdate() > 0;
 
@@ -52,7 +52,7 @@ public class AccountModel {
 				account.setStatus(resultSet.getBoolean("Status"));
 				account.setAddress(resultSet.getString("Address"));
 				account.setPhone(resultSet.getString("Phone"));
-				account.setIdentity_card(resultSet.getString("IdentityCard"));
+				account.setIdentityCard(resultSet.getString("IdentityCard"));
 				account.setGender(resultSet.getInt("Gender"));
 				
 			}
@@ -87,7 +87,7 @@ public class AccountModel {
 			preparedStatement.setBoolean(5, account.isStatus());
 			preparedStatement.setString(6, account.getPhone());
 			preparedStatement.setString(7, account.getAddress());
-			preparedStatement.setString(8, account.getIdentity_card());
+			preparedStatement.setString(8, account.getIdentityCard());
 			preparedStatement.setInt(10, account.getGender());
 			
 			result = preparedStatement.executeUpdate() > 0;
