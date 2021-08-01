@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class Account {
 
-	private int id, AccountTypeId;
-	private String name, email, password, phone, address, identity_card;
+	private int id, accountTypeId;
+	private String name, email, password, phone, address, identityCard;
 	private int gender;
 
 	private Date dob;
@@ -15,27 +15,18 @@ public class Account {
 		super();
 	}
 
-	public Account(String name, String email, String password, String phone, String address, String identity_card,
-			int gender, int AccountTypeId, Date dob, boolean status) {
-		super();
+	public Account(int accountTypeId, String name, String email, String password, String phone, String address,
+			String identityCard, int gender, Date dob, boolean status) {
+		this.accountTypeId = accountTypeId;
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.phone = phone;
 		this.address = address;
-		this.identity_card = identity_card;
+		this.identityCard = identityCard;
 		this.gender = gender;
 		this.dob = dob;
 		this.status = status;
-		this.AccountTypeId = AccountTypeId;
-	}
-
-	public int getAccountTypeId() {
-		return AccountTypeId;
-	}
-
-	public void setAccountTypeId(int accountTypeId) {
-		AccountTypeId = accountTypeId;
 	}
 
 	public int getId() {
@@ -44,6 +35,14 @@ public class Account {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getAccountTypeId() {
+		return accountTypeId;
+	}
+
+	public void setAccountTypeId(int accountTypeId) {
+		this.accountTypeId = accountTypeId;
 	}
 
 	public String getName() {
@@ -86,12 +85,12 @@ public class Account {
 		this.address = address;
 	}
 
-	public String getIdentity_card() {
-		return identity_card;
+	public String getIdentityCard() {
+		return identityCard;
 	}
 
-	public void setIdentity_card(String identity_card) {
-		this.identity_card = identity_card;
+	public void setIdentityCard(String identityCard) {
+		this.identityCard = identityCard;
 	}
 
 	public int getGender() {
@@ -120,9 +119,9 @@ public class Account {
 
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", AccountTypeId=" + AccountTypeId + ", name=" + name + ", email=" + email
-				+ ", password=" + password + ", phone=" + phone + ", address=" + address + ", identity_card="
-				+ identity_card + ", gender=" + gender + ", dob=" + dob + ", status=" + status + "]";
+		return "Account [id=" + id + ", accountTypeId=" + accountTypeId + ", name=" + name + ", email=" + email
+				+ ", password=" + password + ", phone=" + phone + ", address=" + address + ", identityCard="
+				+ identityCard + ", gender=" + gender + ", dob=" + dob + ", status=" + status + "]";
 	}
 
 }

@@ -244,7 +244,7 @@ public class SignUp extends JDialog {
 									account.setAddress(txtAdress.getText());
 									account.setGender(rdbMale.isSelected() ? 1 : 0);
 									account.setDob(txtCalendar.getDate());
-									account.setIdentity_card(txtIdentity.getText());
+									account.setIdentityCard(txtIdentity.getText());
 									account.setStatus(txtStatus.isSelected());
 									
 									AccountModel accountModel = new AccountModel();
