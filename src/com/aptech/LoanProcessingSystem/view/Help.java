@@ -31,6 +31,7 @@ public class Help extends JDialog {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+	
 		try {
 			Help dialog = new Help();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

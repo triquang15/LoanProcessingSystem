@@ -31,6 +31,7 @@ public class About extends JDialog {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
 		try {
 			About dialog = new About();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

@@ -57,6 +57,9 @@ public class ResetPass extends JDialog {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
+	
+		
 		try {
 			ResetPass dialog = new ResetPass();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

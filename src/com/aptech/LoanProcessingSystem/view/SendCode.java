@@ -51,6 +51,9 @@ public class SendCode extends JDialog {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
+		
+		
 		try {
 			SendCode dialog = new SendCode();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

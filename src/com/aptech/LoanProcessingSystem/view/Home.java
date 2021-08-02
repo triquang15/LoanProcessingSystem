@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -30,6 +31,9 @@ public class Home extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
+	
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -46,6 +50,11 @@ public class Home extends JFrame {
 	 * Create the frame.
 	 */
 	public Home() {
+		
+	
+		
+		setForeground(Color.GRAY);
+		setBackground(Color.GRAY);
 		setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 15));
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
@@ -53,6 +62,7 @@ public class Home extends JFrame {
 		getContentPane().setLayout(null);
 
 		JMenuBar menuBar = new JMenuBar();
+		menuBar.setForeground(new Color(224, 255, 255));
 		menuBar.setBackground(Color.BLACK);
 		menuBar.setBounds(0, 0, 1283, 22);
 		getContentPane().add(menuBar);
@@ -133,12 +143,12 @@ public class Home extends JFrame {
 		menuBar.add(mnHelp);
 
 		JToolBar toolBar = new JToolBar();
-		toolBar.setBackground(new Color(240, 255, 255));
+		toolBar.setBackground(Color.DARK_GRAY);
 		toolBar.setBounds(0, 21, 1283, 46);
 		getContentPane().add(toolBar);
 
 		JButton btnCustomer = new JButton("");
-		btnCustomer.setBackground(new Color(255, 250, 250));
+		btnCustomer.setBackground(Color.DARK_GRAY);
 		btnCustomer.setVerticalAlignment(SwingConstants.BOTTOM);
 		btnCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -148,20 +158,24 @@ public class Home extends JFrame {
 		toolBar.add(btnCustomer);
 
 		JButton btnLoan = new JButton("");
+		btnLoan.setBackground(Color.DARK_GRAY);
 		btnLoan.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/loan.png")));
 		toolBar.add(btnLoan);
 
 		JButton btnLoanType = new JButton("");
+		btnLoanType.setBackground(Color.DARK_GRAY);
 		btnLoanType
 				.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/loan (1).png")));
 		toolBar.add(btnLoanType);
 
 		JButton btnLoanHistory = new JButton("");
+		btnLoanHistory.setBackground(Color.DARK_GRAY);
 		btnLoanHistory
 				.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/magnifying-glass.png")));
 		toolBar.add(btnLoanHistory);
 
 		JButton btnPassword = new JButton("");
+		btnPassword.setBackground(Color.DARK_GRAY);
 		btnPassword.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -174,10 +188,13 @@ public class Home extends JFrame {
 		toolBar.add(btnPassword);
 
 		JButton btnLogOut = new JButton("");
+		btnLogOut.setBackground(Color.DARK_GRAY);
 		btnLogOut
 				.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/exit (1).png")));
 		btnLogOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
 				Login login = new Login();
 				login.setVisible(true);
 				Home.this.dispose();
@@ -187,6 +204,7 @@ public class Home extends JFrame {
 		toolBar.add(btnLogOut);
 
 		JButton btnExit = new JButton("");
+		btnExit.setBackground(Color.DARK_GRAY);
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
@@ -208,14 +226,16 @@ public class Home extends JFrame {
 		toolBar.add(separator_2);
 
 		JSeparator separator_1 = new JSeparator();
+		separator_1.setForeground(Color.DARK_GRAY);
 		toolBar.add(separator_1);
 
 		JSeparator separator = new JSeparator();
 		toolBar.add(separator);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBackground(Color.LIGHT_GRAY);
-		tabbedPane.setBounds(0, 65, 1283, 635);
+		tabbedPane.setForeground(Color.GRAY);
+		tabbedPane.setBackground(Color.GRAY);
+		tabbedPane.setBounds(10, 79, 1283, 635);
 		getContentPane().add(tabbedPane);
 		setTitle("Loan Processing System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

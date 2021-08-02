@@ -47,6 +47,7 @@ public class SignUp extends JDialog {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
 		try {
 			SignUp dialog = new SignUp();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -191,7 +192,8 @@ public class SignUp extends JDialog {
 				panel_1.add(txtAdress);
 
 				JButton btnSignUp = new JButton("Sign Up");
-				btnSignUp.setBackground(new Color(105, 105, 105));
+				btnSignUp.setHorizontalAlignment(SwingConstants.LEFT);
+				btnSignUp.setBackground(Color.LIGHT_GRAY);
 				btnSignUp.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 
@@ -275,13 +277,14 @@ public class SignUp extends JDialog {
 				
 				});
 				btnSignUp.setFont(new Font("Tahoma", Font.BOLD, 11));
-				btnSignUp.setForeground(new Color(255, 0, 0));
+				btnSignUp.setForeground(Color.BLACK);
 				btnSignUp.setIcon(new ImageIcon(SignUp.class.getResource("/com/aptech/LoanProcessingSystem/images/sign-up.png")));
-				btnSignUp.setBounds(449, 326, 109, 29);
+				btnSignUp.setBounds(449, 326, 116, 21);
 				panel_1.add(btnSignUp);
 
 				JButton btnReset = new JButton("Reset");
-				btnReset.setBackground(new Color(105, 105, 105));
+				btnReset.setHorizontalAlignment(SwingConstants.LEFT);
+				btnReset.setBackground(Color.LIGHT_GRAY);
 				btnReset.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 
@@ -298,10 +301,10 @@ public class SignUp extends JDialog {
 
 					}
 				});
-				btnReset.setForeground(Color.RED);
+				btnReset.setForeground(Color.BLACK);
 				btnReset.setFont(new Font("Tahoma", Font.BOLD, 11));
 				btnReset.setIcon(new ImageIcon(SignUp.class.getResource("/com/aptech/LoanProcessingSystem/images/rotation-lock.png")));
-				btnReset.setBounds(657, 326, 109, 29);
+				btnReset.setBounds(657, 326, 99, 20);
 				panel_1.add(btnReset);
 
 				JLabel lblNewLabel_11 = new JLabel("Identity Card");
@@ -327,10 +330,12 @@ public class SignUp extends JDialog {
 		}
 		{
 			JPanel buttonPane = new JPanel();
+			buttonPane.setBackground(Color.LIGHT_GRAY);
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setBackground(Color.GRAY);
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Login login = new Login();
