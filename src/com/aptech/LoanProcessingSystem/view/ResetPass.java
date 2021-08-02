@@ -8,6 +8,10 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.mindrot.jbcrypt.BCrypt;
+
+import com.aptech.LoanProcessingSystem.database.ConnectDB;
+import com.aptech.LoanProcessingSystem.entities.Account;
 import com.aptech.LoanProcessingSystem.model.AccountModel;
 
 import java.awt.Font;
@@ -19,6 +23,7 @@ import java.awt.Color;
 import java.awt.Desktop;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -26,6 +31,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -39,9 +45,13 @@ public class ResetPass extends JDialog {
 	ResultSet rs = null;
 	PreparedStatement ps = null;
 	
+	public String user;
+
 	private final JPanel contentPanel = new JPanel();
 	private JPasswordField txtNewPass;
 	private JPasswordField txtVerifyPass;
+	
+	
 
 	/**
 	 * Launch the application.
@@ -55,13 +65,20 @@ public class ResetPass extends JDialog {
 			e.printStackTrace();
 		}
 	}
+	
+	public ResetPass(String username) {
+		this();
+		this.user = username;
+	}
+
+	
 
 	/**
 	 * Create the dialog.
 	 */
 	public ResetPass() {
-		
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ResetPass.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(ResetPass.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
 		setFont(new Font("Dialog", Font.BOLD, 14));
 		setTitle("Forgot Password ");
 		setBounds(100, 100, 782, 312);
@@ -70,7 +87,7 @@ public class ResetPass extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		
+
 		JLabel lblNewLabel = new JLabel("Loan Processing System");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel.setBounds(10, 11, 240, 30);
@@ -97,47 +114,78 @@ public class ResetPass extends JDialog {
 			lblNewLabel_3.setBounds(10, 103, 197, 14);
 			contentPanel.add(lblNewLabel_3);
 		}
-		
+
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.LIGHT_GRAY);
 		panel.setBounds(197, 23, 561, 208);
 		contentPanel.add(panel);
 		panel.setLayout(null);
-		
+
 		JLabel lblNewLabel_4 = new JLabel("New Password");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 10));
 		lblNewLabel_4.setBounds(155, 67, 89, 14);
 		panel.add(lblNewLabel_4);
-		
+
 		JLabel lblNewLabel_5 = new JLabel("Verify Password");
 		lblNewLabel_5.setFont(new Font("Tahoma", Font.BOLD, 10));
 		lblNewLabel_5.setBounds(155, 120, 89, 14);
 		panel.add(lblNewLabel_5);
-		
+
 		JButton btnReset = new JButton("Reset");
+		
+		
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-			
-				
+				if(txtNewPass.getText().equals(txtVerifyPass.getText())){
+					//check whether the email enter same password in both textfield
+					try{
+						Account account = new Account();
+						String password = new String(txtNewPass.getPassword());
+						String hash = BCrypt.hashpw(password, BCrypt.gensalt());
+						String password1 = new String(txtVerifyPass.getPassword());
+						String hash1 = BCrypt.hashpw(password, BCrypt.gensalt());
+						account.setPassword(hash1);
+						account.setPassword(hash);
+						
+					String updateQuery = "UPDATE `account` SET `Password`=? WHERE Email=?";
+					conn = ConnectDB.connection();
+					ps=conn.prepareStatement(updateQuery);
+					ps.setString(1, new String(account.getPassword()));
+					ps.setString(2, user);
+					if(ps.executeUpdate()>0) {
+						JOptionPane.showMessageDialog(null, "Reset Successfully");
+					}
+
+
+					}catch(Exception ex){
+					JOptionPane.showMessageDialog(null, ex);
+					}
+					}else{
+					JOptionPane.showMessageDialog(null, "Password do not match");
+					}
 			}
 		});
+		
+		
 		btnReset.setBackground(Color.GRAY);
 		btnReset.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnReset.setBounds(319, 157, 89, 23);
 		panel.add(btnReset);
-		
+
 		txtNewPass = new JPasswordField();
 		txtNewPass.setBounds(254, 64, 203, 20);
 		panel.add(txtNewPass);
-		
+
 		txtVerifyPass = new JPasswordField();
 		txtVerifyPass.setBounds(254, 117, 203, 20);
 		panel.add(txtVerifyPass);
-		
+
 		JLabel lblNewLabel_6 = new JLabel("");
 		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_6.setIcon(new ImageIcon(ResetPass.class.getResource("/com/aptech/LoanProcessingSystem/images/secure.png")));
+
+		lblNewLabel_6.setIcon(
+				new ImageIcon(ResetPass.class.getResource("/com/aptech/LoanProcessingSystem/images/secure.png")));
 		lblNewLabel_6.setBounds(38, 145, 92, 64);
 		contentPanel.add(lblNewLabel_6);
 		{
@@ -146,11 +194,15 @@ public class ResetPass extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton cancelButton = new JButton("Close");
-				cancelButton.setIcon(new ImageIcon(ResetPass.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
+
+				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setIcon(new ImageIcon(
+						ResetPass.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						 ResetPass.this.dispose();
+						Login login = new Login();
+						login.setVisible(true);
+						ResetPass.this.dispose();
 					}
 				});
 				cancelButton.setBackground(Color.GRAY);
@@ -159,4 +211,6 @@ public class ResetPass extends JDialog {
 			}
 		}
 	}
+
+	
 }

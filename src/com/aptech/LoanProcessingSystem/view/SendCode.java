@@ -123,28 +123,28 @@ public class SendCode extends JDialog {
 		btnSend.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				try{
+				try {
 					Random rand = new Random();
-					randomCode=rand.nextInt(999999);
+					randomCode = rand.nextInt(999999);
 					String host = "smtp.gmail.com";
-					String user ="quickloansystem@gmail.com";
-					String pass="Abcd@1234";
+					String user = "triquang.15qt@gmail.com";
+					String pass = "password";
 					String to = txtEmail.getText();
-					String subject="Reseting Code";
-					String message ="Your reset code is "+randomCode;
+					String subject = "Reseting Code";
+					String message = "Your reset code is: " + randomCode;
 					boolean sessionDebug = false;
 					Properties pros = new Properties();
 					pros.put("mail.smtp.starttls.enable", "true");
 					pros.put("mail.smtp.host", host);
-					pros.put("mail.smtp.port","587");
-					pros.put("mail.smtp.auth","true");
+					pros.put("mail.smtp.port", "587");
+					pros.put("mail.smtp.auth", "true");
 					pros.put("mail.smtp.starttls.required", "true");
-			     ///	java.security.Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+			
 					Session mailSession = Session.getDefaultInstance(pros, null);
 					mailSession.setDebug(sessionDebug);
 					Message msg = new MimeMessage(mailSession);
 					msg.setFrom(new InternetAddress(user));
-					InternetAddress [] address = {new InternetAddress(to)};
+					InternetAddress[] address = { new InternetAddress(to) };
 					msg.setRecipients(Message.RecipientType.TO, address);
 					msg.setSubject(subject);
 					msg.setText(message);
@@ -153,16 +153,13 @@ public class SendCode extends JDialog {
 					transport.sendMessage(msg, msg.getAllRecipients());
 					transport.close();
 					JOptionPane.showMessageDialog(null, "Code has been send to the email");
-					}catch(Exception ex){
+				} catch (Exception ex) {
 					JOptionPane.showMessageDialog(rootPane, ex);
-					}
+				}
 			}
 		});
-		btnSend.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
-			}
-		});
+		
+		
 		btnSend.setBackground(new Color(224, 255, 255));
 		btnSend.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnSend.setBounds(319, 72, 89, 23);
@@ -179,18 +176,20 @@ public class SendCode extends JDialog {
 		txtCode.setColumns(10);
 
 		JButton btnVerifyCode = new JButton("Verify Code");
-		btnVerifyCode.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-
+		btnVerifyCode.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+	
 				if (Integer.valueOf(txtCode.getText()) == randomCode) {
-					ResetPass resetPass = new ResetPass();
+					ResetPass resetPass = new ResetPass(txtEmail.getText());
 					resetPass.setVisible(true);
 					SendCode.this.dispose();
-				}else {
-					JOptionPane.showMessageDialog(null, "code do not match");
+				} else {
+					JOptionPane.showMessageDialog(null, "Code do not match");
 				}
 			}
 		});
+		
 		btnVerifyCode.setBackground(new Color(224, 255, 255));
 		btnVerifyCode.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnVerifyCode.setBounds(319, 157, 89, 23);

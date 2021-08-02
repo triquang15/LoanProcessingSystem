@@ -29,10 +29,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import javax.swing.SwingConstants;
 import java.awt.Toolkit;
 import java.awt.event.MouseMotionAdapter;
-import javax.swing.SwingConstants;
-import java.awt.Dimension;
 
 public class Login extends JFrame {
 
@@ -46,7 +45,7 @@ public class Login extends JFrame {
 	 */
 
 	public static void main(String[] args) {
-//		Add theme
+
 		try {
 			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (Throwable e) {
