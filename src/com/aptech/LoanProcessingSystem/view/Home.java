@@ -53,11 +53,12 @@ public class Home extends JFrame {
 		getContentPane().setLayout(null);
 
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBackground(new Color(0, 0, 0));
+		menuBar.setBackground(Color.BLACK);
 		menuBar.setBounds(0, 0, 1283, 22);
 		getContentPane().add(menuBar);
 
 		JMenu mnHome = new JMenu("Home");
+		mnHome.setBackground(Color.DARK_GRAY);
 		mnHome.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/house.png")));
 		mnHome.setForeground(new Color(255, 0, 0));
 		menuBar.add(mnHome);

@@ -108,7 +108,7 @@ public class Login extends JFrame {
 
 		String hintUserName = "Enter your email";
 		txtUsername = new JTextField();
-		txtUsername.setFont(new Font("Rage Italic", Font.BOLD, 13));
+		txtUsername.setFont(new Font("Segoe UI", Font.ITALIC, 12));
 		txtUsername.setForeground(new Color(255, 0, 0));
 		setTextHint(txtUsername, hintUserName);
 		txtUsername.setBounds(158, 34, 263, 28);
@@ -123,7 +123,7 @@ public class Login extends JFrame {
 
 		String hintPassword = "Enter your password";
 		txtPassword = new JPasswordField();
-		txtPassword.setFont(new Font("Rage Italic", Font.BOLD, 13));
+		txtPassword.setFont(new Font("Segoe UI", Font.ITALIC, 12));
 		txtPassword.setForeground(new Color(255, 0, 0));
 
 		setTextHint(txtPassword, hintPassword);
