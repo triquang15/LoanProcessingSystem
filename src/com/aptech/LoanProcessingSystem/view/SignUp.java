@@ -214,7 +214,7 @@ public class SignUp extends JDialog {
 						// Apply the validation logic checking all controls are empty or not
 						if (name.trim().equals("") || name.trim().equals("Please enter your name")
 								|| email.trim().equals("") || email.trim().equals("Please enter your email")
-								|| email.trim().equals("") || name.trim().equals("Please enter your name")
+								//|| email.trim().equals("") || name.trim().equals("Please enter your name")
 								|| password.trim().equals("") || password.trim().equals("Please enter your password")
 								|| confirm_pass.trim().equals("")
 								|| confirm_pass.trim().equals("Please enter your confirm_pass")
