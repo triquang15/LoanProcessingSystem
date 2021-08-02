@@ -81,7 +81,8 @@ public class AccountModel {
 			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
 				"update account set Password = ? where email = ?");
 			preparedStatement.setString(1, account.getPassword());
-			
+			preparedStatement.setString(2, account.getEmail());
+		
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
 			e.printStackTrace();
