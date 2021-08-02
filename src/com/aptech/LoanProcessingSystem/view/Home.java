@@ -152,6 +152,8 @@ public class Home extends JFrame {
 		btnCustomer.setVerticalAlignment(SwingConstants.BOTTOM);
 		btnCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				AddCustomer addCustomer = new AddCustomer();
+				addCustomer.setVisible(true);
 			}
 		});
 		btnCustomer.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/customer.png")));
@@ -235,7 +237,7 @@ public class Home extends JFrame {
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setForeground(Color.GRAY);
 		tabbedPane.setBackground(Color.GRAY);
-		tabbedPane.setBounds(10, 79, 1283, 635);
+		tabbedPane.setBounds(0, 66, 1293, 648);
 		getContentPane().add(tabbedPane);
 		setTitle("Loan Processing System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

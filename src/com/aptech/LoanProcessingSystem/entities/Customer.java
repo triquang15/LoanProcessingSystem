@@ -20,10 +20,10 @@ public class Customer {
 		super();
 	}
 
-	public Customer(int id, String name, String address, String phone, String email, boolean gender, Date dob,
+	public Customer( String name, String address, String phone, String email, boolean gender, Date dob,
 			float salary, String job, String company, String identityCard, boolean status) {
 		super();
-		this.id = id;
+	
 		this.name = name;
 		this.address = address;
 		this.phone = phone;

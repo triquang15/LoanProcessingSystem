@@ -251,7 +251,7 @@ public class Login extends JDialog {
 					public void mouseClicked(MouseEvent e) {
 						if (JOptionPane.showConfirmDialog(null, "Are you sure you want to close Application ?",
 								"Confirm", JOptionPane.YES_NO_OPTION) == 0);
-						System.exit(0);
+					Login.this.dispose();
 							
 					}
 				});
