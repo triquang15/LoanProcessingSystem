@@ -2,7 +2,7 @@ package com.aptech.LoanProcessingSystem.entities;
 
 import java.util.Date;
 
-public class LoanAndFindHistory {
+public class LoanAndFineHistory {
 	private int id;
 	private int loanId;
 	private int fineId;
@@ -17,11 +17,11 @@ public class LoanAndFindHistory {
 	private String description;
 	private boolean status;
 
-	public LoanAndFindHistory() {
+	public LoanAndFineHistory() {
 		super();
 	}
 
-	public LoanAndFindHistory(int id, int loanId, int fineId, int paymentMethodId, double paymentAmount,
+	public LoanAndFineHistory(int id, int loanId, int fineId, int paymentMethodId, double paymentAmount,
 			double amountLeft, Date dueDate, float fineInterest, int fineOverDays, double fineAmount, Date paymentDate,
 			String description, boolean status) {
 		super();
