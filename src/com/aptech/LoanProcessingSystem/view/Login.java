@@ -82,7 +82,7 @@ public class Login extends JFrame {
 		setFont(new Font("Dialog", Font.BOLD, 12));
 
 		setTitle("Login");
-		setBounds(100, 100, 688, 357);
+		setBounds(100, 100, 649, 320);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(224, 255, 255));
 		contentPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -91,12 +91,13 @@ public class Login extends JFrame {
 
 		JPanel panel = new JPanel();
 		setLocationRelativeTo(null);
-		panel.setBackground(new Color(176, 224, 230));
+		panel.setBackground(Color.DARK_GRAY);
 		contentPanel.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 
 		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(212, 25, 442, 233);
+		panel_1.setBackground(Color.GRAY);
+		panel_1.setBounds(162, 20, 442, 243);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 
@@ -107,7 +108,8 @@ public class Login extends JFrame {
 
 		String hintUserName = "Enter your email";
 		txtUsername = new JTextField();
-		txtUsername.setForeground(new Color(255, 192, 203));
+		txtUsername.setFont(new Font("Rage Italic", Font.BOLD, 13));
+		txtUsername.setForeground(new Color(255, 0, 0));
 		setTextHint(txtUsername, hintUserName);
 		txtUsername.setBounds(158, 34, 263, 28);
 		txtUsername.setText(hintUserName);
@@ -121,7 +123,8 @@ public class Login extends JFrame {
 
 		String hintPassword = "Enter your password";
 		txtPassword = new JPasswordField();
-		txtPassword.setForeground(new Color(255, 192, 203));
+		txtPassword.setFont(new Font("Rage Italic", Font.BOLD, 13));
+		txtPassword.setForeground(new Color(255, 0, 0));
 
 		setTextHint(txtPassword, hintPassword);
 		txtPassword.setBounds(158, 90, 263, 28);
@@ -130,6 +133,8 @@ public class Login extends JFrame {
 		panel_1.add(txtPassword);
 
 		JButton btnLogin = new JButton("Login");
+		btnLogin.setForeground(new Color(255, 0, 0));
+		btnLogin.setBackground(Color.GRAY);
 		btnLogin.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -137,12 +142,14 @@ public class Login extends JFrame {
 			}
 		});
 		btnLogin.setIcon(new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/enter.png")));
-		btnLogin.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnLogin.setBounds(158, 151, 122, 36);
+		btnLogin.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnLogin.setBounds(158, 151, 110, 28);
 		panel_1.add(btnLogin);
 
 		JButton btnSignUp = new JButton("Sign Up");
-		btnSignUp.setIcon(new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/exit.png")));
+		btnSignUp.setForeground(new Color(255, 0, 0));
+		btnSignUp.setBackground(Color.GRAY);
+		btnSignUp.setIcon(new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/icons8-add-user-male-24.png")));
 		btnSignUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SignUp signUp = new SignUp();
@@ -150,12 +157,12 @@ public class Login extends JFrame {
 				Login.this.dispose();
 			}
 		});
-		btnSignUp.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnSignUp.setBounds(299, 151, 122, 36);
+		btnSignUp.setFont(new Font("Tahoma", Font.BOLD, 11));
+		btnSignUp.setBounds(311, 151, 110, 28);
 		panel_1.add(btnSignUp);
 
 		txtMessage.setForeground(new Color(255, 0, 0));
-		txtMessage.setBounds(158, 129, 263, 20);
+		txtMessage.setBounds(158, 130, 263, 20);
 		panel_1.add(txtMessage);
 
 		JLabel txtForgotPass = new JLabel("Forgot Password ?");
@@ -183,7 +190,7 @@ public class Login extends JFrame {
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setIcon(
 				new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (1).png")));
-		lblNewLabel_2.setBounds(28, 31, 161, 227);
+		lblNewLabel_2.setBounds(6, 67, 161, 165);
 		panel.add(lblNewLabel_2);
 
 	}

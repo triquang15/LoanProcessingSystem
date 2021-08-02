@@ -75,20 +75,12 @@ public class AccountModel {
 		return false;
 	}
 	
-	public boolean update(Account account) {
+	public boolean changePass(Account account) {
 		boolean result = true;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
-				"update account set Password = ? where Email = ?");
+				"update account set Password = ? where email = ?");
 			preparedStatement.setString(1, account.getPassword());
-			preparedStatement.setString(2, account.getName());
-			preparedStatement.setString(3, account.getEmail());
-			preparedStatement.setDate(4, new java.sql.Date(account.getDob().getTime()));
-			preparedStatement.setBoolean(5, account.isStatus());
-			preparedStatement.setString(6, account.getPhone());
-			preparedStatement.setString(7, account.getAddress());
-			preparedStatement.setString(8, account.getIdentityCard());
-			preparedStatement.setBoolean(10, account.isGender());
 			
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {

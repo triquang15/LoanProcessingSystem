@@ -127,8 +127,8 @@ public class SendCode extends JDialog {
 					Random rand = new Random();
 					randomCode = rand.nextInt(999999);
 					String host = "smtp.gmail.com";
-					String user = "triquang.15qt@gmail.com";
-					String pass = "password";
+					String user = "quickloansystem@gmail.com";
+					String pass = "Abcd@1234";
 					String to = txtEmail.getText();
 					String subject = "Reseting Code";
 					String message = "Your reset code is: " + randomCode;
@@ -179,7 +179,7 @@ public class SendCode extends JDialog {
 		btnVerifyCode.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-	
+				
 				if (Integer.valueOf(txtCode.getText()) == randomCode) {
 					ResetPass resetPass = new ResetPass(txtEmail.getText());
 					resetPass.setVisible(true);

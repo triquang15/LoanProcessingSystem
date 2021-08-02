@@ -47,77 +47,78 @@ public class Home extends JFrame {
 	 */
 	public Home() {
 		setFont(new Font("Dialog", Font.BOLD | Font.ITALIC, 15));
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
 		getContentPane().setBackground(new Color(255, 255, 255));
 		getContentPane().setLayout(null);
-		
+
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(new Color(0, 0, 0));
 		menuBar.setBounds(0, 0, 1283, 22);
 		getContentPane().add(menuBar);
-		
+
 		JMenu mnHome = new JMenu("Home");
 		mnHome.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/house.png")));
 		mnHome.setForeground(new Color(255, 0, 0));
 		menuBar.add(mnHome);
-		
+
 		JMenuItem mntmNewMenuItem = new JMenuItem("Log out");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				  Login login = new Login();
-			        login.setVisible(true);
-			        Home.this.dispose();
+				Login login = new Login();
+				login.setVisible(true);
+				Home.this.dispose();
 			}
 		});
-		mntmNewMenuItem.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/logout.png")));
+		mntmNewMenuItem
+				.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/logout.png")));
 		mnHome.add(mntmNewMenuItem);
-		
+
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Exit");
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.exit(0);
 			}
 		});
-		mntmNewMenuItem_1.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/remove-button.png")));
+		mntmNewMenuItem_1.setIcon(
+				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/remove-button.png")));
 		mnHome.add(mntmNewMenuItem_1);
-		
+
 		JMenu mnLoan = new JMenu("Loan");
 		mnLoan.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/loan (2).png")));
 		mnLoan.setForeground(new Color(248, 248, 255));
 		menuBar.add(mnLoan);
-		
+
 		JMenu mnLoanType = new JMenu("Loan Type");
-		mnLoanType.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/loan (3).png")));
+		mnLoanType
+				.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/loan (3).png")));
 		mnLoanType.setForeground(new Color(255, 250, 250));
 		menuBar.add(mnLoanType);
-		
-		JMenu mnLoanHistory = new JMenu("Loan History");
-		mnLoanHistory.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/personal (1).png")));
-		mnLoanHistory.setForeground(new Color(255, 250, 250));
-		menuBar.add(mnLoanHistory);
-		
+
 		JMenu mnStatistical = new JMenu("Statistical");
-		mnStatistical.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/statistics (1).png")));
+		mnStatistical.setIcon(
+				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/statistics (1).png")));
 		mnStatistical.setForeground(new Color(255, 250, 250));
 		menuBar.add(mnStatistical);
-		
+
 		JMenu mnAdmin = new JMenu("Admin");
-		mnAdmin.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/unauthorized-person.png")));
+		mnAdmin.setIcon(new ImageIcon(
+				Home.class.getResource("/com/aptech/LoanProcessingSystem/images/unauthorized-person.png")));
 		mnAdmin.setForeground(new Color(255, 250, 250));
 		menuBar.add(mnAdmin);
-		
+
 		JMenu mnAbout = new JMenu("About");
 		mnAbout.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				 About about = new About();
-		         about.setVisible(true);
+				About about = new About();
+				about.setVisible(true);
 			}
 		});
 		mnAbout.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/info.png")));
 		mnAbout.setForeground(new Color(255, 250, 250));
 		menuBar.add(mnAbout);
-		
+
 		JMenu mnHelp = new JMenu("Help");
 		mnHelp.addMouseListener(new MouseAdapter() {
 			@Override
@@ -129,54 +130,61 @@ public class Home extends JFrame {
 		mnHelp.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/help.png")));
 		mnHelp.setForeground(new Color(255, 250, 250));
 		menuBar.add(mnHelp);
-		
+
 		JToolBar toolBar = new JToolBar();
 		toolBar.setBackground(new Color(240, 255, 255));
 		toolBar.setBounds(0, 21, 1283, 46);
 		getContentPane().add(toolBar);
-		
-		JButton btnAdmin = new JButton("");
-		btnAdmin.setBackground(new Color(255, 250, 250));
-		btnAdmin.setVerticalAlignment(SwingConstants.BOTTOM);
-		btnAdmin.addActionListener(new ActionListener() {
+
+		JButton btnCustomer = new JButton("");
+		btnCustomer.setBackground(new Color(255, 250, 250));
+		btnCustomer.setVerticalAlignment(SwingConstants.BOTTOM);
+		btnCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnAdmin.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/admin-with-cogwheels.png")));
-		toolBar.add(btnAdmin);
-		
+		btnCustomer.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/customer.png")));
+		toolBar.add(btnCustomer);
+
 		JButton btnLoan = new JButton("");
 		btnLoan.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/loan.png")));
 		toolBar.add(btnLoan);
-		
+
 		JButton btnLoanType = new JButton("");
-		btnLoanType.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/loan (1).png")));
+		btnLoanType
+				.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/loan (1).png")));
 		toolBar.add(btnLoanType);
-		
+
 		JButton btnLoanHistory = new JButton("");
-		btnLoanHistory.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/personal.png")));
+		btnLoanHistory
+				.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/magnifying-glass.png")));
 		toolBar.add(btnLoanHistory);
-		
-		JButton btnStatistical = new JButton("");
-		btnStatistical.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/statistics.png")));
-		toolBar.add(btnStatistical);
-		
+
 		JButton btnPassword = new JButton("");
-		btnPassword.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/password.png")));
+		btnPassword.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ChangePass changePass = new ChangePass();
+				changePass.setVisible(true);
+			}
+		});
+		btnPassword
+				.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/password.png")));
 		toolBar.add(btnPassword);
-		
+
 		JButton btnLogOut = new JButton("");
-		btnLogOut.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/exit (1).png")));
+		btnLogOut
+				.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/exit (1).png")));
 		btnLogOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Login login = new Login();
-		        login.setVisible(true);
-		        Home.this.dispose();
-				
+				login.setVisible(true);
+				Home.this.dispose();
+
 			}
 		});
 		toolBar.add(btnLogOut);
-		
+
 		JButton btnExit = new JButton("");
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -185,28 +193,28 @@ public class Home extends JFrame {
 		});
 		btnExit.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/exit (2).png")));
 		toolBar.add(btnExit);
-		
+
 		JSeparator separator_5 = new JSeparator();
 		toolBar.add(separator_5);
-		
+
 		JSeparator separator_4 = new JSeparator();
 		toolBar.add(separator_4);
-		
+
 		JSeparator separator_3 = new JSeparator();
 		toolBar.add(separator_3);
-		
+
 		JSeparator separator_2 = new JSeparator();
 		toolBar.add(separator_2);
-		
+
 		JSeparator separator_1 = new JSeparator();
 		toolBar.add(separator_1);
-		
+
 		JSeparator separator = new JSeparator();
 		toolBar.add(separator);
-		
+
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBackground(new Color(255, 250, 250));
-		tabbedPane.setBounds(0, 65, 1273, 635);
+		tabbedPane.setBackground(Color.LIGHT_GRAY);
+		tabbedPane.setBounds(0, 65, 1283, 635);
 		getContentPane().add(tabbedPane);
 		setTitle("Loan Processing System");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

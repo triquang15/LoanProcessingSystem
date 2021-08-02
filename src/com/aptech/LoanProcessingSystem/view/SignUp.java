@@ -87,13 +87,14 @@ public class SignUp extends JDialog {
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
 			JPanel panel = new JPanel();
-			panel.setBackground(new Color(176, 224, 230));
+			panel.setBackground(Color.DARK_GRAY);
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
 			setLocationRelativeTo(null);
 			{
 				JPanel panel_1 = new JPanel();
-				panel_1.setBounds(192, 34, 824, 437);
+				panel_1.setBackground(Color.GRAY);
+				panel_1.setBounds(192, 34, 824, 403);
 				panel.add(panel_1);
 				panel_1.setLayout(null);
 
@@ -190,6 +191,7 @@ public class SignUp extends JDialog {
 				panel_1.add(txtAdress);
 
 				JButton btnSignUp = new JButton("Sign Up");
+				btnSignUp.setBackground(new Color(105, 105, 105));
 				btnSignUp.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 
@@ -273,12 +275,13 @@ public class SignUp extends JDialog {
 				
 				});
 				btnSignUp.setFont(new Font("Tahoma", Font.BOLD, 11));
-				btnSignUp.setForeground(Color.BLUE);
+				btnSignUp.setForeground(new Color(255, 0, 0));
 				btnSignUp.setIcon(new ImageIcon(SignUp.class.getResource("/com/aptech/LoanProcessingSystem/images/sign-up.png")));
-				btnSignUp.setBounds(447, 349, 109, 29);
+				btnSignUp.setBounds(449, 326, 109, 29);
 				panel_1.add(btnSignUp);
 
 				JButton btnReset = new JButton("Reset");
+				btnReset.setBackground(new Color(105, 105, 105));
 				btnReset.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 
@@ -298,7 +301,7 @@ public class SignUp extends JDialog {
 				btnReset.setForeground(Color.RED);
 				btnReset.setFont(new Font("Tahoma", Font.BOLD, 11));
 				btnReset.setIcon(new ImageIcon(SignUp.class.getResource("/com/aptech/LoanProcessingSystem/images/rotation-lock.png")));
-				btnReset.setBounds(660, 351, 109, 29);
+				btnReset.setBounds(657, 326, 109, 29);
 				panel_1.add(btnReset);
 
 				JLabel lblNewLabel_11 = new JLabel("Identity Card");
