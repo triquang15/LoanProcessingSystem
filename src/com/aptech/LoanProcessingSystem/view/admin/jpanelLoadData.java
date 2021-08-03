@@ -7,6 +7,8 @@ import javax.swing.DefaultComboBoxModel;
 import java.awt.SystemColor;
 import java.util.List;
 
+import java.awt.SystemColor;
+
 import javax.swing.JButton;
 import java.awt.FlowLayout;
 import java.awt.Component;
@@ -21,19 +23,23 @@ import java.awt.Color;
 
 import javax.swing.JTextField;
 import javax.swing.plaf.TabbedPaneUI;
+
 import javax.swing.table.DefaultTableModel;
 
 import com.aptech.LoanProcessingSystem.entities.Loan;
 import com.aptech.LoanProcessingSystem.entities.LoanType;
 import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
 
+
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 
 public class jpanelLoadData extends JPanel {
 	private JTextField txtHomeSearch;
@@ -165,7 +171,7 @@ public class jpanelLoadData extends JPanel {
 		panel_1.add(panel_9);
 		
 		JButton btnHomeAdd = new JButton("Add");
-		btnHomeAdd.addActionListener(new ActionListener() {
+btnHomeAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnHomeAdd_actionPerformed(e);
 			}
@@ -245,11 +251,13 @@ public class jpanelLoadData extends JPanel {
 		panel_2.add(panel_14);
 		
 		btnVehicleAdd = new JButton("Add");
+
 		btnVehicleAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnVehicleAdd_actionPerformed(e);
 			}
 		});
+
 		panel_14.add(btnVehicleAdd);
 		
 		btnVehicleUpdate = new JButton("Update");
@@ -325,11 +333,13 @@ public class jpanelLoadData extends JPanel {
 		panel_3.add(panel_19);
 		
 		btnPersonalAdd = new JButton("Add");
+
 		btnPersonalAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnPersonalAdd_actionPerformed(e);
 			}
 		});
+
 		panel_19.add(btnPersonalAdd);
 		
 		btnPersonaUpdate = new JButton("Update");
@@ -405,11 +415,12 @@ public class jpanelLoadData extends JPanel {
 		panel_4.add(panel_22);
 		
 		btnEducationalAdd = new JButton("Add");
-		btnEducationalAdd.addActionListener(new ActionListener() {
+btnEducationalAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnEducationalAdd_actionPerformed(e);
 			}
 		});
+
 		panel_22.add(btnEducationalAdd);
 			
 		btnEducationalUpdate = new JButton("Update");
@@ -427,6 +438,7 @@ public class jpanelLoadData extends JPanel {
 
 	}
 	
+
 	public void btnEducationalAdd_actionPerformed(ActionEvent e) {
 		JFrameAddNewLoan addNewLoan = new JFrameAddNewLoan();
 		addNewLoan.setVisible(true);
@@ -602,4 +614,6 @@ public class jpanelLoadData extends JPanel {
 	
 	
 	
+
+//	public void Home_FillDataToJTable(List)
 }
