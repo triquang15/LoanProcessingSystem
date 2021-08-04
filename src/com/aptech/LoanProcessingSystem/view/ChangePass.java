@@ -146,19 +146,22 @@ public class ChangePass extends JDialog {
 		});
 
 		btnUpdate.setBackground(Color.GRAY);
-		btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnUpdate.setBounds(320, 159, 89, 23);
 		panel.add(btnUpdate);
 
 		txtNewPass = new JPasswordField();
+		txtNewPass.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtNewPass.setBounds(254, 77, 203, 20);
 		panel.add(txtNewPass);
 
 		txtVerifyPass = new JPasswordField();
+		txtVerifyPass.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtVerifyPass.setBounds(254, 117, 203, 20);
 		panel.add(txtVerifyPass);
 
 		txtCurrentPass = new JPasswordField();
+		txtCurrentPass.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtCurrentPass.setBounds(254, 38, 203, 20);
 		panel.add(txtCurrentPass);
 
@@ -195,7 +198,7 @@ public class ChangePass extends JDialog {
 		setTextHint(txtCurrentPass, hintCurrentPass);
 		setTextHint(txtNewPass, hintNewPassword);
 		setTextHint(txtVerifyPass, hintVerifyPass);
-		account = new AccountModel().find("leco@gmail.com");
+		account = new AccountModel().find("triquang.15qt@gmail.com");
 	}
 
 	protected void updatePassAction() {
