@@ -12,6 +12,7 @@ import java.awt.Cursor;
 
 import javax.swing.border.EmptyBorder;
 
+import com.aptech.LoanProcessingSystem.entities.Account;
 import com.aptech.LoanProcessingSystem.model.AccountModel;
 
 import javax.swing.JLabel;
@@ -57,14 +58,10 @@ public class Login extends JDialog {
 	 * Create the dialog.
 	 */
 	public Login() {
-//		try {
-//			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-//		} catch (Throwable e) {
-//			e.printStackTrace();
-//		}
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
 		setFont(new Font("Dialog", Font.BOLD, 12));
-	
+
 		setTitle("Login");
 		setBounds(100, 100, 688, 357);
 		getContentPane().setLayout(new BorderLayout());
@@ -153,35 +150,11 @@ public class Login extends JDialog {
 					btnNewButton.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseClicked(MouseEvent e) {
-							
-							
-							AccountModel accountModel = new AccountModel();
-							String username = txtUsername.getText().trim();
-							String password = new String(txtPassword.getPassword());
-							if (accountModel.login(username,password)) {
-								txtMessage.setText("");
-								JOptionPane.showMessageDialog(null, "Login Successful");
-								Map<String, Object> data = new HashMap<String, Object>();
-								data.put("username", username);
-								data.put("users", accountModel.find(username));
-								
-								Home home = new Home();
-								home.setVisible(true);
-								
-								Login.this.dispose();
-
-							} else if (txtUsername.getText().equals("")
-									|| txtUsername.getText().equals("Enter your email")
-									|| txtPassword.getText().equals("")
-									|| txtPassword.getText().equals("Enter your password")) {
-								txtMessage.setText("Please enter full information");
-							} else {
-								txtMessage.setText("Incorrect username or password");
-							}
+							loginAction();
 						}
 					});
-					btnNewButton.setIcon(
-							new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/enter.png")));
+					btnNewButton.setIcon(new ImageIcon(
+							Login.class.getResource("/com/aptech/LoanProcessingSystem/images/enter.png")));
 					btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 13));
 					btnNewButton.setBounds(158, 159, 108, 23);
 					panel_1.add(btnNewButton);
@@ -189,8 +162,8 @@ public class Login extends JDialog {
 				{
 					JButton btnNewButton_1 = new JButton("Sign Up");
 					btnNewButton_1.setBackground(Color.LIGHT_GRAY);
-					btnNewButton_1.setIcon(
-							new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/unauthorized-person.png")));
+					btnNewButton_1.setIcon(new ImageIcon(Login.class
+							.getResource("/com/aptech/LoanProcessingSystem/images/unauthorized-person.png")));
 					btnNewButton_1.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							SignUp signUp = new SignUp();
@@ -250,17 +223,38 @@ public class Login extends JDialog {
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						if (JOptionPane.showConfirmDialog(null, "Are you sure you want to close Application ?",
-								"Confirm", JOptionPane.YES_NO_OPTION) == 0);
-					Login.this.dispose();
-							
+								"Confirm", JOptionPane.YES_NO_OPTION) == 0)
+							;
+						Login.this.dispose();
+
 					}
 				});
-				cancelButton.setIcon(
-						new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
+				cancelButton.setIcon(new ImageIcon(
+						Login.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
 				cancelButton.setFont(new Font("Tahoma", Font.BOLD, 11));
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
+		}
+	}
+
+	protected void loginAction() {
+		AccountModel accountModel = new AccountModel();
+		String username = txtUsername.getText().trim();
+		String password = new String(txtPassword.getPassword());
+		if (accountModel.login(username, password)) {
+			txtMessage.setText("");
+			JOptionPane.showMessageDialog(null, "Login Successful");
+			Account account = accountModel.find(username);
+			Home home = new Home(account);
+			home.setVisible(true);
+			Login.this.dispose();
+
+		} else if (txtUsername.getText().equals("") || txtUsername.getText().equals("Enter your email")
+				|| txtPassword.getText().equals("") || txtPassword.getText().equals("Enter your password")) {
+			txtMessage.setText("Please enter full information");
+		} else {
+			txtMessage.setText("Incorrect username or password");
 		}
 	}
 
