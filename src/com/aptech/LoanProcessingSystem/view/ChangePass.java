@@ -198,7 +198,6 @@ public class ChangePass extends JDialog {
 		setTextHint(txtCurrentPass, hintCurrentPass);
 		setTextHint(txtNewPass, hintNewPassword);
 		setTextHint(txtVerifyPass, hintVerifyPass);
-		account = new AccountModel().find("triquang.15qt@gmail.com");
 	}
 
 	protected void updatePassAction() {
@@ -213,7 +212,7 @@ public class ChangePass extends JDialog {
 		} else if (currentPass.equals(newPass)) {
 			JOptionPane.showMessageDialog(null, "The new password cannot be the same as the current password!");
 		} else if (!newPass.equals(verifyPass)) {
-			JOptionPane.showMessageDialog(null, "Password do not match!");
+			JOptionPane.showMessageDialog(null, "Password not match!");
 		} else {
 			String hash = BCrypt.hashpw(newPass, BCrypt.gensalt());
 			account.setPassword(hash);
@@ -229,7 +228,7 @@ public class ChangePass extends JDialog {
 	protected void cancelAction() {
 		if (JOptionPane.showConfirmDialog(null, "Are you sure you want cancel update?", "Confirm",
 				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-			this.dispose();
+			System.exit(0);
 		}
 	}
 
