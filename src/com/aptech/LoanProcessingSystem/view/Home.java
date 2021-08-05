@@ -174,8 +174,8 @@ public class Home extends JFrame {
 		btnCustomer.setVerticalAlignment(SwingConstants.BOTTOM);
 		btnCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AddCustomer addCustomer = new AddCustomer();
-				addCustomer.setVisible(true);
+//				AddCustomer addCustomer = new AddCustomer();
+//				addCustomer.setVisible(true);
 			}
 		});
 		btnCustomer

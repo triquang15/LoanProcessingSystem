@@ -75,6 +75,27 @@ public class AccountModel {
 		return false;
 	}
 	
+	// temp 
+	public int checkAuthorization (String email) {
+		int i = -1;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(""
+					+ "SELECT AuthId FROM account WHERE Email = ?");
+			preparedStatement.setString(1, email);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				i  = resultSet.getInt("AuthId");
+			}
+		} catch (Exception e) {
+			return -1;
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return i;
+	}
+	
+	// temp
+	
 	public boolean changePass(Account account) {
 		boolean result = true;
 		try {
