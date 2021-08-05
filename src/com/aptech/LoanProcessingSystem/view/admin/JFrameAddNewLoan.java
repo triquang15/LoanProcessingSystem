@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
+import com.aptech.LoanProcessingSystem.entities.Account;
 import com.aptech.LoanProcessingSystem.entities.Loan;
 import com.aptech.LoanProcessingSystem.entities.LoanType;
 import com.aptech.LoanProcessingSystem.entities.PaymentType;
@@ -39,7 +40,9 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 import com.toedter.calendar.JDateChooser;
@@ -63,7 +66,8 @@ public class JFrameAddNewLoan extends JFrame {
 	private JDateChooser jdatechooserEndDate;
 	private JButton btnAddNewLoanType;
 	private double interest = 0;
-
+	private Account account = new Account();
+	private Map<String, Object> data = new HashMap<String, Object>();
 	/**
 	 * Launch the application.
 	 */
@@ -244,6 +248,12 @@ public class JFrameAddNewLoan extends JFrame {
 		scrollPane.setViewportView(txtAreaDescription);
 		cbLoanType_FillToJComboBox();
 //		cbPayment_FillToJComboBox();
+	}
+	
+	public JFrameAddNewLoan(Map<String, Object> data) {
+		this();
+		this.data = data;
+		this.account = data.get("");
 	}
 	
 	public boolean validation() {
