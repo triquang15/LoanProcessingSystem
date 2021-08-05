@@ -6,12 +6,12 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="D:/Programming Languages Courses/LoanProcessingSystem/lib/activation.jar"/>
-	<classpathentry kind="lib" path="D:/Programming Languages Courses/LoanProcessingSystem/lib/jbcrypt-0.4.jar"/>
-	<classpathentry kind="lib" path="D:/Programming Languages Courses/LoanProcessingSystem/lib/jcalendar-1.4.jar"/>
-	<classpathentry kind="lib" path="D:/Programming Languages Courses/LoanProcessingSystem/lib/mail.jar"/>
-	<classpathentry kind="lib" path="D:/Programming Languages Courses/LoanProcessingSystem/lib/mysql-connector-java-8.0.11.jar"/>
-	<classpathentry kind="lib" path="D:/Programming Languages Courses/LoanProcessingSystem/lib/jcommon-1.0.15.jar"/>
-	<classpathentry kind="lib" path="D:/Programming Languages Courses/LoanProcessingSystem/lib/jfreechart-1.0.12.jar"/>
+	<classpathentry kind="lib" path="lib/activation.jar"/>
+	<classpathentry kind="lib" path="lib/jbcrypt-0.4.jar"/>
+	<classpathentry kind="lib" path="lib/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/jcommon-1.0.15.jar"/>
+	<classpathentry kind="lib" path="lib/jfreechart-1.0.12.jar"/>
+	<classpathentry kind="lib" path="lib/mail.jar"/>
+	<classpathentry kind="lib" path="lib/mysql-connector-java-8.0.11.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
