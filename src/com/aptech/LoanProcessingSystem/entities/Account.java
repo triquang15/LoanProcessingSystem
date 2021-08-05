@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Account {
 
-	private int id, accountTypeId;
+	private int id, authId;
 	private String name, email, password, phone, address, identityCard;
 	private Date dob;
 	private boolean gender, status;
@@ -13,11 +13,11 @@ public class Account {
 		super();
 	}
 
-	public Account(int id, int accountTypeId, String name, String email, String password, String phone, String address,
+	public Account(int id, int authId, String name, String email, String password, String phone, String address,
 			String identityCard, Date dob, boolean gender, boolean status) {
 		super();
 		this.id = id;
-		this.accountTypeId = accountTypeId;
+		this.authId = authId;
 		this.name = name;
 		this.email = email;
 		this.password = password;
@@ -37,12 +37,12 @@ public class Account {
 		this.id = id;
 	}
 
-	public int getAccountTypeId() {
-		return accountTypeId;
+	public int getAuthId() {
+		return authId;
 	}
 
-	public void setAccountTypeId(int accountTypeId) {
-		this.accountTypeId = accountTypeId;
+	public void setAuthId(int authId) {
+		this.authId = authId;
 	}
 
 	public String getName() {
@@ -119,9 +119,9 @@ public class Account {
 
 	@Override
 	public String toString() {
-		return "Account [id=" + id + ", AccountTypeId=" + accountTypeId + ", name=" + name + ", email=" + email
-				+ ", password=" + password + ", phone=" + phone + ", address=" + address + ", identity_card="
-				+ identityCard + ", gender=" + gender + ", dob=" + dob + ", status=" + status + "]";
+		return "Account [id=" + id + ", authId=" + authId + ", name=" + name + ", email=" + email + ", password="
+				+ password + ", phone=" + phone + ", address=" + address + ", identity_card=" + identityCard
+				+ ", gender=" + gender + ", dob=" + dob + ", status=" + status + "]";
 	}
 
 }
