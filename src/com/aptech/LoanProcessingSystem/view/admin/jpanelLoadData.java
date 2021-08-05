@@ -2,7 +2,11 @@ package com.aptech.LoanProcessingSystem.view.admin;
 
 import javax.swing.JPanel;
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
+
 import java.awt.SystemColor;
+import java.util.List;
+
 import javax.swing.JButton;
 import java.awt.FlowLayout;
 import java.awt.Component;
@@ -17,11 +21,19 @@ import java.awt.Color;
 
 import javax.swing.JTextField;
 import javax.swing.plaf.TabbedPaneUI;
+import javax.swing.table.DefaultTableModel;
+
+import com.aptech.LoanProcessingSystem.entities.Loan;
+import com.aptech.LoanProcessingSystem.entities.LoanType;
+import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
+
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class jpanelLoadData extends JPanel {
 	private JTextField txtHomeSearch;
@@ -153,6 +165,11 @@ public class jpanelLoadData extends JPanel {
 		panel_1.add(panel_9);
 		
 		JButton btnHomeAdd = new JButton("Add");
+		btnHomeAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnHomeAdd_actionPerformed(e);
+			}
+		});
 		panel_9.add(btnHomeAdd);
 		
 		JButton btnHomeUpdate = new JButton("Update");
@@ -228,6 +245,11 @@ public class jpanelLoadData extends JPanel {
 		panel_2.add(panel_14);
 		
 		btnVehicleAdd = new JButton("Add");
+		btnVehicleAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnVehicleAdd_actionPerformed(e);
+			}
+		});
 		panel_14.add(btnVehicleAdd);
 		
 		btnVehicleUpdate = new JButton("Update");
@@ -303,6 +325,11 @@ public class jpanelLoadData extends JPanel {
 		panel_3.add(panel_19);
 		
 		btnPersonalAdd = new JButton("Add");
+		btnPersonalAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnPersonalAdd_actionPerformed(e);
+			}
+		});
 		panel_19.add(btnPersonalAdd);
 		
 		btnPersonaUpdate = new JButton("Update");
@@ -378,6 +405,11 @@ public class jpanelLoadData extends JPanel {
 		panel_4.add(panel_22);
 		
 		btnEducationalAdd = new JButton("Add");
+		btnEducationalAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnEducationalAdd_actionPerformed(e);
+			}
+		});
 		panel_22.add(btnEducationalAdd);
 			
 		btnEducationalUpdate = new JButton("Update");
@@ -395,5 +427,179 @@ public class jpanelLoadData extends JPanel {
 
 	}
 	
-//	public void Home_FillDataToJTable(List)
+	public void btnEducationalAdd_actionPerformed(ActionEvent e) {
+		JFrameAddNewLoan addNewLoan = new JFrameAddNewLoan();
+		addNewLoan.setVisible(true);
+	}
+	
+	public void btnPersonalAdd_actionPerformed(ActionEvent e) {
+		JFrameAddNewLoan addNewLoan = new JFrameAddNewLoan();
+		addNewLoan.setVisible(true);
+	}
+
+	public void btnVehicleAdd_actionPerformed(ActionEvent e) {
+		JFrameAddNewLoan addNewLoan = new JFrameAddNewLoan();
+		addNewLoan.setVisible(true);
+	}
+	
+	public void btnHomeAdd_actionPerformed(ActionEvent e) {
+		JFrameAddNewLoan addNewLoan = new JFrameAddNewLoan();
+		addNewLoan.setVisible(true);
+	}
+	
+	public void Home_FillDataToJTable(List<Loan> loanList) {
+		DefaultTableModel defaultTableModel = new DefaultTableModel() {
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				// TODO Auto-generated method stub
+				return super.isCellEditable(row, column);
+			}
+			
+		};
+		defaultTableModel.addColumn("Id");
+		defaultTableModel.addColumn("Loan Type");
+		defaultTableModel.addColumn("Interest");
+		defaultTableModel.addColumn("Employee ID");
+		defaultTableModel.addColumn("Customer ID");
+		defaultTableModel.addColumn("Payment Type");
+		defaultTableModel.addColumn("Amount");
+		defaultTableModel.addColumn("Period");
+		defaultTableModel.addColumn("Duration");
+		defaultTableModel.addColumn("Date Created");
+		defaultTableModel.addColumn("Date Disbursement");	
+		defaultTableModel.addColumn("Date End");	
+		defaultTableModel.addColumn("Description");
+		defaultTableModel.addColumn("Status");
+		for (Loan loan : loanList) {
+			defaultTableModel.addRow(new Object[] {
+					loan.getId(), loan.getLoanTypeId(), loan.getInterest(),
+					loan.getAccountId(), loan.getCustomerId(), loan.getPaymentTypeId(),
+					loan.getAmount(), loan.getPeriod(), loan.getDuration(),
+					loan.getCreateDate(), loan.getDisbursementDate(),
+					loan.getEndDate(), loan.getDescription(), loan.getStatus()
+			});
+		}
+		jtableHome.setModel(defaultTableModel);
+		jtableHome.getTableHeader().setReorderingAllowed(false);
+	}
+	public void Personal_FillDataToJTable(List<Loan> loanList) {
+		DefaultTableModel defaultTableModel = new DefaultTableModel() {
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				// TODO Auto-generated method stub
+				return super.isCellEditable(row, column);
+			}
+			
+		};
+		defaultTableModel.addColumn("Id");
+		defaultTableModel.addColumn("Loan Type");
+		defaultTableModel.addColumn("Interest");
+		defaultTableModel.addColumn("Employee ID");
+		defaultTableModel.addColumn("Customer ID");
+		defaultTableModel.addColumn("Payment Type");
+		defaultTableModel.addColumn("Amount");
+		defaultTableModel.addColumn("Period");
+		defaultTableModel.addColumn("Duration");
+		defaultTableModel.addColumn("Date Created");
+		defaultTableModel.addColumn("Date Disbursement");	
+		defaultTableModel.addColumn("Date End");	
+		defaultTableModel.addColumn("Description");
+		defaultTableModel.addColumn("Status");
+		for (Loan loan : loanList) {
+			defaultTableModel.addRow(new Object[] {
+					loan.getId(), loan.getLoanTypeId(), loan.getInterest(),
+					loan.getAccountId(), loan.getCustomerId(), loan.getPaymentTypeId(),
+					loan.getAmount(), loan.getPeriod(), loan.getDuration(),
+					loan.getCreateDate(), loan.getDisbursementDate(),
+					loan.getEndDate(), loan.getDescription(), loan.getStatus()
+			});
+		}
+		jtablePersonal.setModel(defaultTableModel);
+		jtablePersonal.getTableHeader().setReorderingAllowed(false);
+	}
+	public void Vehicle_FillDataToJTable(List<Loan> loanList) {
+		DefaultTableModel defaultTableModel = new DefaultTableModel() {
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				// TODO Auto-generated method stub
+				return super.isCellEditable(row, column);
+			}
+			
+		};
+		defaultTableModel.addColumn("Id");
+		defaultTableModel.addColumn("Loan Type");
+		defaultTableModel.addColumn("Interest");
+		defaultTableModel.addColumn("Employee ID");
+		defaultTableModel.addColumn("Customer ID");
+		defaultTableModel.addColumn("Payment Type");
+		defaultTableModel.addColumn("Amount");
+		defaultTableModel.addColumn("Period");
+		defaultTableModel.addColumn("Duration");
+		defaultTableModel.addColumn("Date Created");
+		defaultTableModel.addColumn("Date Disbursement");	
+		defaultTableModel.addColumn("Date End");	
+		defaultTableModel.addColumn("Description");
+		defaultTableModel.addColumn("Status");
+		for (Loan loan : loanList) {
+			defaultTableModel.addRow(new Object[] {
+					loan.getId(), loan.getLoanTypeId(), loan.getInterest(),
+					loan.getAccountId(), loan.getCustomerId(), loan.getPaymentTypeId(),
+					loan.getAmount(), loan.getPeriod(), loan.getDuration(),
+					loan.getCreateDate(), loan.getDisbursementDate(),
+					loan.getEndDate(), loan.getDescription(), loan.getStatus()
+			});
+		}
+		jtableVehicle.setModel(defaultTableModel);
+		jtableVehicle.getTableHeader().setReorderingAllowed(false);
+	}
+	public void Educational_FillDataToJTable(List<Loan> loanList) {
+		DefaultTableModel defaultTableModel = new DefaultTableModel() {
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				// TODO Auto-generated method stub
+				return super.isCellEditable(row, column);
+			}
+			
+		};
+		defaultTableModel.addColumn("Id");
+		defaultTableModel.addColumn("Loan Type");
+		defaultTableModel.addColumn("Interest");
+		defaultTableModel.addColumn("Employee ID");
+		defaultTableModel.addColumn("Customer ID");
+		defaultTableModel.addColumn("Payment Type");
+		defaultTableModel.addColumn("Amount");
+		defaultTableModel.addColumn("Period");
+		defaultTableModel.addColumn("Duration");
+		defaultTableModel.addColumn("Date Created");
+		defaultTableModel.addColumn("Date Disbursement");	
+		defaultTableModel.addColumn("Date End");	
+		defaultTableModel.addColumn("Description");
+		defaultTableModel.addColumn("Status");
+		for (Loan loan : loanList) {
+			defaultTableModel.addRow(new Object[] {
+					loan.getId(), loan.getLoanTypeId(), loan.getInterest(),
+					loan.getAccountId(), loan.getCustomerId(), loan.getPaymentTypeId(),
+					loan.getAmount(), loan.getPeriod(), loan.getDuration(),
+					loan.getCreateDate(), loan.getDisbursementDate(),
+					loan.getEndDate(), loan.getDescription(), loan.getStatus()
+			});
+		}
+		jtableEducational.setModel(defaultTableModel);
+		jtableEducational.getTableHeader().setReorderingAllowed(false);
+	}
+	
+	public void fillComboBox() {
+		DefaultComboBoxModel<LoanType> boxModel = new DefaultComboBoxModel<LoanType>();
+		LoanTypeModel loanTypeModel = new LoanTypeModel();
+		for (LoanType loanType : loanTypeModel.loadAllLoanType()) {
+			boxModel.addElement(loanType);
+		}
+	}
+	
+	
+	
 }

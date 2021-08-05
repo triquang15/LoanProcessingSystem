@@ -10,6 +10,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicButtonUI;
 
+import com.aptech.LoanProcessingSystem.entities.Account;
 
 import java.awt.SystemColor;
 import java.awt.Dimension;
@@ -19,6 +20,8 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.HashMap;
+import java.util.Map;
 import java.awt.event.ActionEvent;
 import javax.swing.BoxLayout;
 
@@ -26,6 +29,8 @@ public class Admin extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel jpanelMain;
+	private Map<String, Object> data = new HashMap<String, Object>();
+	private Account account = new Account();
 
 	/**
 	 * Launch the application.
@@ -171,6 +176,16 @@ public class Admin extends JFrame {
 				}
 			});
 		}
+	}
+	
+	public Admin(Map<String, Object> data) {
+		this();
+		this.data = data;
+		loadData();
+	}
+	
+	public void loadData() {
+		this.account = (Account) this.data.get("users");
 	}
 	
 	public void btnHome_actionPerformed(ActionEvent e) {

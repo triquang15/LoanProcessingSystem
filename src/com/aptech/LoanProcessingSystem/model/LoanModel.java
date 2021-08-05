@@ -96,5 +96,39 @@ public class LoanModel {
 		}
 		return result;
 	}
-
+	
+	public Boolean findLoanByID(int id) {
+		Boolean result = false;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(""
+					+ "SELECT Id FROM loan WHERE Id = ?");
+			preparedStatement.setInt(1, id);
+			result = preparedStatement.executeUpdate() > 0;
+		} catch (Exception e) {
+			result = false;
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return result;
+	}
+	
+	
+	//temp
+	public Boolean findCustomerByID  (int id) {
+		Boolean result = false;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection()
+					.prepareStatement("SELECT Id From customer WHERE Id = ?");
+			preparedStatement.setInt(1, id);
+			result = preparedStatement.executeUpdate() > 0;
+		} catch (Exception e) {
+			result = false;
+		}finally {
+			ConnectDB.disconnect();
+		}
+		return result;
+	}
+	
+	
+	//temp
 }
