@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 public class Home extends JFrame {
 
 	private CustomerInfo customerInfo;
+	private Statistic statistic;
 	private Account account;
 	private JTabbedPane tabbedHome = new JTabbedPane(JTabbedPane.TOP);
 
@@ -125,17 +126,18 @@ public class Home extends JFrame {
 		mnCustomerInfo.setForeground(new Color(255, 250, 250));
 		menuBar.add(mnCustomerInfo);
 
-		JMenu mnAdmin = new JMenu("Admin");
-		mnAdmin.addMouseListener(new MouseAdapter() {
+		JMenu mnStatistic = new JMenu("Statistic");
+		mnStatistic.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
+				Statistic statistic = new Statistic();
+				statistic.setVisible(true);
 			}
 		});
-		mnAdmin.setIcon(new ImageIcon(
-				Home.class.getResource("/com/aptech/LoanProcessingSystem/images/unauthorized-person.png")));
-		mnAdmin.setForeground(new Color(255, 250, 250));
-		menuBar.add(mnAdmin);
+		
+		mnStatistic.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/statistics (1).png")));
+		mnStatistic.setForeground(new Color(255, 250, 250));
+		menuBar.add(mnStatistic);
 
 		JMenu mnAbout = new JMenu("About");
 		mnAbout.addMouseListener(new MouseAdapter() {
