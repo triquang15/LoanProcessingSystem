@@ -10,10 +10,9 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicButtonUI;
 
-<<<<<<< HEAD
+
 import com.aptech.LoanProcessingSystem.entities.Account;
-=======
->>>>>>> a065563 (add 1st time)
+
 
 import java.awt.SystemColor;
 import java.awt.Dimension;
@@ -23,11 +22,9 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-<<<<<<< HEAD
 import java.util.HashMap;
 import java.util.Map;
-=======
->>>>>>> a065563 (add 1st time)
+
 import java.awt.event.ActionEvent;
 import javax.swing.BoxLayout;
 
@@ -35,11 +32,10 @@ public class Admin extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel jpanelMain;
-<<<<<<< HEAD
+
 	private Map<String, Object> data = new HashMap<String, Object>();
 	private Account account = new Account();
-=======
->>>>>>> a065563 (add 1st time)
+
 
 	/**
 	 * Launch the application.
@@ -187,7 +183,7 @@ public class Admin extends JFrame {
 		}
 	}
 	
-<<<<<<< HEAD
+
 	public Admin(Map<String, Object> data) {
 		this();
 		this.data = data;
@@ -198,8 +194,6 @@ public class Admin extends JFrame {
 		this.account = (Account) this.data.get("users");
 	}
 	
-=======
->>>>>>> a065563 (add 1st time)
 	public void btnHome_actionPerformed(ActionEvent e) {
 		clearScreen();
 		jpanelHomePage data = new jpanelHomePage();
