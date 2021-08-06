@@ -93,7 +93,7 @@ public class CreateLoan extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(CreateLoan.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
 		setFont(new Font("Dialog", Font.BOLD, 14));
-		setTitle("Add Customer");
+		setTitle("Add Loan");
 		setBounds(100, 100, 1054, 547);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(105, 105, 105));
