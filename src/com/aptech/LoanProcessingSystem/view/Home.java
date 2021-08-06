@@ -100,10 +100,10 @@ public class Home extends JFrame {
 				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/remove-button.png")));
 		mnHome.add(mntmNewMenuItem_1);
 
-		JMenu mnLoan = new JMenu("Loan");
-		mnLoan.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/loan (2).png")));
-		mnLoan.setForeground(new Color(248, 248, 255));
-		menuBar.add(mnLoan);
+		JMenu mnAdmin = new JMenu("Admin");
+		mnAdmin.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/unauthorized-person.png")));
+		mnAdmin.setForeground(new Color(248, 248, 255));
+		menuBar.add(mnAdmin);
 
 		JMenu mnCustomerInfo = new JMenu("Customer Info");
 		mnCustomerInfo.addMouseListener(new MouseAdapter() {
