@@ -6,6 +6,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="lib/activation.jar"/>
 	<classpathentry kind="lib" path="lib/jbcrypt-0.4.jar"/>
 	<classpathentry kind="lib" path="lib/jcalendar-1.4.jar"/>
@@ -13,5 +14,16 @@
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.12.jar"/>
 	<classpathentry kind="lib" path="lib/mail.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-8.0.11.jar"/>
+=======
+	<classpathentry kind="lib" path="E:/FPT_Semester_4/LoanProcessingSystem/lib/activation.jar"/>
+	<classpathentry kind="lib" path="E:/FPT_Semester_4/LoanProcessingSystem/lib/javax.mail-api-1.6.2.jar"/>
+	<classpathentry kind="lib" path="E:/FPT_Semester_4/LoanProcessingSystem/lib/jbcrypt-0.4.jar"/>
+	<classpathentry kind="lib" path="E:/FPT_Semester_4/LoanProcessingSystem/lib/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="E:/FPT_Semester_4/LoanProcessingSystem/lib/jcommon-1.0.15.jar"/>
+	<classpathentry kind="lib" path="E:/FPT_Semester_4/LoanProcessingSystem/lib/jfreechart-1.0.12.jar"/>
+	<classpathentry kind="lib" path="E:/FPT_Semester_4/LoanProcessingSystem/lib/mail.jar"/>
+	<classpathentry kind="lib" path="E:/FPT_Semester_4/LoanProcessingSystem/lib/mysql-connector-java-8.0.11.jar"/>
+	<classpathentry kind="lib" path="E:/FPT_Semester_4/LoanProcessingSystem/lib/security-4.0.jar"/>
+>>>>>>> a0f359a (change)
 	<classpathentry kind="output" path="bin"/>
 </classpath>

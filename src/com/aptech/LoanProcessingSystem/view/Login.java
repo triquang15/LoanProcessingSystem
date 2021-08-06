@@ -211,7 +211,7 @@ public class Login extends JDialog {
 		} else if ((account = accountModel.login(username, password)) != null) {
 			JOptionPane.showMessageDialog(null, "Login Successful");
 			if (account.getAuthId() == 2) {
-				Admin admin = new Admin();
+				Admin admin = new Admin(account);
 				admin.setVisible(true);
 			} else {
 				Home home = new Home(account);

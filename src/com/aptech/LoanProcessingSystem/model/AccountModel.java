@@ -69,25 +69,45 @@ public class AccountModel {
 	}
 
 //	// temp
-//	public int checkAuthorization(String email) {
+//	public boolean login(String email, String password) {
+//		Account account = find(email);
+//		if (account != null) {
+//			if (BCrypt.checkpw(password, account.getPassword())) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
+//	
+//	public boolean login2(String email, String password) {
+//		Account account = find(email);
+//		if (account != null) {
+//			if (account.getPassword().equals(password)) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
+//	
+//	public int checkAuthorization (String email) {
 //		int i = -1;
 //		try {
-//			PreparedStatement preparedStatement = ConnectDB.connection()
-//					.prepareStatement("" + "SELECT AuthId FROM account WHERE Email = ?");
+//			PreparedStatement preparedStatement = ConnectDB.connection().
+//					prepareStatement("Select AuthId From account where Email = ?");
 //			preparedStatement.setString(1, email);
 //			ResultSet resultSet = preparedStatement.executeQuery();
 //			if (resultSet.next()) {
 //				i = resultSet.getInt("AuthId");
 //			}
 //		} catch (Exception e) {
-//			return -1;
+//			// TODO: handle exception
+//			i = -1;
 //		} finally {
 //			ConnectDB.disconnect();
 //		}
 //		return i;
 //	}
-
-	// temp
+	
 	public boolean changePass(Account account) {
 		boolean result = true;
 		try {

@@ -130,6 +130,21 @@ public class CustomerModel {
 		return customers;
 	}
 	
+	public boolean findCustomerByEmail (int id) {
+		boolean result = false;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection()
+					.prepareStatement("SELECT Id From customer WHERE Id = ?");
+			preparedStatement.setInt(1, id);
+			result = preparedStatement.executeUpdate() > 0;
+		} catch (Exception e) {
+			result = false;
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return result;
+	}
+	
 	public boolean delete(int id) {
 		boolean result = true;
 		try {
