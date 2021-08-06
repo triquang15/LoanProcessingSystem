@@ -51,6 +51,19 @@ public class SignUp extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JRadioButton rdbMale;
 	private JRadioButton rdbFemale;
+	private ButtonGroup bg;
+	private JLabel lblNewLabel_2 = new JLabel("");
+	private JTextField txtIdentity;
+	private JTextField txtName;
+	private JTextField txtEmail;
+	private JPasswordField txtPassword;
+	private JPasswordField txtConfirmPass;
+	private JTextField txtPhone;
+	private JDateChooser txtCalendar;
+	private JTextField txtAdress;
+	private JLabel lblPhone;
+	private JLabel lblInden;
+	private JLabel txtMessage;
 	private String hintName = "Please enter your name";
 	private String hintEmail = "Please enter your email";
 	private String hintPassword = "Please enter your password";
@@ -58,6 +71,8 @@ public class SignUp extends JDialog {
 	private String hintPhone = "Please enter your phone";
 	private String hintAddress = "Please enter your address";
 	private String hintIdentityCard = "Please enter your identity card";
+	private boolean isValidPhone = false;
+	private boolean isValidIden = false;
 
 	/**
 	 * Launch the application.
@@ -75,18 +90,6 @@ public class SignUp extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	ButtonGroup bg;
-	private JLabel lblNewLabel_2 = new JLabel("");
-	private JTextField txtIdentity;
-	private JTextField txtName;
-	private JTextField txtEmail;
-	private JPasswordField txtPassword;
-	private JPasswordField txtConfirmPass;
-	private JTextField txtPhone;
-	private JDateChooser txtCalendar;
-	private JTextField txtAdress;
-	private JLabel lblPhone;
-	private JLabel lblInden;
 
 	public SignUp() {
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
@@ -241,11 +244,10 @@ public class SignUp extends JDialog {
 				try {
 					int i = Integer.parseInt(txtPhone.getText());
 					lblPhone.setText("");
-
+					isValidPhone = true;
 				} catch (Exception e1) {
-					// TODO: handle exception
 					lblPhone.setText("Invalid number");
-
+					isValidPhone = false;
 				}
 			}
 		});
@@ -305,10 +307,11 @@ public class SignUp extends JDialog {
 
 				try {
 					int i = Integer.parseInt(txtIdentity.getText());
+					isValidIden = true;
 					lblInden.setText("");
 
 				} catch (Exception e1) {
-					// TODO: handle exception
+					isValidIden = false;
 					lblInden.setText("Invalid number");
 
 				}
@@ -370,6 +373,12 @@ public class SignUp extends JDialog {
 		lblInden.setFont(new Font("Tahoma", Font.ITALIC, 9));
 		lblInden.setBounds(516, 204, 229, 14);
 		panel_1.add(lblInden);
+
+		txtMessage = new JLabel("");
+		txtMessage.setForeground(Color.RED);
+		txtMessage.setFont(new Font("Tahoma", Font.ITALIC, 10));
+		txtMessage.setBounds(516, 351, 263, 20);
+		panel_1.add(txtMessage);
 	}
 
 	protected void registerAction() {
@@ -382,20 +391,36 @@ public class SignUp extends JDialog {
 		String identityCard = txtIdentity.getText();
 		Date dob = txtCalendar.getDate();
 
-		// Apply the validation logic checking all controls are empty or not
-		if (name.trim().equals(hintName) || email.trim().equals(hintEmail) || password.trim().equals(hintPassword)
-				|| confirm_pass.trim().equals(hintConfirmPass) || phone.trim().equals(hintPhone)
-				|| address.trim().equals(hintAddress) || identityCard.trim().equals(hintIdentityCard)) {
-			JOptionPane.showMessageDialog(null, "Please enter full information !!!");
+		if (!isValidIden || !isValidPhone) {
+
+			txtMessage.setText("Phone or identitty card invalid!");
+
+		} else if (!(Pattern.matches("^[a-zA-Z0-9]+(.+)+[@]{1}+(.+)+[.]{1}+[a-zA-Z0-9]+$", txtEmail.getText()))) {
+			
+			txtMessage.setText("Please enter a valid email!");
+
+		} else if (name.trim().equals(hintName) || email.trim().equals(hintEmail)
+				|| password.trim().equals(hintPassword) || confirm_pass.trim().equals(hintConfirmPass)
+				|| phone.trim().equals(hintPhone) || address.trim().equals(hintAddress)
+				|| identityCard.trim().equals(hintIdentityCard)) {
+			
+			txtMessage.setText("Please enter full information!");
+
 		} else if (!password.equals(confirm_pass)) {
-			JOptionPane.showMessageDialog(null, "Password and Confirm Password must be same !");
+			
+			txtMessage.setText("Password and Confirm Password must be same!");
 			txtPassword.setText("");
 			txtConfirmPass.setText("");
+
 		} else if (dob == null) {
-			JOptionPane.showMessageDialog(null, "Please select Date of Birthday");
+			
+			txtMessage.setText("Please select Date of Birthday");
 			txtCalendar.grabFocus();
+
 		} else {
+			
 			try {
+				
 				Account account = new Account();
 				account.setName(name);
 				account.setEmail(email);
@@ -407,17 +432,24 @@ public class SignUp extends JDialog {
 				account.setDob(dob);
 				account.setIdentityCard(identityCard);
 				AccountModel accountModel = new AccountModel();
+				
 				if (accountModel.create(account)) {
+					
 					JOptionPane.showMessageDialog(null, "Successful account registration!");
 					Login login = new Login();
 					login.setVisible(true);
 					this.dispose();
+					
 				} else {
+					
 					JOptionPane.showMessageDialog(null, "Please try again!");
+					
 				}
 			} catch (Exception e2) {
+				
 				e2.printStackTrace();
 				JOptionPane.showMessageDialog(null, "Please try again!");
+				
 			}
 		}
 	}
