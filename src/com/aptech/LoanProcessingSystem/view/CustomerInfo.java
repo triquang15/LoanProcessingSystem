@@ -87,12 +87,12 @@ public class CustomerInfo extends JPanel {
 		table.setBackground(new Color(230, 230, 250));
 		scrollPane.setViewportView(table);
 
-		JButton btnUpdate = new JButton("New");
+		JButton btnUpdate = new JButton("New Loan");
 		btnUpdate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				AddCustomer addCustomer = new AddCustomer();
-				addCustomer.setVisible(true);
+				CreateLoan createLoan = new CreateLoan();
+				createLoan.setVisible(true);
 			}
 		});
 		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 10));

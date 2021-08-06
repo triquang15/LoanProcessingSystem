@@ -27,6 +27,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.SwingConstants;
@@ -204,12 +205,17 @@ public class Login extends JDialog {
 		AccountModel accountModel = new AccountModel();
 		Account account;
 		String username = txtUsername.getText().trim();
+
 		String password = new String(txtPassword.getPassword());
+
 		if (txtUsername.getText().equals(hintUserName)
 				|| (new String(txtPassword.getPassword())).equals(hintPassword)) {
 			txtMessage.setText("Please enter full information");
+		} else if (!(Pattern.matches("^[a-zA-Z0-9]+(.+)+[@]{1}+(.+)+[.]{1}+[a-zA-Z0-9]+$", txtUsername.getText()))) {
+			txtMessage.setText("Please enter a valid email");
 		} else if ((account = accountModel.login(username, password)) != null) {
 			JOptionPane.showMessageDialog(null, "Login Successful");
+
 			if (account.getAuthId() == 2) {
 				Admin admin = new Admin(account);
 				admin.setVisible(true);

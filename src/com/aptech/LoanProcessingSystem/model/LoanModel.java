@@ -6,12 +6,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import com.aptech.LoanProcessingSystem.database.ConnectDB;
+import com.aptech.LoanProcessingSystem.entities.Customer;
 import com.aptech.LoanProcessingSystem.entities.Loan;
 
 public class LoanModel {
 
-	public List<Loan> getAllLoans() {
-		List<Loan> loans = null;
+	public java.util.List<Loan> findAll() {
+		java.util.List<Loan> loans = new ArrayList<Loan>();
 		try {
 			loans = new ArrayList<Loan>();
 			PreparedStatement statement = ConnectDB.connection().prepareStatement("Select * from Loan");
@@ -43,35 +44,34 @@ public class LoanModel {
 		return loans;
 	}
 
-	public Boolean createLoan(Loan loan) {
-		Boolean result = false;
+
+	public boolean create(Loan loan) {
+		boolean rs = true;
 		try {
-			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
-					"insert into Loan(LoanTypeId, AccountId, PaymentTypeId, CustomerId, Amount, Period, CreateDate, DisbursementDate, EndDate, Duration, Interest, Status, Description) values(?,?,?,?,?,?,?,?,?,?,?,?,?)");
-			preparedStatement.setInt(1, loan.getLoanTypeId());
-			preparedStatement.setInt(2, loan.getAccountId());
-			preparedStatement.setInt(3, loan.getPaymentTypeId());
-			preparedStatement.setInt(4, loan.getCustomerId());
-			preparedStatement.setDouble(5, loan.getAmount());
-			preparedStatement.setInt(6, loan.getPeriod());
-			preparedStatement.setDate(7, new java.sql.Date(loan.getCreateDate().getTime()));
-			preparedStatement.setDate(8, new java.sql.Date(loan.getDisbursementDate().getTime()));
-			preparedStatement.setDate(9, new java.sql.Date(loan.getEndDate().getTime()));
-			preparedStatement.setInt(10, loan.getDuration());
-			preparedStatement.setFloat(11, loan.getInterest());
-			preparedStatement.setBoolean(12, loan.getStatus());
-			preparedStatement.setString(13, loan.getDescription());
-			result = preparedStatement.executeUpdate() > 0;
+			PreparedStatement ps = ConnectDB.connection().prepareStatement(
+					"insert into loan(Amount, Period, CreateDate, DisbursementDate, Duration, EndDate, Interest, Description) values(?,?,?,?,?,?,?,?)");
+			ps.setDouble(1, loan.getAmount());
+			ps.setInt(2, loan.getPeriod());
+			ps.setDate(3, new java.sql.Date(loan.getCreateDate().getTime()));
+			ps.setDate(4, new java.sql.Date(loan.getDisbursementDate().getTime()));
+			ps.setInt(5, loan.getDuration());
+			ps.setDate(6, new java.sql.Date(loan.getEndDate().getTime()));
+
+			ps.setFloat(7, loan.getInterest());
+
+			ps.setString(8, loan.getDescription());
+			rs = ps.executeUpdate() > 0;
 		} catch (Exception e) {
 			e.printStackTrace();
+			rs = false;
 		} finally {
 			ConnectDB.disconnect();
 		}
-		return result;
+		return rs;
 	}
 
-	public Boolean updateLoan(Loan loan) {
-		Boolean result = false;
+	public boolean updateLoan(Loan loan) {
+		boolean result = false;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
 					"update Loan SET LoanTypeId = ?, AccountId = ?, PaymentTypeId = ?, CustomerId = ?, Amount = ?, Period = ?, CreateDate = ?, DisbursementDate = ?, EndDate = ?, Duration = ?, Interest = ?, Status = ?, Description = ?");
@@ -96,12 +96,11 @@ public class LoanModel {
 		}
 		return result;
 	}
-	
-	public Boolean findLoanByID(int id) {
-		Boolean result = false;
+	public boolean delete(int id) {
+		boolean result = true;
 		try {
-			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(""
-					+ "SELECT Id FROM loan WHERE Id = ?");
+			PreparedStatement preparedStatement = ConnectDB.connection()
+				.prepareStatement("delete from loan where id = ?");
 			preparedStatement.setInt(1, id);
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
@@ -111,24 +110,35 @@ public class LoanModel {
 		}
 		return result;
 	}
-	
-	
-	//temp
-	public Boolean findCustomerByID  (int id) {
-		Boolean result = false;
+
+	public java.util.List<Loan> search(String keyword) {
+		java.util.List<Loan> loans = new ArrayList<Loan>();
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-					.prepareStatement("SELECT Id From customer WHERE Id = ?");
-			preparedStatement.setInt(1, id);
-			result = preparedStatement.executeUpdate() > 0;
+					.prepareStatement("select * from loan where id like ?");
+			preparedStatement.setString(1, "%" + keyword + "%");
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				Loan loan = new Loan();
+				loan.setId(rs.getInt("Id"));
+				loan.setLoanTypeId(rs.getInt("LoanTypeId"));
+				loan.setAccountId(rs.getInt("AccountId"));
+				loan.setCustomerId(rs.getInt("CustomerId"));
+				loan.setPaymentTypeId(rs.getInt("PaymentTypeId"));
+				loan.setAmount(rs.getDouble("Amount"));
+				loan.setPeriod(rs.getInt("Period"));
+				loan.setCreateDate(rs.getDate("CreateDate"));
+				loan.setDisbursementDate(rs.getDate("DisbursementDate"));
+				loan.setEndDate(rs.getDate("EndDate"));
+				loan.setDuration(rs.getInt("Duration"));
+				loan.setStatus(rs.getBoolean("Status"));
+				loans.add(loan);
+			}
 		} catch (Exception e) {
-			result = false;
-		}finally {
+			loans = null;
+		} finally {
 			ConnectDB.disconnect();
 		}
-		return result;
+		return loans;
 	}
-	
-	
-	//temp
 }

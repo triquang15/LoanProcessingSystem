@@ -33,9 +33,7 @@ public class Admin extends JFrame {
 	private JPanel contentPane;
 	private JPanel jpanelMain;
 	private Account account = new Account();
-
 	private Map<String, Object> data = new HashMap<String, Object>();
-	private Account account = new Account();
 
 	/**
 	 * Launch the application.
@@ -197,7 +195,7 @@ public class Admin extends JFrame {
 
 	public void loadData() {
 		this.account = (Account) this.data.get("users");
-
+	}
 	public Admin(Account account) {
 		this();
 		this.account = account;

@@ -174,8 +174,8 @@ public class Home extends JFrame {
 		btnCustomer.setVerticalAlignment(SwingConstants.BOTTOM);
 		btnCustomer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				AddCustomer addCustomer = new AddCustomer();
-//				addCustomer.setVisible(true);
+			AddCustomer addCustomer = new AddCustomer();
+			addCustomer.setVisible(true);
 			}
 		});
 		btnCustomer
@@ -183,6 +183,23 @@ public class Home extends JFrame {
 		toolBar.add(btnCustomer);
 
 		JButton btnLoan = new JButton("");
+		btnLoan.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+				LoanDetail loanDetail;
+				if (loanDetail == null) {
+					loanDetail = new LoanDetail();
+
+					ImageIcon icon = new ImageIcon(
+							getClass().getResource("/com/aptech/LoanProcessingSystem/images/loan.png"));
+					tabbedHome.addTab("Loan Detail", icon, loanDetail, "Loan Detail");
+				}
+
+				tabbedHome.setSelectedComponent(loanDetail);
+				
+			}
+		});
 		btnLoan.setBackground(Color.DARK_GRAY);
 		btnLoan.setToolTipText("Loan");
 		btnLoan.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/loan.png")));

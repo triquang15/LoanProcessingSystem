@@ -27,6 +27,7 @@ import java.awt.event.FocusEvent;
 import java.io.File;
 import java.sql.Connection;
 import java.util.Date;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
@@ -42,6 +43,8 @@ import javax.swing.border.LineBorder;
 import java.awt.Dimension;
 import java.awt.Component;
 import java.awt.Insets;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class SignUp extends JDialog {
 
@@ -82,6 +85,8 @@ public class SignUp extends JDialog {
 	private JTextField txtPhone;
 	private JDateChooser txtCalendar;
 	private JTextField txtAdress;
+	private JLabel lblPhone;
+	private JLabel lblInden;
 
 	public SignUp() {
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
@@ -146,6 +151,7 @@ public class SignUp extends JDialog {
 		panel_1.add(lblNewLabel_3);
 
 		txtEmail = new JTextField();
+
 		txtEmail.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtEmail.setBorder(new EmptyBorder(0, 5, 0, 5));
 		txtEmail.setBounds(129, 173, 230, 30);
@@ -228,6 +234,21 @@ public class SignUp extends JDialog {
 		panel_1.add(lblNewLabel_9);
 
 		txtPhone = new JTextField();
+		txtPhone.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+				try {
+					int i = Integer.parseInt(txtPhone.getText());
+					lblPhone.setText("");
+
+				} catch (Exception e1) {
+					// TODO: handle exception
+					lblPhone.setText("Invalid number");
+
+				}
+			}
+		});
 		txtPhone.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtPhone.setBorder(new EmptyBorder(0, 5, 0, 5));
 		txtPhone.setColumns(10);
@@ -278,6 +299,22 @@ public class SignUp extends JDialog {
 		panel_1.add(lblNewLabel_11);
 
 		txtIdentity = new JTextField();
+		txtIdentity.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+				try {
+					int i = Integer.parseInt(txtIdentity.getText());
+					lblInden.setText("");
+
+				} catch (Exception e1) {
+					// TODO: handle exception
+					lblInden.setText("Invalid number");
+
+				}
+
+			}
+		});
 		txtIdentity.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtIdentity.setBorder(new EmptyBorder(0, 5, 0, 5));
 		txtIdentity.setBounds(516, 173, 229, 30);
@@ -321,6 +358,18 @@ public class SignUp extends JDialog {
 		setTextHint(txtAdress, hintAddress);
 		setTextHint(txtIdentity, hintIdentityCard);
 		setTextHint(txtPhone, hintPhone);
+
+		lblPhone = new JLabel("");
+		lblPhone.setForeground(Color.RED);
+		lblPhone.setFont(new Font("Tahoma", Font.ITALIC, 9));
+		lblPhone.setBounds(516, 258, 229, 14);
+		panel_1.add(lblPhone);
+
+		lblInden = new JLabel("");
+		lblInden.setForeground(Color.RED);
+		lblInden.setFont(new Font("Tahoma", Font.ITALIC, 9));
+		lblInden.setBounds(516, 204, 229, 14);
+		panel_1.add(lblInden);
 	}
 
 	protected void registerAction() {
