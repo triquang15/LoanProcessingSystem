@@ -32,8 +32,6 @@ public class Admin extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel jpanelMain;
-	private Account account = new Account();
-
 	private Map<String, Object> data = new HashMap<String, Object>();
 	private Account account = new Account();
 
@@ -66,6 +64,7 @@ public class Admin extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 898, 653);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(34, 40, 44));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -127,6 +126,11 @@ public class Admin extends JFrame {
 		jpanelSide.add(btnLoanData);
 
 		JButton btnUserProfile = new JButton("");
+		btnUserProfile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnUserProfile_actionPerformed(e);
+			}
+		});
 		btnUserProfile.setIcon(new ImageIcon(
 				Admin.class.getResource("/com/aptech/LoanProcessingSystem/images/icons8_profile_20px.png")));
 		btnUserProfile.setPreferredSize(new Dimension(40, 40));
@@ -151,7 +155,7 @@ public class Admin extends JFrame {
 		jpanelSide.add(btnExit);
 
 		jpanelMain = new JPanel();
-		jpanelMain.setBackground(SystemColor.control);
+		jpanelMain.setBackground(new Color(34,40,44));
 		jpanelRoot.add(jpanelMain, BorderLayout.CENTER);
 		jpanelMain.setLayout(new BorderLayout(0, 0));
 
@@ -197,10 +201,17 @@ public class Admin extends JFrame {
 
 	public void loadData() {
 		this.account = (Account) this.data.get("users");
-
+	}
 	public Admin(Account account) {
 		this();
 		this.account = account;
+	}
+	
+	public void btnUserProfile_actionPerformed(ActionEvent e) {
+		clearScreen();
+		jpanelCustomerProfile customerProfile = new jpanelCustomerProfile();
+		jpanelMain.add(customerProfile);
+		customerProfile.setVisible(true);
 	}
 
 	public void btnHome_actionPerformed(ActionEvent e) {

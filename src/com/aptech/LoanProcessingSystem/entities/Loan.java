@@ -14,7 +14,7 @@ public class Loan {
 	private Date disbursementDate;
 	private int duration;
 	private Date endDate;
-	private float interest;
+	private double interest;
 	private String description;
 	private boolean status;
 
@@ -130,11 +130,11 @@ public class Loan {
 		this.endDate = endDate;
 	}
 
-	public Float getInterest() {
+	public Double getInterest() {
 		return interest;
 	}
 
-	public void setInterest(Float interest) {
+	public void setInterest(Double interest) {
 		this.interest = interest;
 	}
 

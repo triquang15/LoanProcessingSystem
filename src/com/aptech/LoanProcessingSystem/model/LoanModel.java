@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.aptech.LoanProcessingSystem.database.ConnectDB;
 import com.aptech.LoanProcessingSystem.entities.Loan;
+import com.aptech.LoanProcessingSystem.entities.LoanType;
 
 public class LoanModel {
 
@@ -29,7 +30,41 @@ public class LoanModel {
 				loan.setDisbursementDate(resultset.getDate("DisbursementDate"));
 				loan.setDuration(resultset.getInt("Duration"));
 				loan.setEndDate(resultset.getDate("EndDate"));
-				loan.setInterest(resultset.getFloat("Interest"));
+				loan.setInterest(resultset.getDouble("Interest"));
+				loan.setDescription(resultset.getString("Description"));
+				loan.setStatus(resultset.getBoolean("Status"));
+				loans.add(loan);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			loans = null;
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return loans;
+	}
+	
+	public List<Loan> getAllLoanHome(LoanType loanType) {
+		List<Loan> loans = null;
+		try {
+			loans = new ArrayList<Loan>();
+			PreparedStatement statement = ConnectDB.connection().prepareStatement("Select * from Loan where LoanTypeId = ?");
+			statement.setInt(1, loanType.getId());
+			ResultSet resultset = statement.executeQuery();
+			while (resultset.next()) {
+				Loan loan = new Loan();
+				loan.setId(resultset.getInt("Id"));
+				loan.setLoanTypeId(resultset.getInt("LoanTypeId"));
+				loan.setAccountId(resultset.getInt("AccountId"));
+				loan.setCustomerId(resultset.getInt("CustomerId"));
+				loan.setPaymentTypeId(resultset.getInt("PaymentTypeId"));
+				loan.setAmount(resultset.getDouble("Amount"));
+				loan.setPeriod(resultset.getInt("Period"));
+				loan.setCreateDate(resultset.getDate("CreateDate"));
+				loan.setDisbursementDate(resultset.getDate("DisbursementDate"));
+				loan.setDuration(resultset.getInt("Duration"));
+				loan.setEndDate(resultset.getDate("EndDate"));
+				loan.setInterest(resultset.getDouble("Interest"));
 				loan.setDescription(resultset.getString("Description"));
 				loan.setStatus(resultset.getBoolean("Status"));
 				loans.add(loan);
@@ -58,7 +93,7 @@ public class LoanModel {
 			preparedStatement.setDate(8, new java.sql.Date(loan.getDisbursementDate().getTime()));
 			preparedStatement.setDate(9, new java.sql.Date(loan.getEndDate().getTime()));
 			preparedStatement.setInt(10, loan.getDuration());
-			preparedStatement.setFloat(11, loan.getInterest());
+			preparedStatement.setDouble(11, loan.getInterest());
 			preparedStatement.setBoolean(12, loan.getStatus());
 			preparedStatement.setString(13, loan.getDescription());
 			result = preparedStatement.executeUpdate() > 0;
@@ -85,7 +120,7 @@ public class LoanModel {
 			preparedStatement.setDate(8, new java.sql.Date(loan.getDisbursementDate().getTime()));
 			preparedStatement.setDate(9, new java.sql.Date(loan.getEndDate().getTime()));
 			preparedStatement.setInt(10, loan.getDuration());
-			preparedStatement.setFloat(11, loan.getInterest());
+			preparedStatement.setDouble(11, loan.getInterest());
 			preparedStatement.setBoolean(12, loan.getStatus());
 			preparedStatement.setString(13, loan.getDescription());
 			result = preparedStatement.executeUpdate() > 0;
