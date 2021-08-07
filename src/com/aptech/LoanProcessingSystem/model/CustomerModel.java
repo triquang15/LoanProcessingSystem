@@ -1,9 +1,9 @@
 package com.aptech.LoanProcessingSystem.model;
 
-import java.awt.List;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.aptech.LoanProcessingSystem.database.ConnectDB;
 import com.aptech.LoanProcessingSystem.entities.Customer;
@@ -11,7 +11,7 @@ import com.aptech.LoanProcessingSystem.entities.Customer;
 public class CustomerModel {
 
 	public boolean create(Customer customer) {
-		boolean rs = true;
+		boolean rs = false;
 		try {
 			PreparedStatement ps = ConnectDB.connection().prepareStatement(
 					"insert into customer(name, address, phone, email, gender, dob, salary, job, company, IdentityCard) values(?,?,?,?,?,?,?,?,?,?)");
@@ -29,14 +29,13 @@ public class CustomerModel {
 			rs = ps.executeUpdate() > 0;
 		} catch (Exception e) {
 			e.printStackTrace();
-			rs = false;
 		} finally {
 			ConnectDB.disconnect();
 		}
 		return rs;
 	}
 
-	public java.util.List<Customer> findAll() {
+	public List<Customer> findAll() {
 		java.util.List<Customer> customers = new ArrayList<Customer>();
 
 		try {
@@ -62,14 +61,13 @@ public class CustomerModel {
 
 		} catch (Exception e) {
 			customers = null;
-
 		} finally {
 			ConnectDB.disconnect();
 		}
 		return customers;
 	}
 	
-	public java.util.List<Customer> search(String keyword) {
+	public List<Customer> search(String keyword) {
 		java.util.List<Customer> customers = new ArrayList<Customer>();
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
@@ -99,15 +97,16 @@ public class CustomerModel {
 		}
 		return customers;
 	}
-	public Customer findById(String CustomerId) {
-		Customer customers = null;
+	
+	public Customer findById(int CustomerId) {
+		Customer customer = null;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-					.prepareStatement("select * from customer where id ?");
-			preparedStatement.setString(1, CustomerId);
+					.prepareStatement("select * from customer where id = ?");
+			preparedStatement.setInt(1, CustomerId);
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
-				Customer customer = new Customer();
+				customer = new Customer();
 				customer.setId(rs.getInt("Id"));
 				customer.setName(rs.getString("Name"));
 				customer.setAddress(rs.getString("Address"));
@@ -120,25 +119,25 @@ public class CustomerModel {
 				customer.setCompany(rs.getString("Company"));
 				customer.setIdentityCard(rs.getString("IdentityCard"));
 				customer.setStatus(rs.getBoolean("Status"));
-			
 			}
 		} catch (Exception e) {
-			customers = null;
+			customer = null;
+			System.out.println(e.getMessage());
 		} finally {
 			ConnectDB.disconnect();
 		}
-		return customers;
+		return customer;
 	}
 	
-	public boolean findCustomerByEmail (int id) {
+	public boolean findCustomerByEmail (String email) {
 		boolean result = false;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-					.prepareStatement("SELECT Id From customer WHERE Id = ?");
-			preparedStatement.setInt(1, id);
+					.prepareStatement("SELECT Id From customer WHERE Email = ?");
+			preparedStatement.setString(1, email);
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
-			result = false;
+			System.out.println(e.getMessage());
 		} finally {
 			ConnectDB.disconnect();
 		}
@@ -146,14 +145,14 @@ public class CustomerModel {
 	}
 	
 	public boolean delete(int id) {
-		boolean result = true;
+		boolean result = false;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
 				.prepareStatement("delete from customer where id = ?");
 			preparedStatement.setInt(1, id);
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
-			result = false;
+			System.out.println(e.getMessage());
 		} finally {
 			ConnectDB.disconnect();
 		}
