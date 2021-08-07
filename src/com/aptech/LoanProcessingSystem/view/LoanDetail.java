@@ -50,8 +50,8 @@ public class LoanDetail extends JPanel {
 	            for (com.aptech.LoanProcessingSystem.entities.Loan loan : list) {
 	                tblModel.addRow(new Object[]{
 	                    loan.getId(), loan.getLoanTypeId(), loan.getAccountId(), loan.getCustomerId(), loan.getPaymentTypeId(),
-	                    loan.getAmount(),loan.getPeriod(),loan.getCreateDate(), loan.getDisbursementDate(), loan.getDuration(), loan.getEndDate(),
-	                    loan.getInterest(), loan.getDescription(), loan.getStatus()
+	                    loan.getAmount() + " " + "$",loan.getPeriod() + " " + "months" ,loan.getCreateDate(), loan.getDisbursementDate(), loan.getDuration() + " " + "months", loan.getEndDate(),
+	                    loan.getInterest() + " " + "%", loan.getDescription(), loan.getStatus()
 	                });
 
 	            }
@@ -64,7 +64,7 @@ public class LoanDetail extends JPanel {
 	    }
 	
 	private void initTable() {
-		tblModel.setColumnIdentifiers(new String[] { "Id", "LoanType", "Account", "Customer", "PaymentType", "Amount", "Period", "CreateDate",
+		tblModel.setColumnIdentifiers(new String[] { "Id", "Loan Type", "Account", "Customer", "Payment Type", "Amount", "Period", "Create Date",
 				"DisbursementDate", "Duration", "EndDate", "Interest", "Description", "Status" });
 		table.setModel(tblModel);
 	}

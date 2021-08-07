@@ -419,7 +419,7 @@ public class CreateLoan extends JDialog {
 		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
 				boolean cellHasFocus) {
 			int item = (int) value;
-			return super.getListCellRendererComponent(list, item + " month", index, isSelected, cellHasFocus);
+			return super.getListCellRendererComponent(list, item +" Month", index, isSelected, cellHasFocus);
 		}
 
 		
