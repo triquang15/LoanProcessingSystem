@@ -40,10 +40,10 @@ public class FineModel {
 			PreparedStatement preparedStatement = ConnectDB.connection()
 					.prepareStatement("insert into Fine(FineInterest, `Min`, `Max`, Description, Status) values(?,?,?,?,?)");
 			preparedStatement.setFloat(1, fine.getFineInterest());
-			preparedStatement.setDouble(1, fine.getMin());
-			preparedStatement.setDouble(1, fine.getMax());
-			preparedStatement.setString(1, fine.getDescription());
-			preparedStatement.setBoolean(1, fine.isStatus());
+			preparedStatement.setDouble(2, fine.getMin());
+			preparedStatement.setDouble(3, fine.getMax());
+			preparedStatement.setString(4, fine.getDescription());
+			preparedStatement.setBoolean(5, fine.isStatus());
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -58,10 +58,10 @@ public class FineModel {
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement("update Fine SET FineInterest = ?, `Min` = ?, `Max` = ?, Description = ?, Status = ?");
 			preparedStatement.setFloat(1, fine.getFineInterest());
-			preparedStatement.setDouble(1, fine.getMin());
-			preparedStatement.setDouble(1, fine.getMax());
-			preparedStatement.setString(1, fine.getDescription());
-			preparedStatement.setBoolean(1, fine.isStatus());
+			preparedStatement.setDouble(2, fine.getMin());
+			preparedStatement.setDouble(3, fine.getMax());
+			preparedStatement.setString(4, fine.getDescription());
+			preparedStatement.setBoolean(5, fine.isStatus());
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
 			e.printStackTrace();

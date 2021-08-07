@@ -2,20 +2,15 @@ package com.aptech.LoanProcessingSystem.view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.Color;
 import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 import org.mindrot.jbcrypt.BCrypt;
-
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -24,27 +19,25 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.io.File;
-import java.sql.Connection;
 import java.util.Date;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
-
-import com.aptech.LoanProcessingSystem.database.ConnectDB;
 import com.aptech.LoanProcessingSystem.entities.Account;
+import com.aptech.LoanProcessingSystem.entities.Authority;
 import com.aptech.LoanProcessingSystem.model.AccountModel;
+import com.aptech.LoanProcessingSystem.model.AuthorityModel;
 import com.toedter.calendar.JDateChooser;
-import javax.swing.JCheckBox;
 import java.awt.Toolkit;
 import javax.swing.JComboBox;
-import javax.swing.border.LineBorder;
 import java.awt.Dimension;
 import java.awt.Component;
 import java.awt.Insets;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 
 public class SignUp extends JDialog {
 
@@ -73,6 +66,7 @@ public class SignUp extends JDialog {
 	private String hintIdentityCard = "Please enter your identity card";
 	private boolean isValidPhone = false;
 	private boolean isValidIden = false;
+	private JComboBox cbbxAuth;
 
 	/**
 	 * Launch the application.
@@ -182,11 +176,18 @@ public class SignUp extends JDialog {
 		panel_1.add(txtConfirmPass);
 
 		JLabel lblNewLabel_6 = new JLabel("Phone *");
-		lblNewLabel_6.setBounds(404, 235, 76, 17);
+		lblNewLabel_6.setBounds(404, 287, 76, 17);
 		panel_1.add(lblNewLabel_6);
 
+		cbbxAuth = new JComboBox();
+		cbbxAuth.setForeground(Color.GRAY);
+		cbbxAuth.setBorder(null);
+		cbbxAuth.setBackground(Color.WHITE);
+		cbbxAuth.setBounds(516, 114, 230, 30);
+		panel_1.add(cbbxAuth);
+		
 		JLabel lblNewLabel_7 = new JLabel("Gender *");
-		lblNewLabel_7.setBounds(10, 339, 76, 14);
+		lblNewLabel_7.setBounds(10, 340, 76, 14);
 		panel_1.add(lblNewLabel_7);
 
 		rdbMale = new JRadioButton("Male");
@@ -199,7 +200,7 @@ public class SignUp extends JDialog {
 		rdbMale.setRolloverEnabled(false);
 		rdbMale.setFocusPainted(false);
 		rdbMale.setContentAreaFilled(false);
-		rdbMale.setBounds(125, 331, 76, 30);
+		rdbMale.setBounds(125, 332, 76, 30);
 		panel_1.add(rdbMale);
 		bg.add(rdbMale);
 		bg.add(rdbFemale);
@@ -215,7 +216,7 @@ public class SignUp extends JDialog {
 		rdbFemale.setRolloverEnabled(false);
 		rdbFemale.setFocusPainted(false);
 		rdbFemale.setContentAreaFilled(false);
-		rdbFemale.setBounds(234, 331, 76, 30);
+		rdbFemale.setBounds(234, 332, 76, 30);
 		panel_1.add(rdbFemale);
 		bg.add(rdbMale);
 		bg.add(rdbFemale);
@@ -223,17 +224,17 @@ public class SignUp extends JDialog {
 
 		JLabel lblNewLabel_8 = new JLabel("Dob *");
 		lblNewLabel_8.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_8.setBounds(404, 288, 76, 14);
+		lblNewLabel_8.setBounds(404, 339, 76, 14);
 		panel_1.add(lblNewLabel_8);
 
 		txtCalendar = new JDateChooser();
 		txtCalendar.getCalendarButton().setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtCalendar.setBounds(516, 281, 229, 30);
+		txtCalendar.setBounds(516, 332, 229, 30);
 		panel_1.add(txtCalendar);
 
 		JLabel lblNewLabel_9 = new JLabel("Address *");
 		lblNewLabel_9.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_9.setBounds(404, 121, 88, 14);
+		lblNewLabel_9.setBounds(404, 180, 88, 14);
 		panel_1.add(lblNewLabel_9);
 
 		txtPhone = new JTextField();
@@ -254,14 +255,14 @@ public class SignUp extends JDialog {
 		txtPhone.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtPhone.setBorder(new EmptyBorder(0, 5, 0, 5));
 		txtPhone.setColumns(10);
-		txtPhone.setBounds(516, 229, 229, 30);
+		txtPhone.setBounds(516, 281, 229, 30);
 		panel_1.add(txtPhone);
 
 		txtAdress = new JTextField();
 		txtAdress.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtAdress.setBorder(new EmptyBorder(0, 5, 0, 5));
 		txtAdress.setColumns(10);
-		txtAdress.setBounds(516, 114, 229, 30);
+		txtAdress.setBounds(516, 173, 229, 30);
 		panel_1.add(txtAdress);
 
 		JButton btnSignUp = new JButton("Sign Up");
@@ -277,7 +278,7 @@ public class SignUp extends JDialog {
 		btnSignUp.setForeground(Color.BLACK);
 		btnSignUp.setIcon(
 				new ImageIcon(SignUp.class.getResource("/com/aptech/LoanProcessingSystem/images/sign-up.png")));
-		btnSignUp.setBounds(516, 392, 116, 33);
+		btnSignUp.setBounds(516, 396, 116, 33);
 		panel_1.add(btnSignUp);
 
 		JButton btnReset = new JButton("Reset");
@@ -292,12 +293,12 @@ public class SignUp extends JDialog {
 		btnReset.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnReset.setIcon(
 				new ImageIcon(SignUp.class.getResource("/com/aptech/LoanProcessingSystem/images/rotation-lock.png")));
-		btnReset.setBounds(653, 392, 99, 33);
+		btnReset.setBounds(653, 396, 99, 33);
 		panel_1.add(btnReset);
 
 		JLabel lblNewLabel_11 = new JLabel("Identity Card");
 		lblNewLabel_11.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_11.setBounds(404, 180, 88, 14);
+		lblNewLabel_11.setBounds(404, 236, 88, 14);
 		panel_1.add(lblNewLabel_11);
 
 		txtIdentity = new JTextField();
@@ -320,7 +321,7 @@ public class SignUp extends JDialog {
 		});
 		txtIdentity.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtIdentity.setBorder(new EmptyBorder(0, 5, 0, 5));
-		txtIdentity.setBounds(516, 173, 229, 30);
+		txtIdentity.setBounds(516, 229, 229, 30);
 		panel_1.add(txtIdentity);
 		txtIdentity.setColumns(10);
 
@@ -377,12 +378,21 @@ public class SignUp extends JDialog {
 		txtMessage = new JLabel("");
 		txtMessage.setForeground(Color.RED);
 		txtMessage.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtMessage.setBounds(516, 351, 263, 20);
+		txtMessage.setBounds(516, 372, 263, 20);
 		panel_1.add(txtMessage);
+		
+		JLabel lblNewLabel_9_1 = new JLabel("Authority *");
+		lblNewLabel_9_1.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_9_1.setBounds(404, 121, 88, 14);
+		panel_1.add(lblNewLabel_9_1);
+		
+		
 	}
 
-	protected void registerAction() {
+	private void registerAction() {
 		String name = txtName.getText();
+		int authId = ((Authority) cbbxAuth.getSelectedItem()).getId();
+		System.out.println("AUTHID: =============" + authId);
 		String email = txtEmail.getText();
 		String password = new String(txtPassword.getPassword());
 		String confirm_pass = new String(txtConfirmPass.getPassword());
@@ -422,6 +432,7 @@ public class SignUp extends JDialog {
 			try {
 				
 				Account account = new Account();
+				account.setAuthId(authId);
 				account.setName(name);
 				account.setEmail(email);
 				String hash = BCrypt.hashpw(password, BCrypt.gensalt());
@@ -473,8 +484,28 @@ public class SignUp extends JDialog {
 		txtIdentity.setText(hintIdentityCard);
 		txtIdentity.setForeground(Color.GRAY);
 		rdbMale.setSelected(true);
+		initAuth();
 	}
 
+	private void initAuth() {
+		DefaultComboBoxModel<Authority> authModel = new DefaultComboBoxModel<>();
+		for (Authority auth : new AuthorityModel().getAll()) {
+			authModel.addElement(auth);
+		}
+		cbbxAuth.setModel(authModel);
+		cbbxAuth.setRenderer(new AuthListCellRenderer());		
+	}
+
+	private class AuthListCellRenderer extends DefaultListCellRenderer {
+		@Override
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+				boolean cellHasFocus) {
+			Authority auth = (Authority) value;
+			return super.getListCellRendererComponent(list, auth.getName(), index, isSelected, cellHasFocus);
+		}
+
+	}
+	
 	private void setTextHint(JTextField textField, String hint) {
 		textField.addFocusListener(new FocusAdapter() {
 			@Override
