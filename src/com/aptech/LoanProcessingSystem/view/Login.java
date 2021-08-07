@@ -12,6 +12,7 @@ import java.awt.Cursor;
 
 import javax.swing.border.EmptyBorder;
 
+import com.aptech.LoanProcessingSystem.database.ShareData;
 import com.aptech.LoanProcessingSystem.entities.Account;
 import com.aptech.LoanProcessingSystem.model.AccountModel;
 import com.aptech.LoanProcessingSystem.view.admin.Admin;
@@ -201,6 +202,7 @@ public class Login extends JDialog {
 		initForm();
 	}
 
+
 	protected void loginAction() {
 		AccountModel accountModel = new AccountModel();
 		Account account;
@@ -215,13 +217,16 @@ public class Login extends JDialog {
 			txtMessage.setText("Please enter a valid email");
 		} else if ((account = accountModel.login(username, password)) != null) {
 			JOptionPane.showMessageDialog(null, "Login Successful");
-
+		} else if ((account = accountModel.login(username, password)) != null) {
+			JOptionPane.showMessageDialog(null, "Login Successful");
+			ShareData.accountLogin = account;
 			if (account.getAuthId() == 2) {
-				Admin admin = new Admin(account);
+				Admin admin = new Admin();
 				admin.setVisible(true);
 			} else {
-				Home home = new Home(account);
+				Home home = new Home();
 				home.setVisible(true);
+
 			}
 			this.dispose();
 		} else {
