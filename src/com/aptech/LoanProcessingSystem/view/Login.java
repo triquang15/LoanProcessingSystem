@@ -202,7 +202,6 @@ public class Login extends JDialog {
 		initForm();
 	}
 
-
 	protected void loginAction() {
 		AccountModel accountModel = new AccountModel();
 		Account account;
@@ -215,8 +214,6 @@ public class Login extends JDialog {
 			txtMessage.setText("Please enter full information");
 		} else if (!(Pattern.matches("^[a-zA-Z0-9]+(.+)+[@]{1}+(.+)+[.]{1}+[a-zA-Z0-9]+$", txtUsername.getText()))) {
 			txtMessage.setText("Please enter a valid email");
-		} else if ((account = accountModel.login(username, password)) != null) {
-			JOptionPane.showMessageDialog(null, "Login Successful");
 		} else if ((account = accountModel.login(username, password)) != null) {
 			JOptionPane.showMessageDialog(null, "Login Successful");
 			ShareData.accountLogin = account;
