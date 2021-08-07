@@ -274,25 +274,6 @@ public class Home extends JFrame {
 		btnExit.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/exit (2).png")));
 		toolBar.add(btnExit);
 
-		JSeparator separator_5 = new JSeparator();
-		toolBar.add(separator_5);
-
-		JSeparator separator_4 = new JSeparator();
-		toolBar.add(separator_4);
-
-		JSeparator separator_3 = new JSeparator();
-		toolBar.add(separator_3);
-
-		JSeparator separator_2 = new JSeparator();
-		toolBar.add(separator_2);
-
-		JSeparator separator_1 = new JSeparator();
-		separator_1.setForeground(Color.DARK_GRAY);
-		toolBar.add(separator_1);
-
-		JSeparator separator = new JSeparator();
-		toolBar.add(separator);
-
 		tabbedHome.setForeground(Color.GRAY);
 		tabbedHome.setBackground(Color.LIGHT_GRAY);
 		tabbedHome.setBounds(0, 66, 1283, 648);
