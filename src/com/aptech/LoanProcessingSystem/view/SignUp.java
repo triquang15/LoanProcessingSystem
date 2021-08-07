@@ -66,7 +66,7 @@ public class SignUp extends JDialog {
 	private String hintIdentityCard = "Please enter your identity card";
 	private boolean isValidPhone = false;
 	private boolean isValidIden = false;
-	private JComboBox cbbxAuth;
+	private JComboBox<Authority> cbbxAuth;
 
 	/**
 	 * Launch the application.
@@ -179,7 +179,7 @@ public class SignUp extends JDialog {
 		lblNewLabel_6.setBounds(404, 287, 76, 17);
 		panel_1.add(lblNewLabel_6);
 
-		cbbxAuth = new JComboBox();
+		cbbxAuth = new JComboBox<Authority>();
 		cbbxAuth.setForeground(Color.GRAY);
 		cbbxAuth.setBorder(null);
 		cbbxAuth.setBackground(Color.WHITE);
@@ -243,7 +243,7 @@ public class SignUp extends JDialog {
 			public void keyPressed(KeyEvent e) {
 
 				try {
-					int i = Integer.parseInt(txtPhone.getText());
+					Integer.parseInt(txtPhone.getText());
 					lblPhone.setText("");
 					isValidPhone = true;
 				} catch (Exception e1) {
@@ -307,7 +307,7 @@ public class SignUp extends JDialog {
 			public void keyPressed(KeyEvent e) {
 
 				try {
-					int i = Integer.parseInt(txtIdentity.getText());
+					Integer.parseInt(txtIdentity.getText());
 					isValidIden = true;
 					lblInden.setText("");
 
@@ -496,6 +496,7 @@ public class SignUp extends JDialog {
 		cbbxAuth.setRenderer(new AuthListCellRenderer());		
 	}
 
+	@SuppressWarnings("serial")
 	private class AuthListCellRenderer extends DefaultListCellRenderer {
 		@Override
 		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
