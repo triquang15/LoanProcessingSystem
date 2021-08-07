@@ -14,16 +14,17 @@ public class AccountModel {
 		boolean result = true;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
-					"insert into account(Name,Email, Password,  Phone, Address,Gender, DOB, IdentityCard, Status) values(?,?,?,?,?,?,?,?,?)");
-			preparedStatement.setString(1, account.getName());
-			preparedStatement.setString(2, account.getEmail());
-			preparedStatement.setString(3, account.getPassword());
-			preparedStatement.setString(4, account.getPhone());
-			preparedStatement.setString(5, account.getAddress());
-			preparedStatement.setBoolean(6, account.isGender());
-			preparedStatement.setDate(7, new java.sql.Date(account.getDob().getTime()));
-			preparedStatement.setString(8, account.getIdentityCard());
-			preparedStatement.setBoolean(9, true);
+					"insert into account(AuthId, Name, Email, Password,  Phone, Address,Gender, DOB, IdentityCard, Status) values(?,?,?,?,?,?,?,?,?,?)");
+			preparedStatement.setInt(1, account.getAuthId());
+			preparedStatement.setString(2, account.getName());
+			preparedStatement.setString(3, account.getEmail());
+			preparedStatement.setString(4, account.getPassword());
+			preparedStatement.setString(5, account.getPhone());
+			preparedStatement.setString(6, account.getAddress());
+			preparedStatement.setBoolean(7, account.isGender());
+			preparedStatement.setDate(8, new java.sql.Date(account.getDob().getTime()));
+			preparedStatement.setString(9, account.getIdentityCard());
+			preparedStatement.setBoolean(10, true);
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
 			e.printStackTrace();
