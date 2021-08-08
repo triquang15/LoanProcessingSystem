@@ -280,7 +280,7 @@ public class JDialogAddNewLoan extends JDialog {
 			LoanModel loanModel = new LoanModel();
 			if (loanModel.createLoan(loan)) {
 				JOptionPane.showMessageDialog(null, "Done");
-				this.setVisible(false);
+				this.dispose();
 			} else {
 				JOptionPane.showMessageDialog(null, "Failed");
 			}
@@ -357,7 +357,7 @@ public class JDialogAddNewLoan extends JDialog {
 
 	public boolean checkCustomerIDExisted() {
 		CustomerModel customer = new CustomerModel();
-		return customer.findCustomerByEmail(Integer.parseInt(txtCustomerID.getText().trim()));
+		return customer.findById(Integer.parseInt(txtCustomerID.getText().trim())) != null;
 	}
 
 	public void cbLoanType_FillToJComboBox() {

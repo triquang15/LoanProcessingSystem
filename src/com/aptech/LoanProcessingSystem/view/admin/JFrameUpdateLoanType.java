@@ -187,7 +187,7 @@ public class JFrameUpdateLoanType extends JFrame {
 		LoanTypeModel loanTypeModel = new LoanTypeModel();
 		if (loanTypeModel.update(loanType)) {
 			JOptionPane.showMessageDialog(null, "Done");
-			this.setVisible(false);
+			this.dispose();
 		} else {
 			JOptionPane.showMessageDialog(null, "Failed");
 		}
