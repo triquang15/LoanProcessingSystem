@@ -11,7 +11,7 @@ import com.aptech.LoanProcessingSystem.entities.Loan;
 
 public class LoanModel {
 
-	public java.util.List<Loan> findAll() {
+	public List<Loan> findAll() {
 		java.util.List<Loan> loans = new ArrayList<Loan>();
 		try {
 			loans = new ArrayList<Loan>();
@@ -32,7 +32,7 @@ public class LoanModel {
 				loan.setEndDate(resultset.getDate("EndDate"));
 				loan.setInterest(resultset.getFloat("Interest"));
 				loan.setDescription(resultset.getString("Description"));
-				loan.setStatus(resultset.getBoolean("Status"));
+				loan.setStatus(resultset.getInt("Status"));
 				loans.add(loan);
 			}
 		} catch (Exception e) {
@@ -44,26 +44,23 @@ public class LoanModel {
 		return loans;
 	}
 
-
 	public boolean create(Loan loan) {
-		boolean rs = true;
+		boolean rs = false;
 		try {
 			PreparedStatement ps = ConnectDB.connection().prepareStatement(
-					"insert into loan(Amount, Period, CreateDate, DisbursementDate, Duration, EndDate, Interest, Description) values(?,?,?,?,?,?,?,?)");
+					"insert into loan(Amount, Period, CreateDate, DisbursementDate, Duration, EndDate, Interest, Description, status) values(?,?,?,?,?,?,?,?,?)");
 			ps.setDouble(1, loan.getAmount());
 			ps.setInt(2, loan.getPeriod());
 			ps.setDate(3, new java.sql.Date(loan.getCreateDate().getTime()));
 			ps.setDate(4, new java.sql.Date(loan.getDisbursementDate().getTime()));
 			ps.setInt(5, loan.getDuration());
 			ps.setDate(6, new java.sql.Date(loan.getEndDate().getTime()));
-
 			ps.setFloat(7, loan.getInterest());
-
 			ps.setString(8, loan.getDescription());
+			ps.setInt(9, 0);
 			rs = ps.executeUpdate() > 0;
 		} catch (Exception e) {
 			e.printStackTrace();
-			rs = false;
 		} finally {
 			ConnectDB.disconnect();
 		}
@@ -86,7 +83,7 @@ public class LoanModel {
 			preparedStatement.setDate(9, new java.sql.Date(loan.getEndDate().getTime()));
 			preparedStatement.setInt(10, loan.getDuration());
 			preparedStatement.setFloat(11, loan.getInterest());
-			preparedStatement.setBoolean(12, loan.getStatus());
+			preparedStatement.setInt(12, loan.getStatus());
 			preparedStatement.setString(13, loan.getDescription());
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
@@ -96,11 +93,12 @@ public class LoanModel {
 		}
 		return result;
 	}
+
 	public boolean delete(int id) {
 		boolean result = true;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-				.prepareStatement("delete from loan where id = ?");
+					.prepareStatement("delete from loan where id = ?");
 			preparedStatement.setInt(1, id);
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
@@ -111,7 +109,7 @@ public class LoanModel {
 		return result;
 	}
 
-	public java.util.List<Loan> search(String keyword) {
+	public List<Loan> search(String keyword) {
 		java.util.List<Loan> loans = new ArrayList<Loan>();
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
@@ -131,7 +129,7 @@ public class LoanModel {
 				loan.setDisbursementDate(rs.getDate("DisbursementDate"));
 				loan.setEndDate(rs.getDate("EndDate"));
 				loan.setDuration(rs.getInt("Duration"));
-				loan.setStatus(rs.getBoolean("Status"));
+				loan.setStatus(rs.getInt("Status"));
 				loans.add(loan);
 			}
 		} catch (Exception e) {
@@ -141,11 +139,12 @@ public class LoanModel {
 		}
 		return loans;
 	}
+
 	public Boolean findLoanByID(int id) {
 		Boolean result = false;
 		try {
-			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(""
-					+ "SELECT Id FROM loan WHERE Id = ?");
+			PreparedStatement preparedStatement = ConnectDB.connection()
+					.prepareStatement("" + "SELECT Id FROM loan WHERE Id = ?");
 			preparedStatement.setInt(1, id);
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
@@ -155,10 +154,9 @@ public class LoanModel {
 		}
 		return result;
 	}
-	
-	
-	//temp
-	public Boolean findCustomerByID  (int id) {
+
+	// temp
+	public Boolean findCustomerByID(int id) {
 		Boolean result = false;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
@@ -167,10 +165,10 @@ public class LoanModel {
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
 			result = false;
-		}finally {
+		} finally {
 			ConnectDB.disconnect();
 		}
 		return result;
 	}
-	
+
 }
