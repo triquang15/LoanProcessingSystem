@@ -1,4 +1,4 @@
-package com.aptech.LoanProcessingSystem.database;
+package com.aptech.LoanProcessingSystem.service;
 
 import com.aptech.LoanProcessingSystem.entities.Account;
 

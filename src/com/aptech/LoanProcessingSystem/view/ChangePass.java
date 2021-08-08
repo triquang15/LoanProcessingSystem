@@ -228,7 +228,7 @@ public class ChangePass extends JDialog {
 	protected void cancelAction() {
 		if (JOptionPane.showConfirmDialog(null, "Are you sure you want cancel update?", "Confirm",
 				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-			System.exit(0);
+			ChangePass.this.dispose();
 		}
 	}
 

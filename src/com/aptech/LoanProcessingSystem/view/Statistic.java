@@ -24,6 +24,7 @@ import com.aptech.LoanProcessingSystem.database.ConnectDB;
 
 import java.awt.Toolkit;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -48,6 +49,7 @@ public class Statistic extends javax.swing.JFrame {
 		getContentPane().setBackground(new Color(169, 169, 169));
 		initComponents();
 		this.setLocationRelativeTo(null);
+		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		pnChart.setLayout(new java.awt.BorderLayout());
 	}
 
