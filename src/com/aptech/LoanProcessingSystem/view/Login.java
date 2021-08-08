@@ -12,9 +12,9 @@ import java.awt.Cursor;
 
 import javax.swing.border.EmptyBorder;
 
-import com.aptech.LoanProcessingSystem.database.ShareData;
 import com.aptech.LoanProcessingSystem.entities.Account;
 import com.aptech.LoanProcessingSystem.model.AccountModel;
+import com.aptech.LoanProcessingSystem.service.ShareData;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;

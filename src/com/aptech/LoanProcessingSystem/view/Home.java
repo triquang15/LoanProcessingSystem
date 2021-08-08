@@ -7,8 +7,9 @@ import java.awt.Font;
 import java.awt.Color;
 import javax.swing.SwingConstants;
 
-import com.aptech.LoanProcessingSystem.database.ShareData;
 import com.aptech.LoanProcessingSystem.entities.Account;
+import com.aptech.LoanProcessingSystem.service.ClockThread;
+import com.aptech.LoanProcessingSystem.service.ShareData;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -34,6 +35,7 @@ public class Home extends JFrame {
 	private Account account;
 	private JTabbedPane tabbedHome = new JTabbedPane(JTabbedPane.TOP);
 	private JLabel lblLogin;
+	private JLabel lblClock;
 
 	/**
 	 * Launch the application.
@@ -51,6 +53,7 @@ public class Home extends JFrame {
 
 						Home frame = new Home();
 						frame.setVisible(true);
+
 					}
 
 				} catch (Exception e) {
@@ -110,12 +113,6 @@ public class Home extends JFrame {
 		mntmNewMenuItem_1.setIcon(
 				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/remove-button.png")));
 		mnHome.add(mntmNewMenuItem_1);
-
-		JMenu mnAdmin = new JMenu("Admin");
-		mnAdmin.setIcon(new ImageIcon(
-				Home.class.getResource("/com/aptech/LoanProcessingSystem/images/unauthorized-person.png")));
-		mnAdmin.setForeground(new Color(248, 248, 255));
-		menuBar.add(mnAdmin);
 
 		JMenu mnCustomerInfo = new JMenu("Customer Info");
 		mnCustomerInfo.addMouseListener(new MouseAdapter() {
@@ -218,13 +215,6 @@ public class Home extends JFrame {
 		btnLoan.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/loan.png")));
 		toolBar.add(btnLoan);
 
-		JButton btnLoanType = new JButton("");
-		btnLoanType.setToolTipText("Loan Type");
-		btnLoanType.setBackground(Color.DARK_GRAY);
-		btnLoanType
-				.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/loan (1).png")));
-		toolBar.add(btnLoanType);
-
 		JButton btnSearch = new JButton("");
 		btnSearch.setToolTipText("Search");
 		btnSearch.setBackground(Color.DARK_GRAY);
@@ -257,19 +247,6 @@ public class Home extends JFrame {
 			}
 		});
 
-		JButton btnClock = new JButton("");
-		btnClock.setToolTipText("Clock");
-		btnClock.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				Clock clock = new Clock();
-				clock.setVisible(true);
-			}
-		});
-		btnClock.setBackground(Color.DARK_GRAY);
-		btnClock.setIcon(
-				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/clock (1).png")));
-		toolBar.add(btnClock);
 		toolBar.add(btnLogOut);
 
 		JButton btnExit = new JButton("");
@@ -294,13 +271,14 @@ public class Home extends JFrame {
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
-		JLabel lblClock = new JLabel("New label");
+		lblClock = new JLabel("");
 		lblClock.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblClock.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/clock.png")));
 		lblClock.setForeground(Color.WHITE);
 		lblClock.setBounds(10, 11, 109, 24);
 		panel.add(lblClock);
-
+		initClock();
+		
 		lblLogin = new JLabel("");
 		lblLogin.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 9));
 		lblLogin.setIcon(new ImageIcon(
@@ -321,4 +299,10 @@ public class Home extends JFrame {
 		login.setVisible(true);
 		Home.this.setVisible(false);
 	}
+
+	private void initClock() {
+		ClockThread clockThread = new ClockThread(lblClock);
+		clockThread.start();
+	}
+
 }

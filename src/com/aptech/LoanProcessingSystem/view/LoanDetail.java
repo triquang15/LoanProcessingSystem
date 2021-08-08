@@ -7,10 +7,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import com.aptech.LoanProcessingSystem.database.MessageDialog;
 import com.aptech.LoanProcessingSystem.entities.Customer;
 import com.aptech.LoanProcessingSystem.model.CustomerModel;
 import com.aptech.LoanProcessingSystem.model.LoanModel;
+import com.aptech.LoanProcessingSystem.service.MessageDialog;
 
 import java.awt.Color;
 import java.util.ArrayList;
