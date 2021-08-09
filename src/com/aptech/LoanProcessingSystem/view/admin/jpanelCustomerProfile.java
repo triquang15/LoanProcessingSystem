@@ -36,8 +36,9 @@ import javax.swing.JCheckBox;
 
 public class jpanelCustomerProfile extends JPanel {
 	private JTable jtableCustomer;
-	private JTextField textField;
+	private JTextField txtSearch;
 	private JComboBox<String> cbFilter;
+	private JButton btnSearch;
 
 	/**
 	 * Create the panel.
@@ -75,11 +76,16 @@ public class jpanelCustomerProfile extends JPanel {
 		lblNewLabel_2.setForeground(Color.WHITE);
 		panel_3.add(lblNewLabel_2);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		panel_3.add(textField);
+		txtSearch = new JTextField();
+		txtSearch.setColumns(10);
+		panel_3.add(txtSearch);
 		
-		JButton btnSearch = new JButton("Search");
+		btnSearch = new JButton("Search");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnSearch_actionPerformed(e);
+			}
+		});
 		panel_3.add(btnSearch);
 		
 		JButton btnReload = new JButton("");
@@ -162,6 +168,12 @@ public class jpanelCustomerProfile extends JPanel {
 		fillDataToJTable(customerModel.findAll());
 	}
 	
+	public void btnSearch_actionPerformed(ActionEvent e) {
+		String keyValue = txtSearch.getText().trim();
+		CustomerModel customerModel = new CustomerModel();
+		fillDataToJTable(customerModel.search(keyValue));
+	}
+	
 	public void btnAdd_actionPerformed(ActionEvent e) {
 		jDialogAddNewCustomer addNewCustomer = new jDialogAddNewCustomer();
 		addNewCustomer.setVisible(true);
@@ -222,7 +234,7 @@ public class jpanelCustomerProfile extends JPanel {
 			int id = (int) jtableCustomer.getValueAt(i, 0);
 			CustomerModel customerModel = new CustomerModel();
 			int a = JOptionPane.showConfirmDialog(null, "Do you want to delete"
-					+ " this loan type?", "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
+					+ " this customer?", "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
 			if (a == JOptionPane.YES_OPTION) {
 				if (customerModel.delete(id)) {
 					JOptionPane.showMessageDialog(null, "Done");

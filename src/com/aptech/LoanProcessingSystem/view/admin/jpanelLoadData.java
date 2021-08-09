@@ -125,7 +125,19 @@ public class jpanelLoadData extends JPanel {
 			addNewTabbed(loanType);
 		}
 	}
-
+	
+//	public void btnSearch_actionPerformed(ActionEvent e, LoanType loanType) {
+//		int CustomerId = Integer.parseInt(txtSearch.getText().trim());
+//		LoanModel loanModel = new LoanModel();
+//		FillDataToJTable(loanModel.findLoanByLoanType(loanType, CustomerId));
+//	}
+	
+//	private void test() {
+//		panel_1 = (JPanel) tabbedPane.inde();
+//		btnSearch.setText("open");
+//		jtable = (JTable) tabbedPane.getComponentAt(1);
+//		filltable(list)
+//	}
 	private void addNewTabbed(LoanType loanType) {
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(null);
@@ -156,6 +168,13 @@ public class jpanelLoadData extends JPanel {
 		txtSearch.setColumns(10);
 
 		JButton btnSearch = new JButton("Search");
+//		btnSearch.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				btnSearch_actionPerformed(e, loanType);
+//			}
+//		});
 		panel_7.add(btnSearch);
 
 		JButton btnReload = new JButton("");

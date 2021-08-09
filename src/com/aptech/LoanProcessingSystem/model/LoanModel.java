@@ -77,6 +77,42 @@ public class LoanModel {
 		}
 		return loans;
 	}
+	
+	public List<Loan> findLoanByLoanType(LoanType loanType, int id) {
+		List<Loan> loans = null;
+		try {
+			loans = new ArrayList<Loan>();
+			PreparedStatement statement = ConnectDB.connection().prepareStatement(""
+					+ "Select * from Loan where CustomerId = ? AND LoanTypeId = ?");
+			statement.setInt(1, id);
+			statement.setInt(2, loanType.getId());
+			ResultSet resultset = statement.executeQuery();
+			while (resultset.next()) {
+				Loan loan = new Loan();
+				loan.setId(resultset.getInt("Id"));
+				loan.setLoanTypeId(resultset.getInt("LoanTypeId"));
+				loan.setAccountId(resultset.getInt("AccountId"));
+				loan.setCustomerId(resultset.getInt("CustomerId"));
+				loan.setPaymentTypeId(resultset.getInt("PaymentTypeId"));
+				loan.setAmount(resultset.getDouble("Amount"));
+				loan.setPeriod(resultset.getInt("Period"));
+				loan.setCreateDate(resultset.getDate("CreateDate"));
+				loan.setDisbursementDate(resultset.getDate("DisbursementDate"));
+				loan.setDuration(resultset.getInt("Duration"));
+				loan.setEndDate(resultset.getDate("EndDate"));
+				loan.setInterest(resultset.getDouble("Interest"));
+				loan.setDescription(resultset.getString("Description"));
+				loan.setStatus(resultset.getBoolean("Status"));
+				loans.add(loan);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			loans = null;
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return loans;
+	}
 
 	public Boolean createLoan(Loan loan) {
 		Boolean result = false;

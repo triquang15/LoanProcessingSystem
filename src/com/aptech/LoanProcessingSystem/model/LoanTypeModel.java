@@ -29,28 +29,28 @@ public class LoanTypeModel {
 		return result;
 	}
 	
-	public LoanType find(String name) {
-		LoanType loanType = null;
+	public List<LoanType> find(String name) {
+		List<LoanType> loanTypeList = new ArrayList<LoanType>();
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-					.prepareStatement("select * from loantype where name = ? and status = true");
+					.prepareStatement("select * from loantype where Name like ?");
 			preparedStatement.setString(1, "%" + name + "%");
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
-				loanType = new LoanType();
+				LoanType loanType = new LoanType();
 				loanType.setId(resultSet.getInt("Id"));
 				loanType.setName(resultSet.getString("Name"));
 				loanType.setInterest(resultSet.getDouble("Interest"));
 				loanType.setDescription(resultSet.getString("Description"));
-				loanType.setStatus(true);				
+				loanType.setStatus(resultSet.getBoolean("Status"));	
+				loanTypeList.add(loanType);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			loanType = null;
+			loanTypeList = null;
 		} finally {
 			ConnectDB.disconnect();
 		}
-		return loanType;
+		return loanTypeList;
 	}
 	
 	public boolean delete(int id) {

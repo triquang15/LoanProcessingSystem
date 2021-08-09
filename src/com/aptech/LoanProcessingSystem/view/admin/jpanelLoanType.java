@@ -34,7 +34,7 @@ import javax.swing.JCheckBox;
 
 public class jpanelLoanType extends JPanel {
 	private JTable jtableLoanType;
-	private JTextField textField;
+	private JTextField txtSearch;
 	private JComboBox<String> cbFilter;
 
 	/**
@@ -73,11 +73,16 @@ public class jpanelLoanType extends JPanel {
 		lblNewLabel_2.setForeground(Color.WHITE);
 		panel_3.add(lblNewLabel_2);
 		
-		textField = new JTextField();
-		textField.setColumns(10);
-		panel_3.add(textField);
+		txtSearch = new JTextField();
+		txtSearch.setColumns(10);
+		panel_3.add(txtSearch);
 		
 		JButton btnSearch = new JButton("Search");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnSearch_actionPerformed(e);
+			}
+		});
 		panel_3.add(btnSearch);
 		
 		JButton btnReload = new JButton("");
@@ -156,6 +161,12 @@ public class jpanelLoanType extends JPanel {
 		
 		btnReload_actionPerformed(null);
 		fillComboBox();
+	}
+	
+	public void btnSearch_actionPerformed(ActionEvent e) {
+		String keyValue = txtSearch.getText().trim();
+		LoanTypeModel loanTypeModel = new LoanTypeModel();
+		fillDataToJTable(loanTypeModel.find(keyValue));
 	}
 	
 	public void btnAdd_actionPerformed(ActionEvent e) {
