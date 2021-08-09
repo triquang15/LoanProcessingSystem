@@ -115,6 +115,7 @@ create table LoanAndFineHistory
 	PaymentDate Date,
 	Description text,
 	Status tinyint,
+   	Amount float(53),
 	
 	CONSTRAINT FK_LoanAndFineHistory_Loan FOREIGN KEY(LoanId) REFERENCES Loan(Id),
 	CONSTRAINT FK_LoanAndFineHistory_Fine FOREIGN KEY(FineId) REFERENCES Fine(Id),
@@ -122,7 +123,6 @@ create table LoanAndFineHistory
 );
 
 
-USE loan_processing_system;
 insert into Authorities(Id, Name)
 values (1, 'Staff'),
  	(2, 'Admin');
@@ -176,14 +176,13 @@ values (0.02, 1, 5000, 1, ''),
  	(0.08, 20001, NULL, 1, '');
 
 	
-insert into LoanAndFineHistory(LoanId, PaymentMethodId, PaymentDate, PaymentAmount, AmountLeft, DueDate, Status, Description)
-values (1, 1, '2020-09-05', 500000, 499950000, '2020-09-02', 1, ''),
-(2, 1, '2020-09-07', 1500000, 1499500000, '2020-09-07', 1, '');
+insert into LoanAndFineHistory(LoanId, PaymentMethodId, PaymentDate, PaymentAmount, AmountLeft, DueDate, Status, Description, Amount)
+values (1, 1, '2020-09-05', 500000, 499950000, '2020-09-02', 1, '', 500000000),
+(2, 1, '2020-09-07', 1500000, 1499500000, '2020-09-07', 1, '', 1500000000);
 
-insert into LoanAndFineHistory(LoanId, FineId, PaymentMethodId, PaymentDate, PaymentAmount, AmountLeft, DueDate, FineInterest, FineOverDays, FineAmount, Status, Description)
-values (1, 1, 1, '2020-09-05', 500000, 499950000, '2020-09-02', 0.02, 3, 100000, 1, ''),
-(2, 3, 3, '2020-10-09', 1450000, 1498150000, '2020-10-07', 0.08, 2, 116000, 1, '');
-
+insert into LoanAndFineHistory(LoanId, FineId, PaymentMethodId, PaymentDate, PaymentAmount, AmountLeft, DueDate, FineInterest, FineOverDays, FineAmount, Status, Description, Amount)
+values (1, 1, 1, '2020-09-05', 500000, 499950000, '2020-09-02', 0.02, 3, 100000, 1, '', 500000000),
+(2, 3, 3, '2020-10-09', 1450000, 1498150000, '2020-10-07', 0.08, 2, 116000, 1, '', 1500000000);
 
 
 
