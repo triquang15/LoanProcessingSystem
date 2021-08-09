@@ -40,7 +40,7 @@ public class LoanTypeModel {
 				LoanType loanType = new LoanType();
 				loanType.setId(resultSet.getInt("Id"));
 				loanType.setName(resultSet.getString("Name"));
-				loanType.setInterest(resultSet.getDouble("Interest"));
+				loanType.setInterest(resultSet.getFloat("Interest"));
 				loanType.setDescription(resultSet.getString("Description"));
 				loanType.setStatus(resultSet.getBoolean("Status"));	
 				loanTypeList.add(loanType);
@@ -78,7 +78,7 @@ public class LoanTypeModel {
 				LoanType loanType = new LoanType();
 				loanType.setId(resultSet.getInt("Id"));
 				loanType.setName(resultSet.getString("Name"));
-				loanType.setInterest(resultSet.getDouble("Interest"));
+				loanType.setInterest(resultSet.getFloat("Interest"));
 				loanType.setDescription(resultSet.getString("Description"));
 				loanType.setStatus(resultSet.getBoolean("Status"));
 				loanTypeList.add(loanType);
@@ -102,7 +102,7 @@ public class LoanTypeModel {
 				loanType = new LoanType();
 				loanType.setId(id);
 				loanType.setName(resultSet.getString("Name"));
-				loanType.setInterest(resultSet.getDouble("Interest"));
+				loanType.setInterest(resultSet.getFloat("Interest"));
 				loanType.setDescription(resultSet.getString("Description"));
 				loanType.setStatus(resultSet.getBoolean("Status"));
 			}
@@ -146,7 +146,7 @@ public class LoanTypeModel {
 				LoanType loanType = new LoanType();
 				loanType.setId(resultSet.getInt("Id"));
 				loanType.setName(resultSet.getString("Name"));
-				loanType.setInterest(resultSet.getDouble("Interest"));
+				loanType.setInterest(resultSet.getFloat("Interest"));
 				loanType.setDescription(resultSet.getString("Description"));
 				loanType.setStatus(resultSet.getBoolean("Status"));
 				loanList.add(loanType);
@@ -170,7 +170,7 @@ public class LoanTypeModel {
 				LoanType loanType = new LoanType();
 				loanType.setId(resultSet.getInt("Id"));
 				loanType.setName(resultSet.getString("Name"));
-				loanType.setInterest(resultSet.getDouble("Interest"));
+				loanType.setInterest(resultSet.getFloat("Interest"));
 				loanType.setDescription(resultSet.getString("Description"));
 				loanType.setStatus(resultSet.getBoolean("Status"));
 				loanList.add(loanType);

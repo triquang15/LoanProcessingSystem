@@ -2,11 +2,9 @@ package com.aptech.LoanProcessingSystem.model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import com.aptech.LoanProcessingSystem.database.ConnectDB;
-import com.aptech.LoanProcessingSystem.entities.Customer;
 import com.aptech.LoanProcessingSystem.entities.Loan;
 import com.aptech.LoanProcessingSystem.entities.LoanType;
 
@@ -215,7 +213,7 @@ public class LoanModel {
 		return loans;
 	}
 
-	public Boolean findLoanByID(int id) {
+	public boolean findLoanByID(int id) {
 		Boolean result = false;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
@@ -229,21 +227,4 @@ public class LoanModel {
 		}
 		return result;
 	}
-
-	// temp
-	public Boolean findCustomerByID(int id) {
-		Boolean result = false;
-		try {
-			PreparedStatement preparedStatement = ConnectDB.connection()
-					.prepareStatement("SELECT Id From customer WHERE Id = ?");
-			preparedStatement.setInt(1, id);
-			result = preparedStatement.executeUpdate() > 0;
-		} catch (Exception e) {
-			result = false;
-		} finally {
-			ConnectDB.disconnect();
-		}
-		return result;
-	}
-
 }
