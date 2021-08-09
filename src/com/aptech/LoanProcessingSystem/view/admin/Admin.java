@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
@@ -27,12 +28,16 @@ import java.util.Map;
 
 import java.awt.event.ActionEvent;
 import javax.swing.BoxLayout;
+import java.awt.CardLayout;
 
 public class Admin extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel jpanelMain;
+<<<<<<< HEAD
 	private Account account = new Account();
+=======
+>>>>>>> thienan
 	private Map<String, Object> data = new HashMap<String, Object>();
 
 	/**
@@ -64,6 +69,7 @@ public class Admin extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 898, 653);
 		contentPane = new JPanel();
+		contentPane.setBackground(new Color(34, 40, 44));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -73,6 +79,7 @@ public class Admin extends JFrame {
 		jpanelRoot.setLayout(new BorderLayout(0, 0));
 
 		JPanel jpanelSide = new JPanel();
+		jpanelSide.setBorder(new EmptyBorder(50, 0, 0, 0));
 		jpanelSide.setBackground(new Color(21, 25, 28));
 		jpanelSide.setPreferredSize(new Dimension(80, 0));
 		jpanelRoot.add(jpanelSide, BorderLayout.WEST);
@@ -125,6 +132,11 @@ public class Admin extends JFrame {
 		jpanelSide.add(btnLoanData);
 
 		JButton btnUserProfile = new JButton("");
+		btnUserProfile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnUserProfile_actionPerformed(e);
+			}
+		});
 		btnUserProfile.setIcon(new ImageIcon(
 				Admin.class.getResource("/com/aptech/LoanProcessingSystem/images/icons8_profile_20px.png")));
 		btnUserProfile.setPreferredSize(new Dimension(40, 40));
@@ -133,6 +145,11 @@ public class Admin extends JFrame {
 		jpanelSide.add(btnUserProfile);
 
 		JButton btnEmployeeProfile = new JButton("");
+		btnEmployeeProfile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnEmployeeProfile_actionPerformed(e);
+			}
+		});
 		btnEmployeeProfile.setIcon(new ImageIcon(
 				Admin.class.getResource("/com/aptech/LoanProcessingSystem/images/icons8_management_20px.png")));
 		btnEmployeeProfile.setPreferredSize(new Dimension(40, 40));
@@ -141,6 +158,11 @@ public class Admin extends JFrame {
 		jpanelSide.add(btnEmployeeProfile);
 
 		JButton btnExit = new JButton("");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnExit_actionPerformed(e);
+			}
+		});
 		btnExit.setIcon(
 				new ImageIcon(Admin.class.getResource("/com/aptech/LoanProcessingSystem/images/icons8_exit_20px.png")));
 		btnExit.setPreferredSize(new Dimension(40, 40));
@@ -149,9 +171,9 @@ public class Admin extends JFrame {
 		jpanelSide.add(btnExit);
 
 		jpanelMain = new JPanel();
-		jpanelMain.setBackground(SystemColor.control);
+		jpanelMain.setBackground(new Color(34,40,44));
 		jpanelRoot.add(jpanelMain, BorderLayout.CENTER);
-		jpanelMain.setLayout(new BorderLayout(0, 0));
+		jpanelMain.setLayout(new CardLayout(0, 0));
 
 		JButton[] btns = { btnHome, btnExit, btnEmployeeProfile, btnInterest, btnUserProfile, btnLoanData };
 		for (JButton jButton : btns) {
@@ -200,10 +222,25 @@ public class Admin extends JFrame {
 		this();
 		this.account = account;
 	}
+	
+	public void btnExit_actionPerformed(ActionEvent e) {
+		int a = JOptionPane.showConfirmDialog(null, "Do you want to"
+				+ "log out?", "Log out", JOptionPane.YES_NO_CANCEL_OPTION);
+		if (a == JOptionPane.YES_OPTION) {
+			this.dispose();
+		}
+	}
+	
+	public void btnUserProfile_actionPerformed(ActionEvent e) {
+		clearScreen();
+		jpanelCustomerProfile customerProfile = new jpanelCustomerProfile();
+		jpanelMain.add(customerProfile);
+		customerProfile.setVisible(true);
+	}
 
 	public void btnHome_actionPerformed(ActionEvent e) {
 		clearScreen();
-		jpanelHomePage data = new jpanelHomePage();
+		jpanelHomePage data = new jpanelHomePage(this.account);
 		jpanelMain.add(data);
 		data.setVisible(true);
 	}
@@ -220,6 +257,13 @@ public class Admin extends JFrame {
 		jpanelLoanType jpanelLoanType = new jpanelLoanType();
 		jpanelMain.add(jpanelLoanType);
 		jpanelLoanType.setVisible(true);
+	}
+	
+	public void btnEmployeeProfile_actionPerformed(ActionEvent e) {
+		clearScreen();
+		jpanelEmployeeManagement employeeManagement = new jpanelEmployeeManagement();
+		jpanelMain.add(employeeManagement);
+		employeeManagement.setVisible(true);
 	}
 
 	private void clearScreen() {

@@ -3,6 +3,45 @@ package com.aptech.LoanProcessingSystem.entities;
 import java.util.Date;
 
 public class Loan {
+	private int id;
+	private int loanTypeId;
+	private int accountId;
+	private int customerId;
+	private int paymentTypeId;
+	private double amount;
+	private int period;
+	private Date createDate;
+	private Date disbursementDate;
+	private int duration;
+	private Date endDate;
+	private float interest;
+	private String description;
+	private int status;
+
+	public Loan() {
+		super();
+	}
+
+	public Loan(int id, int loanTypeId, int accountId, int customerId, int paymentTypeId, double amount, int period,
+			Date createDate, Date disbursementDate, int duration, Date endDate, float interest, String description,
+			int status) {
+		super();
+		this.id = id;
+		this.loanTypeId = loanTypeId;
+		this.accountId = accountId;
+		this.customerId = customerId;
+		this.paymentTypeId = paymentTypeId;
+		this.amount = amount;
+		this.period = period;
+		this.createDate = createDate;
+		this.disbursementDate = disbursementDate;
+		this.duration = duration;
+		this.endDate = endDate;
+		this.interest = interest;
+		this.description = description;
+		this.status = status;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -114,44 +153,4 @@ public class Loan {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-
-	private int id;
-	private int loanTypeId;
-	private int accountId;
-	private int customerId;
-	private int paymentTypeId;
-	private double amount;
-	private int period;
-	private Date createDate;
-	private Date disbursementDate;
-	private int duration;
-	private Date endDate;
-	private float interest;
-	private String description;
-	private int status;
-
-	public Loan() {
-		super();
-	}
-
-	public Loan(int id, int loanTypeId, int accountId, int customerId, int paymentTypeId, double amount, int period,
-			Date createDate, Date disbursementDate, int duration, Date endDate, float interest, String description,
-			int status) {
-		super();
-		this.id = id;
-		this.loanTypeId = loanTypeId;
-		this.accountId = accountId;
-		this.customerId = customerId;
-		this.paymentTypeId = paymentTypeId;
-		this.amount = amount;
-		this.period = period;
-		this.createDate = createDate;
-		this.disbursementDate = disbursementDate;
-		this.duration = duration;
-		this.endDate = endDate;
-		this.interest = interest;
-		this.description = description;
-		this.status = status;
-	}
-
 }

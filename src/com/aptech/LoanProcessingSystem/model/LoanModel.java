@@ -8,6 +8,7 @@ import java.util.List;
 import com.aptech.LoanProcessingSystem.database.ConnectDB;
 import com.aptech.LoanProcessingSystem.entities.Customer;
 import com.aptech.LoanProcessingSystem.entities.Loan;
+import com.aptech.LoanProcessingSystem.entities.LoanType;
 
 public class LoanModel {
 
@@ -43,22 +44,96 @@ public class LoanModel {
 		}
 		return loans;
 	}
+	
+	public List<Loan> getAllLoanHome(LoanType loanType) {
+		List<Loan> loans = null;
+		try {
+			loans = new ArrayList<Loan>();
+			PreparedStatement statement = ConnectDB.connection().prepareStatement("Select * from Loan where LoanTypeId = ?");
+			statement.setInt(1, loanType.getId());
+			ResultSet resultset = statement.executeQuery();
+			while (resultset.next()) {
+				Loan loan = new Loan();
+				loan.setId(resultset.getInt("Id"));
+				loan.setLoanTypeId(resultset.getInt("LoanTypeId"));
+				loan.setAccountId(resultset.getInt("AccountId"));
+				loan.setCustomerId(resultset.getInt("CustomerId"));
+				loan.setPaymentTypeId(resultset.getInt("PaymentTypeId"));
+				loan.setAmount(resultset.getDouble("Amount"));
+				loan.setPeriod(resultset.getInt("Period"));
+				loan.setCreateDate(resultset.getDate("CreateDate"));
+				loan.setDisbursementDate(resultset.getDate("DisbursementDate"));
+				loan.setDuration(resultset.getInt("Duration"));
+				loan.setEndDate(resultset.getDate("EndDate"));
+				loan.setInterest(resultset.getFloat("Interest"));
+				loan.setDescription(resultset.getString("Description"));
+				loan.setStatus(resultset.getInt("Status"));
+				loans.add(loan);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			loans = null;
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return loans;
+	}
+	
+	public List<Loan> findLoanByLoanType(LoanType loanType, int id) {
+		List<Loan> loans = null;
+		try {
+			loans = new ArrayList<Loan>();
+			PreparedStatement statement = ConnectDB.connection().prepareStatement(""
+					+ "Select * from Loan where CustomerId = ? AND LoanTypeId = ?");
+			statement.setInt(1, id);
+			statement.setInt(2, loanType.getId());
+			ResultSet resultset = statement.executeQuery();
+			while (resultset.next()) {
+				Loan loan = new Loan();
+				loan.setId(resultset.getInt("Id"));
+				loan.setLoanTypeId(resultset.getInt("LoanTypeId"));
+				loan.setAccountId(resultset.getInt("AccountId"));
+				loan.setCustomerId(resultset.getInt("CustomerId"));
+				loan.setPaymentTypeId(resultset.getInt("PaymentTypeId"));
+				loan.setAmount(resultset.getDouble("Amount"));
+				loan.setPeriod(resultset.getInt("Period"));
+				loan.setCreateDate(resultset.getDate("CreateDate"));
+				loan.setDisbursementDate(resultset.getDate("DisbursementDate"));
+				loan.setDuration(resultset.getInt("Duration"));
+				loan.setEndDate(resultset.getDate("EndDate"));
+				loan.setInterest(resultset.getFloat("Interest"));
+				loan.setDescription(resultset.getString("Description"));
+				loan.setStatus(resultset.getInt("Status"));
+				loans.add(loan);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			loans = null;
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return loans;
+	}
 
 	public boolean create(Loan loan) {
 		boolean rs = false;
 		try {
-			PreparedStatement ps = ConnectDB.connection().prepareStatement(
-					"insert into loan(Amount, Period, CreateDate, DisbursementDate, Duration, EndDate, Interest, Description, status) values(?,?,?,?,?,?,?,?,?)");
-			ps.setDouble(1, loan.getAmount());
-			ps.setInt(2, loan.getPeriod());
-			ps.setDate(3, new java.sql.Date(loan.getCreateDate().getTime()));
-			ps.setDate(4, new java.sql.Date(loan.getDisbursementDate().getTime()));
-			ps.setInt(5, loan.getDuration());
-			ps.setDate(6, new java.sql.Date(loan.getEndDate().getTime()));
-			ps.setFloat(7, loan.getInterest());
-			ps.setString(8, loan.getDescription());
-			ps.setInt(9, 0);
-			rs = ps.executeUpdate() > 0;
+			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
+					"insert into Loan(LoanTypeId, AccountId, PaymentTypeId, CustomerId, Amount, Period, CreateDate, DisbursementDate, EndDate, Duration, Interest, Status, Description) values(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			preparedStatement.setInt(1, loan.getLoanTypeId());
+			preparedStatement.setInt(2, loan.getAccountId());
+			preparedStatement.setInt(3, loan.getPaymentTypeId());
+			preparedStatement.setInt(4, loan.getCustomerId());
+			preparedStatement.setDouble(5, loan.getAmount());
+			preparedStatement.setInt(6, loan.getPeriod());
+			preparedStatement.setDate(7, new java.sql.Date(loan.getCreateDate().getTime()));
+			preparedStatement.setDate(8, new java.sql.Date(loan.getDisbursementDate().getTime()));
+			preparedStatement.setDate(9, new java.sql.Date(loan.getEndDate().getTime()));
+			preparedStatement.setInt(10, loan.getDuration());
+			preparedStatement.setDouble(11, loan.getInterest());
+			preparedStatement.setInt(12, loan.getStatus());
+			preparedStatement.setString(13, loan.getDescription());
+			rs = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

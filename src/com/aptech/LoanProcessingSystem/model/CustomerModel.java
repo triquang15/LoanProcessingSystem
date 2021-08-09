@@ -25,13 +25,42 @@ public class CustomerModel {
 			ps.setString(8, customer.getJob());
 			ps.setString(9, customer.getCompany());
 			ps.setString(10, customer.getIdentityCard());
-
+			ps.setBoolean(11, customer.isStatus());
 			rs = ps.executeUpdate() > 0;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			ConnectDB.disconnect();
 		}
+		return rs;
+	}
+	
+	public boolean update(Customer customer) {
+		boolean rs = false;
+		try {
+			PreparedStatement ps = ConnectDB.connection().prepareStatement(
+					"UPDATE customer SET Name = ?, Address = ?, Phone = ?, Email = ?,"
+					+ " Gender = ?, DOB = ?, Salary = ?, Job = ?, Company = ?, "
+					+ "IdentityCard = ?, Status = ? WHERE Id = ?");
+			ps.setString(1, customer.getName());
+			ps.setString(2, customer.getAddress());
+			ps.setString(3, customer.getPhone());
+			ps.setString(4, customer.getEmail());
+			ps.setBoolean(5, customer.isGender());
+			ps.setDate(6, new java.sql.Date(customer.getDob().getTime()));
+			ps.setFloat(7, customer.getSalary());
+			ps.setString(8, customer.getJob());
+			ps.setString(9, customer.getCompany());
+			ps.setString(10, customer.getIdentityCard());
+			ps.setBoolean(11, customer.isStatus());
+			ps.setInt(12, customer.getId());
+			rs = ps.executeUpdate() > 0;
+		} catch (Exception e) {
+			rs = false;
+		} finally {
+			ConnectDB.disconnect();
+		}
+		System.out.println(customer.getId());
 		return rs;
 	}
 
@@ -97,7 +126,6 @@ public class CustomerModel {
 		}
 		return customers;
 	}
-	
 	public Customer findById(int CustomerId) {
 		Customer customer = null;
 		try {

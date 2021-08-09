@@ -15,6 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -36,8 +38,6 @@ import java.awt.Component;
 import java.awt.Insets;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
 
 public class SignUp extends JDialog {
 
@@ -67,7 +67,6 @@ public class SignUp extends JDialog {
 	private boolean isValidPhone = false;
 	private boolean isValidIden = false;
 	private JComboBox<Authority> cbbxAuth;
-
 	/**
 	 * Launch the application.
 	 */
@@ -385,8 +384,6 @@ public class SignUp extends JDialog {
 		lblNewLabel_9_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_9_1.setBounds(404, 121, 88, 14);
 		panel_1.add(lblNewLabel_9_1);
-		
-		
 	}
 
 	private void registerAction() {
@@ -442,6 +439,7 @@ public class SignUp extends JDialog {
 				account.setGender(rdbMale.isSelected());
 				account.setDob(dob);
 				account.setIdentityCard(identityCard);
+				account.setAuthId(authId);
 				AccountModel accountModel = new AccountModel();
 				
 				if (accountModel.create(account)) {
@@ -485,6 +483,19 @@ public class SignUp extends JDialog {
 		txtIdentity.setForeground(Color.GRAY);
 		rdbMale.setSelected(true);
 		initAuth();
+		
+	}
+	
+	
+	private class AuthorityCellRender extends DefaultListCellRenderer {
+
+		@Override
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+				boolean cellHasFocus) {
+			Authority authority = (Authority) value;
+			return super.getListCellRendererComponent(list, authority.getName(), index, isSelected, cellHasFocus);
+		}
+		
 	}
 
 	private void initAuth() {

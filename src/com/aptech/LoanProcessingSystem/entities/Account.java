@@ -5,9 +5,12 @@ import java.util.Date;
 public class Account {
 
 	private int id, authId;
-	private String name, email, password, phone, address, identityCard;
+	private String name, email, 
+	password, phone, address, 
+	identityCard;
 	private Date dob;
-	private boolean gender, status;
+	private boolean gender, 
+	status;
 
 	public Account() {
 		super();

@@ -13,8 +13,10 @@ public class AccountModel {
 	public boolean create(Account account) {
 		boolean result = true;
 		try {
+			String generatedColumns[] = { "Id" };
 			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
-					"insert into account(AuthId, Name, Email, Password,  Phone, Address,Gender, DOB, IdentityCard, Status) values(?,?,?,?,?,?,?,?,?,?)");
+					"insert into account(AuthId, Name, Email, Password,  Phone, Address,Gender, DOB, IdentityCard, Status) values(?,?,?,?,?,?,?,?,?,?)",
+					generatedColumns);
 			preparedStatement.setInt(1, account.getAuthId());
 			preparedStatement.setString(2, account.getName());
 			preparedStatement.setString(3, account.getEmail());
@@ -26,6 +28,11 @@ public class AccountModel {
 			preparedStatement.setString(9, account.getIdentityCard());
 			preparedStatement.setBoolean(10, true);
 			result = preparedStatement.executeUpdate() > 0;
+			ResultSet rs = preparedStatement.getGeneratedKeys();
+			if (rs.next()) {
+			    long id = rs.getLong(1);
+			    System.out.println("Inserted ID -" + id);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			result = false;
@@ -108,7 +115,7 @@ public class AccountModel {
 //		}
 //		return i;
 //	}
-	
+
 	public boolean changePass(Account account) {
 		boolean result = true;
 		try {

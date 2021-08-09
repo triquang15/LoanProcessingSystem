@@ -19,7 +19,9 @@ import java.awt.Color;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import com.aptech.LoanProcessingSystem.entities.Customer;
 import com.aptech.LoanProcessingSystem.entities.LoanType;
+import com.aptech.LoanProcessingSystem.model.CustomerModel;
 import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
 
 import javax.swing.JComboBox;
@@ -32,15 +34,16 @@ import java.util.Map;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
 
-public class jpanelLoanType extends JPanel {
-	private JTable jtableLoanType;
+public class jpanelCustomerProfile extends JPanel {
+	private JTable jtableCustomer;
 	private JTextField txtSearch;
 	private JComboBox<String> cbFilter;
+	private JButton btnSearch;
 
 	/**
 	 * Create the panel.
 	 */
-	public jpanelLoanType() {
+	public jpanelCustomerProfile() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 		JPanel jpanelHomeTop = new JPanel();
@@ -50,10 +53,10 @@ public class jpanelLoanType extends JPanel {
 		jpanelHomeTop.setLayout(fl_jpanelHomeTop);
 		
 		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.setIcon(new ImageIcon(jpanelLoanType.class.getResource("/com/aptech/LoanProcessingSystem/images/icons8_services_20px.png")));
+		lblNewLabel_1.setIcon(new ImageIcon(jpanelCustomerProfile.class.getResource("/com/aptech/LoanProcessingSystem/images/icons8_profile_20px.png")));
 		jpanelHomeTop.add(lblNewLabel_1);
 		
-		JLabel lblNewLabel = new JLabel("Loan Type Management");
+		JLabel lblNewLabel = new JLabel("Customer Profile Management");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 19));
 		lblNewLabel.setForeground(SystemColor.text);
 		jpanelHomeTop.add(lblNewLabel);
@@ -77,7 +80,7 @@ public class jpanelLoanType extends JPanel {
 		txtSearch.setColumns(10);
 		panel_3.add(txtSearch);
 		
-		JButton btnSearch = new JButton("Search");
+		btnSearch = new JButton("Search");
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnSearch_actionPerformed(e);
@@ -91,7 +94,7 @@ public class jpanelLoanType extends JPanel {
 				btnReload_actionPerformed(e);
 			}
 		});
-		btnReload.setIcon(new ImageIcon(jpanelLoanType.class.getResource("/com/aptech/LoanProcessingSystem/images/icons8_refresh_20px.png")));
+		btnReload.setIcon(new ImageIcon(jpanelCustomerProfile.class.getResource("/com/aptech/LoanProcessingSystem/images/icons8_refresh_20px.png")));
 		btnReload.setFocusPainted(false);
 		btnReload.setContentAreaFilled(false);
 		btnReload.setBorderPainted(false);
@@ -108,11 +111,11 @@ public class jpanelLoanType extends JPanel {
 		panel_4.add(lblNewLabel_3);
 		
 		cbFilter = new JComboBox();
-		cbFilter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cbFilter_actionPerformed(e);
-			}
-		});
+//		cbFilter.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				cbFilter_actionPerformed(e);
+//			}
+//		});
 		panel_4.add(cbFilter);
 		
 		JPanel panel = new JPanel();
@@ -125,11 +128,11 @@ public class jpanelLoanType extends JPanel {
 		panel.add(scrollPane, BorderLayout.CENTER);
 		
 		
-		jtableLoanType = new JTable();
-		jtableLoanType.setGridColor(SystemColor.activeCaption);
-		jtableLoanType.setForeground(SystemColor.text);
-		jtableLoanType.setBackground(new Color(34, 40, 44));
-		scrollPane.setViewportView(jtableLoanType);
+		jtableCustomer = new JTable();
+		jtableCustomer.setGridColor(SystemColor.activeCaption);
+		jtableCustomer.setForeground(SystemColor.text);
+		jtableCustomer.setBackground(new Color(34, 40, 44));
+		scrollPane.setViewportView(jtableCustomer);
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBackground(new Color(34, 40, 44));
@@ -161,20 +164,22 @@ public class jpanelLoanType extends JPanel {
 		
 		btnReload_actionPerformed(null);
 		fillComboBox();
+		CustomerModel customerModel = new CustomerModel();
+		fillDataToJTable(customerModel.findAll());
 	}
 	
 	public void btnSearch_actionPerformed(ActionEvent e) {
 		String keyValue = txtSearch.getText().trim();
-		LoanTypeModel loanTypeModel = new LoanTypeModel();
-		fillDataToJTable(loanTypeModel.find(keyValue));
+		CustomerModel customerModel = new CustomerModel();
+		fillDataToJTable(customerModel.search(keyValue));
 	}
 	
 	public void btnAdd_actionPerformed(ActionEvent e) {
-		JFrameAddNewLoanType addNewLoanType = new JFrameAddNewLoanType();
-		addNewLoanType.setVisible(true);
+		jDialogAddNewCustomer addNewCustomer = new jDialogAddNewCustomer();
+		addNewCustomer.setVisible(true);
 	}
 	
-	public void fillDataToJTable (List<LoanType> loanTypeList) {
+	public void fillDataToJTable (List<Customer> customerList) {
 		DefaultTableModel defaultTableModel = new DefaultTableModel() {
 
 			@Override
@@ -185,47 +190,53 @@ public class jpanelLoanType extends JPanel {
 		};
 		defaultTableModel.addColumn("ID");
 		defaultTableModel.addColumn("Name");
-		defaultTableModel.addColumn("Interest");
-		defaultTableModel.addColumn("Description");
+		defaultTableModel.addColumn("Address");
+		defaultTableModel.addColumn("Phone");
+		defaultTableModel.addColumn("Email");
+		defaultTableModel.addColumn("Gender");
+		defaultTableModel.addColumn("DOB");
+		defaultTableModel.addColumn("Salary");
+		defaultTableModel.addColumn("Job");
+		defaultTableModel.addColumn("Company");
+		defaultTableModel.addColumn("Id Card");
 		defaultTableModel.addColumn("Status");
-		for (LoanType loanType : loanTypeList) {
+		for (Customer customer : customerList) {
 			defaultTableModel.addRow(new Object[] {
-					loanType.getId(), loanType.getName(), loanType.getInterest(),
-					loanType.getDescription(), loanType.isStatus()
+					customer.getId(), customer.getName(), customer.getAddress(),
+					customer.getPhone(), customer.getEmail(), customer.isGender() ? "Male" : "Female",
+					customer.getDob(), customer.getSalary(), customer.getJob(),
+					customer.getCompany(), customer.getIdentityCard(), customer.isStatus() 
 			});
 		}
-		jtableLoanType.setModel(defaultTableModel);
-		jtableLoanType.getTableHeader().setReorderingAllowed(false);
+		jtableCustomer.setModel(defaultTableModel);
+		jtableCustomer.getTableHeader().setReorderingAllowed(false);
 	}
 	
 	public void btnReload_actionPerformed(ActionEvent e) {
-		LoanTypeModel loanTypeModel = new LoanTypeModel();
-		
-		fillDataToJTable(loanTypeModel.loadAllLoanType());
+		CustomerModel customerModel = new CustomerModel();
+		fillDataToJTable(customerModel.findAll());
 	}
 	
 	public void btnUpdate_actionPerformed(ActionEvent e) {
-		int i = jtableLoanType.getSelectedRow();
+		int i = jtableCustomer.getSelectedRow();
 		if (i > -1) {
-			int id = (int) (jtableLoanType.getValueAt(i, 0));
-			LoanTypeModel loanTypeModel = new LoanTypeModel();
-			LoanType loanType = loanTypeModel.loadLoanType(id);
-			Map<Integer, Object> data = new HashMap<Integer, Object>();
-			data.put(1, loanType);
-			JFrameUpdateLoanType frameUpdateLoanType = new JFrameUpdateLoanType(data);
-			frameUpdateLoanType.setVisible(true);
+			int id = (int) (jtableCustomer.getValueAt(i, 0));
+			CustomerModel customerModel = new CustomerModel();
+			Customer customer = customerModel.findById(id);
+			jDialogAddNewCustomer addNewCustomer = new jDialogAddNewCustomer(customer);
+			addNewCustomer.setVisible(true);
 		}
 	}
 	
 	public void btnDelete_actionPerformed(ActionEvent e) {
-		int i = jtableLoanType.getSelectedRow();
+		int i = jtableCustomer.getSelectedRow();
 		if ( i  > -1 ) {
-			int id = (int) jtableLoanType.getValueAt(i, 0);
-			LoanTypeModel loanTypeModel = new LoanTypeModel();
+			int id = (int) jtableCustomer.getValueAt(i, 0);
+			CustomerModel customerModel = new CustomerModel();
 			int a = JOptionPane.showConfirmDialog(null, "Do you want to delete"
-					+ " this loan type?", "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
+					+ " this customer?", "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
 			if (a == JOptionPane.YES_OPTION) {
-				if (loanTypeModel.delete(id)) {
+				if (customerModel.delete(id)) {
 					JOptionPane.showMessageDialog(null, "Done");
 					btnReload_actionPerformed(e);
 				} else {
@@ -235,16 +246,16 @@ public class jpanelLoanType extends JPanel {
 		}
 	}
 	
-	public void cbFilter_actionPerformed(ActionEvent e) {
-		int i = cbFilter.getSelectedIndex();
-		LoanTypeModel loanTypeModel = new LoanTypeModel();
-		if (i == 0) {
-			fillDataToJTable(loanTypeModel.sortInterestLowToHigh());
-		} else if (i == 1) {
-			fillDataToJTable(loanTypeModel.sortInterestHighToLow());
-		}
-	}
-	
+//	public void cbFilter_actionPerformed(ActionEvent e) {
+//		int i = cbFilter.getSelectedIndex();
+//		CustomerModel customerModel = new CustomerModel();
+//		if (i == 0) {
+//			fillDataToJTable(customerModel.sortInterestLowToHigh());
+//		} else if (i == 1) {
+//			fillDataToJTable(customerModel.sortInterestHighToLow());
+//		}
+//	}
+//	
 	public void fillComboBox() {
 		DefaultComboBoxModel<String> boxModel = new DefaultComboBoxModel<String>();
 		boxModel.addElement("Interest from low to high");
