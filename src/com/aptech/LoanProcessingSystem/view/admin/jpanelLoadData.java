@@ -211,8 +211,8 @@ public class jpanelLoadData extends JPanel {
 		tableLoan.setForeground(SystemColor.text);
 		LoanModel loanModel = new LoanModel();
 		tableLoan.setBackground(new Color(34, 40, 44));
-		FillDataToJTable(loanModel.getAllLoanHome(loanType), tableLoan, scrollPane);
-
+		FillDataToJTable(loanModel.getAllLoanHome(loanType), tableLoan);
+		scrollPane.setViewportView(tableLoan);
 		JPanel panel_9 = new JPanel();
 		panel_9.setBackground(new Color(34, 40, 44));
 		panel_1.add(panel_9);
@@ -225,7 +225,7 @@ public class jpanelLoadData extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 //				btnReload_actionPerformed(e, loanType);
 				LoanModel loanModel = new LoanModel();
-				FillDataToJTable(loanModel.getAllLoanHome(loanType), tableLoan, scrollPane);
+				FillDataToJTable(loanModel.getAllLoanHome(loanType), tableLoan);
 			}
 		});
 
@@ -262,13 +262,13 @@ public class jpanelLoadData extends JPanel {
 
 			@Override
 			public void windowClosed(WindowEvent e) {
-				FillDataToJTable(new LoanModel().getAllLoanHome(loanType), tableLoan, scrollPane);
+				FillDataToJTable(new LoanModel().getAllLoanHome(loanType), tableLoan);
 				super.windowClosed(e);
 			}
 		});
 	}
 
-	public void FillDataToJTable(List<Loan> loanList, JTable tableLoan, JScrollPane scrollPaneLoan) {
+	public void FillDataToJTable(List<Loan> loanList, JTable tableLoan) {
 		DefaultTableModel defaultTableModel = new DefaultTableModel() {
 
 			@Override
@@ -299,7 +299,7 @@ public class jpanelLoadData extends JPanel {
 		}
 		tableLoan.setModel(defaultTableModel);
 		tableLoan.getTableHeader().setReorderingAllowed(false);
-		scrollPaneLoan.setViewportView(tableLoan);
+		tableLoan.addNotify();
 	}
 
 }

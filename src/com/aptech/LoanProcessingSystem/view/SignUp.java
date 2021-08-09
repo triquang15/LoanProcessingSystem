@@ -16,10 +16,13 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -27,13 +30,16 @@ import java.awt.event.FocusEvent;
 import java.io.File;
 import java.sql.Connection;
 import java.util.Date;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
 
 import com.aptech.LoanProcessingSystem.database.ConnectDB;
 import com.aptech.LoanProcessingSystem.entities.Account;
+import com.aptech.LoanProcessingSystem.entities.Authority;
 import com.aptech.LoanProcessingSystem.model.AccountModel;
+import com.aptech.LoanProcessingSystem.model.AuthorityModel;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JCheckBox;
 import java.awt.Toolkit;
@@ -82,6 +88,7 @@ public class SignUp extends JDialog {
 	private JTextField txtPhone;
 	private JDateChooser txtCalendar;
 	private JTextField txtAdress;
+	private JComboBox cbAuthority;
 
 	public SignUp() {
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
@@ -321,6 +328,16 @@ public class SignUp extends JDialog {
 		setTextHint(txtAdress, hintAddress);
 		setTextHint(txtIdentity, hintIdentityCard);
 		setTextHint(txtPhone, hintPhone);
+		
+		JLabel lblNewLabel_9_1 = new JLabel("Authority *");
+		lblNewLabel_9_1.setHorizontalAlignment(SwingConstants.LEFT);
+		lblNewLabel_9_1.setBounds(404, 338, 88, 14);
+		panel_1.add(lblNewLabel_9_1);
+		
+		cbAuthority = new JComboBox();
+		cbAuthority.setBounds(516, 335, 229, 22);
+		panel_1.add(cbAuthority);
+		loadDataJComboBox();
 	}
 
 	protected void registerAction() {
@@ -357,6 +374,7 @@ public class SignUp extends JDialog {
 				account.setGender(rdbMale.isSelected());
 				account.setDob(dob);
 				account.setIdentityCard(identityCard);
+				account.setAuthId(getAuthorityId());
 				AccountModel accountModel = new AccountModel();
 				if (accountModel.create(account)) {
 					JOptionPane.showMessageDialog(null, "Successful account registration!");
@@ -392,6 +410,34 @@ public class SignUp extends JDialog {
 		txtIdentity.setText(hintIdentityCard);
 		txtIdentity.setForeground(Color.GRAY);
 		rdbMale.setSelected(true);
+		
+	}
+	
+	private int getAuthorityId () {
+		Authority authority = (Authority) cbAuthority.getSelectedItem();
+		return authority.getId();
+	}
+	
+	private void loadDataJComboBox () {
+		DefaultComboBoxModel<Authority> boxModel = new DefaultComboBoxModel<Authority>();
+		AuthorityModel authorityModel = new AuthorityModel();
+		List<Authority> list = authorityModel.loadAllAuthority();
+		for (Authority authority : list) {
+			boxModel.addElement(authority);
+		}
+		cbAuthority.setModel(boxModel);
+		cbAuthority.setRenderer(new AuthorityCellRender());
+	}
+	
+	private class AuthorityCellRender extends DefaultListCellRenderer {
+
+		@Override
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+				boolean cellHasFocus) {
+			Authority authority = (Authority) value;
+			return super.getListCellRendererComponent(list, authority.getName(), index, isSelected, cellHasFocus);
+		}
+		
 	}
 
 	private void setTextHint(JTextField textField, String hint) {
