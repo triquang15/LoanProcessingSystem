@@ -25,6 +25,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.MessageFormat;
+import java.awt.BorderLayout;
+import javax.swing.BoxLayout;
+import java.awt.FlowLayout;
+import java.awt.Insets;
+import java.awt.Dimension;
+import javax.swing.UIManager;
+import java.awt.SystemColor;
 
 public class LoanDetail extends JPanel {
 
@@ -43,33 +50,33 @@ public class LoanDetail extends JPanel {
 		loadDataToTable(loanAndFineHistoryModel.getAllLoanAndFineHistorys());
 	}
 
-	 private void loadDataToTable(List<com.aptech.LoanProcessingSystem.entities.MyLoanAndFineHistory> list) {
-	        try {
-	         
-	            tblModel.setRowCount(0);
-	            for (com.aptech.LoanProcessingSystem.entities.MyLoanAndFineHistory myLoanAndFineHistory : list) {
-	                tblModel.addRow(new Object[]{
-	                		myLoanAndFineHistory.getId(), myLoanAndFineHistory.getCustomer(), myLoanAndFineHistory.getPaymentAmount(),  myLoanAndFineHistory.getAmount(), myLoanAndFineHistory.getAmountLeft(), myLoanAndFineHistory.getDueDate(),
-	                		myLoanAndFineHistory.getFineInterest(), myLoanAndFineHistory.getFineOverDays(), myLoanAndFineHistory.getFineAmount(), myLoanAndFineHistory.getPaymentDate(), myLoanAndFineHistory.getDescription()
-	                	, myLoanAndFineHistory.isStatus()
-	                });
+	private void loadDataToTable(List<com.aptech.LoanProcessingSystem.entities.MyLoanAndFineHistory> list) {
+		try {
 
-	            }
-	            tblModel.fireTableDataChanged();
+			tblModel.setRowCount(0);
+			for (com.aptech.LoanProcessingSystem.entities.MyLoanAndFineHistory myLoanAndFineHistory : list) {
+				tblModel.addRow(new Object[] { myLoanAndFineHistory.getId(), myLoanAndFineHistory.getCustomer(),
+						myLoanAndFineHistory.getPaymentAmount(), myLoanAndFineHistory.getAmount(),
+						myLoanAndFineHistory.getAmountLeft(), myLoanAndFineHistory.getDueDate(),
+						myLoanAndFineHistory.getFineInterest(), myLoanAndFineHistory.getFineOverDays(),
+						myLoanAndFineHistory.getFineAmount(), myLoanAndFineHistory.getPaymentDate(),
+						myLoanAndFineHistory.getDescription(), myLoanAndFineHistory.isStatus() });
 
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            MessageDialog.showErrorMessage(mainForm, e.getMessage(), "Error");
-	        }
-	    }
-	
-	private void initTable() {
-		tblModel.setColumnIdentifiers(new String[] { "Id", "Customer", "Payment Amount", "Amount", "Amount Left", "Due Date", "Fine Interest", "Fine Over Days", "Fine Amount",
-				"Payment Date", "Description", "Status" });
-		table.setModel(tblModel);
+			}
+			tblModel.fireTableDataChanged();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			MessageDialog.showErrorMessage(mainForm, e.getMessage(), "Error");
+		}
 	}
 
-	
+	private void initTable() {
+		tblModel.setColumnIdentifiers(
+				new String[] { "Id", "Customer", "Payment Amount", "Amount", "Amount Left", "Due Date", "Fine Interest",
+						"Fine Over Days", "Fine Amount", "Payment Date", "Description", "Status" });
+		table.setModel(tblModel);
+	}
 
 	/**
 	 * Create the panel.
@@ -78,19 +85,70 @@ public class LoanDetail extends JPanel {
 	 */
 	public void initComponents() {
 
-		setBackground(Color.LIGHT_GRAY);
-		setLayout(null);
+		setBackground(new Color(112, 128, 144));
+		setLayout(new BorderLayout(0, 0));
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 0, 1283, 463);
+		scrollPane.setBackground(new Color(112, 128, 144));
 		add(scrollPane);
 
 		table = new JTable();
-		table.setForeground(new Color(0, 0, 255));
-		table.setBackground(new Color(230, 230, 250));
+		table.setIntercellSpacing(new Dimension(10, 1));
+		table.setRequestFocusEnabled(false);
+		table.setRowHeight(30);
+		table.setForeground(Color.BLACK);
+		table.setBackground(new Color(112, 128, 144));
+		table.getTableHeader().setOpaque(false);
+		table.getTableHeader().setBackground(Color.darkGray);
+		table.getTableHeader().setForeground(Color.lightGray);
+		Font bigFont = new Font("sansserif", Font.BOLD, 17);
+		table.getTableHeader().setFont(bigFont);
 		scrollPane.setViewportView(table);
 
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.DARK_GRAY);
+		add(panel, BorderLayout.SOUTH);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
+
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(Color.DARK_GRAY);
+		panel.add(panel_1);
+		panel_1.setLayout(new FlowLayout(FlowLayout.LEADING, 20, 20));
+
+		txtSearch = new JTextField();
+		txtSearch.setMargin(new Insets(2, 20, 2, 20));
+		txtSearch.setPreferredSize(new Dimension(300, 30));
+		panel_1.add(txtSearch);
+		txtSearch.setForeground(Color.RED);
+		txtSearch.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 10));
+		txtSearch.setColumns(30);
+
+		JButton btnSearch = new JButton("");
+		btnSearch.setFocusPainted(false);
+		btnSearch.setPreferredSize(new Dimension(30, 30));
+		btnSearch.setMargin(new Insets(2, 20, 2, 20));
+		panel_1.add(btnSearch);
+		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 10));
+		btnSearch.setIcon(
+				new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/search.png")));
+
+		JButton btnRefesh = new JButton("");
+		btnRefesh.setFocusPainted(false);
+		btnRefesh.setPreferredSize(new Dimension(30, 30));
+		btnRefesh.setIcon(new ImageIcon(
+				LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_refresh_16.png")));
+		panel_1.add(btnRefesh);
+
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(Color.DARK_GRAY);
+		panel.add(panel_2);
+		FlowLayout fl_panel_2 = new FlowLayout(FlowLayout.TRAILING, 20, 20);
+		panel_2.setLayout(fl_panel_2);
+
 		JButton btnUpdate = new JButton("Update");
+		btnUpdate.setPreferredSize(new Dimension(120, 30));
+		btnUpdate.setMargin(new Insets(2, 20, 2, 20));
+		panel_2.add(btnUpdate);
 		btnUpdate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -99,51 +157,44 @@ public class LoanDetail extends JPanel {
 			}
 		});
 		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 10));
-		btnUpdate.setIcon(new ImageIcon(
-				LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/add.png")));
-		btnUpdate.setBounds(544, 506, 103, 23);
-		add(btnUpdate);
+		btnUpdate.setIcon(
+				new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/add.png")));
 
 		JButton btnDelete = new JButton("Delete");
+		btnDelete.setPreferredSize(new Dimension(120, 30));
+		btnDelete.setMargin(new Insets(2, 20, 2, 20));
+		panel_2.add(btnDelete);
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				int result = JOptionPane.showConfirmDialog(null, "Confirm", "Are you sure?", JOptionPane.YES_NO_OPTION);
-				if (result == JOptionPane.YES_OPTION) {
-					int selectedRow = table.getSelectedRow();
-					int id = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
-					LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
-					if (loanAndFineHistoryModel.delete(id)) {
-						JOptionPane.showMessageDialog(null, "Successful Delete");
-						loadDataToTable(loanAndFineHistoryModel.getAllLoanAndFineHistorys());
-					} else {
-						JOptionPane.showMessageDialog(null, "Failed");
+				int selectedRow = table.getSelectedRow();
+				if (selectedRow != -1) {
+					int result = JOptionPane.showConfirmDialog(null, "Are you sure?", "Confirm", 
+							JOptionPane.YES_NO_OPTION);
+					if (result == JOptionPane.YES_OPTION) {
+						int id = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
+						LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
+						if (loanAndFineHistoryModel.delete(id)) {
+							JOptionPane.showMessageDialog(null, "Successful Delete");
+							loadDataToTable(loanAndFineHistoryModel.getAllLoanAndFineHistorys());
+						}
 					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Please choose a value!");
 				}
 			}
 		});
 		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnDelete.setIcon(
 				new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
-		btnDelete.setBounds(751, 506, 89, 23);
-		add(btnDelete);
-
-		JButton btnSearch = new JButton("Search");
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String keyword = txtSearch.getText().trim();
-				LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
-				loadDataToTable(loanAndFineHistoryModel.search(keyword));
-			
-			}
-		});
-		btnSearch.setFont(new Font("Tahoma", Font.BOLD, 10));
-		btnSearch.setIcon(
-				new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/search.png")));
-		btnSearch.setBounds(67, 506, 89, 23);
-		add(btnSearch);
 
 		JButton btnPrint = new JButton("Print");
+		btnPrint.setPreferredSize(new Dimension(120, 30));
+		btnPrint.setMargin(new Insets(2, 20, 2, 20));
+		panel_2.add(btnPrint);
+		btnPrint.setFont(new Font("Tahoma", Font.BOLD, 10));
+		btnPrint.setIcon(
+				new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/print.png")));
+
 		btnPrint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MessageFormat header = new MessageFormat("Loan Detail");
@@ -157,34 +208,21 @@ public class LoanDetail extends JPanel {
 				}
 			}
 		});
-		btnPrint.setFont(new Font("Tahoma", Font.BOLD, 10));
-		btnPrint.setIcon(
-				new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/print.png")));
-		btnPrint.setBounds(945, 506, 89, 23);
-		add(btnPrint);
 
-		JButton btnNewButton = new JButton("Back");
-		btnNewButton.addActionListener(new ActionListener() {
+		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Home home = new Home();
-				home.setVisible(true);
-				LoanDetail.this.setVisible(false);
+				String keyword = txtSearch.getText().trim();
+				LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
+				loadDataToTable(loanAndFineHistoryModel.search(keyword));
 			}
 		});
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 10));
-		btnNewButton.setIcon(
-				new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/back.png")));
-		btnNewButton.setBounds(1129, 506, 89, 23);
-		add(btnNewButton);
 
-		txtSearch = new JTextField();
-		txtSearch.setForeground(Color.RED);
-		txtSearch.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 10));
-		txtSearch.setColumns(10);
-		txtSearch.setBounds(193, 508, 231, 20);
-		add(txtSearch);
+		btnRefesh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtSearch.setText("");
+				loadDataToTable(new LoanAndFineHistoryModel().getAllLoanAndFineHistorys());
+			}
+		});
 
 	}
-
-	
 }

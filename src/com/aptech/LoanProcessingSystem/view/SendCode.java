@@ -56,7 +56,6 @@ public class SendCode extends JDialog {
 		
 		try {
 			SendCode dialog = new SendCode();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -67,7 +66,13 @@ public class SendCode extends JDialog {
 	 * Create the dialog.
 	 */
 	public SendCode() {
-
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				cancelAction();
+			}
+		});
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(SendCode.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
 		setFont(new Font("Dialog", Font.BOLD, 14));
@@ -184,8 +189,8 @@ public class SendCode extends JDialog {
 			public void mouseClicked(MouseEvent e) {
 				
 				if (Integer.valueOf(txtCode.getText()) == randomCode) {
-					ResetPass resetPass = new ResetPass(txtEmail.getText());
-					resetPass.setVisible(true);
+					ForgotPass forgotPass = new ForgotPass(txtEmail.getText());
+					forgotPass.setVisible(true);
 					SendCode.this.dispose();
 				} else {
 					JOptionPane.showMessageDialog(null, "Code do not match");
@@ -215,15 +220,22 @@ public class SendCode extends JDialog {
 						SendCode.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Login login = new Login();
-						login.setVisible(true);
-						SendCode.this.dispose();
+						cancelAction();
 					}
 				});
 				cancelButton.setBackground(Color.GRAY);
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
+		}
+	}
+
+	private void cancelAction() {
+		if (JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel?", "Confirm",
+				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			Login login = new Login();
+			login.setVisible(true);
+			this.dispose();
 		}
 	}
 }

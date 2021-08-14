@@ -3,9 +3,13 @@ package com.aptech.LoanProcessingSystem.view;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.aptech.LoanProcessingSystem.service.ShareData;
 
 public class LoanPayment extends JFrame {
 
@@ -18,8 +22,13 @@ public class LoanPayment extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					LoanPayment frame = new LoanPayment();
-					frame.setVisible(true);
+					if (ShareData.accountLogin == null) {
+						Login login = new Login();
+						login.setVisible(true);
+					} else {
+						LoanPayment frame = new LoanPayment();
+						frame.setVisible(true);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -31,7 +40,16 @@ public class LoanPayment extends JFrame {
 	 * Create the frame.
 	 */
 	public LoanPayment() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				if (JOptionPane.showConfirmDialog(null, "Are you sure you want to close Application ?", "Confirm",
+						JOptionPane.YES_NO_OPTION) == 0) {
+					System.exit(0);
+				}
+			}
+		});
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
