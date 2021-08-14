@@ -2,11 +2,11 @@ package com.aptech.LoanProcessingSystem.entities;
 
 import java.util.Date;
 
-public class LoanAndFineHistory {
+public class MyLoanAndFineHistory {
 	private int id;
-	private int loanId;
-	private int fineId;
-	private int paymentMethodId;
+	private String customer;
+	private double amount;
+	private String paymentMethod;
 	private double paymentAmount;
 	private double amountLeft;
 	private Date dueDate;
@@ -16,20 +16,16 @@ public class LoanAndFineHistory {
 	private Date paymentDate;
 	private String description;
 	private boolean status;
-	private double amount;
 
-	public LoanAndFineHistory() {
-		super();
-	}
-
-	public LoanAndFineHistory(int id, int loanId, int fineId, int paymentMethodId, double paymentAmount,
-			double amountLeft, Date dueDate, double fineInterest, int fineOverDays, double fineAmount, Date paymentDate,
-			String description, boolean status, double amount) {
+	
+	public MyLoanAndFineHistory(int id, String customer, double amount, String fine, String paymentMethod,
+			double paymentAmount, double amountLeft, Date dueDate, double fineInterest, int fineOverDays,
+			double fineAmount, Date paymentDate, String description, boolean status) {
 		super();
 		this.id = id;
-		this.loanId = loanId;
-		this.fineId = fineId;
-		this.paymentMethodId = paymentMethodId;
+		this.customer = customer;
+		this.amount = amount;
+		this.paymentMethod = paymentMethod;
 		this.paymentAmount = paymentAmount;
 		this.amountLeft = amountLeft;
 		this.dueDate = dueDate;
@@ -39,7 +35,10 @@ public class LoanAndFineHistory {
 		this.paymentDate = paymentDate;
 		this.description = description;
 		this.status = status;
-		this.amount = amount;
+	}
+
+	public MyLoanAndFineHistory() {
+		super();
 	}
 
 	public int getId() {
@@ -50,28 +49,28 @@ public class LoanAndFineHistory {
 		this.id = id;
 	}
 
-	public int getLoanId() {
-		return loanId;
+	public String getCustomer() {
+		return customer;
 	}
 
-	public void setLoanId(int loanId) {
-		this.loanId = loanId;
+	public void setCustomer(String customer) {
+		this.customer = customer;
 	}
 
-	public int getFineId() {
-		return fineId;
+	public double getAmount() {
+		return amount;
 	}
 
-	public void setFineId(int fineId) {
-		this.fineId = fineId;
+	public void setAmount(double amount) {
+		this.amount = amount;
 	}
 
-	public int getPaymentMethodId() {
-		return paymentMethodId;
+	public String getPaymentMethod() {
+		return paymentMethod;
 	}
 
-	public void setPaymentMethodId(int paymentMethodId) {
-		this.paymentMethodId = paymentMethodId;
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
 
 	public double getPaymentAmount() {
@@ -145,19 +144,5 @@ public class LoanAndFineHistory {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-
-	public double getAmount() {
-		return amount;
-	}
-
-	public void setAmount(double amount) {
-		this.amount = amount;
-	}
-
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-
+	
 }

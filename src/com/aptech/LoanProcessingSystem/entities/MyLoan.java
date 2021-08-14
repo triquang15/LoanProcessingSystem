@@ -2,11 +2,15 @@ package com.aptech.LoanProcessingSystem.entities;
 
 import java.util.Date;
 
-public class Loan {
+public class MyLoan {
 	private int id;
 	private int loanTypeId;
+	private String loanType;
+	private String account;
 	private int accountId;
+	private String customer;
 	private int customerId;
+	private String paymentType;
 	private int paymentTypeId;
 	private double amount;
 	private int period;
@@ -14,33 +18,9 @@ public class Loan {
 	private Date disbursementDate;
 	private int duration;
 	private Date endDate;
-	private double interest;
+	private float interest;
 	private String description;
 	private boolean status;
-
-	public Loan() {
-		super();
-	}
-
-	public Loan(int id, int loanTypeId, int accountId, int customerId, int paymentTypeId, Double amount, int period,
-			Date createDate, Date disbursementDate, int duration, Date endDate, Double interest, String description,
-			Boolean status) {
-		super();
-		this.id = id;
-		this.loanTypeId = loanTypeId;
-		this.accountId = accountId;
-		this.customerId = customerId;
-		this.paymentTypeId = paymentTypeId;
-		this.amount = amount;
-		this.period = period;
-		this.createDate = createDate;
-		this.disbursementDate = disbursementDate;
-		this.duration = duration;
-		this.endDate = endDate;
-		this.interest = interest;
-		this.description = description;
-		this.status = status;
-	}
 
 	public int getId() {
 		return id;
@@ -58,6 +38,22 @@ public class Loan {
 		this.loanTypeId = loanTypeId;
 	}
 
+	public String getLoanType() {
+		return loanType;
+	}
+
+	public void setLoanType(String loanType) {
+		this.loanType = loanType;
+	}
+
+	public String getAccount() {
+		return account;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
+	}
+
 	public int getAccountId() {
 		return accountId;
 	}
@@ -66,12 +62,28 @@ public class Loan {
 		this.accountId = accountId;
 	}
 
+	public String getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(String customer) {
+		this.customer = customer;
+	}
+
 	public int getCustomerId() {
 		return customerId;
 	}
 
 	public void setCustomerId(int customerId) {
 		this.customerId = customerId;
+	}
+
+	public String getPaymentType() {
+		return paymentType;
+	}
+
+	public void setPaymentType(String paymentType) {
+		this.paymentType = paymentType;
 	}
 
 	public int getPaymentTypeId() {
@@ -130,11 +142,11 @@ public class Loan {
 		this.endDate = endDate;
 	}
 
-	public double getInterest() {
+	public float getInterest() {
 		return interest;
 	}
 
-	public void setInterest(double interest) {
+	public void setInterest(float interest) {
 		this.interest = interest;
 	}
 
@@ -146,11 +158,40 @@ public class Loan {
 		this.description = description;
 	}
 
-	public boolean getStatus() {
+	public boolean isStatus() {
 		return status;
 	}
 
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
+
+	public MyLoan(int id, int loanTypeId, String loanType, String account, int accountId, String customer,
+			int customerId, String paymentType, int paymentTypeId, double amount, int period, Date createDate,
+			Date disbursementDate, int duration, Date endDate, float interest, String description, boolean status) {
+		super();
+		this.id = id;
+		this.loanTypeId = loanTypeId;
+		this.loanType = loanType;
+		this.account = account;
+		this.accountId = accountId;
+		this.customer = customer;
+		this.customerId = customerId;
+		this.paymentType = paymentType;
+		this.paymentTypeId = paymentTypeId;
+		this.amount = amount;
+		this.period = period;
+		this.createDate = createDate;
+		this.disbursementDate = disbursementDate;
+		this.duration = duration;
+		this.endDate = endDate;
+		this.interest = interest;
+		this.description = description;
+		this.status = status;
+	}
+
+	public MyLoan() {
+		super();
+	}
+
 }

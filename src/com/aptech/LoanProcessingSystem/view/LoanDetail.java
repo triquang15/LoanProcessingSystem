@@ -11,6 +11,7 @@ import com.aptech.LoanProcessingSystem.entities.Customer;
 import com.aptech.LoanProcessingSystem.model.CustomerModel;
 import com.aptech.LoanProcessingSystem.model.LoanModel;
 import com.aptech.LoanProcessingSystem.service.MessageDialog;
+import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -38,20 +39,19 @@ public class LoanDetail extends JPanel {
 
 		initTable();
 
-		LoanModel loanModel = new LoanModel();
-		loadDataToTable(loanModel.findAll());
+		LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
+		loadDataToTable(loanAndFineHistoryModel.getAllLoanAndFineHistorys());
 	}
 
-	 private void loadDataToTable(List<com.aptech.LoanProcessingSystem.entities.Loan> list) {
+	 private void loadDataToTable(List<com.aptech.LoanProcessingSystem.entities.MyLoanAndFineHistory> list) {
 	        try {
-	            LoanModel loanModel = new LoanModel();
 	         
 	            tblModel.setRowCount(0);
-	            for (com.aptech.LoanProcessingSystem.entities.Loan loan : list) {
+	            for (com.aptech.LoanProcessingSystem.entities.MyLoanAndFineHistory myLoanAndFineHistory : list) {
 	                tblModel.addRow(new Object[]{
-	                    loan.getId(), loan.getLoanTypeId(), loan.getAccountId(), loan.getCustomerId(), loan.getPaymentTypeId(),
-	                    loan.getAmount() + " " + "$",loan.getPeriod() + " " + "months" ,loan.getCreateDate(), loan.getDisbursementDate(), loan.getDuration() + " " + "months", loan.getEndDate(),
-	                    loan.getInterest() + " " + "%", loan.getDescription(), loan.getStatus()
+	                		myLoanAndFineHistory.getId(), myLoanAndFineHistory.getCustomer(), myLoanAndFineHistory.getPaymentAmount(),  myLoanAndFineHistory.getAmount(), myLoanAndFineHistory.getAmountLeft(), myLoanAndFineHistory.getDueDate(),
+	                		myLoanAndFineHistory.getFineInterest(), myLoanAndFineHistory.getFineOverDays(), myLoanAndFineHistory.getFineAmount(), myLoanAndFineHistory.getPaymentDate(), myLoanAndFineHistory.getDescription()
+	                	, myLoanAndFineHistory.isStatus()
 	                });
 
 	            }
@@ -64,8 +64,8 @@ public class LoanDetail extends JPanel {
 	    }
 	
 	private void initTable() {
-		tblModel.setColumnIdentifiers(new String[] { "Id", "Loan Type", "Account", "Customer", "Payment Type", "Amount", "Period", "Create Date",
-				"DisbursementDate", "Duration", "EndDate", "Interest", "Description", "Status" });
+		tblModel.setColumnIdentifiers(new String[] { "Id", "Customer", "Payment Amount", "Amount", "Amount Left", "Due Date", "Fine Interest", "Fine Over Days", "Fine Amount",
+				"Payment Date", "Description", "Status" });
 		table.setModel(tblModel);
 	}
 
@@ -94,8 +94,8 @@ public class LoanDetail extends JPanel {
 		btnUpdate.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				CreateLoan createLoan = new CreateLoan();
-				createLoan.setVisible(true);
+				LoanUpdate loanUpdate = new LoanUpdate();
+				loanUpdate.setVisible(true);
 			}
 		});
 		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 10));
@@ -112,10 +112,10 @@ public class LoanDetail extends JPanel {
 				if (result == JOptionPane.YES_OPTION) {
 					int selectedRow = table.getSelectedRow();
 					int id = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
-					LoanModel loanModel = new LoanModel();
-					if (loanModel.delete(id)) {
+					LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
+					if (loanAndFineHistoryModel.delete(id)) {
 						JOptionPane.showMessageDialog(null, "Successful Delete");
-						loadDataToTable(loanModel.findAll());
+						loadDataToTable(loanAndFineHistoryModel.getAllLoanAndFineHistorys());
 					} else {
 						JOptionPane.showMessageDialog(null, "Failed");
 					}
@@ -132,8 +132,8 @@ public class LoanDetail extends JPanel {
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String keyword = txtSearch.getText().trim();
-				LoanModel loanModel = new LoanModel();
-				loadDataToTable(loanModel.search(keyword));
+				LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
+				loadDataToTable(loanAndFineHistoryModel.search(keyword));
 			
 			}
 		});

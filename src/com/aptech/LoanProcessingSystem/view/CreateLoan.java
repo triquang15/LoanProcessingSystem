@@ -28,14 +28,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
 
 import com.aptech.LoanProcessingSystem.entities.Customer;
+import com.aptech.LoanProcessingSystem.entities.Fine;
 import com.aptech.LoanProcessingSystem.entities.Loan;
+import com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory;
+import com.aptech.LoanProcessingSystem.entities.LoanType;
 import com.aptech.LoanProcessingSystem.model.CustomerModel;
+import com.aptech.LoanProcessingSystem.model.FineModel;
+import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
 import com.aptech.LoanProcessingSystem.model.LoanModel;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JComboBox;
@@ -44,6 +50,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import com.aptech.LoanProcessingSystem.model.PaymentTypeModel;
+import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class CreateLoan extends JDialog {
 
@@ -56,15 +69,18 @@ public class CreateLoan extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtAmount;
 	private JTextField txtPeriod;
-	private JTextField txtInterest;
 	private JDateChooser txtEndDate;
 	private JDateChooser txtCreateDate;
 	private JDateChooser txtDisbursement;
 	private JTextArea txtDescription;
-	private JComboBox txtDuration;
+	private JComboBox txtDuration_1;
 	private JLabel txtVali1;
-	private JLabel txtValid2;
 	private JLabel txtValid3;
+	private JTextField txtCustomerId;
+	private JComboBox txtPaymentType;
+	private JComboBox txtLoanType;
+	private JButton btnCheck;
+	private JLabel textInterest;
 
 	/**
 	 * Launch the application.
@@ -109,11 +125,11 @@ public class CreateLoan extends JDialog {
 		panel.setLayout(null);
 
 		JLabel lblNewLabel_1 = new JLabel("Amount *");
-		lblNewLabel_1.setBounds(26, 31, 97, 14);
+		lblNewLabel_1.setBounds(23, 55, 97, 14);
 		panel.add(lblNewLabel_1);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Period *");
-		lblNewLabel_1_1.setBounds(26, 87, 97, 14);
+		lblNewLabel_1_1.setBounds(23, 91, 97, 14);
 		panel.add(lblNewLabel_1_1);
 
 		JLabel lblNewLabel_1_2 = new JLabel("Create Date *");
@@ -121,7 +137,7 @@ public class CreateLoan extends JDialog {
 		panel.add(lblNewLabel_1_2);
 
 		JLabel lblNewLabel_1_3 = new JLabel("Disbursement  *");
-		lblNewLabel_1_3.setBounds(26, 205, 97, 14);
+		lblNewLabel_1_3.setBounds(28, 223, 97, 14);
 		panel.add(lblNewLabel_1_3);
 
 		txtAmount = new JTextField();
@@ -143,30 +159,14 @@ public class CreateLoan extends JDialog {
 		});
 	
 		txtAmount.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 10));
-		txtAmount.setBounds(133, 28, 306, 20);
+		txtAmount.setBounds(130, 51, 306, 20);
 		panel.add(txtAmount);
 		txtAmount.setColumns(10);
 
 		txtPeriod = new JTextField();
-		txtPeriod.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				
-				try {
-					int i = Integer.parseInt(txtPeriod.getText());
-					txtValid2.setText("");
-				
-			} catch (Exception e1) {
-				// TODO: handle exception
-				txtValid2.setText("Invalid number");
-				
-			}
-				
-			}
-		});
 		
 		txtPeriod.setColumns(10);
-		txtPeriod.setBounds(133, 84, 306, 20);
+		txtPeriod.setBounds(130, 87, 306, 20);
 		panel.add(txtPeriod);
 
 		txtCreateDate = new JDateChooser();
@@ -174,7 +174,7 @@ public class CreateLoan extends JDialog {
 		panel.add(txtCreateDate);
 
 		txtDisbursement = new JDateChooser();
-		txtDisbursement.setBounds(133, 199, 306, 20);
+		txtDisbursement.setBounds(133, 220, 306, 20);
 		panel.add(txtDisbursement);
 		
 		txtVali1 = new JLabel("");
@@ -183,11 +183,29 @@ public class CreateLoan extends JDialog {
 		txtVali1.setBounds(133, 59, 306, 14);
 		panel.add(txtVali1);
 		
-		txtValid2 = new JLabel("");
-		txtValid2.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 9));
-		txtValid2.setForeground(Color.RED);
-		txtValid2.setBounds(133, 115, 306, 14);
-		panel.add(txtValid2);
+		JLabel lblNewLabel_1_4 = new JLabel("Customer ID*");
+		lblNewLabel_1_4.setBounds(26, 17, 94, 14);
+		panel.add(lblNewLabel_1_4);
+		
+		txtCustomerId = new JTextField();
+		txtCustomerId.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 10));
+		txtCustomerId.setColumns(10);
+		txtCustomerId.setBounds(129, 15, 306, 20);
+		panel.add(txtCustomerId);
+		
+		JLabel lblNewLabel_1_5 = new JLabel("Loan Type *");
+		lblNewLabel_1_5.setBounds(27, 192, 74, 14);
+		panel.add(lblNewLabel_1_5);
+		
+		txtLoanType = new JComboBox();
+		txtLoanType.setBounds(130, 188, 306, 22);
+		panel.add(txtLoanType);
+		initLoanType();
+		String loan_type_name = (String) txtLoanType.getSelectedItem();
+		LoanTypeModel loanTypeModel = new LoanTypeModel();
+		LoanType loan_type_interest = loanTypeModel.loadLoanType(loan_type_name);
+		
+		
 
 		{
 			JPanel panel_1 = new JPanel();
@@ -218,24 +236,59 @@ public class CreateLoan extends JDialog {
 				public void actionPerformed(ActionEvent e) {
 
 					String amount = txtAmount.getText();
+					Double amount_double = Double.parseDouble(amount);
 					String address = txtPeriod.getText();
 					String description = txtDescription.getText();
-
+					String customer_id = txtCustomerId.getText();
+					int duration = (int) txtDuration_1.getSelectedItem();
+					String loan_type_s = (String) txtLoanType.getSelectedItem();
+					int loan_type_int;
 					Date createDate = txtCreateDate.getDate();
 					Date disbursement = txtDisbursement.getDate();
 					Date endDate = txtEndDate.getDate();
+					boolean status = false;
 
+					
+					if (loan_type_s.trim().equals("Home Loan")) {
+						loan_type_int = 1;
+					} else if (loan_type_s.trim().equals("Vehicle Loan")){
+						loan_type_int = 2;
+					} else if (loan_type_s.trim().equals("Personal Loan")){
+						loan_type_int = 3;
+					} else {
+						loan_type_int = 4;
+					}
+					
+					double installment = amount_double * Math.pow(1 + loan_type_interest.getInterest(), duration/12) / duration;
+					FineModel fineModel = new FineModel();
+					Fine fine = new Fine();
+					fine = fineModel.find_fine_interest(installment);
+					int fine_id = fine.getId();
+					double fine_interest = fine.getFineInterest();
+					double fine_amount = installment * fine_interest;
+
+//					if ((installment > 1) && (installment <= 5000)) {
+//						fine_interest = 0.02;
+//						fine_id = 1;
+//						fine_amount = installment * fine_interest;
+//					} else if ((installment > 5001) && (installment <= 20000)) {
+//						fine_interest = 0.05;
+//						fine_id = 2;
+//						fine_amount = installment * fine_interest;
+//					} else {
+//						fine_interest = 0.08;
+//						fine_id = 3;
+//						fine_amount = installment * fine_interest;
+//					}
 					// Apply the validation logic checking all controls are empty or not
 					if (amount.trim().equals("") || amount.trim().equals("Please enter your amount")
 							|| address.trim().equals("") || address.trim().equals("Please enter your address")
 							|| description.trim().equals("")
-							|| description.trim().equals("Please enter your description")
+							|| description.trim().equals("Please enter your description") || customer_id.trim().equals("")
 
 					) {
 						JOptionPane.showMessageDialog(null, "Please enter full information !!!");
-					}
-
-					if (createDate == null & disbursement == null & endDate == null) {
+					} else if (createDate == null & disbursement == null & endDate == null) {
 						JOptionPane.showMessageDialog(null, "Please select Create Date");
 						txtCreateDate.grabFocus();
 
@@ -252,28 +305,69 @@ public class CreateLoan extends JDialog {
 							com.aptech.LoanProcessingSystem.entities.Loan loan = new Loan();
 							loan.setAmount(Double.parseDouble(txtAmount.getText()));
 							loan.setDescription(txtDescription.getText());
-							loan.setInterest(Float.parseFloat(txtInterest.getText()));
+							loan.setInterest(loan_type_interest.getInterest());
 							loan.setPeriod(Integer.parseInt(txtPeriod.getText()));
-
-							int duration = (int) txtDuration.getSelectedItem();
+							loan.setCustomerId(Integer.parseInt(txtCustomerId.getText()));
+							loan.setPaymentTypeId(1);
+							loan.setLoanTypeId(loan_type_int);
+							loan.setStatus(status);
 							loan.setDuration(duration);
 							loan.setCreateDate(txtCreateDate.getDate());
 							loan.setDisbursementDate(txtDisbursement.getDate());
 							loan.setEndDate(txtEndDate.getDate());
-
+							
 							LoanModel loanModel = new LoanModel();
-							if (loanModel.create(loan)) {
+
+//							CreateLoan.this.dispose();
+							
+//							if (loanModel.create(loan)) {
+//								JOptionPane.showMessageDialog(null, "Successful!");
+//
+//								CreateLoan.this.dispose();
+//							} else {
+//								JOptionPane.showMessageDialog(null, "Please try again!");
+//							}
+							
+							com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory loanAndFineHistory = new LoanAndFineHistory();
+							LoanModel lastIdLoanModel = new LoanModel();							
+							com.aptech.LoanProcessingSystem.entities.Loan last_loan_row = lastIdLoanModel.find_last_id_with_amount();
+							loanAndFineHistory.setLoanId(last_loan_row.getId()+1);
+							loanAndFineHistory.setFineId(fine_id);
+							loanAndFineHistory.setFineInterest(fine_interest);
+							
+							Date today = new Date();
+							Calendar calendar = Calendar.getInstance();
+							calendar.setTime(today);
+							loanAndFineHistory.setPaymentDate(today);
+							loanAndFineHistory.setAmount(installment);
+							loanAndFineHistory.setPaymentAmount(0);
+							loanAndFineHistory.setDescription(txtDescription.getText());
+							loanAndFineHistory.setStatus(false);
+							loanAndFineHistory.setPaymentMethodId(1);
+							loanAndFineHistory.setAmountLeft(installment);
+							loanAndFineHistory.setFineAmount(0);
+							loanAndFineHistory.setFineOverDays(0);
+							LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel(); 
+							try {
+								loanModel.create(loan);
+								for (int i = 1; i <= duration; i++) {
+									calendar.add(calendar.MONTH, 1);
+									loanAndFineHistory.setDueDate(calendar.getTime());
+									loanAndFineHistoryModel.createLoanAndFineHistory(loanAndFineHistory);
+								}
 								JOptionPane.showMessageDialog(null, "Successful!");
-
-								CreateLoan.this.dispose();
-							} else {
+							} catch (Exception a) {
 								JOptionPane.showMessageDialog(null, "Please try again!");
+								a.printStackTrace();
 							}
-
+							CreateLoan.this.dispose();
+		
+			
+							
 						} catch (Exception e2) {
 							// TODO: handle exception
 							e2.printStackTrace();
-						}
+						}	
 
 					}
 
@@ -287,15 +381,16 @@ public class CreateLoan extends JDialog {
 			JButton btnClear = new JButton("Clear");
 			btnClear.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
+					txtCustomerId.setText("");
 					txtAmount.setText("");
 					txtPeriod.setText("");
 					txtDescription.setText("");
-					txtDuration.setSelectedItem(null);
+					txtDuration_1.setSelectedItem(null);
+					txtLoanType.setSelectedItem(null);
 					txtCreateDate.setDate(null);
 					txtDisbursement.setDate(null);
 					txtEndDate.setDate(null);
-					txtInterest.setText("");
+					txtPaymentType.setSelectedItem(null);
 					bg.clearSelection();
 
 				}
@@ -305,6 +400,16 @@ public class CreateLoan extends JDialog {
 					CreateLoan.class.getResource("/com/aptech/LoanProcessingSystem/images/arrows-circle.png")));
 			btnClear.setBounds(733, 22, 95, 23);
 			panel_1.add(btnClear);
+			
+			btnCheck = new JButton("Check");
+			btnCheck.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					jbuttoncheck_actionPerformed(e);
+				}
+			});
+			btnCheck.setFont(new Font("Tahoma", Font.BOLD, 10));
+			btnCheck.setBounds(356, 22, 89, 23);
+			panel_1.add(btnCheck);
 		}
 
 		{
@@ -315,45 +420,23 @@ public class CreateLoan extends JDialog {
 			contentPanel.add(panel_1);
 
 			JLabel lblNewLabel_2 = new JLabel("Duration *");
-			lblNewLabel_2.setBounds(36, 33, 62, 14);
+			lblNewLabel_2.setBounds(36, 56, 62, 14);
 			panel_1.add(lblNewLabel_2);
 
 			JLabel lblNewLabel_4 = new JLabel("End Date *");
-			lblNewLabel_4.setBounds(36, 78, 83, 14);
+			lblNewLabel_4.setBounds(32, 87, 83, 14);
 			panel_1.add(lblNewLabel_4);
 
 			JLabel lblNewLabel_5 = new JLabel("Interest *");
 			lblNewLabel_5.setBounds(36, 117, 99, 14);
 			panel_1.add(lblNewLabel_5);
 
-			txtInterest = new JTextField();
-			txtInterest.addKeyListener(new KeyAdapter() {
-				@Override
-				public void keyPressed(KeyEvent e) {
-					
-					
-					try {
-						int i = Integer.parseInt(txtInterest.getText());
-						txtValid3.setText("");
-					
-				} catch (Exception e1) {
-					// TODO: handle exception
-					txtValid3.setText("Invalid number");
-					
-				}
-					
-				}
-			});
-			txtInterest.setColumns(10);
-			txtInterest.setBounds(146, 114, 306, 20);
-			panel_1.add(txtInterest);
-
-			txtDuration = new JComboBox();
-			txtDuration.setBounds(146, 29, 306, 22);
-			panel_1.add(txtDuration);
+			txtDuration_1 = new JComboBox();
+			txtDuration_1.setBounds(146, 52, 306, 22);
+			panel_1.add(txtDuration_1);
 			initDurationValue();
 			txtEndDate = new JDateChooser();
-			txtEndDate.setBounds(146, 72, 306, 20);
+			txtEndDate.setBounds(144, 84, 306, 20);
 			panel_1.add(txtEndDate);
 
 			JLabel lblNewLabel_6 = new JLabel("Description *");
@@ -369,6 +452,24 @@ public class CreateLoan extends JDialog {
 			txtValid3.setForeground(Color.RED);
 			txtValid3.setBounds(146, 145, 306, 14);
 			panel_1.add(txtValid3);
+			
+			JLabel lblNewLabel_3 = new JLabel("Payment Type *");
+			lblNewLabel_3.setBounds(34, 21, 84, 14);
+			panel_1.add(lblNewLabel_3);
+			
+			txtPaymentType = new JComboBox();
+			txtPaymentType.setBounds(144, 17, 306, 22);
+			panel_1.add(txtPaymentType);
+			initPaymentValue();
+			
+			textInterest = new JLabel("");
+			textInterest.setBounds(145, 117, 307, 14);
+			panel_1.add(textInterest);
+			if (Objects.isNull(loan_type_interest)) {
+				textInterest.setText("Please choose payment type");
+			} else {
+				textInterest.setText(String.valueOf(loan_type_interest.getInterest()));
+			}
 		}
 
 		JLabel lblNewLabel = new JLabel("New Loan");
@@ -401,6 +502,17 @@ public class CreateLoan extends JDialog {
 			}
 		}
 	}
+	
+	public void jbuttoncheck_actionPerformed(ActionEvent e) {
+		String loan_type_name = (String) txtLoanType.getSelectedItem();
+		LoanTypeModel loanTypeModel = new LoanTypeModel();
+		LoanType loan_type_interest = loanTypeModel.loadLoanType(loan_type_name);
+		if (Objects.isNull(loan_type_interest)) {
+			textInterest.setText("Please choose payment type");
+		} else {
+			textInterest.setText(String.valueOf(loan_type_interest.getInterest()));
+		}
+	}
 
 	private void initDurationValue() {
 
@@ -409,10 +521,35 @@ public class CreateLoan extends JDialog {
 		for (int dur : durations) {
 			model.addElement(dur);
 		}
-		txtDuration.setModel(model);
-		txtDuration.setRenderer(new DurationListCellRenderer());
+		txtDuration_1.setModel(model);
+		txtDuration_1.setRenderer(new DurationListCellRenderer());
 
 	}
+	
+	private void initPaymentValue() {
+
+		PaymentTypeModel paymentTypeModel = new PaymentTypeModel();		
+		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+		for (com.aptech.LoanProcessingSystem.entities.PaymentType paymentType : paymentTypeModel.getAllPaymentTypes()) {
+			model.addElement(paymentType.getName());
+		}
+		txtPaymentType.setModel(model);
+		txtPaymentType.setRenderer(new PaymentListCellRenderer());
+
+	}
+	
+	private void initLoanType() {
+
+		LoanTypeModel loanTypeModel = new LoanTypeModel();		
+		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+		for (com.aptech.LoanProcessingSystem.entities.LoanType loanType : loanTypeModel.loadAllLoanType()) {
+			model.addElement(loanType.getName());
+		}
+		txtLoanType.setModel(model);
+		txtLoanType.setRenderer(new LoanListCellRenderer());
+
+	}
+	
 	private class DurationListCellRenderer extends DefaultListCellRenderer {
 
 		@Override
@@ -421,8 +558,25 @@ public class CreateLoan extends JDialog {
 			int item = (int) value;
 			return super.getListCellRendererComponent(list, item +" Month", index, isSelected, cellHasFocus);
 		}
+	}
+	
+	private class PaymentListCellRenderer extends DefaultListCellRenderer {
 
-		
+		@Override
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+				boolean cellHasFocus) {
+			String item = (String) value;
+			return super.getListCellRendererComponent(list, item, index, isSelected, cellHasFocus);
+		}
+	}
+	
+	private class LoanListCellRenderer extends DefaultListCellRenderer {
 
+		@Override
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+				boolean cellHasFocus) {
+			String item = (String) value;
+			return super.getListCellRendererComponent(list, item, index, isSelected, cellHasFocus);
+		}
 	}
 }
