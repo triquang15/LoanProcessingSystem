@@ -86,21 +86,8 @@ public class Home extends JFrame {
 		JToolBar toolBar = new JToolBar();
 		toolBar.setBorder(new EmptyBorder(5, 0, 5, 0));
 		toolBar.setFloatable(false);
-		toolBar.setBackground(Color.DARK_GRAY);
+		toolBar.setBackground(new Color(128, 128, 128));
 		getContentPane().add(toolBar, BorderLayout.NORTH);
-
-		JButton btnCustomer = new JButton("");
-		btnCustomer.setVerticalAlignment(SwingConstants.BOTTOM);
-		btnCustomer.setIconTextGap(1);
-		btnCustomer.setBorderPainted(false);
-		btnCustomer.setContentAreaFilled(false);
-		btnCustomer.setFocusPainted(false);
-		btnCustomer.setMargin(new Insets(2, 10, 2, 10));
-		btnCustomer.setToolTipText("New Customer");
-		btnCustomer.setBackground(Color.DARK_GRAY);
-		btnCustomer
-				.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/customer.png")));
-		toolBar.add(btnCustomer);
 
 		JButton btnLoan = new JButton("");
 		btnLoan.setBorderPainted(false);
@@ -113,27 +100,29 @@ public class Home extends JFrame {
 		btnLoan.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/loan.png")));
 		toolBar.add(btnLoan);
 
-		JButton btnLoanType = new JButton("");
-		btnLoanType.setBorderPainted(false);
-		btnLoanType.setContentAreaFilled(false);
-		btnLoanType.setFocusPainted(false);
-		btnLoanType.setMargin(new Insets(2, 10, 2, 10));
-		btnLoanType.setToolTipText("Loan Type");
-		btnLoanType.setBackground(Color.DARK_GRAY);
-		btnLoanType
-				.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/loan (1).png")));
-		toolBar.add(btnLoanType);
+		JButton btnCustomers = new JButton("");
+		btnCustomers.setIcon(
+				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/customer (2).png")));
+		btnCustomers.setToolTipText("Customer list");
+		btnCustomers.setMargin(new Insets(2, 10, 2, 10));
+		btnCustomers.setFocusPainted(false);
+		btnCustomers.setContentAreaFilled(false);
+		btnCustomers.setBorderPainted(false);
+		btnCustomers.setBackground(Color.DARK_GRAY);
+		toolBar.add(btnCustomers);
 
-		JButton btnSearch = new JButton("");
-		btnSearch.setBorderPainted(false);
-		btnSearch.setContentAreaFilled(false);
-		btnSearch.setFocusPainted(false);
-		btnSearch.setMargin(new Insets(2, 10, 2, 10));
-		btnSearch.setToolTipText("Search");
-		btnSearch.setBackground(Color.DARK_GRAY);
-		btnSearch.setIcon(
-				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/magnifying-glass.png")));
-		toolBar.add(btnSearch);
+		JButton btnNewCustomer = new JButton("");
+		btnNewCustomer.setVerticalAlignment(SwingConstants.BOTTOM);
+		btnNewCustomer.setIconTextGap(1);
+		btnNewCustomer.setBorderPainted(false);
+		btnNewCustomer.setContentAreaFilled(false);
+		btnNewCustomer.setFocusPainted(false);
+		btnNewCustomer.setMargin(new Insets(2, 10, 2, 10));
+		btnNewCustomer.setToolTipText("New Customer");
+		btnNewCustomer.setBackground(Color.DARK_GRAY);
+		btnNewCustomer.setIcon(new ImageIcon(
+				Home.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_new_customer_24.png")));
+		toolBar.add(btnNewCustomer);
 
 		JButton btnPassword = new JButton("");
 		btnPassword.setBorderPainted(false);
@@ -143,32 +132,9 @@ public class Home extends JFrame {
 		btnPassword.setToolTipText("Change Password");
 		btnPassword.setBackground(Color.DARK_GRAY);
 
-		btnPassword
-				.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_changpass_32.png")));
+		btnPassword.setIcon(
+				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_changpass_32.png")));
 		toolBar.add(btnPassword);
-
-		JButton btnLogOut = new JButton("");
-		btnLogOut.setBorderPainted(false);
-		btnLogOut.setContentAreaFilled(false);
-		btnLogOut.setFocusPainted(false);
-		btnLogOut.setMargin(new Insets(2, 10, 2, 10));
-		btnLogOut.setToolTipText("Log out");
-		btnLogOut.setBackground(Color.DARK_GRAY);
-		btnLogOut
-				.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/exit (1).png")));
-
-		toolBar.add(btnLogOut);
-
-		JButton btnExit = new JButton("");
-		btnExit.setBorderPainted(false);
-		btnExit.setContentAreaFilled(false);
-		btnExit.setFocusPainted(false);
-		btnExit.setMargin(new Insets(2, 10, 2, 10));
-		btnExit.setToolTipText("Exit");
-		btnExit.setBackground(Color.DARK_GRAY);
-
-		btnExit.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/exit (2).png")));
-		toolBar.add(btnExit);
 
 		tabbedHome.setForeground(Color.GRAY);
 		tabbedHome.setBackground(Color.GRAY);
@@ -197,8 +163,7 @@ public class Home extends JFrame {
 		lblClock.setForeground(Color.WHITE);
 		panel.add(lblClock, BorderLayout.EAST);
 		setTitle("Loan Processing System");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1293, 737);
+		setBounds(100, 100, 1248, 692);
 		setLocationRelativeTo(null);
 
 		JMenuBar menuBar_1 = new JMenuBar();
@@ -206,29 +171,12 @@ public class Home extends JFrame {
 		menuBar_1.setBackground(Color.DARK_GRAY);
 		setJMenuBar(menuBar_1);
 
-		JMenu mnHome = new JMenu("Home");
-		mnHome.setMargin(new Insets(2, 10, 2, 10));
-		mnHome.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/house.png")));
-		mnHome.setSelectedIcon(
-				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/house.png")));
-		mnHome.setForeground(new Color(230, 230, 250));
-		mnHome.setBackground(Color.DARK_GRAY);
-		menuBar_1.add(mnHome);
-
-		JMenuItem mnLogout = new JMenuItem("Log out");
-		mnHome.add(mnLogout);
-
-		JMenuItem mnExit = new JMenuItem("Exit");
-		mnHome.add(mnExit);
-
-		JMenu mnCustomerInfo = new JMenu("Customer Info");
-		mnCustomerInfo.setMargin(new Insets(2, 10, 2, 10));
-		mnCustomerInfo.setIcon(
-				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/customer (3).png")));
-		mnCustomerInfo.setSelectedIcon(
-				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/customer.png")));
-		mnCustomerInfo.setForeground(new Color(230, 230, 250));
-		menuBar_1.add(mnCustomerInfo);
+		JMenu mnAdmin = new JMenu("Admin");
+		mnAdmin.setIcon(
+				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_admin_16.png")));
+		mnAdmin.setMargin(new Insets(2, 10, 2, 10));
+		mnAdmin.setForeground(new Color(230, 230, 250));
+		menuBar_1.add(mnAdmin);
 
 		JMenu mnStatistic = new JMenu("Statistic");
 		mnStatistic.setMargin(new Insets(2, 10, 2, 10));
@@ -255,16 +203,38 @@ public class Home extends JFrame {
 		mnHelp.setForeground(new Color(230, 230, 250));
 		menuBar_1.add(mnHelp);
 
-		mnCustomerInfo.addMouseListener(new MouseAdapter() {
+		JMenu mnLogout = new JMenu("Logout");
+		mnLogout.setIcon(
+				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_logout_20.png")));
+		mnLogout.setMargin(new Insets(2, 10, 2, 10));
+		mnLogout.setForeground(new Color(230, 230, 250));
+		menuBar_1.add(mnLogout);
+
+		JMenu mnExit = new JMenu("Exit");
+		mnExit.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_exit_20.png")));
+		mnExit.setMargin(new Insets(2, 10, 2, 10));
+		mnExit.setForeground(new Color(230, 230, 250));
+		menuBar_1.add(mnExit);
+		loadLoanAction();
+		
+		btnCustomers.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				tabbedHome.removeAll();
-				tabbedHome.revalidate();
-				CustomerInfo customerInfo = new CustomerInfo();
-				ImageIcon icon = new ImageIcon(
-						getClass().getResource("/com/aptech/LoanProcessingSystem/images/customer (2).png"));
-				tabbedHome.addTab("Customer Info", icon, customerInfo, "Customer Info");
-				tabbedHome.setSelectedComponent(customerInfo);
+				loadCustomerAction();
+			}
+		});
+
+		btnLoan.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				loadLoanAction();
+			}
+		});
+
+		btnNewCustomer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddCustomer addCustomer = new AddCustomer();
+				addCustomer.setVisible(true);
 			}
 		});
 
@@ -292,59 +262,47 @@ public class Home extends JFrame {
 			}
 		});
 
-		btnCustomer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				AddCustomer addCustomer = new AddCustomer();
-				addCustomer.setVisible(true);
-			}
-		});
-
-		btnLoan.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				tabbedHome.removeAll();
-				tabbedHome.revalidate();
-				LoanDetail loanDetail = new LoanDetail();
-				ImageIcon icon = new ImageIcon(
-						getClass().getResource("/com/aptech/LoanProcessingSystem/images/loan.png"));
-				tabbedHome.addTab("Loan Detail", icon, loanDetail, "Loan Detail");
-				tabbedHome.setSelectedComponent(loanDetail);
-
-			}
-		});
-
 		btnPassword.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				ChangePass changePass = new ChangePass(account);
+				ChangePass changePass = new ChangePass();
 				changePass.setVisible(true);
 			}
 		});
 
-		btnLogOut.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		mnLogout.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
 				logoutAction();
 			}
 		});
 
-		btnExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				exitAction();
-			}
-		});
-
-		mnLogout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				logoutAction();
-			}
-		});
-
-		mnExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		mnExit.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
 				exitAction();
 			}
 		});
 		initClock();
+	}
+
+	protected void loadCustomerAction() {
+		tabbedHome.removeAll();
+		tabbedHome.revalidate();
+		CustomerInfo customerInfo = new CustomerInfo();
+		ImageIcon icon = new ImageIcon(
+				getClass().getResource("/com/aptech/LoanProcessingSystem/images/customer (2).png"));
+		tabbedHome.addTab("Customer Info", icon, customerInfo, "Customer Info");
+		tabbedHome.setSelectedComponent(customerInfo);
+	}
+
+	protected void loadLoanAction() {
+		tabbedHome.removeAll();
+		tabbedHome.revalidate();
+		LoanDetail loanDetail = new LoanDetail();
+		ImageIcon icon = new ImageIcon(getClass().getResource("/com/aptech/LoanProcessingSystem/images/loan.png"));
+		tabbedHome.addTab("Loan Detail", icon, loanDetail, "Loan Detail");
+		tabbedHome.setSelectedComponent(loanDetail);
 	}
 
 	protected void exitAction() {

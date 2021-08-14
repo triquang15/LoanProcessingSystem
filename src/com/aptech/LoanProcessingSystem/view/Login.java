@@ -120,7 +120,7 @@ public class Login extends JDialog {
 		panel_1.add(txtPassword);
 
 		JButton btnLogin = new JButton("Login");
-		btnLogin.setBackground(Color.LIGHT_GRAY);
+		btnLogin.setPreferredSize(new Dimension(120, 30));
 		btnLogin.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -130,23 +130,8 @@ public class Login extends JDialog {
 
 		btnLogin.setIcon(new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/enter.png")));
 		btnLogin.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnLogin.setBounds(158, 151, 110, 30);
+		btnLogin.setBounds(158, 151, 263, 30);
 		panel_1.add(btnLogin);
-
-		JButton btnSignUp = new JButton("Sign Up");
-		btnSignUp.setBackground(Color.LIGHT_GRAY);
-		btnSignUp.setIcon(new ImageIcon(
-				Login.class.getResource("/com/aptech/LoanProcessingSystem/images/unauthorized-person.png")));
-		btnSignUp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SignUp signUp = new SignUp();
-				signUp.setVisible(true);
-				Login.this.dispose();
-			}
-		});
-		btnSignUp.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnSignUp.setBounds(313, 151, 110, 30);
-		panel_1.add(btnSignUp);
 
 		txtMessage.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtMessage.setForeground(new Color(255, 0, 0));
@@ -183,21 +168,20 @@ public class Login extends JDialog {
 		buttonPane.setBackground(Color.LIGHT_GRAY);
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
-
-		JButton cancelButton = new JButton("Close");
-		cancelButton.setPreferredSize(new Dimension(110, 30));
-		cancelButton.setBackground(Color.GRAY);
-		cancelButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				closeAction();
-			}
-		});
-		cancelButton.setIcon(
-				new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
-		cancelButton.setFont(new Font("Tahoma", Font.BOLD, 11));
-		cancelButton.setActionCommand("Cancel");
-		buttonPane.add(cancelButton);
+		
+				JButton cancelButton = new JButton("Close");
+				buttonPane.add(cancelButton);
+				cancelButton.setPreferredSize(new Dimension(120, 30));
+				cancelButton.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						closeAction();
+					}
+				});
+				cancelButton.setIcon(
+						new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
+				cancelButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+				cancelButton.setActionCommand("Cancel");
 		initForm();
 	}
 
@@ -250,6 +234,7 @@ public class Login extends JDialog {
 			public void focusGained(FocusEvent e) {
 				if (textField.getText().equals(hint)) {
 					textField.setText("");
+					textField.setFont(new Font("Tahoma", Font.PLAIN, 10));
 					if (textField instanceof JPasswordField) {
 						((JPasswordField) textField).setEchoChar('●');
 					}
@@ -263,6 +248,7 @@ public class Login extends JDialog {
 			public void focusLost(FocusEvent e) {
 				if (textField.getText().equals("")) {
 					textField.setText(hint);
+					textField.setFont(new Font("Tahoma", Font.ITALIC, 10));
 					textField.setForeground(Color.GRAY);
 					if (textField instanceof JPasswordField) {
 						((JPasswordField) textField).setEchoChar((char) 0);

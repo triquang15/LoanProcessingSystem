@@ -140,7 +140,6 @@ public class SignUp extends JDialog {
 		panel_1.add(lblNewLabel_1);
 
 		txtName = new JTextField();
-		txtName.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtName.setBorder(new EmptyBorder(0, 5, 0, 5));
 		txtName.setBounds(129, 114, 230, 30);
 		panel_1.add(txtName);
@@ -152,7 +151,6 @@ public class SignUp extends JDialog {
 
 		txtEmail = new JTextField();
 
-		txtEmail.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtEmail.setBorder(new EmptyBorder(0, 5, 0, 5));
 		txtEmail.setBounds(129, 173, 230, 30);
 		panel_1.add(txtEmail);
@@ -163,7 +161,6 @@ public class SignUp extends JDialog {
 		panel_1.add(lblNewLabel_4);
 
 		txtPassword = new JPasswordField();
-		txtPassword.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtPassword.setBorder(new EmptyBorder(0, 5, 0, 5));
 		txtPassword.setBounds(129, 229, 230, 30);
 		panel_1.add(txtPassword);
@@ -173,7 +170,6 @@ public class SignUp extends JDialog {
 		panel_1.add(lblNewLabel_5);
 
 		txtConfirmPass = new JPasswordField();
-		txtConfirmPass.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtConfirmPass.setBorder(new EmptyBorder(0, 5, 0, 5));
 		txtConfirmPass.setBounds(129, 281, 230, 30);
 		panel_1.add(txtConfirmPass);
@@ -464,21 +460,28 @@ public class SignUp extends JDialog {
 
 	protected void initForm() {
 		txtName.setText(hintName);
+		txtName.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtName.setForeground(Color.GRAY);
 		txtEmail.setText(hintEmail);
+		txtEmail.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtEmail.setForeground(Color.GRAY);
 		txtPassword.setText(hintPassword);
+		txtPassword.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtPassword.setForeground(Color.GRAY);
 		txtPassword.setEchoChar((char) 0);
 		txtConfirmPass.setText(hintConfirmPass);
+		txtConfirmPass.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtConfirmPass.setForeground(Color.GRAY);
 		txtConfirmPass.setEchoChar((char) 0);
 		txtPhone.setText(hintPhone);
+		txtPhone.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtPhone.setForeground(Color.GRAY);
 		txtAdress.setText(hintAddress);
+		txtAdress.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtAdress.setForeground(Color.GRAY);
 		txtCalendar.setDate(new Date());
 		txtIdentity.setText(hintIdentityCard);
+		txtIdentity.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtIdentity.setForeground(Color.GRAY);
 		rdbMale.setSelected(true);
 		initAuth();
@@ -522,6 +525,7 @@ public class SignUp extends JDialog {
 			public void focusGained(FocusEvent e) {
 				if (textField.getText().equals(hint)) {
 					textField.setText("");
+					textField.setFont(new Font("Tahoma", Font.PLAIN, 10));
 					if (textField instanceof JPasswordField) {
 						((JPasswordField) textField).setEchoChar('●');
 					}
@@ -535,6 +539,7 @@ public class SignUp extends JDialog {
 			public void focusLost(FocusEvent e) {
 				if (textField.getText().equals("")) {
 					textField.setText(hint);
+					textField.setFont(new Font("Tahoma", Font.ITALIC, 10));
 					textField.setForeground(Color.GRAY);
 					if (textField instanceof JPasswordField) {
 						((JPasswordField) textField).setEchoChar((char) 0);

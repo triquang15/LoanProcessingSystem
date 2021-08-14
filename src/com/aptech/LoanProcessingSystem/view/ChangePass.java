@@ -47,9 +47,6 @@ public class ChangePass extends JDialog {
 	Connection conn = null;
 	ResultSet rs = null;
 	PreparedStatement ps = null;
-
-	public Account account;
-
 	private final JPanel contentPanel = new JPanel();
 	private JPasswordField txtNewPass;
 	private JPasswordField txtVerifyPass;
@@ -74,11 +71,6 @@ public class ChangePass extends JDialog {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public ChangePass(Account account) {
-		this();
-		this.account = account;
 	}
 
 	/**
@@ -207,6 +199,7 @@ public class ChangePass extends JDialog {
 	}
 
 	private void updatePassAction() {
+		Account account = ShareData.accountLogin;
 		String currentPass = new String(txtCurrentPass.getPassword()).trim();
 		String newPass = new String(txtNewPass.getPassword()).trim();
 		String verifyPass = new String(txtVerifyPass.getPassword()).trim();
