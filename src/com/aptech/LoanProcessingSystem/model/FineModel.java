@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.aptech.LoanProcessingSystem.database.ConnectDB;
 import com.aptech.LoanProcessingSystem.entities.Fine;
+import com.aptech.LoanProcessingSystem.entities.Loan;
 
 public class FineModel {
 
@@ -69,6 +70,30 @@ public class FineModel {
 			ConnectDB.disconnect();
 		}
 		return result;
+	}
+	
+	public Fine find_fine_interest(double installment) {
+		Fine fine = new Fine();
+		try {
+			PreparedStatement statement = ConnectDB.connection().prepareStatement("SELECT * FROM fine WHERE ? >= Min and (? < MAX OR MAX IS NULL)");
+			statement.setDouble(1, installment);
+			statement.setDouble(2, installment);
+			ResultSet resultset = statement.executeQuery();
+			while (resultset.next()) {
+				fine.setId(resultset.getInt("Id"));
+				fine.setFineInterest(resultset.getFloat("FineInterest"));
+				fine.setMin(resultset.getDouble("Min"));
+				fine.setMax(resultset.getDouble("Max"));
+				fine.setDescription(resultset.getString("Description"));
+				fine.setStatus(resultset.getBoolean("Status"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			fine = null;
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return fine;
 	}
 
 }

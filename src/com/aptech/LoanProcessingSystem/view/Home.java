@@ -34,6 +34,7 @@ public class Home extends JFrame {
 	private JTabbedPane tabbedHome = new JTabbedPane(JTabbedPane.TOP);
 	private JLabel lblLogin;
 	private JLabel lblClock;
+	private LoanDetail loanDetail;
 
 	/**
 	 * Launch the application.
@@ -208,6 +209,14 @@ public class Home extends JFrame {
 		btnLoan.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/loan.png")));
 		toolBar.add(btnLoan);
 
+		JButton btnLoanType = new JButton("");
+		btnLoanType.setToolTipText("Loan Type");
+		btnLoanType.setBackground(Color.DARK_GRAY);
+		btnLoanType
+				.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/loan (1).png")));
+		toolBar.add(btnLoanType);
+
+		
 		JButton btnSearch = new JButton("");
 		btnSearch.setToolTipText("Search");
 		btnSearch.setBackground(Color.DARK_GRAY);

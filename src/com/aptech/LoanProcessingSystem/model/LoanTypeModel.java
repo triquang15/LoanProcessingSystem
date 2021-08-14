@@ -91,16 +91,16 @@ public class LoanTypeModel {
 		return loanTypeList;
 	}
 	
-	public LoanType loadLoanType (int id) {
+	public LoanType loadLoanType (String name) {
 		LoanType loanType = null;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-					.prepareStatement("SELECT * FROM loantype WHERE id = ?");
-			preparedStatement.setInt(1, id);
+					.prepareStatement("SELECT * FROM loantype WHERE name like ?");
+			preparedStatement.setString(1, "%" + name + "%");
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				loanType = new LoanType();
-				loanType.setId(id);
+				loanType.setId(resultSet.getInt("Id"));
 				loanType.setName(resultSet.getString("Name"));
 				loanType.setInterest(resultSet.getFloat("Interest"));
 				loanType.setDescription(resultSet.getString("Description"));
