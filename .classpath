@@ -1,25 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-<<<<<<< HEAD
 	<classpathentry kind="lib" path="lib/activation.jar"/>
+	<classpathentry kind="lib" path="lib/javax.mail-api-1.6.2.jar"/>
 	<classpathentry kind="lib" path="lib/jbcrypt-0.4.jar"/>
 	<classpathentry kind="lib" path="lib/jcalendar-1.4.jar"/>
 	<classpathentry kind="lib" path="lib/jcommon-1.0.15.jar"/>
 	<classpathentry kind="lib" path="lib/jfreechart-1.0.12.jar"/>
-	<classpathentry kind="lib" path="lib/mail.jar"/>
 	<classpathentry kind="lib" path="lib/mysql-connector-java-8.0.11.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-=======
-	<classpathentry kind="lib" path="F:/It/Aptech/Java Project/LoanProcessingSystem/lib/activation.jar"/>
-	<classpathentry kind="lib" path="F:/It/Aptech/Java Project/LoanProcessingSystem/lib/javax.mail-api-1.6.2.jar"/>
-	<classpathentry kind="lib" path="F:/It/Aptech/Java Project/LoanProcessingSystem/lib/jbcrypt-0.4.jar"/>
-	<classpathentry kind="lib" path="F:/It/Aptech/Java Project/LoanProcessingSystem/lib/jcalendar-1.4.jar"/>
-	<classpathentry kind="lib" path="F:/It/Aptech/Java Project/LoanProcessingSystem/lib/jcommon-1.0.15.jar"/>
-	<classpathentry kind="lib" path="F:/It/Aptech/Java Project/LoanProcessingSystem/lib/jfreechart-1.0.12.jar"/>
-	<classpathentry kind="lib" path="F:/It/Aptech/Java Project/LoanProcessingSystem/lib/mail.jar"/>
-	<classpathentry kind="lib" path="F:/It/Aptech/Java Project/LoanProcessingSystem/lib/mysql-connector-java-8.0.11.jar"/>
-	<classpathentry kind="lib" path="F:/It/Aptech/Java Project/LoanProcessingSystem/lib/security-4.0.jar"/>
->>>>>>> f235264 ("add loan, co merge")
 	<classpathentry kind="output" path="bin"/>
+    	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 </classpath>
