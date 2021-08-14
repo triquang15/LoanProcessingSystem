@@ -3,6 +3,7 @@ package com.aptech.LoanProcessingSystem.entities;
 import java.util.Date;
 
 public class Loan {
+
 	private int id;
 	private int loanTypeId;
 	private int accountId;
@@ -16,15 +17,15 @@ public class Loan {
 	private Date endDate;
 	private double interest;
 	private String description;
-	private boolean status;
+	private int status;
 
 	public Loan() {
 		super();
 	}
 
-	public Loan(int id, int loanTypeId, int accountId, int customerId, int paymentTypeId, Double amount, int period,
-			Date createDate, Date disbursementDate, int duration, Date endDate, Double interest, String description,
-			Boolean status) {
+	public Loan(int id, int loanTypeId, int accountId, int customerId, int paymentTypeId, double amount, int period,
+			Date createDate, Date disbursementDate, int duration, Date endDate, double interest, String description,
+			int status) {
 		super();
 		this.id = id;
 		this.loanTypeId = loanTypeId;
@@ -146,11 +147,12 @@ public class Loan {
 		this.description = description;
 	}
 
-	public boolean getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(boolean status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
+
 }

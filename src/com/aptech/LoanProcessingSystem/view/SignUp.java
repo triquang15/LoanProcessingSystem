@@ -30,6 +30,7 @@ import com.aptech.LoanProcessingSystem.entities.Account;
 import com.aptech.LoanProcessingSystem.entities.Authority;
 import com.aptech.LoanProcessingSystem.model.AccountModel;
 import com.aptech.LoanProcessingSystem.model.AuthorityModel;
+import com.aptech.LoanProcessingSystem.service.ShareData;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Toolkit;
 import javax.swing.JComboBox;
@@ -67,14 +68,20 @@ public class SignUp extends JDialog {
 	private boolean isValidPhone = false;
 	private boolean isValidIden = false;
 	private JComboBox<Authority> cbbxAuth;
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 
 		try {
-			SignUp dialog = new SignUp();
-			dialog.setVisible(true);
+			if (ShareData.accountLogin == null) {
+				Login login = new Login();
+				login.setVisible(true);
+			} else {
+				SignUp dialog = new SignUp();
+				dialog.setVisible(true);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -89,10 +96,7 @@ public class SignUp extends JDialog {
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-				if (JOptionPane.showConfirmDialog(null, "Are you sure you want to close Application ?", "Confirm",
-						JOptionPane.YES_NO_OPTION) == 0) {
-					System.exit(0);
-				}
+				cancelAction();
 			}
 		});
 		setIconImage(Toolkit.getDefaultToolkit()
@@ -184,7 +188,7 @@ public class SignUp extends JDialog {
 		cbbxAuth.setBackground(Color.WHITE);
 		cbbxAuth.setBounds(516, 114, 230, 30);
 		panel_1.add(cbbxAuth);
-		
+
 		JLabel lblNewLabel_7 = new JLabel("Gender *");
 		lblNewLabel_7.setBounds(10, 340, 76, 14);
 		panel_1.add(lblNewLabel_7);
@@ -339,12 +343,7 @@ public class SignUp extends JDialog {
 		cancelButton.setBackground(Color.GRAY);
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (JOptionPane.showConfirmDialog(null, "Are you sure you cancel?", "Confirm",
-						JOptionPane.YES_NO_OPTION) == 0) {
-					Login login = new Login();
-					login.setVisible(true);
-					SignUp.this.dispose();
-				}
+				cancelAction();
 			}
 		});
 		cancelButton.setIcon(
@@ -379,7 +378,7 @@ public class SignUp extends JDialog {
 		txtMessage.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtMessage.setBounds(516, 372, 263, 20);
 		panel_1.add(txtMessage);
-		
+
 		JLabel lblNewLabel_9_1 = new JLabel("Authority *");
 		lblNewLabel_9_1.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNewLabel_9_1.setBounds(404, 121, 88, 14);
@@ -403,31 +402,31 @@ public class SignUp extends JDialog {
 			txtMessage.setText("Phone or identitty card invalid!");
 
 		} else if (!(Pattern.matches("^[a-zA-Z0-9]+(.+)+[@]{1}+(.+)+[.]{1}+[a-zA-Z0-9]+$", txtEmail.getText()))) {
-			
+
 			txtMessage.setText("Please enter a valid email!");
 
 		} else if (name.trim().equals(hintName) || email.trim().equals(hintEmail)
 				|| password.trim().equals(hintPassword) || confirm_pass.trim().equals(hintConfirmPass)
 				|| phone.trim().equals(hintPhone) || address.trim().equals(hintAddress)
 				|| identityCard.trim().equals(hintIdentityCard)) {
-			
+
 			txtMessage.setText("Please enter full information!");
 
 		} else if (!password.equals(confirm_pass)) {
-			
+
 			txtMessage.setText("Password and Confirm Password must be same!");
 			txtPassword.setText("");
 			txtConfirmPass.setText("");
 
 		} else if (dob == null) {
-			
+
 			txtMessage.setText("Please select Date of Birthday");
 			txtCalendar.grabFocus();
 
 		} else {
-			
+
 			try {
-				
+
 				Account account = new Account();
 				account.setAuthId(authId);
 				account.setName(name);
@@ -441,24 +440,24 @@ public class SignUp extends JDialog {
 				account.setIdentityCard(identityCard);
 				account.setAuthId(authId);
 				AccountModel accountModel = new AccountModel();
-				
+
 				if (accountModel.create(account)) {
-					
+
 					JOptionPane.showMessageDialog(null, "Successful account registration!");
 					Login login = new Login();
 					login.setVisible(true);
 					this.dispose();
-					
+
 				} else {
-					
+
 					JOptionPane.showMessageDialog(null, "Please try again!");
-					
+
 				}
 			} catch (Exception e2) {
-				
+
 				e2.printStackTrace();
 				JOptionPane.showMessageDialog(null, "Please try again!");
-				
+
 			}
 		}
 	}
@@ -483,10 +482,9 @@ public class SignUp extends JDialog {
 		txtIdentity.setForeground(Color.GRAY);
 		rdbMale.setSelected(true);
 		initAuth();
-		
+
 	}
-	
-	
+
 	private class AuthorityCellRender extends DefaultListCellRenderer {
 
 		@Override
@@ -495,7 +493,7 @@ public class SignUp extends JDialog {
 			Authority authority = (Authority) value;
 			return super.getListCellRendererComponent(list, authority.getName(), index, isSelected, cellHasFocus);
 		}
-		
+
 	}
 
 	private void initAuth() {
@@ -504,7 +502,7 @@ public class SignUp extends JDialog {
 			authModel.addElement(auth);
 		}
 		cbbxAuth.setModel(authModel);
-		cbbxAuth.setRenderer(new AuthListCellRenderer());		
+		cbbxAuth.setRenderer(new AuthListCellRenderer());
 	}
 
 	@SuppressWarnings("serial")
@@ -517,7 +515,7 @@ public class SignUp extends JDialog {
 		}
 
 	}
-	
+
 	private void setTextHint(JTextField textField, String hint) {
 		textField.addFocusListener(new FocusAdapter() {
 			@Override
@@ -544,5 +542,12 @@ public class SignUp extends JDialog {
 				}
 			}
 		});
+	}
+
+	private void cancelAction() {
+		if (JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel?", "Confirm",
+				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			this.dispose();
+		}
 	}
 }

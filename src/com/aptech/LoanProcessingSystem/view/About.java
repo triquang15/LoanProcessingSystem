@@ -7,6 +7,9 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.aptech.LoanProcessingSystem.service.ShareData;
+
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
@@ -16,6 +19,7 @@ import java.awt.Color;
 import java.awt.Desktop;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -31,11 +35,15 @@ public class About extends JDialog {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		
+
 		try {
-			About dialog = new About();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
+			if (ShareData.accountLogin == null) {
+				Login login = new Login();
+				login.setVisible(true);
+			} else {
+				About dialog = new About();
+				dialog.setVisible(true);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -45,8 +53,16 @@ public class About extends JDialog {
 	 * Create the dialog.
 	 */
 	public About() {
-		
-		setIconImage(Toolkit.getDefaultToolkit().getImage(About.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
+
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				cancelAction();
+			}
+		});
+		setIconImage(Toolkit.getDefaultToolkit()
+				.getImage(About.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
 		setFont(new Font("Dialog", Font.BOLD, 14));
 		setTitle("About");
 		setBounds(100, 100, 782, 312);
@@ -55,7 +71,7 @@ public class About extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
-		
+
 		JLabel lblNewLabel = new JLabel("Loan Processing System");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel.setBounds(10, 11, 240, 30);
@@ -82,14 +98,15 @@ public class About extends JDialog {
 			lblNewLabel_3.setBounds(10, 103, 197, 14);
 			contentPanel.add(lblNewLabel_3);
 		}
-		
+
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.LIGHT_GRAY);
 		panel.setBounds(197, 23, 561, 208);
 		contentPanel.add(panel);
 		panel.setLayout(null);
 		{
-			JLabel lblNewLabel_4 = new JLabel("\u201CQuickLoan\u201D is a company involved in providing loans to its customers.");
+			JLabel lblNewLabel_4 = new JLabel(
+					"\u201CQuickLoan\u201D is a company involved in providing loans to its customers.");
 			lblNewLabel_4.setFont(new Font("Tahoma", Font.PLAIN, 10));
 			lblNewLabel_4.setBounds(22, 23, 529, 21);
 			panel.add(lblNewLabel_4);
@@ -101,7 +118,8 @@ public class About extends JDialog {
 			panel.add(lblNewLabel_5);
 		}
 		{
-			JLabel lblNewLabel_6 = new JLabel("They cater to different types of loans like the vehicle loan, house loan, personal loan and loan to");
+			JLabel lblNewLabel_6 = new JLabel(
+					"They cater to different types of loans like the vehicle loan, house loan, personal loan and loan to");
 			lblNewLabel_6.setFont(new Font("Tahoma", Font.PLAIN, 10));
 			lblNewLabel_6.setBounds(22, 67, 446, 14);
 			panel.add(lblNewLabel_6);
@@ -117,26 +135,26 @@ public class About extends JDialog {
 			btnNewButton.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					  String url = "https://www.homecredit.vn";
+					String url = "https://www.homecredit.vn";
 
-				        if(Desktop.isDesktopSupported()){
-				            Desktop desktop = Desktop.getDesktop();
-				            try {
-				                desktop.browse(new URI(url));
-				            } catch (IOException | URISyntaxException e1) {
-				                // TODO Auto-generated catch block
-				                e1.printStackTrace();
-				            }
-				        }else{
-				            Runtime runtime = Runtime.getRuntime();
-				            try {
-				                runtime.exec("xdg-open " + url);
-				            } catch (IOException e1) {
-				                // TODO Auto-generated catch block
-				                e1.printStackTrace();
-				            }
-				        }
-					
+					if (Desktop.isDesktopSupported()) {
+						Desktop desktop = Desktop.getDesktop();
+						try {
+							desktop.browse(new URI(url));
+						} catch (IOException | URISyntaxException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					} else {
+						Runtime runtime = Runtime.getRuntime();
+						try {
+							runtime.exec("xdg-open " + url);
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+					}
+
 				}
 			});
 			btnNewButton.setForeground(Color.WHITE);
@@ -152,10 +170,11 @@ public class About extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton cancelButton = new JButton("Close");
-				cancelButton.setIcon(new ImageIcon(About.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
+				cancelButton.setIcon(new ImageIcon(
+						About.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						 About.this.dispose();
+						cancelAction();
 					}
 				});
 				cancelButton.setBackground(Color.GRAY);
@@ -163,5 +182,9 @@ public class About extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+
+	protected void cancelAction() {
+			this.dispose();
 	}
 }

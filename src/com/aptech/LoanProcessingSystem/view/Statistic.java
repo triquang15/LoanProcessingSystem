@@ -21,10 +21,13 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.jdbc.JDBCCategoryDataset;
 
 import com.aptech.LoanProcessingSystem.database.ConnectDB;
+import com.aptech.LoanProcessingSystem.service.ShareData;
 
 import java.awt.Toolkit;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -39,10 +42,70 @@ import java.awt.event.ActionEvent;
  */
 public class Statistic extends javax.swing.JFrame {
 
+	// Variables declaration - do not modify
+	private javax.swing.JButton btn3DPie;
+	private javax.swing.JButton btnBarChart;
+	private javax.swing.JButton btnLineChart;
+	private javax.swing.JPanel pnChart;
+
+	/**
+	 * @param args the command line arguments
+	 */
+	public static void main(String args[]) {
+		/* Set the Nimbus look and feel */
+		// <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
+		// (optional) ">
+		/*
+		 * If Nimbus (introduced in Java SE 6) is not available, stay with the default
+		 * look and feel. For details see
+		 * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+		 */
+		try {
+			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					javax.swing.UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (ClassNotFoundException ex) {
+			java.util.logging.Logger.getLogger(Statistic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (InstantiationException ex) {
+			java.util.logging.Logger.getLogger(Statistic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (IllegalAccessException ex) {
+			java.util.logging.Logger.getLogger(Statistic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+			java.util.logging.Logger.getLogger(Statistic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+		}
+		// </editor-fold>
+
+		/* Create and display the form */
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					if (ShareData.accountLogin == null) {
+						Login login = new Login();
+						login.setVisible(true);
+					} else {
+						new Statistic().setVisible(true);
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
 	/**
 	 * Creates new form MainFrm
 	 */
 	public Statistic() {
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				cancelAction();
+			}
+		});
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(Statistic.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
 		setTitle("Statistic");
@@ -82,11 +145,7 @@ public class Statistic extends javax.swing.JFrame {
 		btnBarChart.setBackground(new Color(255, 140, 0));
 		btn3DPie = new javax.swing.JButton();
 		btn3DPie.setBackground(new Color(255, 140, 0));
-
-		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
 		pnChart.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
 		javax.swing.GroupLayout pnChartLayout = new javax.swing.GroupLayout(pnChart);
 		pnChart.setLayout(pnChartLayout);
 		pnChartLayout.setHorizontalGroup(pnChartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -118,7 +177,7 @@ public class Statistic extends javax.swing.JFrame {
 		JButton btnNewButton = new JButton("Close");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Statistic.this.dispose();
+				cancelAction();
 			}
 		});
 		btnNewButton.setBackground(new Color(169, 169, 169));
@@ -146,6 +205,10 @@ public class Statistic extends javax.swing.JFrame {
 
 		pack();
 	}// </editor-fold>
+
+	private void cancelAction() {
+		this.dispose();
+	}
 
 	private void btnLineChartActionPerformed(java.awt.event.ActionEvent evt) {
 		// create line chart
@@ -176,7 +239,7 @@ public class Statistic extends javax.swing.JFrame {
 	}
 
 	private void btn3DPieActionPerformed(java.awt.event.ActionEvent evt) {
-		
+
 		// create dataset for pie chart
 		DefaultPieDataset dataset = new DefaultPieDataset();
 		dataset.setValue("Home Loan", new Double(20));
@@ -200,47 +263,4 @@ public class Statistic extends javax.swing.JFrame {
 		pnChart.validate(); // refresh panel to display new chart
 	}
 
-	/**
-	 * @param args the command line arguments
-	 */
-	public static void main(String args[]) {
-		/* Set the Nimbus look and feel */
-		// <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
-		// (optional) ">
-		/*
-		 * If Nimbus (introduced in Java SE 6) is not available, stay with the default
-		 * look and feel. For details see
-		 * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-		 */
-		try {
-			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-				if ("Nimbus".equals(info.getName())) {
-					javax.swing.UIManager.setLookAndFeel(info.getClassName());
-					break;
-				}
-			}
-		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(Statistic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(Statistic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(Statistic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(Statistic.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		}
-		// </editor-fold>
-
-		/* Create and display the form */
-		java.awt.EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				new Statistic().setVisible(true);
-			}
-		});
-	}
-
-	// Variables declaration - do not modify
-	private javax.swing.JButton btn3DPie;
-	private javax.swing.JButton btnBarChart;
-	private javax.swing.JButton btnLineChart;
-	private javax.swing.JPanel pnChart;
 }

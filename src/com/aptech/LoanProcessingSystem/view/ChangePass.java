@@ -13,6 +13,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import com.aptech.LoanProcessingSystem.database.ConnectDB;
 import com.aptech.LoanProcessingSystem.entities.Account;
 import com.aptech.LoanProcessingSystem.model.AccountModel;
+import com.aptech.LoanProcessingSystem.service.ShareData;
 
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -63,8 +64,13 @@ public class ChangePass extends JDialog {
 	public static void main(String[] args) {
 
 		try {
-			ChangePass dialog = new ChangePass();
-			dialog.setVisible(true);
+			if (ShareData.accountLogin == null) {
+				Login login = new Login();
+				login.setVisible(true);
+			} else {
+				ChangePass dialog = new ChangePass();
+				dialog.setVisible(true);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -89,7 +95,7 @@ public class ChangePass extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(ChangePass.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
 		setFont(new Font("Dialog", Font.BOLD, 14));
-		setTitle("Forgot Password ");
+		setTitle("Update Password ");
 		setBounds(100, 100, 782, 312);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(105, 105, 105));
@@ -147,7 +153,7 @@ public class ChangePass extends JDialog {
 
 		btnUpdate.setBackground(Color.GRAY);
 		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 10));
-		btnUpdate.setBounds(320, 159, 89, 23);
+		btnUpdate.setBounds(254, 160, 89, 23);
 		panel.add(btnUpdate);
 
 		txtNewPass = new JPasswordField();
@@ -200,7 +206,7 @@ public class ChangePass extends JDialog {
 		setTextHint(txtVerifyPass, hintVerifyPass);
 	}
 
-	protected void updatePassAction() {
+	private void updatePassAction() {
 		String currentPass = new String(txtCurrentPass.getPassword()).trim();
 		String newPass = new String(txtNewPass.getPassword()).trim();
 		String verifyPass = new String(txtVerifyPass.getPassword()).trim();
@@ -225,14 +231,14 @@ public class ChangePass extends JDialog {
 		}
 	}
 
-	protected void cancelAction() {
-		if (JOptionPane.showConfirmDialog(null, "Are you sure you want cancel update?", "Confirm",
+	private void cancelAction() {
+		if (JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel?", "Confirm",
 				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-			ChangePass.this.dispose();
+			this.dispose();
 		}
 	}
 
-	protected void initTextField() {
+	private void initTextField() {
 		txtCurrentPass.setText(hintCurrentPass);
 		txtCurrentPass.setForeground(Color.GRAY);
 		txtCurrentPass.setEchoChar((char) 0);
@@ -246,7 +252,7 @@ public class ChangePass extends JDialog {
 		txtVerifyPass.setEchoChar((char) 0);
 	}
 
-	protected void setTextHint(JTextField textField, String hint) {
+	private void setTextHint(JTextField textField, String hint) {
 		textField.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {

@@ -52,6 +52,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import com.aptech.LoanProcessingSystem.model.PaymentTypeModel;
+import com.aptech.LoanProcessingSystem.service.ShareData;
 import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
 
 import java.text.ParseException;
@@ -86,9 +87,13 @@ public class LoanUpdate extends JDialog {
 	public static void main(String[] args) {
 
 		try {
-			LoanUpdate dialog = new LoanUpdate();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
+			if (ShareData.accountLogin == null) {
+				Login login = new Login();
+				login.setVisible(true);
+			} else {
+				LoanUpdate dialog = new LoanUpdate();
+				dialog.setVisible(true);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -103,6 +108,16 @@ public class LoanUpdate extends JDialog {
 	 * Create the dialog.
 	 */
 	public LoanUpdate() {
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				if (JOptionPane.showConfirmDialog(null, "Are you sure you want to close Application ?", "Confirm",
+						JOptionPane.YES_NO_OPTION) == 0) {
+					System.exit(0);
+				}
+			}
+		});
 		bg = new ButtonGroup();
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(CreateLoan.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
@@ -134,20 +149,20 @@ public class LoanUpdate extends JDialog {
 		txtAmount.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
-				
+
 				try {
 					int i = Integer.parseInt(txtAmount.getText());
 					txtVali1.setText("");
-				
-			} catch (Exception e1) {
-				// TODO: handle exception
-				txtVali1.setText("Invalid number");
-				
-			}
-				
+
+				} catch (Exception e1) {
+					// TODO: handle exception
+					txtVali1.setText("Invalid number");
+
+				}
+
 			}
 		});
-	
+
 		txtAmount.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 10));
 		txtAmount.setBounds(130, 51, 306, 20);
 		panel.add(txtAmount);
@@ -156,24 +171,22 @@ public class LoanUpdate extends JDialog {
 		txtUpdateDate = new JDateChooser();
 		txtUpdateDate.setBounds(133, 141, 306, 20);
 		panel.add(txtUpdateDate);
-		
+
 		txtVali1 = new JLabel("");
 		txtVali1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 9));
 		txtVali1.setForeground(Color.RED);
 		txtVali1.setBounds(133, 59, 306, 14);
 		panel.add(txtVali1);
-		
+
 		JLabel lblNewLabel_1_4 = new JLabel("History ID*");
 		lblNewLabel_1_4.setBounds(26, 17, 94, 14);
 		panel.add(lblNewLabel_1_4);
-		
+
 		txtHistoryId = new JTextField();
 		txtHistoryId.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 10));
 		txtHistoryId.setColumns(10);
 		txtHistoryId.setBounds(129, 15, 306, 20);
 		panel.add(txtHistoryId);
-		
-		
 
 		{
 			JPanel panel_1 = new JPanel();
@@ -207,24 +220,23 @@ public class LoanUpdate extends JDialog {
 					LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
 					loanAndFineHistory = loanAndFineHistoryModel.search_history_based_on_id(history_id);
 					if (Objects.isNull(loanAndFineHistory)) {
-						JOptionPane.showMessageDialog(null, "No Id"); 
-						} else {
+						JOptionPane.showMessageDialog(null, "No Id");
+					} else {
 						String amount = txtAmount.getText();
 						Double amount_double = Double.parseDouble(amount);
 						String description = txtDescription.getText();
 						Double amount_left = loanAndFineHistory.getAmount() - amount_double;
 						Date update_date = txtUpdateDate.getDate();
 						long difference_In_Time = update_date.getTime() - loanAndFineHistory.getDueDate().getTime();
-				        long difference_In_Days = TimeUnit.MILLISECONDS.toDays(difference_In_Time) % 365;
-				        Double fine_amount = loanAndFineHistory.getFineInterest() * loanAndFineHistory.getAmount();
+						long difference_In_Days = TimeUnit.MILLISECONDS.toDays(difference_In_Time) % 365;
+						Double fine_amount = loanAndFineHistory.getFineInterest() * loanAndFineHistory.getAmount();
 						// Apply the validation logic checking all controls are empty or not
-						if (txtAmount.getText().trim().equals("") || txtUpdateDate.getDate() == null ||							
-								txtHistoryId.getText().trim().equals("")
-						) {
+						if (txtAmount.getText().trim().equals("") || txtUpdateDate.getDate() == null
+								|| txtHistoryId.getText().trim().equals("")) {
 							JOptionPane.showMessageDialog(null, "Please enter full information !!!");
 						} else {
 
-							try {					
+							try {
 								com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory loanAndFineHistory_update = new LoanAndFineHistory();
 								Date today = new Date();
 								loanAndFineHistory_update.setId(history_id);
@@ -247,17 +259,15 @@ public class LoanUpdate extends JDialog {
 									JOptionPane.showMessageDialog(null, "Please try again!");
 									a.printStackTrace();
 								}
-								LoanUpdate.this.dispose();		
-				
-								
+								LoanUpdate.this.dispose();
+
 							} catch (Exception e2) {
 								// TODO: handle exception
 								e2.printStackTrace();
-							}	
+							}
 
 						}
 					}
-					
 
 				}
 			});
@@ -285,7 +295,7 @@ public class LoanUpdate extends JDialog {
 					CreateLoan.class.getResource("/com/aptech/LoanProcessingSystem/images/arrows-circle.png")));
 			btnClear.setBounds(733, 22, 95, 23);
 			panel_1.add(btnClear);
-			
+
 			btnCheck = new JButton("Check");
 			btnCheck.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -319,25 +329,25 @@ public class LoanUpdate extends JDialog {
 			txtDescription = new JTextArea();
 			txtDescription.setBounds(146, 168, 306, 71);
 			panel_1.add(txtDescription);
-			
+
 			txtValid3 = new JLabel("");
 			txtValid3.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 9));
 			txtValid3.setForeground(Color.RED);
 			txtValid3.setBounds(146, 145, 306, 14);
 			panel_1.add(txtValid3);
-			
+
 			JLabel lblNewLabel_3 = new JLabel("Amount Left *");
 			lblNewLabel_3.setBounds(34, 21, 84, 14);
 			panel_1.add(lblNewLabel_3);
-			
+
 			textAmountLeft = new JLabel("");
 			textAmountLeft.setBounds(142, 21, 307, 14);
 			panel_1.add(textAmountLeft);
-			
+
 			textFineOverDay = new JLabel("");
 			textFineOverDay.setBounds(143, 56, 307, 14);
 			panel_1.add(textFineOverDay);
-			
+
 			textFineAmount = new JLabel("");
 			textFineAmount.setBounds(141, 88, 307, 14);
 			panel_1.add(textFineAmount);
@@ -373,16 +383,16 @@ public class LoanUpdate extends JDialog {
 			}
 		}
 	}
-	
+
 	public void jbuttoncheck_actionPerformed(ActionEvent e) {
 		Integer history_id = Integer.parseInt(txtHistoryId.getText());
-		LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();		
+		LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
 		LoanAndFineHistory loanAndFineHistory = loanAndFineHistoryModel.search_history_based_on_id(history_id);
 		if (Objects.isNull(loanAndFineHistory)) {
 			JOptionPane.showMessageDialog(null, "No Id");
 		} else {
-			if (txtAmount.getText().trim().equals("") || txtUpdateDate.getDate() == null ||							
-					txtHistoryId.getText().trim().equals("")
+			if (txtAmount.getText().trim().equals("") || txtUpdateDate.getDate() == null
+					|| txtHistoryId.getText().trim().equals("")
 
 			) {
 				JOptionPane.showMessageDialog(null, "Please enter full information !!!");
@@ -392,23 +402,22 @@ public class LoanUpdate extends JDialog {
 				String amount_left = String.valueOf(loanAndFineHistory.getAmount() - amount_double);
 				Date update_date = txtUpdateDate.getDate();
 				long difference_In_Time = update_date.getTime() - loanAndFineHistory.getDueDate().getTime();
-		        long difference_In_Days = TimeUnit.MILLISECONDS.toDays(difference_In_Time) % 365;
-		        String fine_amount = String.valueOf(loanAndFineHistory.getFineInterest() * loanAndFineHistory.getAmount());
+				long difference_In_Days = TimeUnit.MILLISECONDS.toDays(difference_In_Time) % 365;
+				String fine_amount = String
+						.valueOf(loanAndFineHistory.getFineInterest() * loanAndFineHistory.getAmount());
 
-		        if (difference_In_Days > 0) {
-		        	textFineAmount.setText(fine_amount);
-		            textFineOverDay.setText(String.valueOf(difference_In_Days));
-		        } else {
-		        	textFineAmount.setText("0");
-		            textFineOverDay.setText("0");
-		        }
+				if (difference_In_Days > 0) {
+					textFineAmount.setText(fine_amount);
+					textFineOverDay.setText(String.valueOf(difference_In_Days));
+				} else {
+					textFineAmount.setText("0");
+					textFineOverDay.setText("0");
+				}
 
 				textAmountLeft.setText(amount_left);
 			}
 
 		}
-
-
 
 	}
 }
