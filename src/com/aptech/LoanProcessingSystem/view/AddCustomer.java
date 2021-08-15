@@ -557,7 +557,7 @@ public class AddCustomer extends JDialog {
 		}
 	}
 
-	protected void initForm() {
+	private void initForm() {
 		txtName.setText(hintName);
 		txtName.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtName.setForeground(Color.GRAY);
@@ -616,7 +616,7 @@ public class AddCustomer extends JDialog {
 		});
 	}
 
-	protected void cancelAction() {
+	private void cancelAction() {
 		if (JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel?", "Confirm",
 				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 			this.dispose();

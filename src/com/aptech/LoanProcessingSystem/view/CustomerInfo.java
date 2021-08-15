@@ -150,21 +150,7 @@ public class CustomerInfo extends JPanel {
 		panel_4.add(btnCreateLoan);
 		btnCreateLoan.setPreferredSize(new Dimension(120, 30));
 		btnCreateLoan.setMargin(new Insets(2, 20, 2, 20));
-		btnCreateLoan.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				int selectedRow = table.getSelectedRow();
-				if (selectedRow != -1) {
-						int id = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
-						CreateLoan createLoan = new CreateLoan(id);
-						createLoan.setVisible(true);
-					
-				} else {
-					JOptionPane.showMessageDialog(null, "Please choose a value!");
-				}
 
-			}
-		});
 		btnCreateLoan.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnCreateLoan.setIcon(
 				new ImageIcon(CustomerInfo.class.getResource("/com/aptech/LoanProcessingSystem/images/add.png")));
@@ -238,7 +224,20 @@ public class CustomerInfo extends JPanel {
 				loadDataToTable(new CustomerModel().findAll());
 			}
 		});
+		btnCreateLoan.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int selectedRow = table.getSelectedRow();
+				if (selectedRow != -1) {
+					int id = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
+					CreateLoan createLoan = new CreateLoan(id);
+					createLoan.setVisible(true);
+				} else {
+					JOptionPane.showMessageDialog(null, "Please choose a value!");
+				}
 
+			}
+		});
 	}
 
 }
