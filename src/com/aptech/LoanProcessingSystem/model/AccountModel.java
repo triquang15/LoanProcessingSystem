@@ -2,8 +2,6 @@ package com.aptech.LoanProcessingSystem.model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -15,19 +13,26 @@ public class AccountModel {
 	public boolean create(Account account) {
 		boolean result = true;
 		try {
+			String generatedColumns[] = { "Id" };
 			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
-					"insert into account(Name,Email, Password,  Phone, Address,Gender, DOB, IdentityCard, Status, AuthId) values(?,?,?,?,?,?,?,?,?,?)");
-			preparedStatement.setString(1, account.getName());
-			preparedStatement.setString(2, account.getEmail());
-			preparedStatement.setString(3, account.getPassword());
-			preparedStatement.setString(4, account.getPhone());
-			preparedStatement.setString(5, account.getAddress());
-			preparedStatement.setBoolean(6, account.isGender());
-			preparedStatement.setDate(7, new java.sql.Date(account.getDob().getTime()));
-			preparedStatement.setString(8, account.getIdentityCard());
-			preparedStatement.setBoolean(9, true);
-			preparedStatement.setInt(10, account.getAuthId());
+					"insert into account(AuthId, Name, Email, Password,  Phone, Address,Gender, DOB, IdentityCard, Status) values(?,?,?,?,?,?,?,?,?,?)",
+					generatedColumns);
+			preparedStatement.setInt(1, account.getAuthId());
+			preparedStatement.setString(2, account.getName());
+			preparedStatement.setString(3, account.getEmail());
+			preparedStatement.setString(4, account.getPassword());
+			preparedStatement.setString(5, account.getPhone());
+			preparedStatement.setString(6, account.getAddress());
+			preparedStatement.setBoolean(7, account.isGender());
+			preparedStatement.setDate(8, new java.sql.Date(account.getDob().getTime()));
+			preparedStatement.setString(9, account.getIdentityCard());
+			preparedStatement.setBoolean(10, true);
 			result = preparedStatement.executeUpdate() > 0;
+			ResultSet rs = preparedStatement.getGeneratedKeys();
+			if (rs.next()) {
+			    long id = rs.getLong(1);
+			    System.out.println("Inserted ID -" + id);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			result = false;
@@ -36,35 +41,6 @@ public class AccountModel {
 		}
 		return result;
 	}
-	
-//	public boolean update(Account account) {
-//		boolean result = true;
-//		try {
-//			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
-//					"UPDATE account SET Name=?"
-//					+ ",Address=?,Phone=?,"
-//					+ "Email=?,Gender=?,DOB=?,"
-//					+ "IdentityCard=?,Status=? WHERE Id = ?");
-//			preparedStatement.setString(1, account.getAuthId());
-//			preparedStatement.setString(2, account.getName());
-//			preparedStatement.setString(2, account.getName());
-//			preparedStatement.setString(, account.getEmail());
-//			preparedStatement.setString(3, account.getPassword());
-//			preparedStatement.setString(4, account.getPhone());
-//			preparedStatement.setString(5, account.getAddress());
-//			preparedStatement.setBoolean(6, account.isGender());
-//			preparedStatement.setDate(7, new java.sql.Date(account.getDob().getTime()));
-//			preparedStatement.setString(8, account.getIdentityCard());
-//			preparedStatement.setBoolean(9, true);
-//			result = preparedStatement.executeUpdate() > 0;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			result = false;
-//		} finally {
-//			ConnectDB.disconnect();
-//		}
-//		return result;
-//	}
 
 	public Account login(String email, String password) {
 		Account account = null;
@@ -99,6 +75,7 @@ public class AccountModel {
 		}
 		return account;
 	}
+<<<<<<< HEAD
 	
 	public String loadAuthorityName (int id) {
 		String str = null;
@@ -251,6 +228,8 @@ public class AccountModel {
 		}
 		return result;
 	}
+=======
+>>>>>>> master
 
 //	// temp
 //	public boolean login(String email, String password) {
@@ -291,7 +270,7 @@ public class AccountModel {
 //		}
 //		return i;
 //	}
-	
+
 	public boolean changePass(Account account) {
 		boolean result = true;
 		try {

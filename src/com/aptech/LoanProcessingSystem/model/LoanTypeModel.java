@@ -40,7 +40,7 @@ public class LoanTypeModel {
 				LoanType loanType = new LoanType();
 				loanType.setId(resultSet.getInt("Id"));
 				loanType.setName(resultSet.getString("Name"));
-				loanType.setInterest(resultSet.getDouble("Interest"));
+				loanType.setInterest(resultSet.getFloat("Interest"));
 				loanType.setDescription(resultSet.getString("Description"));
 				loanType.setStatus(resultSet.getBoolean("Status"));	
 				loanTypeList.add(loanType);
@@ -78,7 +78,7 @@ public class LoanTypeModel {
 				LoanType loanType = new LoanType();
 				loanType.setId(resultSet.getInt("Id"));
 				loanType.setName(resultSet.getString("Name"));
-				loanType.setInterest(resultSet.getDouble("Interest"));
+				loanType.setInterest(resultSet.getFloat("Interest"));
 				loanType.setDescription(resultSet.getString("Description"));
 				loanType.setStatus(resultSet.getBoolean("Status"));
 				loanTypeList.add(loanType);
@@ -91,18 +91,18 @@ public class LoanTypeModel {
 		return loanTypeList;
 	}
 	
-	public LoanType loadLoanType (int id) {
+	public LoanType loadLoanType (String name) {
 		LoanType loanType = null;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-					.prepareStatement("SELECT * FROM loantype WHERE id = ?");
-			preparedStatement.setInt(1, id);
+					.prepareStatement("SELECT * FROM loantype WHERE name like ?");
+			preparedStatement.setString(1, "%" + name + "%");
 			ResultSet resultSet = preparedStatement.executeQuery();
 			if (resultSet.next()) {
 				loanType = new LoanType();
-				loanType.setId(id);
+				loanType.setId(resultSet.getInt("Id"));
 				loanType.setName(resultSet.getString("Name"));
-				loanType.setInterest(resultSet.getDouble("Interest"));
+				loanType.setInterest(resultSet.getFloat("Interest"));
 				loanType.setDescription(resultSet.getString("Description"));
 				loanType.setStatus(resultSet.getBoolean("Status"));
 			}
@@ -146,7 +146,7 @@ public class LoanTypeModel {
 				LoanType loanType = new LoanType();
 				loanType.setId(resultSet.getInt("Id"));
 				loanType.setName(resultSet.getString("Name"));
-				loanType.setInterest(resultSet.getDouble("Interest"));
+				loanType.setInterest(resultSet.getFloat("Interest"));
 				loanType.setDescription(resultSet.getString("Description"));
 				loanType.setStatus(resultSet.getBoolean("Status"));
 				loanList.add(loanType);
@@ -170,7 +170,7 @@ public class LoanTypeModel {
 				LoanType loanType = new LoanType();
 				loanType.setId(resultSet.getInt("Id"));
 				loanType.setName(resultSet.getString("Name"));
-				loanType.setInterest(resultSet.getDouble("Interest"));
+				loanType.setInterest(resultSet.getFloat("Interest"));
 				loanType.setDescription(resultSet.getString("Description"));
 				loanType.setStatus(resultSet.getBoolean("Status"));
 				loanList.add(loanType);

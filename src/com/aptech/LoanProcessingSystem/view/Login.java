@@ -16,7 +16,7 @@ import com.aptech.LoanProcessingSystem.entities.Account;
 import com.aptech.LoanProcessingSystem.model.AccountModel;
 import com.aptech.LoanProcessingSystem.service.ShareData;
 import com.aptech.LoanProcessingSystem.view.admin.Admin;
-
+import com.aptech.LoanProcessingSystem.service.ShareData;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -28,6 +28,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.SwingConstants;
@@ -120,7 +121,7 @@ public class Login extends JDialog {
 		panel_1.add(txtPassword);
 
 		JButton btnLogin = new JButton("Login");
-		btnLogin.setBackground(Color.LIGHT_GRAY);
+		btnLogin.setPreferredSize(new Dimension(120, 30));
 		btnLogin.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -130,23 +131,8 @@ public class Login extends JDialog {
 
 		btnLogin.setIcon(new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/enter.png")));
 		btnLogin.setFont(new Font("Tahoma", Font.BOLD, 13));
-		btnLogin.setBounds(158, 151, 110, 30);
+		btnLogin.setBounds(158, 151, 263, 30);
 		panel_1.add(btnLogin);
-
-		JButton btnSignUp = new JButton("Sign Up");
-		btnSignUp.setBackground(Color.LIGHT_GRAY);
-		btnSignUp.setIcon(new ImageIcon(
-				Login.class.getResource("/com/aptech/LoanProcessingSystem/images/unauthorized-person.png")));
-		btnSignUp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				SignUp signUp = new SignUp();
-				signUp.setVisible(true);
-				Login.this.dispose();
-			}
-		});
-		btnSignUp.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnSignUp.setBounds(313, 151, 110, 30);
-		panel_1.add(btnSignUp);
 
 		txtMessage.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtMessage.setForeground(new Color(255, 0, 0));
@@ -183,21 +169,20 @@ public class Login extends JDialog {
 		buttonPane.setBackground(Color.LIGHT_GRAY);
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
-
-		JButton cancelButton = new JButton("Close");
-		cancelButton.setPreferredSize(new Dimension(110, 30));
-		cancelButton.setBackground(Color.GRAY);
-		cancelButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				closeAction();
-			}
-		});
-		cancelButton.setIcon(
-				new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
-		cancelButton.setFont(new Font("Tahoma", Font.BOLD, 11));
-		cancelButton.setActionCommand("Cancel");
-		buttonPane.add(cancelButton);
+		
+				JButton cancelButton = new JButton("Close");
+				buttonPane.add(cancelButton);
+				cancelButton.setPreferredSize(new Dimension(120, 30));
+				cancelButton.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						closeAction();
+					}
+				});
+				cancelButton.setIcon(
+						new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
+				cancelButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+				cancelButton.setActionCommand("Cancel");
 		initForm();
 	}
 
@@ -205,18 +190,22 @@ public class Login extends JDialog {
 		AccountModel accountModel = new AccountModel();
 		Account account;
 		String username = txtUsername.getText().trim();
+
 		String password = new String(txtPassword.getPassword());
+
 		if (txtUsername.getText().equals(hintUserName)
 				|| (new String(txtPassword.getPassword())).equals(hintPassword)) {
 			txtMessage.setText("Please enter full information");
+		} else if (!(Pattern.matches("^[a-zA-Z0-9]+(.+)+[@]{1}+(.+)+[.]{1}+[a-zA-Z0-9]+$", txtUsername.getText()))) {
+			txtMessage.setText("Please enter a valid email");
 		} else if ((account = accountModel.login(username, password)) != null) {
 			JOptionPane.showMessageDialog(null, "Login Successful");
 			ShareData.accountLogin = account;
 			if (account.getAuthId() == 2) {
-				Admin admin = new Admin(account);
+				Admin admin = new Admin();
 				admin.setVisible(true);
 			} else {
-				Home home = new Home(account);
+				Home home = new Home();
 				home.setVisible(true);
 			}
 			this.dispose();
@@ -246,6 +235,7 @@ public class Login extends JDialog {
 			public void focusGained(FocusEvent e) {
 				if (textField.getText().equals(hint)) {
 					textField.setText("");
+					textField.setFont(new Font("Tahoma", Font.PLAIN, 10));
 					if (textField instanceof JPasswordField) {
 						((JPasswordField) textField).setEchoChar('●');
 					}
@@ -259,6 +249,7 @@ public class Login extends JDialog {
 			public void focusLost(FocusEvent e) {
 				if (textField.getText().equals("")) {
 					textField.setText(hint);
+					textField.setFont(new Font("Tahoma", Font.ITALIC, 10));
 					textField.setForeground(Color.GRAY);
 					if (textField instanceof JPasswordField) {
 						((JPasswordField) textField).setEchoChar((char) 0);

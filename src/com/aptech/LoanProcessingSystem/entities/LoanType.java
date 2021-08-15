@@ -1,8 +1,9 @@
 package com.aptech.LoanProcessingSystem.entities;
 
 public class LoanType {
+
 	private int id;
-	private double interest;
+	private float interest;
 	private String name;
 	private String description;
 	private boolean status;
@@ -11,7 +12,7 @@ public class LoanType {
 		super();
 	}
 
-	public LoanType(int id, double interest, String name, String description, boolean status) {
+	public LoanType(int id, float interest, String name, String description, boolean status) {
 		super();
 		this.id = id;
 		this.interest = interest;
@@ -28,11 +29,11 @@ public class LoanType {
 		this.id = id;
 	}
 
-	public double getInterest() {
+	public float getInterest() {
 		return interest;
 	}
 
-	public void setInterest(double interest) {
+	public void setInterest(float interest) {
 		this.interest = interest;
 	}
 

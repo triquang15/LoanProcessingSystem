@@ -181,7 +181,7 @@ public class JFrameUpdateLoanType extends JFrame {
 		LoanType loanType = new LoanType();
 		loanType.setId(Integer.parseInt(txtID.getText().trim()));
 		loanType.setName(txtName.getText().trim());
-		loanType.setInterest(Double.parseDouble(txtInterest.getText().trim()));
+		loanType.setInterest(Float.parseFloat(txtInterest.getText().trim()));
 		loanType.setDescription(txtDescription.getText().trim());
 		loanType.setStatus(chkStatus.isSelected());
 		LoanTypeModel loanTypeModel = new LoanTypeModel();

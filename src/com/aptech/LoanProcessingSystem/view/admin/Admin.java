@@ -34,8 +34,8 @@ public class Admin extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel jpanelMain;
-	private Map<String, Object> data = new HashMap<String, Object>();
 	private Account account = new Account();
+	private Map<String, Object> data = new HashMap<String, Object>();
 
 	/**
 	 * Launch the application.

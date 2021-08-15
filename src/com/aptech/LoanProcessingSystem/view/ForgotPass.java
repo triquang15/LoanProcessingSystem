@@ -39,49 +39,49 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JPasswordField;
 
-public class ResetPass extends JDialog {
+public class ForgotPass extends JDialog {
 
 	Connection conn = null;
 	ResultSet rs = null;
 	PreparedStatement ps = null;
-	
+
 	public String user;
 
 	private final JPanel contentPanel = new JPanel();
 	private JPasswordField txtNewPass;
 	private JPasswordField txtVerifyPass;
-	
-	
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		
-	
-		
+
 		try {
-			ResetPass dialog = new ResetPass();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			ForgotPass dialog = new ForgotPass();
 			dialog.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public ResetPass(String username) {
+
+	public ForgotPass(String username) {
 		this();
 		this.user = username;
 	}
 
-	
-
 	/**
 	 * Create the dialog.
 	 */
-	public ResetPass() {
+	public ForgotPass() {
+		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+				cancelAction();
+			}
+		});
 		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage(ResetPass.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
+				.getImage(ForgotPass.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
 		setFont(new Font("Dialog", Font.BOLD, 14));
 		setTitle("Forgot Password ");
 		setBounds(100, 100, 782, 312);
@@ -135,14 +135,13 @@ public class ResetPass extends JDialog {
 		panel.add(lblNewLabel_5);
 
 		JButton btnReset = new JButton("Reset");
-		
-		
+
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				if(txtNewPass.getText().equals(txtVerifyPass.getText())){
-					//check whether the email enter same password in both textfield
-					try{
+
+				if (txtNewPass.getText().equals(txtVerifyPass.getText())) {
+					// check whether the email enter same password in both textfield
+					try {
 						Account account = new Account();
 						String password = new String(txtNewPass.getPassword());
 						String hash = BCrypt.hashpw(password, BCrypt.gensalt());
@@ -150,27 +149,25 @@ public class ResetPass extends JDialog {
 						String hash1 = BCrypt.hashpw(password, BCrypt.gensalt());
 						account.setPassword(hash1);
 						account.setPassword(hash);
-						
-					String updateQuery = "UPDATE `account` SET `Password`=? WHERE Email=?";
-					conn = ConnectDB.connection();
-					ps=conn.prepareStatement(updateQuery);
-					ps.setString(1, new String(account.getPassword()));
-					ps.setString(2, user);
-					if(ps.executeUpdate()>0) {
-						JOptionPane.showMessageDialog(null, "Reset Successfully");
-					}
 
+						String updateQuery = "UPDATE `account` SET `Password`=? WHERE Email=?";
+						conn = ConnectDB.connection();
+						ps = conn.prepareStatement(updateQuery);
+						ps.setString(1, new String(account.getPassword()));
+						ps.setString(2, user);
+						if (ps.executeUpdate() > 0) {
+							JOptionPane.showMessageDialog(null, "Reset Successfully");
+						}
 
-					}catch(Exception ex){
-					JOptionPane.showMessageDialog(null, ex);
+					} catch (Exception ex) {
+						JOptionPane.showMessageDialog(null, ex);
 					}
-					}else{
+				} else {
 					JOptionPane.showMessageDialog(null, "Password do not match");
-					}
+				}
 			}
 		});
-		
-		
+
 		btnReset.setBackground(Color.GRAY);
 		btnReset.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnReset.setBounds(319, 157, 89, 23);
@@ -188,7 +185,7 @@ public class ResetPass extends JDialog {
 		lblNewLabel_6.setHorizontalAlignment(SwingConstants.CENTER);
 
 		lblNewLabel_6.setIcon(
-				new ImageIcon(ResetPass.class.getResource("/com/aptech/LoanProcessingSystem/images/secure.png")));
+				new ImageIcon(ForgotPass.class.getResource("/com/aptech/LoanProcessingSystem/images/secure.png")));
 		lblNewLabel_6.setBounds(38, 145, 92, 64);
 		contentPanel.add(lblNewLabel_6);
 		{
@@ -200,12 +197,10 @@ public class ResetPass extends JDialog {
 
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.setIcon(new ImageIcon(
-						ResetPass.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
+						ForgotPass.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Login login = new Login();
-						login.setVisible(true);
-						ResetPass.this.dispose();
+						cancelAction();
 					}
 				});
 				cancelButton.setBackground(Color.GRAY);
@@ -215,5 +210,13 @@ public class ResetPass extends JDialog {
 		}
 	}
 
-	
+	private void cancelAction() {
+		if (JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel?", "Confirm",
+				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			Login login = new Login();
+			login.setVisible(true);
+			this.dispose();
+		}
+	}
+
 }

@@ -2,19 +2,13 @@ package com.aptech.LoanProcessingSystem.view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.Color;
 import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
-
 import org.mindrot.jbcrypt.BCrypt;
-
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -27,58 +21,31 @@ import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.io.File;
-import java.sql.Connection;
 import java.util.Date;
-import java.util.List;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.JRadioButton;
-
-import com.aptech.LoanProcessingSystem.database.ConnectDB;
 import com.aptech.LoanProcessingSystem.entities.Account;
 import com.aptech.LoanProcessingSystem.entities.Authority;
 import com.aptech.LoanProcessingSystem.model.AccountModel;
 import com.aptech.LoanProcessingSystem.model.AuthorityModel;
+import com.aptech.LoanProcessingSystem.service.ShareData;
 import com.toedter.calendar.JDateChooser;
-import javax.swing.JCheckBox;
 import java.awt.Toolkit;
 import javax.swing.JComboBox;
-import javax.swing.border.LineBorder;
 import java.awt.Dimension;
 import java.awt.Component;
 import java.awt.Insets;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class SignUp extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JRadioButton rdbMale;
 	private JRadioButton rdbFemale;
-	private String hintName = "Please enter your name";
-	private String hintEmail = "Please enter your email";
-	private String hintPassword = "Please enter your password";
-	private String hintConfirmPass = "Please enter your confirm password";
-	private String hintPhone = "Please enter your phone";
-	private String hintAddress = "Please enter your address";
-	private String hintIdentityCard = "Please enter your identity card";
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-
-		try {
-			SignUp dialog = new SignUp();
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Create the dialog.
-	 */
-	ButtonGroup bg;
+	private ButtonGroup bg;
 	private JLabel lblNewLabel_2 = new JLabel("");
 	private JTextField txtIdentity;
 	private JTextField txtName;
@@ -88,17 +55,48 @@ public class SignUp extends JDialog {
 	private JTextField txtPhone;
 	private JDateChooser txtCalendar;
 	private JTextField txtAdress;
-	private JComboBox cbAuthority;
+	private JLabel lblPhone;
+	private JLabel lblInden;
+	private JLabel txtMessage;
+	private String hintName = "Please enter your name";
+	private String hintEmail = "Please enter your email";
+	private String hintPassword = "Please enter your password";
+	private String hintConfirmPass = "Please enter your confirm password";
+	private String hintPhone = "Please enter your phone";
+	private String hintAddress = "Please enter your address";
+	private String hintIdentityCard = "Please enter your identity card";
+	private boolean isValidPhone = false;
+	private boolean isValidIden = false;
+	private JComboBox<Authority> cbbxAuth;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+
+		try {
+			if (ShareData.accountLogin == null) {
+				Login login = new Login();
+				login.setVisible(true);
+			} else {
+				SignUp dialog = new SignUp();
+				dialog.setVisible(true);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Create the dialog.
+	 */
 
 	public SignUp() {
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new java.awt.event.WindowAdapter() {
 			@Override
 			public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-				if (JOptionPane.showConfirmDialog(null, "Are you sure you want to close Application ?", "Confirm",
-						JOptionPane.YES_NO_OPTION) == 0) {
-					System.exit(0);
-				}
+				cancelAction();
 			}
 		});
 		setIconImage(Toolkit.getDefaultToolkit()
@@ -142,7 +140,6 @@ public class SignUp extends JDialog {
 		panel_1.add(lblNewLabel_1);
 
 		txtName = new JTextField();
-		txtName.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtName.setBorder(new EmptyBorder(0, 5, 0, 5));
 		txtName.setBounds(129, 114, 230, 30);
 		panel_1.add(txtName);
@@ -153,7 +150,7 @@ public class SignUp extends JDialog {
 		panel_1.add(lblNewLabel_3);
 
 		txtEmail = new JTextField();
-		txtEmail.setFont(new Font("Tahoma", Font.ITALIC, 10));
+
 		txtEmail.setBorder(new EmptyBorder(0, 5, 0, 5));
 		txtEmail.setBounds(129, 173, 230, 30);
 		panel_1.add(txtEmail);
@@ -164,7 +161,6 @@ public class SignUp extends JDialog {
 		panel_1.add(lblNewLabel_4);
 
 		txtPassword = new JPasswordField();
-		txtPassword.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtPassword.setBorder(new EmptyBorder(0, 5, 0, 5));
 		txtPassword.setBounds(129, 229, 230, 30);
 		panel_1.add(txtPassword);
@@ -174,17 +170,23 @@ public class SignUp extends JDialog {
 		panel_1.add(lblNewLabel_5);
 
 		txtConfirmPass = new JPasswordField();
-		txtConfirmPass.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtConfirmPass.setBorder(new EmptyBorder(0, 5, 0, 5));
 		txtConfirmPass.setBounds(129, 281, 230, 30);
 		panel_1.add(txtConfirmPass);
 
 		JLabel lblNewLabel_6 = new JLabel("Phone *");
-		lblNewLabel_6.setBounds(404, 235, 76, 17);
+		lblNewLabel_6.setBounds(404, 287, 76, 17);
 		panel_1.add(lblNewLabel_6);
 
+		cbbxAuth = new JComboBox<Authority>();
+		cbbxAuth.setForeground(Color.GRAY);
+		cbbxAuth.setBorder(null);
+		cbbxAuth.setBackground(Color.WHITE);
+		cbbxAuth.setBounds(516, 114, 230, 30);
+		panel_1.add(cbbxAuth);
+
 		JLabel lblNewLabel_7 = new JLabel("Gender *");
-		lblNewLabel_7.setBounds(10, 339, 76, 14);
+		lblNewLabel_7.setBounds(10, 340, 76, 14);
 		panel_1.add(lblNewLabel_7);
 
 		rdbMale = new JRadioButton("Male");
@@ -197,7 +199,7 @@ public class SignUp extends JDialog {
 		rdbMale.setRolloverEnabled(false);
 		rdbMale.setFocusPainted(false);
 		rdbMale.setContentAreaFilled(false);
-		rdbMale.setBounds(125, 331, 76, 30);
+		rdbMale.setBounds(125, 332, 76, 30);
 		panel_1.add(rdbMale);
 		bg.add(rdbMale);
 		bg.add(rdbFemale);
@@ -213,7 +215,7 @@ public class SignUp extends JDialog {
 		rdbFemale.setRolloverEnabled(false);
 		rdbFemale.setFocusPainted(false);
 		rdbFemale.setContentAreaFilled(false);
-		rdbFemale.setBounds(234, 331, 76, 30);
+		rdbFemale.setBounds(234, 332, 76, 30);
 		panel_1.add(rdbFemale);
 		bg.add(rdbMale);
 		bg.add(rdbFemale);
@@ -221,31 +223,45 @@ public class SignUp extends JDialog {
 
 		JLabel lblNewLabel_8 = new JLabel("Dob *");
 		lblNewLabel_8.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_8.setBounds(404, 288, 76, 14);
+		lblNewLabel_8.setBounds(404, 339, 76, 14);
 		panel_1.add(lblNewLabel_8);
 
 		txtCalendar = new JDateChooser();
 		txtCalendar.getCalendarButton().setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtCalendar.setBounds(516, 281, 229, 30);
+		txtCalendar.setBounds(516, 332, 229, 30);
 		panel_1.add(txtCalendar);
 
 		JLabel lblNewLabel_9 = new JLabel("Address *");
 		lblNewLabel_9.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_9.setBounds(404, 121, 88, 14);
+		lblNewLabel_9.setBounds(404, 180, 88, 14);
 		panel_1.add(lblNewLabel_9);
 
 		txtPhone = new JTextField();
+		txtPhone.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+				try {
+					Integer.parseInt(txtPhone.getText());
+					lblPhone.setText("");
+					isValidPhone = true;
+				} catch (Exception e1) {
+					lblPhone.setText("Invalid number");
+					isValidPhone = false;
+				}
+			}
+		});
 		txtPhone.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtPhone.setBorder(new EmptyBorder(0, 5, 0, 5));
 		txtPhone.setColumns(10);
-		txtPhone.setBounds(516, 229, 229, 30);
+		txtPhone.setBounds(516, 281, 229, 30);
 		panel_1.add(txtPhone);
 
 		txtAdress = new JTextField();
 		txtAdress.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtAdress.setBorder(new EmptyBorder(0, 5, 0, 5));
 		txtAdress.setColumns(10);
-		txtAdress.setBounds(516, 114, 229, 30);
+		txtAdress.setBounds(516, 173, 229, 30);
 		panel_1.add(txtAdress);
 
 		JButton btnSignUp = new JButton("Sign Up");
@@ -261,7 +277,7 @@ public class SignUp extends JDialog {
 		btnSignUp.setForeground(Color.BLACK);
 		btnSignUp.setIcon(
 				new ImageIcon(SignUp.class.getResource("/com/aptech/LoanProcessingSystem/images/sign-up.png")));
-		btnSignUp.setBounds(516, 392, 116, 33);
+		btnSignUp.setBounds(516, 396, 116, 33);
 		panel_1.add(btnSignUp);
 
 		JButton btnReset = new JButton("Reset");
@@ -276,18 +292,35 @@ public class SignUp extends JDialog {
 		btnReset.setFont(new Font("Tahoma", Font.BOLD, 11));
 		btnReset.setIcon(
 				new ImageIcon(SignUp.class.getResource("/com/aptech/LoanProcessingSystem/images/rotation-lock.png")));
-		btnReset.setBounds(653, 392, 99, 33);
+		btnReset.setBounds(653, 396, 99, 33);
 		panel_1.add(btnReset);
 
 		JLabel lblNewLabel_11 = new JLabel("Identity Card");
 		lblNewLabel_11.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_11.setBounds(404, 180, 88, 14);
+		lblNewLabel_11.setBounds(404, 236, 88, 14);
 		panel_1.add(lblNewLabel_11);
 
 		txtIdentity = new JTextField();
+		txtIdentity.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+				try {
+					Integer.parseInt(txtIdentity.getText());
+					isValidIden = true;
+					lblInden.setText("");
+
+				} catch (Exception e1) {
+					isValidIden = false;
+					lblInden.setText("Invalid number");
+
+				}
+
+			}
+		});
 		txtIdentity.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtIdentity.setBorder(new EmptyBorder(0, 5, 0, 5));
-		txtIdentity.setBounds(516, 173, 229, 30);
+		txtIdentity.setBounds(516, 229, 229, 30);
 		panel_1.add(txtIdentity);
 		txtIdentity.setColumns(10);
 
@@ -306,12 +339,7 @@ public class SignUp extends JDialog {
 		cancelButton.setBackground(Color.GRAY);
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (JOptionPane.showConfirmDialog(null, "Are you sure you cancel?", "Confirm",
-						JOptionPane.YES_NO_OPTION) == 0) {
-					Login login = new Login();
-					login.setVisible(true);
-					SignUp.this.dispose();
-				}
+				cancelAction();
 			}
 		});
 		cancelButton.setIcon(
@@ -328,20 +356,35 @@ public class SignUp extends JDialog {
 		setTextHint(txtAdress, hintAddress);
 		setTextHint(txtIdentity, hintIdentityCard);
 		setTextHint(txtPhone, hintPhone);
-		
+
+		lblPhone = new JLabel("");
+		lblPhone.setForeground(Color.RED);
+		lblPhone.setFont(new Font("Tahoma", Font.ITALIC, 9));
+		lblPhone.setBounds(516, 258, 229, 14);
+		panel_1.add(lblPhone);
+
+		lblInden = new JLabel("");
+		lblInden.setForeground(Color.RED);
+		lblInden.setFont(new Font("Tahoma", Font.ITALIC, 9));
+		lblInden.setBounds(516, 204, 229, 14);
+		panel_1.add(lblInden);
+
+		txtMessage = new JLabel("");
+		txtMessage.setForeground(Color.RED);
+		txtMessage.setFont(new Font("Tahoma", Font.ITALIC, 10));
+		txtMessage.setBounds(516, 372, 263, 20);
+		panel_1.add(txtMessage);
+
 		JLabel lblNewLabel_9_1 = new JLabel("Authority *");
 		lblNewLabel_9_1.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_9_1.setBounds(404, 338, 88, 14);
+		lblNewLabel_9_1.setBounds(404, 121, 88, 14);
 		panel_1.add(lblNewLabel_9_1);
-		
-		cbAuthority = new JComboBox();
-		cbAuthority.setBounds(516, 335, 229, 22);
-		panel_1.add(cbAuthority);
-		loadDataJComboBox();
 	}
 
-	protected void registerAction() {
+	private void registerAction() {
 		String name = txtName.getText();
+		int authId = ((Authority) cbbxAuth.getSelectedItem()).getId();
+		System.out.println("AUTHID: =============" + authId);
 		String email = txtEmail.getText();
 		String password = new String(txtPassword.getPassword());
 		String confirm_pass = new String(txtConfirmPass.getPassword());
@@ -350,21 +393,38 @@ public class SignUp extends JDialog {
 		String identityCard = txtIdentity.getText();
 		Date dob = txtCalendar.getDate();
 
-		// Apply the validation logic checking all controls are empty or not
-		if (name.trim().equals(hintName) || email.trim().equals(hintEmail) || password.trim().equals(hintPassword)
-				|| confirm_pass.trim().equals(hintConfirmPass) || phone.trim().equals(hintPhone)
-				|| address.trim().equals(hintAddress) || identityCard.trim().equals(hintIdentityCard)) {
-			JOptionPane.showMessageDialog(null, "Please enter full information !!!");
+		if (!isValidIden || !isValidPhone) {
+
+			txtMessage.setText("Phone or identitty card invalid!");
+
+		} else if (!(Pattern.matches("^[a-zA-Z0-9]+(.+)+[@]{1}+(.+)+[.]{1}+[a-zA-Z0-9]+$", txtEmail.getText()))) {
+
+			txtMessage.setText("Please enter a valid email!");
+
+		} else if (name.trim().equals(hintName) || email.trim().equals(hintEmail)
+				|| password.trim().equals(hintPassword) || confirm_pass.trim().equals(hintConfirmPass)
+				|| phone.trim().equals(hintPhone) || address.trim().equals(hintAddress)
+				|| identityCard.trim().equals(hintIdentityCard)) {
+
+			txtMessage.setText("Please enter full information!");
+
 		} else if (!password.equals(confirm_pass)) {
-			JOptionPane.showMessageDialog(null, "Password and Confirm Password must be same !");
+
+			txtMessage.setText("Password and Confirm Password must be same!");
 			txtPassword.setText("");
 			txtConfirmPass.setText("");
+
 		} else if (dob == null) {
-			JOptionPane.showMessageDialog(null, "Please select Date of Birthday");
+
+			txtMessage.setText("Please select Date of Birthday");
 			txtCalendar.grabFocus();
+
 		} else {
+
 			try {
+
 				Account account = new Account();
+				account.setAuthId(authId);
 				account.setName(name);
 				account.setEmail(email);
 				String hash = BCrypt.hashpw(password, BCrypt.gensalt());
@@ -374,61 +434,60 @@ public class SignUp extends JDialog {
 				account.setGender(rdbMale.isSelected());
 				account.setDob(dob);
 				account.setIdentityCard(identityCard);
-				account.setAuthId(getAuthorityId());
+				account.setAuthId(authId);
 				AccountModel accountModel = new AccountModel();
+
 				if (accountModel.create(account)) {
+
 					JOptionPane.showMessageDialog(null, "Successful account registration!");
 					Login login = new Login();
 					login.setVisible(true);
 					this.dispose();
+
 				} else {
+
 					JOptionPane.showMessageDialog(null, "Please try again!");
+
 				}
 			} catch (Exception e2) {
+
 				e2.printStackTrace();
 				JOptionPane.showMessageDialog(null, "Please try again!");
+
 			}
 		}
 	}
 
 	protected void initForm() {
 		txtName.setText(hintName);
+		txtName.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtName.setForeground(Color.GRAY);
 		txtEmail.setText(hintEmail);
+		txtEmail.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtEmail.setForeground(Color.GRAY);
 		txtPassword.setText(hintPassword);
+		txtPassword.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtPassword.setForeground(Color.GRAY);
 		txtPassword.setEchoChar((char) 0);
 		txtConfirmPass.setText(hintConfirmPass);
+		txtConfirmPass.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtConfirmPass.setForeground(Color.GRAY);
 		txtConfirmPass.setEchoChar((char) 0);
 		txtPhone.setText(hintPhone);
+		txtPhone.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtPhone.setForeground(Color.GRAY);
 		txtAdress.setText(hintAddress);
+		txtAdress.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtAdress.setForeground(Color.GRAY);
 		txtCalendar.setDate(new Date());
 		txtIdentity.setText(hintIdentityCard);
+		txtIdentity.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtIdentity.setForeground(Color.GRAY);
 		rdbMale.setSelected(true);
-		
+		initAuth();
+
 	}
-	
-	private int getAuthorityId () {
-		Authority authority = (Authority) cbAuthority.getSelectedItem();
-		return authority.getId();
-	}
-	
-	private void loadDataJComboBox () {
-		DefaultComboBoxModel<Authority> boxModel = new DefaultComboBoxModel<Authority>();
-		AuthorityModel authorityModel = new AuthorityModel();
-		List<Authority> list = authorityModel.loadAllAuthority();
-		for (Authority authority : list) {
-			boxModel.addElement(authority);
-		}
-		cbAuthority.setModel(boxModel);
-		cbAuthority.setRenderer(new AuthorityCellRender());
-	}
-	
+
 	private class AuthorityCellRender extends DefaultListCellRenderer {
 
 		@Override
@@ -437,7 +496,27 @@ public class SignUp extends JDialog {
 			Authority authority = (Authority) value;
 			return super.getListCellRendererComponent(list, authority.getName(), index, isSelected, cellHasFocus);
 		}
-		
+
+	}
+
+	private void initAuth() {
+		DefaultComboBoxModel<Authority> authModel = new DefaultComboBoxModel<>();
+		for (Authority auth : new AuthorityModel().getAll()) {
+			authModel.addElement(auth);
+		}
+		cbbxAuth.setModel(authModel);
+		cbbxAuth.setRenderer(new AuthListCellRenderer());
+	}
+
+	@SuppressWarnings("serial")
+	private class AuthListCellRenderer extends DefaultListCellRenderer {
+		@Override
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+				boolean cellHasFocus) {
+			Authority auth = (Authority) value;
+			return super.getListCellRendererComponent(list, auth.getName(), index, isSelected, cellHasFocus);
+		}
+
 	}
 
 	private void setTextHint(JTextField textField, String hint) {
@@ -446,6 +525,7 @@ public class SignUp extends JDialog {
 			public void focusGained(FocusEvent e) {
 				if (textField.getText().equals(hint)) {
 					textField.setText("");
+					textField.setFont(new Font("Tahoma", Font.PLAIN, 10));
 					if (textField instanceof JPasswordField) {
 						((JPasswordField) textField).setEchoChar('●');
 					}
@@ -459,6 +539,7 @@ public class SignUp extends JDialog {
 			public void focusLost(FocusEvent e) {
 				if (textField.getText().equals("")) {
 					textField.setText(hint);
+					textField.setFont(new Font("Tahoma", Font.ITALIC, 10));
 					textField.setForeground(Color.GRAY);
 					if (textField instanceof JPasswordField) {
 						((JPasswordField) textField).setEchoChar((char) 0);
@@ -466,5 +547,12 @@ public class SignUp extends JDialog {
 				}
 			}
 		});
+	}
+
+	private void cancelAction() {
+		if (JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel?", "Confirm",
+				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			this.dispose();
+		}
 	}
 }
