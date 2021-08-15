@@ -30,6 +30,7 @@ import java.awt.Insets;
 import java.awt.FlowLayout;
 import java.awt.ComponentOrientation;
 import java.awt.SystemColor;
+import javax.swing.ListSelectionModel;
 
 public class CustomerInfo extends JPanel {
 
@@ -90,6 +91,7 @@ public class CustomerInfo extends JPanel {
 		add(scrollPane);
 
 		table = new JTable();
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setIntercellSpacing(new Dimension(10, 1));
 		table.setRequestFocusEnabled(false);
 		table.setRowHeight(30);
@@ -142,21 +144,29 @@ public class CustomerInfo extends JPanel {
 		panel.add(panel_4);
 		panel_4.setLayout(new FlowLayout(FlowLayout.TRAILING, 20, 20));
 
-		JButton btnUpdate = new JButton("New Loan");
-		btnUpdate.setAlignmentY(10.0f);
-		btnUpdate.setAlignmentX(20.0f);
-		panel_4.add(btnUpdate);
-		btnUpdate.setPreferredSize(new Dimension(120, 30));
-		btnUpdate.setMargin(new Insets(2, 20, 2, 20));
-		btnUpdate.addMouseListener(new MouseAdapter() {
+		JButton btnCreateLoan = new JButton("New Loan");
+		btnCreateLoan.setAlignmentY(10.0f);
+		btnCreateLoan.setAlignmentX(20.0f);
+		panel_4.add(btnCreateLoan);
+		btnCreateLoan.setPreferredSize(new Dimension(120, 30));
+		btnCreateLoan.setMargin(new Insets(2, 20, 2, 20));
+		btnCreateLoan.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				CreateLoan createLoan = new CreateLoan();
-				createLoan.setVisible(true);
+				int selectedRow = table.getSelectedRow();
+				if (selectedRow != -1) {
+						int id = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
+						CreateLoan createLoan = new CreateLoan(id);
+						createLoan.setVisible(true);
+					
+				} else {
+					JOptionPane.showMessageDialog(null, "Please choose a value!");
+				}
+
 			}
 		});
-		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 10));
-		btnUpdate.setIcon(
+		btnCreateLoan.setFont(new Font("Tahoma", Font.BOLD, 10));
+		btnCreateLoan.setIcon(
 				new ImageIcon(CustomerInfo.class.getResource("/com/aptech/LoanProcessingSystem/images/add.png")));
 
 		JButton btnDelete = new JButton("Delete");
