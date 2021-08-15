@@ -2,6 +2,8 @@ package com.aptech.LoanProcessingSystem.model;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
 
@@ -75,7 +77,6 @@ public class AccountModel {
 		}
 		return account;
 	}
-<<<<<<< HEAD
 	
 	public String loadAuthorityName (int id) {
 		String str = null;
@@ -228,48 +229,6 @@ public class AccountModel {
 		}
 		return result;
 	}
-=======
->>>>>>> master
-
-//	// temp
-//	public boolean login(String email, String password) {
-//		Account account = find(email);
-//		if (account != null) {
-//			if (BCrypt.checkpw(password, account.getPassword())) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
-//	
-//	public boolean login2(String email, String password) {
-//		Account account = find(email);
-//		if (account != null) {
-//			if (account.getPassword().equals(password)) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
-//	
-//	public int checkAuthorization (String email) {
-//		int i = -1;
-//		try {
-//			PreparedStatement preparedStatement = ConnectDB.connection().
-//					prepareStatement("Select AuthId From account where Email = ?");
-//			preparedStatement.setString(1, email);
-//			ResultSet resultSet = preparedStatement.executeQuery();
-//			if (resultSet.next()) {
-//				i = resultSet.getInt("AuthId");
-//			}
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//			i = -1;
-//		} finally {
-//			ConnectDB.disconnect();
-//		}
-//		return i;
-//	}
 
 	public boolean changePass(Account account) {
 		boolean result = true;
