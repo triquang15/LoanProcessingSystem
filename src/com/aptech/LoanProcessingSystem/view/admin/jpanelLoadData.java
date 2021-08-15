@@ -1,10 +1,12 @@
 package com.aptech.LoanProcessingSystem.view.admin;
 
 import javax.swing.JPanel;
+import javax.swing.AbstractCellEditor;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 
 import java.awt.SystemColor;
+import java.util.EventObject;
 import java.util.List;
 
 import java.awt.SystemColor;
@@ -17,6 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
@@ -24,16 +27,20 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.plaf.TabbedPaneUI;
-
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 
 import com.aptech.LoanProcessingSystem.entities.Loan;
 import com.aptech.LoanProcessingSystem.entities.LoanType;
 import com.aptech.LoanProcessingSystem.model.CustomerModel;
 import com.aptech.LoanProcessingSystem.model.LoanModel;
 import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
-
+import com.aptech.LoanProcessingSystem.view.admin.jpanelCustomerProfile.ButtonEditor;
+import com.aptech.LoanProcessingSystem.view.admin.jpanelCustomerProfile.LoanInfosPane;
 import com.aptech.LoanProcessingSystem.entities.Account;
 
 import javax.swing.JComboBox;
@@ -65,6 +72,7 @@ public class jpanelLoadData extends JPanel {
 	private JButton btnUpdate;
 	private JButton btnDelete;
 	private JButton btnSearch;
+	private JTable tableLoan;
 //	private JComboBox cbPersonalFilter;
 //	private JButton btnPersonalAdd;
 //	private JButton btnPersonaUpdate;
@@ -110,7 +118,7 @@ public class jpanelLoadData extends JPanel {
 		panel.setLayout(new BorderLayout(0, 0));
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-
+		tabbedPane.setBackground(new Color(34,40,44));
 		tabbedPane.setBorder(null);
 		tabbedPane.setForeground(SystemColor.controlText);
 		tabbedPane.setBackground(SystemColor.inactiveCaption);
@@ -209,6 +217,7 @@ public class jpanelLoadData extends JPanel {
 
 		JTable tableLoan = new JTable();
 		tableLoan.setForeground(SystemColor.text);
+		tableLoan.setRowHeight(40);
 		LoanModel loanModel = new LoanModel();
 		tableLoan.setBackground(new Color(34, 40, 44));
 		FillDataToJTable(loanModel.getAllLoanHome(loanType), tableLoan);
@@ -256,19 +265,24 @@ public class jpanelLoadData extends JPanel {
 	}
 
 	public void btnAdd_actionPerformed(LoanType loanType, JTable tableLoan, JScrollPane scrollPane) {
-		JDialogAddNewLoan addNewLoan = new JDialogAddNewLoan(this.account);
+		JPanel jpanelMain = (JPanel) this.getParent();
+		jpanelMain.removeAll();
+		jpanelMain.revalidate();
+		jpanelAddNewLoan addNewLoan = new jpanelAddNewLoan(this.account);
+		jpanelMain.add(addNewLoan);
 		addNewLoan.setVisible(true);
-		addNewLoan.addWindowListener(new WindowAdapter() {
-
-			@Override
-			public void windowClosed(WindowEvent e) {
-				FillDataToJTable(new LoanModel().getAllLoanHome(loanType), tableLoan);
-				super.windowClosed(e);
-			}
-		});
+//		addNewLoan.addWindowListener(new WindowAdapter() {
+//
+//			@Override
+//			public void windowClosed(WindowEvent e) {
+//				FillDataToJTable(new LoanModel().getAllLoanHome(loanType), tableLoan);
+//				super.windowClosed(e);
+//			}
+//		});
 	}
 
 	public void FillDataToJTable(List<Loan> loanList, JTable tableLoan) {
+		String statusMask = "";
 		DefaultTableModel defaultTableModel = new DefaultTableModel() {
 
 			@Override
@@ -292,14 +306,149 @@ public class jpanelLoadData extends JPanel {
 		defaultTableModel.addColumn("Description");
 		defaultTableModel.addColumn("Status");
 		for (Loan loan : loanList) {
+			statusMask = loadStatus(loan.getStatus());
+			System.out.println(statusMask);
 			defaultTableModel.addRow(new Object[] { loan.getId(), loan.getLoanTypeId(), loan.getInterest(),
 					loan.getAccountId(), loan.getCustomerId(), loan.getPaymentTypeId(), loan.getAmount(),
 					loan.getPeriod(), loan.getDuration(), loan.getCreateDate(), loan.getDisbursementDate(),
-					loan.getEndDate(), loan.getDescription(), loan.getStatus() });
+					loan.getEndDate(), loan.getDescription(), loadStatus(loan.getStatus()) });
 		}
 		tableLoan.setModel(defaultTableModel);
+		LoanInfosPane infosPane = new LoanInfosPane();
+		infosPane.loan.setText(statusMask);
+		tableLoan.getColumnModel().getColumn(13).setCellRenderer(infosPane);
+		tableLoan.getColumnModel().getColumn(13).setCellEditor(new ButtonEditor());
 		tableLoan.getTableHeader().setReorderingAllowed(false);
 		tableLoan.addNotify();
 	}
+	
+	public String loadStatus (int status) {
+		String str = "";
+		if (status == 0) {
+			str = "Inspect";
+		} else if (status == 1) {
+			str = "open";
+		} else if (status == 2) {
+			str = "update";
+		} else if (status == 3) {
+			str = "fully paid";
+		}
+		return str;
+	}
+	
+	public class LoanInfosPane extends JPanel implements TableCellRenderer {
 
+        private JButton loan;
+//        private JButton info;
+        private String state;
+        private String mask;
+
+        public LoanInfosPane() {
+        	setBackground(new Color(34,40,44));
+            setLayout(new GridBagLayout());
+            loan = new JButton();
+            loan.setBackground(SystemColor.RED);
+            loan.setActionCommand("loans");
+//            info = new JButton("Infos");
+//            info.setActionCommand("infos");
+
+            add(loan);
+//            add(info);
+
+            ActionListener listener = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    state = e.getActionCommand();
+                    if (state.equals("loans")) {
+                    	
+                    } else {
+                    	jDialogAddNewCustomer addNewCustomer  = new jDialogAddNewCustomer();
+                    	addNewCustomer.setVisible(true);
+                    }
+                }
+            };
+
+            loan.addActionListener(listener);
+//            info.addActionListener(listener);
+        }
+
+        public void addActionListener(ActionListener listener) {
+        	loan.addActionListener(listener);
+//        	info.addActionListener(listener);
+        }
+
+        public String getState() {
+            return state;
+        }
+
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+			// TODO Auto-generated method stub
+			return this;
+		}
+    }
+
+
+	class ButtonRenderer extends DefaultTableCellRenderer  {
+
+		private LoanInfosPane loanInfosPane;
+		
+		public ButtonRenderer() {
+			loanInfosPane = new LoanInfosPane();
+		}
+
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+			if (isSelected) {
+				loanInfosPane.setBackground(table.getSelectionBackground());
+            } else {
+            	loanInfosPane.setBackground(table.getBackground());
+            }
+			return loanInfosPane;
+		}
+	}
+
+	class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
+		
+		private LoanInfosPane loanInfosPane;
+
+		public ButtonEditor() {
+			loanInfosPane = new LoanInfosPane();
+			loanInfosPane.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					SwingUtilities.invokeLater(new Runnable() {
+						
+						@Override
+						public void run() {
+							stopCellEditing();
+							
+						}
+					});
+					
+				}
+			});
+		}
+
+		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
+				int column) {
+			if (isSelected) {
+				loanInfosPane.setBackground(table.getSelectionBackground());
+			} else {
+				loanInfosPane.setBackground(table.getBackground());
+			}
+			return loanInfosPane;
+		}
+
+		public Object getCellEditorValue() {
+			return loanInfosPane.getState();
+		}
+		
+		@Override
+		public boolean isCellEditable(EventObject e) {
+			return true;
+		}
+	}
 }

@@ -178,6 +178,28 @@ public class CustomerModel {
 		return result;
 	}
 	
+	public java.util.List<Customer> findCustomerByAccountID(int id) {
+		java.util.List<Customer> customerList = new ArrayList<Customer>();
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection()
+					.prepareStatement("SELECT DISTINCT loan.CustomerId FROM customer"
+							+ " as cus INNER JOIN loan ON cus.Id = loan.CustomerId "
+							+ "WHERE loan.AccountId = ?");
+			preparedStatement.setInt(1, id);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				int customerId = resultSet.getInt("CustomerId");
+				customerList.add(findById(customerId));
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			customerList = null;
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return customerList;
+	}
+ 	
 	public boolean delete(int id) {
 		boolean result = true;
 		try {
@@ -192,5 +214,5 @@ public class CustomerModel {
 		}
 		return result;
 	}
-
+	
 }

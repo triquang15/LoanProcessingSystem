@@ -276,7 +276,7 @@ public class JDialogAddNewLoan extends JDialog {
 			loan.setEndDate(jdatechooserEndDate.getDate());
 			loan.setInterest(loanType.getInterest());
 			loan.setDescription(jtxtAreaDiscription.getText().trim());
-			loan.setStatus(chkStatus.isSelected());
+			loan.setStatus(1);
 			LoanModel loanModel = new LoanModel();
 			if (loanModel.createLoan(loan)) {
 				JOptionPane.showMessageDialog(null, "Done");

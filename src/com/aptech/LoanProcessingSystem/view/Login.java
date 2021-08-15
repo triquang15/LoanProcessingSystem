@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 
 import com.aptech.LoanProcessingSystem.entities.Account;
 import com.aptech.LoanProcessingSystem.model.AccountModel;
+import com.aptech.LoanProcessingSystem.service.ShareData;
 import com.aptech.LoanProcessingSystem.view.admin.Admin;
 
 import javax.swing.JLabel;
@@ -210,6 +211,7 @@ public class Login extends JDialog {
 			txtMessage.setText("Please enter full information");
 		} else if ((account = accountModel.login(username, password)) != null) {
 			JOptionPane.showMessageDialog(null, "Login Successful");
+			ShareData.accountLogin = account;
 			if (account.getAuthId() == 2) {
 				Admin admin = new Admin(account);
 				admin.setVisible(true);

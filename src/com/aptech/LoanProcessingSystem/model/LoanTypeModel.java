@@ -182,6 +182,25 @@ public class LoanTypeModel {
 		}
 		return loanList;
 	}
+	
+	public String loadLoanTypeNameById(int id) {
+		String str = null;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection()
+					.prepareStatement("SELECT Name FROM loantype WHERE Id = ?");
+			preparedStatement.setInt(1, id);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				str = resultSet.getString("Name");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			str = null;
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return str;
+	}
 }
 
 

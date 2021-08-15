@@ -100,11 +100,33 @@ public class AccountModel {
 		return account;
 	}
 	
+	public String loadAuthorityName (int id) {
+		String str = null;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection()
+					.prepareStatement("select autho.name from "
+							+ "authorities as autho inner join "
+							+ "account on autho.id = account.AuthId "
+							+ "where account.id = ?");
+			preparedStatement.setInt(1, id);
+			ResultSet rs = preparedStatement.executeQuery();
+			if (rs.next()) {
+				str = rs.getString("name");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			str= null;
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return str;
+	}
+	
 	public List<Account> loadAllEmployee() {
 		List<Account> employeeList = new ArrayList<Account>();
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-					.prepareStatement("select * from account where AuthId = 1");
+					.prepareStatement("select * from account");
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 					Account account = new Account();

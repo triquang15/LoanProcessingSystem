@@ -32,11 +32,45 @@ public class LoanModel {
 				loan.setEndDate(resultset.getDate("EndDate"));
 				loan.setInterest(resultset.getDouble("Interest"));
 				loan.setDescription(resultset.getString("Description"));
-				loan.setStatus(resultset.getBoolean("Status"));
+				loan.setStatus(resultset.getInt("Status"));
 				loans.add(loan);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			loans = null;
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return loans;
+	}
+	
+	public List<Loan> getAllLoansByCustomerID(int id) {
+		List<Loan> loans = null;
+		try {
+			loans = new ArrayList<Loan>();
+			PreparedStatement statement = ConnectDB.connection().prepareStatement(""
+					+ "Select * from loan where CustomerId = ?");
+			statement.setInt(1, id);
+			ResultSet resultset = statement.executeQuery();
+			while (resultset.next()) {
+				Loan loan = new Loan();
+				loan.setId(resultset.getInt("Id"));
+				loan.setLoanTypeId(resultset.getInt("LoanTypeId"));
+				loan.setAccountId(resultset.getInt("AccountId"));
+				loan.setCustomerId(resultset.getInt("CustomerId"));
+				loan.setPaymentTypeId(resultset.getInt("PaymentTypeId"));
+				loan.setAmount(resultset.getDouble("Amount"));
+				loan.setPeriod(resultset.getInt("Period"));
+				loan.setCreateDate(resultset.getDate("CreateDate"));
+				loan.setDisbursementDate(resultset.getDate("DisbursementDate"));
+				loan.setDuration(resultset.getInt("Duration"));
+				loan.setEndDate(resultset.getDate("EndDate"));
+				loan.setInterest(resultset.getDouble("Interest"));
+				loan.setDescription(resultset.getString("Description"));
+				loan.setStatus(resultset.getInt("Status"));
+				loans.add(loan);
+			}
+		} catch (Exception e) {
 			loans = null;
 		} finally {
 			ConnectDB.disconnect();
@@ -66,7 +100,7 @@ public class LoanModel {
 				loan.setEndDate(resultset.getDate("EndDate"));
 				loan.setInterest(resultset.getDouble("Interest"));
 				loan.setDescription(resultset.getString("Description"));
-				loan.setStatus(resultset.getBoolean("Status"));
+				loan.setStatus(resultset.getInt("Status"));
 				loans.add(loan);
 			}
 		} catch (Exception e) {
@@ -102,7 +136,7 @@ public class LoanModel {
 				loan.setEndDate(resultset.getDate("EndDate"));
 				loan.setInterest(resultset.getDouble("Interest"));
 				loan.setDescription(resultset.getString("Description"));
-				loan.setStatus(resultset.getBoolean("Status"));
+				loan.setStatus(resultset.getInt("Status"));
 				loans.add(loan);
 			}
 		} catch (Exception e) {
@@ -130,7 +164,7 @@ public class LoanModel {
 			preparedStatement.setDate(9, new java.sql.Date(loan.getEndDate().getTime()));
 			preparedStatement.setInt(10, loan.getDuration());
 			preparedStatement.setDouble(11, loan.getInterest());
-			preparedStatement.setBoolean(12, loan.getStatus());
+			preparedStatement.setInt(12, loan.getStatus());
 			preparedStatement.setString(13, loan.getDescription());
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
@@ -157,7 +191,7 @@ public class LoanModel {
 			preparedStatement.setDate(9, new java.sql.Date(loan.getEndDate().getTime()));
 			preparedStatement.setInt(10, loan.getDuration());
 			preparedStatement.setDouble(11, loan.getInterest());
-			preparedStatement.setBoolean(12, loan.getStatus());
+			preparedStatement.setInt(12, loan.getStatus());
 			preparedStatement.setString(13, loan.getDescription());
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {

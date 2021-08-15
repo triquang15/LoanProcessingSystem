@@ -16,7 +16,7 @@ public class Loan {
 	private Date endDate;
 	private double interest;
 	private String description;
-	private boolean status;
+	private int status;
 
 	public Loan() {
 		super();
@@ -24,7 +24,7 @@ public class Loan {
 
 	public Loan(int id, int loanTypeId, int accountId, int customerId, int paymentTypeId, Double amount, int period,
 			Date createDate, Date disbursementDate, int duration, Date endDate, Float interest, String description,
-			Boolean status) {
+			int status) {
 		super();
 		this.id = id;
 		this.loanTypeId = loanTypeId;
@@ -146,11 +146,11 @@ public class Loan {
 		this.description = description;
 	}
 
-	public Boolean getStatus() {
+	public int getStatus() {
 		return status;
 	}
 
-	public void setStatus(Boolean status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 
