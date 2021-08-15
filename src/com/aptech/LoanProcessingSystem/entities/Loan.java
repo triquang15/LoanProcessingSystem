@@ -6,9 +6,12 @@ public class Loan {
 
 	private int id;
 	private int loanTypeId;
+	private String loanTypeName;
 	private int accountId;
 	private int customerId;
+	private String customerName;
 	private int paymentTypeId;
+	private String paymentTypeName;
 	private double amount;
 	private int period;
 	private Date createDate;
@@ -23,17 +26,18 @@ public class Loan {
 		super();
 	}
 
-
-	public Loan(int id, int loanTypeId, int accountId, int customerId, int paymentTypeId, double amount, int period,
-			Date createDate, Date disbursementDate, int duration, Date endDate, double interest, String description,
-
-			int status) {
+	public Loan(int id, int loanTypeId, String loanTypeName, int accountId, int customerId, String customerName,
+			int paymentTypeId, String paymentTypeName, double amount, int period, Date createDate,
+			Date disbursementDate, int duration, Date endDate, double interest, String description, int status) {
 		super();
 		this.id = id;
 		this.loanTypeId = loanTypeId;
+		this.loanTypeName = loanTypeName;
 		this.accountId = accountId;
 		this.customerId = customerId;
+		this.customerName = customerName;
 		this.paymentTypeId = paymentTypeId;
+		this.paymentTypeName = paymentTypeName;
 		this.amount = amount;
 		this.period = period;
 		this.createDate = createDate;
@@ -61,6 +65,14 @@ public class Loan {
 		this.loanTypeId = loanTypeId;
 	}
 
+	public String getLoanTypeName() {
+		return loanTypeName;
+	}
+
+	public void setLoanTypeName(String loanTypeName) {
+		this.loanTypeName = loanTypeName;
+	}
+
 	public int getAccountId() {
 		return accountId;
 	}
@@ -77,12 +89,28 @@ public class Loan {
 		this.customerId = customerId;
 	}
 
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
 	public int getPaymentTypeId() {
 		return paymentTypeId;
 	}
 
 	public void setPaymentTypeId(int paymentTypeId) {
 		this.paymentTypeId = paymentTypeId;
+	}
+
+	public String getPaymentTypeName() {
+		return paymentTypeName;
+	}
+
+	public void setPaymentTypeName(String paymentTypeName) {
+		this.paymentTypeName = paymentTypeName;
 	}
 
 	public double getAmount() {
