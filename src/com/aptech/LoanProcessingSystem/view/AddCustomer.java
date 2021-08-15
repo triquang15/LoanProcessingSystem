@@ -41,6 +41,7 @@ import java.awt.Dimension;
 import java.awt.Component;
 import javax.swing.Box;
 import java.awt.Insets;
+import java.awt.SystemColor;
 
 public class AddCustomer extends JDialog {
 
@@ -135,7 +136,7 @@ public class AddCustomer extends JDialog {
 
 		JPanel panel = new JPanel();
 		panel_1.add(panel);
-		panel.setBackground(new Color(169, 169, 169));
+		panel.setBackground(SystemColor.activeCaptionBorder);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 
 		Component rigidArea_1 = Box.createRigidArea(new Dimension(20, 20));
@@ -143,7 +144,7 @@ public class AddCustomer extends JDialog {
 		panel.add(rigidArea_1);
 
 		JPanel panel_2 = new JPanel();
-		panel_2.setBackground(new Color(169, 169, 169));
+		panel_2.setBackground(SystemColor.activeCaptionBorder);
 		panel.add(panel_2);
 		panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.PAGE_AXIS));
 
@@ -199,7 +200,7 @@ public class AddCustomer extends JDialog {
 		panel.add(horizontalStrut);
 
 		JPanel panel_3 = new JPanel();
-		panel_3.setBackground(new Color(169, 169, 169));
+		panel_3.setBackground(SystemColor.activeCaptionBorder);
 		panel.add(panel_3);
 		panel_3.setLayout(new BoxLayout(panel_3, BoxLayout.PAGE_AXIS));
 
@@ -247,6 +248,8 @@ public class AddCustomer extends JDialog {
 		panel_3.add(verticalStrut_3);
 
 		JPanel panel_4 = new JPanel();
+		panel_4.setForeground(new Color(0, 0, 0));
+		panel_4.setBackground(SystemColor.activeCaptionBorder);
 		FlowLayout flowLayout_1 = (FlowLayout) panel_4.getLayout();
 		flowLayout_1.setAlignment(FlowLayout.LEFT);
 		flowLayout_1.setHgap(0);
@@ -256,6 +259,8 @@ public class AddCustomer extends JDialog {
 		panel_3.add(panel_4);
 
 		rdbMale_1 = new JRadioButton("Male");
+		rdbMale_1.setBackground(SystemColor.activeCaptionBorder);
+		rdbMale_1.setForeground(new Color(0, 0, 0));
 		rdbMale_1.setPreferredSize(new Dimension(120, 25));
 		rdbMale_1.setMinimumSize(new Dimension(120, 0));
 		rdbMale_1.setMargin(new Insets(0, 0, 0, 0));
@@ -268,6 +273,8 @@ public class AddCustomer extends JDialog {
 		rdbMale_1.setSelected(true);
 
 		rdbFemale_1 = new JRadioButton("Female");
+		rdbFemale_1.setBackground(SystemColor.activeCaptionBorder);
+		rdbFemale_1.setForeground(new Color(0, 0, 0));
 		rdbFemale_1.setPreferredSize(new Dimension(120, 25));
 		rdbFemale_1.setMinimumSize(new Dimension(120, 0));
 		rdbFemale_1.setMargin(new Insets(0, 0, 0, 0));
@@ -293,7 +300,7 @@ public class AddCustomer extends JDialog {
 		{
 			JPanel panel_1_1 = new JPanel();
 			panel_1.add(panel_1_1);
-			panel_1_1.setBackground(new Color(169, 169, 169));
+			panel_1_1.setBackground(SystemColor.activeCaptionBorder);
 			panel_1_1.setLayout(new BoxLayout(panel_1_1, BoxLayout.X_AXIS));
 
 			Component rigidArea_1_1 = Box.createRigidArea(new Dimension(20, 20));
@@ -301,7 +308,7 @@ public class AddCustomer extends JDialog {
 			panel_1_1.add(rigidArea_1_1);
 
 			JPanel panel_7 = new JPanel();
-			panel_7.setBackground(new Color(169, 169, 169));
+			panel_7.setBackground(SystemColor.activeCaptionBorder);
 			panel_1_1.add(panel_7);
 			panel_7.setLayout(new BoxLayout(panel_7, BoxLayout.PAGE_AXIS));
 
@@ -357,7 +364,7 @@ public class AddCustomer extends JDialog {
 			panel_1_1.add(horizontalStrut_1);
 
 			JPanel panel_5 = new JPanel();
-			panel_5.setBackground(new Color(169, 169, 169));
+			panel_5.setBackground(SystemColor.activeCaptionBorder);
 			panel_1_1.add(panel_5);
 			panel_5.setLayout(new BoxLayout(panel_5, BoxLayout.PAGE_AXIS));
 
@@ -447,19 +454,7 @@ public class AddCustomer extends JDialog {
 			buttonPane.add(btnClear);
 			btnClear.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-
-					txtName.setText("");
-					txtEmail.setText("");
-					txtAddress.setText("");
-					txtCompany.setText("");
-					txtPhone.setText("");
-					txtSalary.setText("");
-					txtDob.setDate(null);
-					txtIdentity.setText("");
-					txtJob.setText("");
-
-					bg.clearSelection();
-
+					initForm();
 				}
 			});
 			btnClear.setFont(new Font("Tahoma", Font.BOLD, 10));
