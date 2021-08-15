@@ -59,16 +59,17 @@ public class CreateLoan extends JDialog {
 	private JDateChooser txtEndDate;
 	private JDateChooser txtDisbursement;
 	private JTextArea txtDescription;
-	private JComboBox<Integer> txtDuration_1;
+	private JComboBox<Integer> cbbxDuration;
 	private JLabel txtVali1;
 	private JLabel txtValid3;
 	private JTextField txtCustomerName;
-	private JComboBox txtPaymentType;
-	private JComboBox txtLoanType;
+	private JComboBox cbbxPaymentType;
+	private JComboBox cbbxLoanType;
 	private JLabel textInterest;
 	private String hintAmount = "Please enter amount";
 	private String hintPeriod = "Please enter period";
 	private Customer customer;
+	private JComboBox cbbxPeriod;
 
 	/**
 	 * Launch the application.
@@ -240,15 +241,25 @@ public class CreateLoan extends JDialog {
 		panel_2.add(txtPeriod);
 
 		txtPeriod.setColumns(10);
+		
+		JPanel panel_7 = new JPanel();
+		panel_7.setMinimumSize(new Dimension(10, 30));
+		panel_7.setMaximumSize(new Dimension(32767, 30));
+		panel_7.setPreferredSize(new Dimension(10, 30));
+		panel_2.add(panel_7);
+		panel_7.setLayout(new BoxLayout(panel_7, BoxLayout.X_AXIS));
+		
+		cbbxPeriod = new JComboBox();
+		panel_7.add(cbbxPeriod);
 
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		panel_2.add(verticalStrut_1);
 
-		txtLoanType = new JComboBox();
-		txtLoanType.setPreferredSize(new Dimension(29, 30));
-		txtLoanType.setMinimumSize(new Dimension(29, 30));
-		txtLoanType.setMaximumSize(new Dimension(32767, 30));
-		panel_2.add(txtLoanType);
+		cbbxLoanType = new JComboBox();
+		cbbxLoanType.setPreferredSize(new Dimension(29, 30));
+		cbbxLoanType.setMinimumSize(new Dimension(29, 30));
+		cbbxLoanType.setMaximumSize(new Dimension(32767, 30));
+		panel_2.add(cbbxLoanType);
 
 		Component verticalStrut = Box.createVerticalStrut(20);
 		panel_2.add(verticalStrut);
@@ -351,20 +362,20 @@ public class CreateLoan extends JDialog {
 		Component glue_4 = Box.createGlue();
 		panel_4.add(glue_4);
 
-		txtPaymentType = new JComboBox();
-		txtPaymentType.setMaximumSize(new Dimension(1000, 30));
-		txtPaymentType.setMinimumSize(new Dimension(200, 30));
-		txtPaymentType.setPreferredSize(new Dimension(0, 30));
-		panel_4.add(txtPaymentType);
+		cbbxPaymentType = new JComboBox();
+		cbbxPaymentType.setMaximumSize(new Dimension(1000, 30));
+		cbbxPaymentType.setMinimumSize(new Dimension(200, 30));
+		cbbxPaymentType.setPreferredSize(new Dimension(0, 30));
+		panel_4.add(cbbxPaymentType);
 
 		Component verticalStrut_10 = Box.createVerticalStrut(20);
 		panel_4.add(verticalStrut_10);
 
-		txtDuration_1 = new JComboBox();
-		txtDuration_1.setPreferredSize(new Dimension(29, 30));
-		txtDuration_1.setMinimumSize(new Dimension(29, 30));
-		txtDuration_1.setMaximumSize(new Dimension(32767, 30));
-		panel_4.add(txtDuration_1);
+		cbbxDuration = new JComboBox();
+		cbbxDuration.setPreferredSize(new Dimension(29, 30));
+		cbbxDuration.setMinimumSize(new Dimension(29, 30));
+		cbbxDuration.setMaximumSize(new Dimension(32767, 30));
+		panel_4.add(cbbxDuration);
 
 		Component verticalStrut_8 = Box.createVerticalStrut(20);
 		panel_4.add(verticalStrut_8);
@@ -493,12 +504,11 @@ public class CreateLoan extends JDialog {
 			return;
 		}
 
-		LoanType loanType = (LoanType) txtLoanType.getSelectedItem();
-		PaymentType paymentType = (PaymentType) txtPaymentType.getSelectedItem();
-		String period = txtPeriod.getText();
+		LoanType loanType = (LoanType) cbbxLoanType.getSelectedItem();
+		PaymentType paymentType = (PaymentType) cbbxPaymentType.getSelectedItem();
+		int period = (int) cbbxPeriod.getSelectedItem();
+		int duration = (int) cbbxDuration.getSelectedItem();
 		String description = txtDescription.getText();
-		String customer_id = txtCustomerName.getText();
-		int duration = (int) txtDuration_1.getSelectedItem();
 		Date disbursement = txtDisbursement.getDate();
 		Date endDate = txtEndDate.getDate();
 
@@ -605,8 +615,20 @@ public class CreateLoan extends JDialog {
 		initDurationValue();
 		initPaymentValue();
 		initLoanType();
+		initPeriodValue();
 	}
 
+	private void initPeriodValue() {
+
+		int[] durations = new int[] { 1, 3, 6 };
+		DefaultComboBoxModel<Integer> model = new DefaultComboBoxModel<>();
+		for (int dur : durations) {
+			model.addElement(dur);
+		}
+		cbbxPeriod.setModel(model);
+		cbbxPeriod.setRenderer(new PeriodListCellRenderer());
+
+	}
 	private void initDurationValue() {
 
 		int[] durations = new int[] { 6, 12, 18, 24, 36, 48, 72 };
@@ -614,8 +636,8 @@ public class CreateLoan extends JDialog {
 		for (int dur : durations) {
 			model.addElement(dur);
 		}
-		txtDuration_1.setModel(model);
-		txtDuration_1.setRenderer(new DurationListCellRenderer());
+		cbbxDuration.setModel(model);
+		cbbxDuration.setRenderer(new DurationListCellRenderer());
 
 	}
 
@@ -626,8 +648,8 @@ public class CreateLoan extends JDialog {
 		for (com.aptech.LoanProcessingSystem.entities.PaymentType paymentType : paymentTypeModel.getAllPaymentTypes()) {
 			model.addElement(paymentType);
 		}
-		txtPaymentType.setModel(model);
-		txtPaymentType.setRenderer(new PaymentListCellRenderer());
+		cbbxPaymentType.setModel(model);
+		cbbxPaymentType.setRenderer(new PaymentListCellRenderer());
 
 	}
 
@@ -638,12 +660,22 @@ public class CreateLoan extends JDialog {
 		for (LoanType loanType : loanTypeModel.loadAllLoanType()) {
 			model.addElement(loanType);
 		}
-		txtLoanType.setModel(model);
-		txtLoanType.setRenderer(new LoanListCellRenderer());
+		cbbxLoanType.setModel(model);
+		cbbxLoanType.setRenderer(new LoanListCellRenderer());
 
 	}
 
 	private class DurationListCellRenderer extends DefaultListCellRenderer {
+
+		@Override
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+				boolean cellHasFocus) {
+			int item = (int) value;
+			return super.getListCellRendererComponent(list, item + " Month", index, isSelected, cellHasFocus);
+		}
+	}
+	
+	private class PeriodListCellRenderer extends DefaultListCellRenderer {
 
 		@Override
 		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
