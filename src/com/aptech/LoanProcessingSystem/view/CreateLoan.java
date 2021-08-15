@@ -68,8 +68,6 @@ public class CreateLoan extends JDialog {
 	private JDateChooser txtDisbursement;
 	private JTextArea txtDescription;
 	private JComboBox<Integer> cbbxDuration;
-	private JLabel txtVali1;
-	private JLabel txtValid3;
 	private JTextField txtCustomerName;
 	private JComboBox cbbxPaymentType;
 	private JComboBox cbbxLoanType;
@@ -267,22 +265,6 @@ public class CreateLoan extends JDialog {
 		txtAmount.setMinimumSize(new Dimension(300, 30));
 		txtAmount.setPreferredSize(new Dimension(0, 30));
 		panel_2.add(txtAmount);
-		txtAmount.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-
-				try {
-					int i = Integer.parseInt(txtAmount.getText());
-					txtVali1.setText("");
-
-				} catch (Exception e1) {
-					// TODO: handle exception
-					txtVali1.setText("Invalid number");
-
-				}
-
-			}
-		});
 
 		txtAmount.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 10));
 		txtAmount.setColumns(10);
@@ -447,16 +429,6 @@ public class CreateLoan extends JDialog {
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
 
-		txtValid3 = new JLabel("");
-		buttonPane.add(txtValid3);
-		txtValid3.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 9));
-		txtValid3.setForeground(Color.RED);
-
-		txtVali1 = new JLabel("");
-		buttonPane.add(txtVali1);
-		txtVali1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 9));
-		txtVali1.setForeground(Color.RED);
-
 		JButton btnSave = new JButton("Save");
 		btnSave.setPreferredSize(new Dimension(120, 30));
 		buttonPane.add(btnSave);
@@ -530,23 +502,6 @@ public class CreateLoan extends JDialog {
 	}
 
 	protected void createLoanAction() {
-
-//			if ((installment > 1) && (installment <= 5000)) {
-//				fine_interest = 0.02;
-//				fine_id = 1;
-//				fine_amount = installment * fine_interest;
-//			} else if ((installment > 5001) && (installment <= 20000)) {
-//				fine_interest = 0.05;
-//				fine_id = 2;
-//				fine_amount = installment * fine_interest;
-//			} else {
-//				fine_interest = 0.08;
-//				fine_id = 3;
-//				fine_amount = installment * fine_interest;
-//			}
-
-		// Apply the validation logic checking all controls are empty or not
-
 		boolean isAmountValid = Pattern.matches("^\\d+", txtAmount.getText().trim());
 
 		try {
@@ -586,7 +541,7 @@ public class CreateLoan extends JDialog {
 		} else if (!isAmountValid) {
 			JOptionPane.showMessageDialog(null, "Amount invalid!");
 		} else {
-			
+
 			LoanType loanType = (LoanType) cbbxLoanType.getSelectedItem();
 			PaymentType paymentType = (PaymentType) cbbxPaymentType.getSelectedItem();
 			int period = (int) cbbxPeriod.getSelectedItem();
@@ -662,7 +617,7 @@ public class CreateLoan extends JDialog {
 				loanAndFineHistory.setPaymentAmount(paymentAmount);
 				loanAndFineHistory.setAmountLeft(amountLeft);
 				loanAndFineHistory.setDueDate(dueDate);
-				if(!loanAndFineHistoryModel.createLoanAndFineHistory(loanAndFineHistory)) {
+				if (!loanAndFineHistoryModel.createLoanAndFineHistory(loanAndFineHistory)) {
 					loanAndFineHistoryModel.deleteWithLoanId(loanId);
 					new LoanModel().delete(loanId);
 					JOptionPane.showMessageDialog(null, "Please try again!");

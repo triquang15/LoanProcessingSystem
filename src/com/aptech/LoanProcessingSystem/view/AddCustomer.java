@@ -25,6 +25,7 @@ import javax.swing.ImageIcon;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
 
@@ -36,6 +37,8 @@ import com.aptech.LoanProcessingSystem.entities.Customer;
 import com.aptech.LoanProcessingSystem.model.CustomerModel;
 import com.aptech.LoanProcessingSystem.service.ShareData;
 import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
+
 import javax.swing.BoxLayout;
 import java.awt.Dimension;
 import java.awt.Component;
@@ -441,6 +444,10 @@ public class AddCustomer extends JDialog {
 			btnSave.setPreferredSize(new Dimension(120, 30));
 			buttonPane.add(btnSave);
 			btnSave.setFont(new Font("Tahoma", Font.BOLD, 10));
+
+			JTextFieldDateEditor endDateEditor = (JTextFieldDateEditor) txtDob.getDateEditor();
+			endDateEditor.setEditable(false);
+
 			btnSave.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					addCustomerAction();
@@ -495,37 +502,41 @@ public class AddCustomer extends JDialog {
 		String salary = txtSalary.getText();
 		String identity_card = txtIdentity.getText().trim();
 		Date dob = txtDob.getDate();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) - 16);
+		Date dateCheck = calendar.getTime();
 		boolean isPhoneValid = Pattern.matches("^[0-9]{10}$", txtPhone.getText().trim());
 		boolean isIdentityValid = Pattern.matches("^[a-zA-Z0-9]{11}$", txtIdentity.getText().trim());
-		boolean isEmailValid = Pattern.matches("^[a-zA-Z0-9]+(.+)+[@]{1}+(.+)+[.]{1}+[a-zA-Z0-9]+$", txtEmail.getText().trim());
+		boolean isEmailValid = Pattern.matches("^[a-zA-Z0-9]+(.+)+[@]{1}+(.+)+[.]{1}+[a-zA-Z0-9]+$",
+				txtEmail.getText().trim());
 		boolean isSalaryValid = Pattern.matches("^\\d+", txtSalary.getText().trim());
 		// Apply the validation logic checking all controls are empty or not
 		if (!isPhoneValid) {
-			
+
 			JOptionPane.showMessageDialog(null, "Phone invalid!");
-		
+
 		} else if (!isIdentityValid) {
-			
+
 			JOptionPane.showMessageDialog(null, "Identity card invalid!");
-			
-		}else if (!isEmailValid) {
-			
+
+		} else if (!isEmailValid) {
+
 			JOptionPane.showMessageDialog(null, "Email invalid!");
-			
+
 		} else if (!isSalaryValid) {
-			
+
 			JOptionPane.showMessageDialog(null, "Salary invalid!");
-			
-		} else if (name.trim().equals(hintName) || email.trim().equals(hintEmail) || salary.trim().equals(hintSalary)
-				|| job.trim().equals(hintJob) || phone.trim().equals(hintPhone) || address.trim().equals(hintAddress)
-				|| company.trim().equals(hintCompany) || identity_card.trim().equals(hintIdentity)) {
+
+		} else if (dob.after(dateCheck)) {
+
+			JOptionPane.showMessageDialog(null, "Birthday invalid!");
+			txtDob.grabFocus();
+
+		} else if (name.trim().equals(hintName) || job.trim().equals(hintJob) || address.trim().equals(hintAddress)
+				|| company.trim().equals(hintCompany)) {
 
 			JOptionPane.showMessageDialog(null, "Please enter full information !!!");
-			
-		} else if (dob == null) {
-			
-			JOptionPane.showMessageDialog(null, "Please select Date of Birthday");
-			txtDob.grabFocus();
 
 		} else {
 			try {
@@ -573,7 +584,10 @@ public class AddCustomer extends JDialog {
 		txtIdentity.setText(hintIdentity);
 		txtIdentity.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtIdentity.setForeground(Color.GRAY);
-		txtDob.setDate(new Date());
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) - 16);
+		txtDob.setDate(calendar.getTime());
 		txtPhone.setText(hintPhone);
 		txtPhone.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtPhone.setForeground(Color.GRAY);

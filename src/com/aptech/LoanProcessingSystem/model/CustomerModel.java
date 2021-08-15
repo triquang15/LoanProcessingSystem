@@ -14,7 +14,7 @@ public class CustomerModel {
 		boolean rs = false;
 		try {
 			PreparedStatement ps = ConnectDB.connection().prepareStatement(
-					"insert into customer(name, address, phone, email, gender, dob, salary, job, company, IdentityCard) values(?,?,?,?,?,?,?,?,?,?)");
+					"insert into customer(name, address, phone, email, gender, dob, salary, job, company, IdentityCard, status) values(?,?,?,?,?,?,?,?,?,?,?)");
 			ps.setString(1, customer.getName());
 			ps.setString(2, customer.getAddress());
 			ps.setString(3, customer.getPhone());
@@ -25,7 +25,7 @@ public class CustomerModel {
 			ps.setString(8, customer.getJob());
 			ps.setString(9, customer.getCompany());
 			ps.setString(10, customer.getIdentityCard());
-			ps.setBoolean(11, customer.isStatus());
+			ps.setBoolean(11, true);
 			rs = ps.executeUpdate() > 0;
 		} catch (Exception e) {
 			e.printStackTrace();
