@@ -46,7 +46,7 @@ import javax.swing.Box;
 import java.awt.Insets;
 import java.awt.SystemColor;
 
-public class AddCustomer extends JDialog {
+public class LoanHistoryUpdate extends JDialog {
 
 	Connection conn = null;
 	ResultSet rs = null;
@@ -55,8 +55,8 @@ public class AddCustomer extends JDialog {
 	public String user;
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField txtName;
-	private JTextField txtAddress;
+	private JTextField txtCustomerName;
+	private JTextField txtLoanType;
 	private JTextField txtEmail;
 	private JTextField txtPhone;
 	private JTextField txtSalary;
@@ -85,7 +85,7 @@ public class AddCustomer extends JDialog {
 				Login login = new Login();
 				login.setVisible(true);
 			} else {
-				AddCustomer dialog = new AddCustomer();
+				LoanHistoryUpdate dialog = new LoanHistoryUpdate();
 				dialog.setVisible(true);
 			}
 		} catch (Exception e) {
@@ -93,15 +93,14 @@ public class AddCustomer extends JDialog {
 		}
 	}
 
-	public AddCustomer(String username) {
+	public LoanHistoryUpdate(int loanHisId) {
 		this();
-		this.user = username;
 	}
 
 	/**
 	 * Create the dialog.
 	 */
-	public AddCustomer() {
+	public LoanHistoryUpdate() {
 		setMinimumSize(new Dimension(1200, 580));
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new java.awt.event.WindowAdapter() {
@@ -112,7 +111,7 @@ public class AddCustomer extends JDialog {
 		});
 		bg = new ButtonGroup();
 		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage(AddCustomer.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
+				.getImage(LoanHistoryUpdate.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
 		setFont(new Font("Dialog", Font.BOLD, 14));
 		setTitle("New Customer");
 		setBounds(100, 100, 1054, 576);
@@ -129,7 +128,7 @@ public class AddCustomer extends JDialog {
 		lblNewLabel.setForeground(Color.RED);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
 		lblNewLabel.setIcon(new ImageIcon(
-				AddCustomer.class.getResource("/com/aptech/LoanProcessingSystem/images/customer (2).png")));
+				LoanHistoryUpdate.class.getResource("/com/aptech/LoanProcessingSystem/images/customer (2).png")));
 		contentPanel.add(lblNewLabel, BorderLayout.NORTH);
 
 		JPanel panel_1 = new JPanel();
@@ -154,7 +153,7 @@ public class AddCustomer extends JDialog {
 		Component glue_3 = Box.createGlue();
 		panel_2.add(glue_3);
 
-		JLabel lblNewLabel_1 = new JLabel("Name *");
+		JLabel lblNewLabel_1 = new JLabel("Customer");
 		lblNewLabel_1.setMinimumSize(new Dimension(50, 30));
 		lblNewLabel_1.setMaximumSize(new Dimension(100, 30));
 		lblNewLabel_1.setPreferredSize(new Dimension(100, 30));
@@ -163,7 +162,7 @@ public class AddCustomer extends JDialog {
 		Component verticalStrut_7 = Box.createVerticalStrut(20);
 		panel_2.add(verticalStrut_7);
 
-		JLabel lblNewLabel_1_1 = new JLabel("Address *");
+		JLabel lblNewLabel_1_1 = new JLabel("Loan type");
 		lblNewLabel_1_1.setMinimumSize(new Dimension(50, 30));
 		lblNewLabel_1_1.setMaximumSize(new Dimension(100, 30));
 		lblNewLabel_1_1.setPreferredSize(new Dimension(100, 30));
@@ -210,22 +209,23 @@ public class AddCustomer extends JDialog {
 		Component glue_1 = Box.createGlue();
 		panel_3.add(glue_1);
 
-		txtName = new JTextField();
-		txtName.setPreferredSize(new Dimension(7, 30));
-		txtName.setMinimumSize(new Dimension(7, 30));
-		txtName.setMaximumSize(new Dimension(2147483647, 30));
-		panel_3.add(txtName);
-		txtName.setColumns(10);
+		txtCustomerName = new JTextField();
+		txtCustomerName.setEditable(false);
+		txtCustomerName.setPreferredSize(new Dimension(7, 30));
+		txtCustomerName.setMinimumSize(new Dimension(7, 30));
+		txtCustomerName.setMaximumSize(new Dimension(2147483647, 30));
+		panel_3.add(txtCustomerName);
+		txtCustomerName.setColumns(10);
 
 		Component verticalStrut_2 = Box.createVerticalStrut(20);
 		panel_3.add(verticalStrut_2);
 
-		txtAddress = new JTextField();
-		txtAddress.setPreferredSize(new Dimension(7, 30));
-		txtAddress.setMinimumSize(new Dimension(7, 30));
-		txtAddress.setMaximumSize(new Dimension(2147483647, 30));
-		panel_3.add(txtAddress);
-		txtAddress.setColumns(10);
+		txtLoanType = new JTextField();
+		txtLoanType.setPreferredSize(new Dimension(7, 30));
+		txtLoanType.setMinimumSize(new Dimension(7, 30));
+		txtLoanType.setMaximumSize(new Dimension(2147483647, 30));
+		panel_3.add(txtLoanType);
+		txtLoanType.setColumns(10);
 
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		panel_3.add(verticalStrut_1);
@@ -454,7 +454,7 @@ public class AddCustomer extends JDialog {
 				}
 			});
 			btnSave.setIcon(new ImageIcon(
-					AddCustomer.class.getResource("/com/aptech/LoanProcessingSystem/images/floppy-disk.png")));
+					LoanHistoryUpdate.class.getResource("/com/aptech/LoanProcessingSystem/images/floppy-disk.png")));
 
 			JButton btnClear = new JButton("Clear");
 			btnClear.setPreferredSize(new Dimension(120, 30));
@@ -466,7 +466,7 @@ public class AddCustomer extends JDialog {
 			});
 			btnClear.setFont(new Font("Tahoma", Font.BOLD, 10));
 			btnClear.setIcon(new ImageIcon(
-					AddCustomer.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_refresh_16.png")));
+					LoanHistoryUpdate.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_refresh_16.png")));
 
 			JButton btnNewButton = new JButton("Cancel");
 			btnNewButton.setPreferredSize(new Dimension(120, 30));
@@ -478,12 +478,12 @@ public class AddCustomer extends JDialog {
 				}
 			});
 			btnNewButton.setIcon(new ImageIcon(
-					AddCustomer.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
+					LoanHistoryUpdate.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
 		}
 		initForm();
-		setTextHint(txtName, hintName);
+		setTextHint(txtCustomerName, hintName);
 		setTextHint(txtEmail, hintEmail);
-		setTextHint(txtAddress, hintAddress);
+		setTextHint(txtLoanType, hintAddress);
 		setTextHint(txtCompany, hintCompany);
 		setTextHint(txtIdentity, hintIdentity);
 		setTextHint(txtPhone, hintPhone);
@@ -493,9 +493,9 @@ public class AddCustomer extends JDialog {
 
 	protected void addCustomerAction() {
 
-		String name = txtName.getText().trim();
+		String name = txtCustomerName.getText().trim();
 		String email = txtEmail.getText().trim();
-		String address = txtAddress.getText().trim();
+		String address = txtLoanType.getText().trim();
 		String phone = txtPhone.getText().trim();
 		String company = txtCompany.getText().trim();
 		String job = txtJob.getText().trim();
@@ -556,7 +556,7 @@ public class AddCustomer extends JDialog {
 				if (customerModel.create(customer)) {
 					JOptionPane.showMessageDialog(null, "Successful!");
 
-					AddCustomer.this.dispose();
+					LoanHistoryUpdate.this.dispose();
 				} else {
 					JOptionPane.showMessageDialog(null, "Please try again!");
 				}
@@ -569,15 +569,15 @@ public class AddCustomer extends JDialog {
 	}
 
 	private void initForm() {
-		txtName.setText(hintName);
-		txtName.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtName.setForeground(Color.GRAY);
+		txtCustomerName.setText(hintName);
+		txtCustomerName.setFont(new Font("Tahoma", Font.ITALIC, 10));
+		txtCustomerName.setForeground(Color.GRAY);
 		txtEmail.setText(hintEmail);
 		txtEmail.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtEmail.setForeground(Color.GRAY);
-		txtAddress.setText(hintAddress);
-		txtAddress.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtAddress.setForeground(Color.GRAY);
+		txtLoanType.setText(hintAddress);
+		txtLoanType.setFont(new Font("Tahoma", Font.ITALIC, 10));
+		txtLoanType.setForeground(Color.GRAY);
 		txtCompany.setText(hintCompany);
 		txtCompany.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtCompany.setForeground(Color.GRAY);

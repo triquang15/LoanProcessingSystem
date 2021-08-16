@@ -31,6 +31,9 @@ import java.awt.FlowLayout;
 import java.awt.ComponentOrientation;
 import java.awt.SystemColor;
 import javax.swing.ListSelectionModel;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 public class CustomerInfo extends JPanel {
 
@@ -39,6 +42,7 @@ public class CustomerInfo extends JPanel {
 	private JTable table;
 	private JTextField txtSearch;
 	List<Customer> list = new ArrayList<>();
+	private JLabel txtHeader;
 
 	public CustomerInfo() {
 		initComponents();
@@ -85,6 +89,21 @@ public class CustomerInfo extends JPanel {
 
 		setBackground(new Color(112, 128, 144));
 		setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(UIManager.getColor("Button.shadow"));
+		add(panel_1, BorderLayout.NORTH);
+		
+		txtHeader = new JLabel("CUSTOMER LIST");
+		txtHeader.setHorizontalTextPosition(SwingConstants.CENTER);
+		txtHeader.setHorizontalAlignment(SwingConstants.CENTER);
+		txtHeader.setPreferredSize(new Dimension(1000, 40));
+		txtHeader.setMinimumSize(new Dimension(1000, 100));
+		txtHeader.setMaximumSize(new Dimension(5000, 500));
+		txtHeader.setBackground(UIManager.getColor("Button.shadow"));
+		txtHeader.setForeground(SystemColor.infoText);
+		txtHeader.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 24));
+		panel_1.add(txtHeader);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBackground(new Color(112, 128, 144));

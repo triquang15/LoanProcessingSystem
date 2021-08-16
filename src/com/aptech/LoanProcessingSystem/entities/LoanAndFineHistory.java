@@ -5,8 +5,10 @@ import java.util.Date;
 public class LoanAndFineHistory {
 	private int id;
 	private int loanId;
+	private String customer;
 	private int fineId;
 	private int paymentMethodId;
+	private String paymentMenthodName;
 	private double paymentAmount;
 	private double amountLeft;
 	private Date dueDate;
@@ -22,14 +24,16 @@ public class LoanAndFineHistory {
 		super();
 	}
 
-	public LoanAndFineHistory(int id, int loanId, int fineId, int paymentMethodId, double paymentAmount,
-			double amountLeft, Date dueDate, double fineInterest, int fineOverDays, double fineAmount, Date paymentDate,
-			String description, boolean status, double amount) {
+	public LoanAndFineHistory(int id, int loanId, String customer, int fineId, int paymentMethodId,
+			String paymentMenthodName, double paymentAmount, double amountLeft, Date dueDate, double fineInterest,
+			int fineOverDays, double fineAmount, Date paymentDate, String description, boolean status, double amount) {
 		super();
 		this.id = id;
 		this.loanId = loanId;
+		this.customer = customer;
 		this.fineId = fineId;
 		this.paymentMethodId = paymentMethodId;
+		this.paymentMenthodName = paymentMenthodName;
 		this.paymentAmount = paymentAmount;
 		this.amountLeft = amountLeft;
 		this.dueDate = dueDate;
@@ -58,6 +62,14 @@ public class LoanAndFineHistory {
 		this.loanId = loanId;
 	}
 
+	public String getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(String customer) {
+		this.customer = customer;
+	}
+
 	public int getFineId() {
 		return fineId;
 	}
@@ -72,6 +84,14 @@ public class LoanAndFineHistory {
 
 	public void setPaymentMethodId(int paymentMethodId) {
 		this.paymentMethodId = paymentMethodId;
+	}
+
+	public String getPaymentMenthodName() {
+		return paymentMenthodName;
+	}
+
+	public void setPaymentMenthodName(String paymentMenthodName) {
+		this.paymentMenthodName = paymentMenthodName;
 	}
 
 	public double getPaymentAmount() {
@@ -153,11 +173,5 @@ public class LoanAndFineHistory {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-
-	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 
 }

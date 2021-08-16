@@ -32,12 +32,14 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.border.EmptyBorder;
 import java.awt.Insets;
+import javax.swing.BoxLayout;
 
 public class Home extends JFrame {
 	private Account account;
 	private JTabbedPane tabbedHome = new JTabbedPane(JTabbedPane.TOP);
 	private JLabel lblEmail;
 	private JLabel lblClock;
+	private JPanel panelHome;
 
 	/**
 	 * Launch the application.
@@ -86,7 +88,7 @@ public class Home extends JFrame {
 		JToolBar toolBar = new JToolBar();
 		toolBar.setBorder(new EmptyBorder(5, 0, 5, 0));
 		toolBar.setFloatable(false);
-		toolBar.setBackground(new Color(128, 128, 128));
+		toolBar.setBackground(new Color(112, 128, 144));
 		getContentPane().add(toolBar, BorderLayout.NORTH);
 
 		JButton btnLoan = new JButton("");
@@ -138,7 +140,7 @@ public class Home extends JFrame {
 
 		tabbedHome.setForeground(Color.GRAY);
 		tabbedHome.setBackground(Color.GRAY);
-		getContentPane().add(tabbedHome);
+		getContentPane().add(tabbedHome, BorderLayout.WEST);
 
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.DARK_GRAY);
@@ -162,6 +164,10 @@ public class Home extends JFrame {
 		lblClock.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/clock.png")));
 		lblClock.setForeground(Color.WHITE);
 		panel.add(lblClock, BorderLayout.EAST);
+		
+		panelHome = new JPanel();
+		getContentPane().add(panelHome, BorderLayout.CENTER);
+		panelHome.setLayout(new BorderLayout(0, 0));
 		setTitle("Loan Processing System");
 		setBounds(100, 100, 1248, 692);
 		setLocationRelativeTo(null);
@@ -287,22 +293,34 @@ public class Home extends JFrame {
 	}
 
 	protected void loadCustomerAction() {
-		tabbedHome.removeAll();
-		tabbedHome.revalidate();
+//		tabbedHome.removeAll();
+//		tabbedHome.revalidate();
+//		CustomerInfo customerInfo = new CustomerInfo();
+//		ImageIcon icon = new ImageIcon(
+//				getClass().getResource("/com/aptech/LoanProcessingSystem/images/customer (2).png"));
+//		tabbedHome.addTab("Customer Info", icon, customerInfo, "Customer Info");
+//		tabbedHome.setSelectedComponent(customerInfo);
+		panelHome.removeAll();
+		panelHome.revalidate();
 		CustomerInfo customerInfo = new CustomerInfo();
-		ImageIcon icon = new ImageIcon(
-				getClass().getResource("/com/aptech/LoanProcessingSystem/images/customer (2).png"));
-		tabbedHome.addTab("Customer Info", icon, customerInfo, "Customer Info");
-		tabbedHome.setSelectedComponent(customerInfo);
+		panelHome.add(customerInfo);
+		customerInfo.setVisible(true);
+
 	}
 
 	protected void loadLoanAction() {
-		tabbedHome.removeAll();
-		tabbedHome.revalidate();
+//		tabbedHome.removeAll();
+//		tabbedHome.revalidate();
+//		LoanDetail loanDetail = new LoanDetail();
+//		ImageIcon icon = new ImageIcon(getClass().getResource("/com/aptech/LoanProcessingSystem/images/loan.png"));
+//		tabbedHome.addTab("Loan Detail", icon, loanDetail, "Loan Detail");
+//		tabbedHome.setSelectedComponent(loanDetail);
+		
+		panelHome.removeAll();
+		panelHome.revalidate();
 		LoanDetail loanDetail = new LoanDetail();
-		ImageIcon icon = new ImageIcon(getClass().getResource("/com/aptech/LoanProcessingSystem/images/loan.png"));
-		tabbedHome.addTab("Loan Detail", icon, loanDetail, "Loan Detail");
-		tabbedHome.setSelectedComponent(loanDetail);
+		panelHome.add(loanDetail);
+		loanDetail.setVisible(true);
 	}
 
 	protected void exitAction() {
