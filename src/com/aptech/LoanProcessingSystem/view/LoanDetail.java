@@ -40,6 +40,8 @@ import java.awt.Insets;
 import java.awt.Dimension;
 import javax.swing.UIManager;
 import java.awt.SystemColor;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 public class LoanDetail extends JPanel {
 
@@ -54,6 +56,9 @@ public class LoanDetail extends JPanel {
 	private JButton btnDetail;
 	private String hintSearch = "Please enter customer name!";
 	private int loanSelectedId;
+	private JLabel txtHeader;
+	private JButton btnSearch;
+	private JButton btnRefesh;
 
 	public LoanDetail() {
 		initComponents();
@@ -69,6 +74,19 @@ public class LoanDetail extends JPanel {
 
 		setBackground(new Color(112, 128, 144));
 		setLayout(new BorderLayout(0, 0));
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(UIManager.getColor("Button.shadow"));
+		add(panel_3, BorderLayout.NORTH);
+		
+		txtHeader = new JLabel("Loan List");
+		txtHeader.setBackground(UIManager.getColor("Button.shadow"));
+		txtHeader.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 24));
+		txtHeader.setHorizontalTextPosition(SwingConstants.CENTER);
+		txtHeader.setHorizontalAlignment(SwingConstants.CENTER);
+		txtHeader.setPreferredSize(new Dimension(1000, 40));
+		txtHeader.setMaximumSize(new Dimension(2000, 100));
+		panel_3.add(txtHeader);
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBackground(new Color(112, 128, 144));
@@ -105,7 +123,7 @@ public class LoanDetail extends JPanel {
 		txtSearch.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 10));
 		txtSearch.setColumns(30);
 
-		JButton btnSearch = new JButton("");
+		btnSearch = new JButton("");
 		btnSearch.setFocusPainted(false);
 		btnSearch.setPreferredSize(new Dimension(30, 30));
 		btnSearch.setMargin(new Insets(2, 20, 2, 20));
@@ -114,7 +132,7 @@ public class LoanDetail extends JPanel {
 		btnSearch.setIcon(
 				new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/search.png")));
 
-		JButton btnRefesh = new JButton("");
+		btnRefesh = new JButton("");
 		btnRefesh.setFocusPainted(false);
 		btnRefesh.setPreferredSize(new Dimension(30, 30));
 		btnRefesh.setIcon(new ImageIcon(
@@ -230,11 +248,17 @@ public class LoanDetail extends JPanel {
 			btnDetail.setVisible(true);
 			btnBack.setVisible(false);
 			txtSearch.setVisible(true);
+			btnSearch.setVisible(true);
+			btnRefesh.setVisible(true);
+			txtHeader.setText("LOAN LIST");
 			loadLoanToTable(new LoanModel().findAllActive());
 		} else {
 			btnDetail.setVisible(false);
 			btnBack.setVisible(true);
 			txtSearch.setVisible(false);
+			btnSearch.setVisible(false);
+			btnRefesh.setVisible(false);
+			txtHeader.setText("Loan Detail List");
 			loadHistoryToTable(new LoanAndFineHistoryModel().searchByLoanId(loanSelectedId));
 		}
 	}
