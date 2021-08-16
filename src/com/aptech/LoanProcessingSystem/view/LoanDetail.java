@@ -32,6 +32,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.MessageFormat;
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
@@ -59,6 +61,7 @@ public class LoanDetail extends JPanel {
 	private JLabel txtHeader;
 	private JButton btnSearch;
 	private JButton btnRefesh;
+	private JButton btnUpdate;
 
 	public LoanDetail() {
 		initComponents();
@@ -74,11 +77,11 @@ public class LoanDetail extends JPanel {
 
 		setBackground(new Color(112, 128, 144));
 		setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panel_3 = new JPanel();
 		panel_3.setBackground(UIManager.getColor("Button.shadow"));
 		add(panel_3, BorderLayout.NORTH);
-		
+
 		txtHeader = new JLabel("Loan List");
 		txtHeader.setBackground(UIManager.getColor("Button.shadow"));
 		txtHeader.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 24));
@@ -145,7 +148,7 @@ public class LoanDetail extends JPanel {
 		FlowLayout fl_panel_2 = new FlowLayout(FlowLayout.TRAILING, 20, 20);
 		panel_2.setLayout(fl_panel_2);
 
-		JButton btnUpdate = new JButton("Update");
+		btnUpdate = new JButton("Update");
 		btnUpdate.setIcon(new ImageIcon(
 				LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_update_20.png")));
 		btnUpdate.setPreferredSize(new Dimension(120, 30));
@@ -241,24 +244,52 @@ public class LoanDetail extends JPanel {
 				initPage();
 			}
 		});
+
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateAction();
+			}
+		});
+	}
+
+	private void updateAction() {
+		int selectedRow = table.getSelectedRow();
+		if (selectedRow != -1) {
+			int id = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
+			LoanHistoryUpdate loanHistoryUpdate = new LoanHistoryUpdate(id);
+			loanHistoryUpdate.setVisible(true);
+			loanHistoryUpdate.addWindowListener(new WindowAdapter() {
+
+				@Override
+				public void windowClosed(WindowEvent e) {
+					super.windowClosed(e);
+					loadHistoryToTable(new LoanAndFineHistoryModel().searchByLoanId(loanSelectedId));
+				}
+
+			});
+		} else {
+			JOptionPane.showMessageDialog(null, "Please choose a value!");
+		}
 	}
 
 	private void initPage() {
 		if (pageState.equals(loanPage)) {
 			btnDetail.setVisible(true);
-			btnBack.setVisible(false);
 			txtSearch.setVisible(true);
 			btnSearch.setVisible(true);
 			btnRefesh.setVisible(true);
+			btnUpdate.setVisible(false);
+			btnBack.setVisible(false);
 			txtHeader.setText("LOAN LIST");
 			loadLoanToTable(new LoanModel().findAllActive());
 		} else {
 			btnDetail.setVisible(false);
-			btnBack.setVisible(true);
 			txtSearch.setVisible(false);
 			btnSearch.setVisible(false);
 			btnRefesh.setVisible(false);
-			txtHeader.setText("Loan Detail List");
+			btnUpdate.setVisible(true);
+			btnBack.setVisible(true);
+			txtHeader.setText("LOAN DETAIL LIST");
 			loadHistoryToTable(new LoanAndFineHistoryModel().searchByLoanId(loanSelectedId));
 		}
 	}
@@ -270,22 +301,22 @@ public class LoanDetail extends JPanel {
 			if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete?", "Confirm",
 					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				if (pageState.equals(loanPage)) {
-					
+
 					if (new LoanAndFineHistoryModel().deleteWithLoanId(id)) {
-						
+
 						if (new LoanModel().delete(id)) {
-							
+
 							JOptionPane.showMessageDialog(null, "Successful Delete");
 							loadLoanToTable(new LoanModel().findAll());
-							
+
 						} else {
 							JOptionPane.showMessageDialog(null, "Delete failed, please try again!");
 						}
-						
+
 					} else {
 						JOptionPane.showMessageDialog(null, "Delete failed, please try again!");
 					}
-					
+
 				} else {
 					if (new LoanAndFineHistoryModel().delete(id)) {
 						JOptionPane.showMessageDialog(null, "Successful Delete");

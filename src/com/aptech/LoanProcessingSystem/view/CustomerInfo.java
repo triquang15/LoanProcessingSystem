@@ -94,7 +94,7 @@ public class CustomerInfo extends JPanel {
 		panel_1.setBackground(UIManager.getColor("Button.shadow"));
 		add(panel_1, BorderLayout.NORTH);
 		
-		txtHeader = new JLabel("Customer List");
+		txtHeader = new JLabel("CUSTOMER LIST");
 		txtHeader.setHorizontalTextPosition(SwingConstants.CENTER);
 		txtHeader.setHorizontalAlignment(SwingConstants.CENTER);
 		txtHeader.setPreferredSize(new Dimension(1000, 40));
