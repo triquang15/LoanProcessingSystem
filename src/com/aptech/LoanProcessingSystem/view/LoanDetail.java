@@ -62,6 +62,13 @@ public class LoanDetail extends JPanel {
 	private JButton btnSearch;
 	private JButton btnRefesh;
 	private JButton btnUpdate;
+	private JPanel panel_4;
+	private JPanel panel_5;
+	private JButton btnNextLong;
+	private JButton btnNextShort;
+	private JButton btnBackShort;
+	private JButton btnBackLong;
+	private JTextField textField_1;
 
 	public LoanDetail() {
 		initComponents();
@@ -107,10 +114,51 @@ public class LoanDetail extends JPanel {
 		Font bigFont = new Font("sansserif", Font.BOLD, 17);
 		table.getTableHeader().setFont(bigFont);
 		scrollPane.setViewportView(table);
+		
+		panel_4 = new JPanel();
+		add(panel_4, BorderLayout.SOUTH);
+		panel_4.setLayout(new BorderLayout(0, 0));
+		
+		panel_5 = new JPanel();
+		panel_4.add(panel_5, BorderLayout.NORTH);
+		
+		btnBackLong = new JButton("");
+		btnBackLong.setFocusPainted(false);
+		btnBackLong.setContentAreaFilled(false);
+		btnBackLong.setBorderPainted(false);
+		btnBackLong.setIcon(new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_back_long_20.png")));
+		panel_5.add(btnBackLong);
+		
+		btnBackShort = new JButton("");
+		btnBackShort.setFocusPainted(false);
+		btnBackShort.setContentAreaFilled(false);
+		btnBackShort.setBorderPainted(false);
+		btnBackShort.setIcon(new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_back_short_20.png")));
+		panel_5.add(btnBackShort);
+		
+		textField_1 = new JTextField();
+		textField_1.setPreferredSize(new Dimension(7, 30));
+		textField_1.setMinimumSize(new Dimension(7, 30));
+		panel_5.add(textField_1);
+		textField_1.setColumns(10);
+		
+		btnNextShort = new JButton("");
+		btnNextShort.setFocusPainted(false);
+		btnNextShort.setContentAreaFilled(false);
+		btnNextShort.setBorderPainted(false);
+		btnNextShort.setIcon(new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_next_short_20.png")));
+		panel_5.add(btnNextShort);
+		
+		btnNextLong = new JButton("");
+		btnNextLong.setFocusPainted(false);
+		btnNextLong.setContentAreaFilled(false);
+		btnNextLong.setBorderPainted(false);
+		btnNextLong.setIcon(new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_next_long_20.png")));
+		panel_5.add(btnNextLong);
 
 		JPanel panel = new JPanel();
+		panel_4.add(panel);
 		panel.setBackground(Color.DARK_GRAY);
-		add(panel, BorderLayout.SOUTH);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 
 		JPanel panel_1 = new JPanel();
@@ -191,7 +239,6 @@ public class LoanDetail extends JPanel {
 		btnBack.setMargin(new Insets(2, 20, 2, 20));
 		btnBack.setFont(new Font("Tahoma", Font.BOLD, 10));
 		panel_2.add(btnBack);
-		initForm();
 		btnPrint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MessageFormat header = new MessageFormat("Loan Detail");
@@ -205,51 +252,52 @@ public class LoanDetail extends JPanel {
 				}
 			}
 		});
-
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				searchAction();
-			}
-		});
-
-		btnRefesh.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				refreshAction();
-			}
-		});
-
-		btnDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				deleteAction();
-			}
-		});
-
-		btnDetail.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				int selectedRow = table.getSelectedRow();
-				if (selectedRow != -1) {
-					loanSelectedId = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
-					pageState = historyPage;
-					initPage();
-				} else {
-					JOptionPane.showMessageDialog(null, "Please choose a value!");
-				}
-			}
-		});
-
-		btnBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				pageState = loanPage;
-				initPage();
-			}
-		});
-
-		btnUpdate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				updateAction();
-			}
-		});
+		
+				btnSearch.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						searchAction();
+					}
+				});
+				
+						btnRefesh.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								refreshAction();
+							}
+						});
+						
+								btnDelete.addActionListener(new ActionListener() {
+									public void actionPerformed(ActionEvent e) {
+										deleteAction();
+									}
+								});
+								
+										btnDetail.addMouseListener(new MouseAdapter() {
+											@Override
+											public void mouseClicked(MouseEvent e) {
+												int selectedRow = table.getSelectedRow();
+												if (selectedRow != -1) {
+													loanSelectedId = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
+													pageState = historyPage;
+													initPage();
+												} else {
+													JOptionPane.showMessageDialog(null, "Please choose a value!");
+												}
+											}
+										});
+										
+												btnBack.addActionListener(new ActionListener() {
+													public void actionPerformed(ActionEvent e) {
+														pageState = loanPage;
+														initPage();
+													}
+												});
+												
+														btnUpdate.addActionListener(new ActionListener() {
+															public void actionPerformed(ActionEvent e) {
+																updateAction();
+															}
+														});
+		initForm();
 	}
 
 	private void updateAction() {

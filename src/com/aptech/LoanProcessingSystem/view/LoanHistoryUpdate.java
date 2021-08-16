@@ -57,15 +57,12 @@ public class LoanHistoryUpdate extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtCustomerName;
 	private JTextField txtLoanType;
-	private JTextField txtEmail;
-	private JTextField txtPhone;
-	private JTextField txtSalary;
-	private JTextField txtJob;
-	private JTextField txtCompany;
-	private JTextField txtIdentity;
-	private JDateChooser txtDob;
-	private JRadioButton rdbMale_1;
-	private JRadioButton rdbFemale_1;
+	private JTextField txtPaymentType;
+	private JTextField txtPeriod;
+	private JTextField txtLoanAmount;
+	private JTextField txtInterest;
+	private JTextField txtFineInterest;
+	private JTextField txtFineOverdays;
 	private String hintName = "Please enter customer name";
 	private String hintEmail = "Please enter customer email";
 	private String hintAddress = "Please enter customer address";
@@ -74,6 +71,11 @@ public class LoanHistoryUpdate extends JDialog {
 	private String hintPhone = "Please enter customer phone";
 	private String hintSalary = "Please enter customer salary";
 	private String hintJob = "Please enter customer job";
+	private JTextField txtDuration;
+	private JTextField txtPaymentAmount;
+	private JTextField txtFineAmount;
+	private JTextField txtAmountLeft;
+	private JTextField txtTotalPayment;
 
 	/**
 	 * Launch the application.
@@ -114,7 +116,7 @@ public class LoanHistoryUpdate extends JDialog {
 				.getImage(LoanHistoryUpdate.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
 		setFont(new Font("Dialog", Font.BOLD, 14));
 		setTitle("New Customer");
-		setBounds(100, 100, 1054, 576);
+		setBounds(100, 100, 1235, 745);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(new Color(105, 105, 105));
 		contentPanel.setBorder(new EmptyBorder(50, 20, 30, 20));
@@ -171,7 +173,7 @@ public class LoanHistoryUpdate extends JDialog {
 		Component verticalStrut_6 = Box.createVerticalStrut(20);
 		panel_2.add(verticalStrut_6);
 
-		JLabel lblNewLabel_1_2 = new JLabel("Email *");
+		JLabel lblNewLabel_1_2 = new JLabel("Payment type");
 		lblNewLabel_1_2.setMinimumSize(new Dimension(50, 30));
 		lblNewLabel_1_2.setMaximumSize(new Dimension(100, 30));
 		lblNewLabel_1_2.setPreferredSize(new Dimension(100, 30));
@@ -180,7 +182,7 @@ public class LoanHistoryUpdate extends JDialog {
 		Component verticalStrut_5 = Box.createVerticalStrut(20);
 		panel_2.add(verticalStrut_5);
 
-		JLabel lblNewLabel_1_3 = new JLabel("Phone *");
+		JLabel lblNewLabel_1_3 = new JLabel("Period");
 		lblNewLabel_1_3.setMinimumSize(new Dimension(50, 30));
 		lblNewLabel_1_3.setMaximumSize(new Dimension(100, 30));
 		lblNewLabel_1_3.setPreferredSize(new Dimension(100, 30));
@@ -189,11 +191,29 @@ public class LoanHistoryUpdate extends JDialog {
 		Component verticalStrut_4 = Box.createVerticalStrut(20);
 		panel_2.add(verticalStrut_4);
 
-		JLabel lblNewLabel_1_4 = new JLabel("Gender *");
+		JLabel lblNewLabel_1_4 = new JLabel("Duration");
 		lblNewLabel_1_4.setMinimumSize(new Dimension(50, 30));
 		lblNewLabel_1_4.setMaximumSize(new Dimension(100, 30));
 		lblNewLabel_1_4.setPreferredSize(new Dimension(100, 30));
 		panel_2.add(lblNewLabel_1_4);
+					
+								Component verticalStrut_10_3 = Box.createVerticalStrut(20);
+								panel_2.add(verticalStrut_10_3);
+		
+					JLabel lblNewLabel_2 = new JLabel("Loan amount");
+					panel_2.add(lblNewLabel_2);
+					lblNewLabel_2.setPreferredSize(new Dimension(100, 30));
+					lblNewLabel_2.setMinimumSize(new Dimension(50, 30));
+					lblNewLabel_2.setMaximumSize(new Dimension(100, 30));
+					
+								Component verticalStrut_10_2 = Box.createVerticalStrut(20);
+								panel_2.add(verticalStrut_10_2);
+		
+					JLabel lblNewLabel_3 = new JLabel("Interest");
+					panel_2.add(lblNewLabel_3);
+					lblNewLabel_3.setPreferredSize(new Dimension(100, 30));
+					lblNewLabel_3.setMinimumSize(new Dimension(50, 30));
+					lblNewLabel_3.setMaximumSize(new Dimension(100, 30));
 
 		Component glue_4 = Box.createGlue();
 		panel_2.add(glue_4);
@@ -210,6 +230,7 @@ public class LoanHistoryUpdate extends JDialog {
 		panel_3.add(glue_1);
 
 		txtCustomerName = new JTextField();
+		txtCustomerName.setEnabled(false);
 		txtCustomerName.setEditable(false);
 		txtCustomerName.setPreferredSize(new Dimension(7, 30));
 		txtCustomerName.setMinimumSize(new Dimension(7, 30));
@@ -221,6 +242,8 @@ public class LoanHistoryUpdate extends JDialog {
 		panel_3.add(verticalStrut_2);
 
 		txtLoanType = new JTextField();
+		txtLoanType.setEnabled(false);
+		txtLoanType.setEditable(false);
 		txtLoanType.setPreferredSize(new Dimension(7, 30));
 		txtLoanType.setMinimumSize(new Dimension(7, 30));
 		txtLoanType.setMaximumSize(new Dimension(2147483647, 30));
@@ -230,61 +253,65 @@ public class LoanHistoryUpdate extends JDialog {
 		Component verticalStrut_1 = Box.createVerticalStrut(20);
 		panel_3.add(verticalStrut_1);
 
-		txtEmail = new JTextField();
-		txtEmail.setPreferredSize(new Dimension(7, 30));
-		txtEmail.setMinimumSize(new Dimension(7, 30));
-		txtEmail.setMaximumSize(new Dimension(2147483647, 30));
-		panel_3.add(txtEmail);
-		txtEmail.setColumns(10);
+		txtPaymentType = new JTextField();
+		txtPaymentType.setEnabled(false);
+		txtPaymentType.setEditable(false);
+		txtPaymentType.setPreferredSize(new Dimension(7, 30));
+		txtPaymentType.setMinimumSize(new Dimension(7, 30));
+		txtPaymentType.setMaximumSize(new Dimension(2147483647, 30));
+		panel_3.add(txtPaymentType);
+		txtPaymentType.setColumns(10);
 
 		Component verticalStrut = Box.createVerticalStrut(20);
 		panel_3.add(verticalStrut);
 
-		txtPhone = new JTextField();
-		txtPhone.setPreferredSize(new Dimension(7, 30));
-		txtPhone.setMinimumSize(new Dimension(7, 30));
-		txtPhone.setMaximumSize(new Dimension(2147483647, 30));
-		panel_3.add(txtPhone);
-		txtPhone.setColumns(10);
+		txtPeriod = new JTextField();
+		txtPeriod.setEnabled(false);
+		txtPeriod.setEditable(false);
+		txtPeriod.setPreferredSize(new Dimension(7, 30));
+		txtPeriod.setMinimumSize(new Dimension(7, 30));
+		txtPeriod.setMaximumSize(new Dimension(2147483647, 30));
+		panel_3.add(txtPeriod);
+		txtPeriod.setColumns(10);
 
 		Component verticalStrut_3 = Box.createVerticalStrut(20);
 		panel_3.add(verticalStrut_3);
-
-		JPanel panel_4 = new JPanel();
-		panel_4.setForeground(new Color(0, 0, 0));
-		panel_4.setBackground(SystemColor.activeCaptionBorder);
-		FlowLayout flowLayout_1 = (FlowLayout) panel_4.getLayout();
-		flowLayout_1.setAlignment(FlowLayout.LEFT);
-		flowLayout_1.setHgap(0);
-		panel_4.setPreferredSize(new Dimension(10, 30));
-		panel_4.setMinimumSize(new Dimension(10, 25));
-		panel_4.setMaximumSize(new Dimension(32767, 25));
-		panel_3.add(panel_4);
-
-		rdbMale_1 = new JRadioButton("Male");
-		rdbMale_1.setBackground(SystemColor.activeCaptionBorder);
-		rdbMale_1.setForeground(new Color(0, 0, 0));
-		rdbMale_1.setPreferredSize(new Dimension(120, 25));
-		rdbMale_1.setMinimumSize(new Dimension(120, 0));
-		rdbMale_1.setMargin(new Insets(0, 0, 0, 0));
-		rdbMale_1.setMaximumSize(new Dimension(200, 30));
-		panel_4.add(rdbMale_1);
-		rdbMale_1.setHorizontalAlignment(SwingConstants.LEFT);
-		bg.add(rdbMale_1);
-		rdbMale_1.setSelected(true);
-		bg.add(rdbMale_1);
-		rdbMale_1.setSelected(true);
-
-		rdbFemale_1 = new JRadioButton("Female");
-		rdbFemale_1.setBackground(SystemColor.activeCaptionBorder);
-		rdbFemale_1.setForeground(new Color(0, 0, 0));
-		rdbFemale_1.setPreferredSize(new Dimension(120, 25));
-		rdbFemale_1.setMinimumSize(new Dimension(120, 0));
-		rdbFemale_1.setMargin(new Insets(0, 0, 0, 0));
-		rdbFemale_1.setMaximumSize(new Dimension(200, 30));
-		panel_4.add(rdbFemale_1);
-		rdbFemale_1.setHorizontalAlignment(SwingConstants.LEFT);
-		bg.add(rdbFemale_1);
+		
+		txtDuration = new JTextField();
+		txtDuration.setEnabled(false);
+		txtDuration.setEditable(false);
+		txtDuration.setText("Please enter customer phone");
+		txtDuration.setPreferredSize(new Dimension(7, 30));
+		txtDuration.setMinimumSize(new Dimension(7, 30));
+		txtDuration.setMaximumSize(new Dimension(2147483647, 30));
+		txtDuration.setForeground(Color.GRAY);
+		txtDuration.setFont(new Font("Tahoma", Font.ITALIC, 10));
+		txtDuration.setColumns(10);
+		panel_3.add(txtDuration);
+					
+								Component verticalStrut_9_2 = Box.createVerticalStrut(20);
+								panel_3.add(verticalStrut_9_2);
+		
+					txtLoanAmount = new JTextField();
+					txtLoanAmount.setEnabled(false);
+					panel_3.add(txtLoanAmount);
+					txtLoanAmount.setEditable(false);
+					txtLoanAmount.setMaximumSize(new Dimension(2147483647, 30));
+					txtLoanAmount.setPreferredSize(new Dimension(7, 30));
+					txtLoanAmount.setColumns(10);
+					setTextHint(txtLoanAmount, hintSalary);
+					
+								Component verticalStrut_9_1 = Box.createVerticalStrut(20);
+								panel_3.add(verticalStrut_9_1);
+		
+					txtInterest = new JTextField();
+					panel_3.add(txtInterest);
+					txtInterest.setEnabled(false);
+					txtInterest.setEditable(false);
+					txtInterest.setMaximumSize(new Dimension(2147483647, 30));
+					txtInterest.setPreferredSize(new Dimension(7, 30));
+					txtInterest.setColumns(10);
+					setTextHint(txtInterest, hintJob);
 
 		Component glue = Box.createGlue();
 		panel_3.add(glue);
@@ -317,26 +344,17 @@ public class LoanHistoryUpdate extends JDialog {
 
 			Component glue_7 = Box.createGlue();
 			panel_7.add(glue_7);
+			
+			JLabel lblNewLabel_4_1 = new JLabel("Payment amount");
+			lblNewLabel_4_1.setPreferredSize(new Dimension(100, 30));
+			lblNewLabel_4_1.setMinimumSize(new Dimension(50, 30));
+			lblNewLabel_4_1.setMaximumSize(new Dimension(100, 30));
+			panel_7.add(lblNewLabel_4_1);
+			
+			Component verticalStrut_10_2_1 = Box.createVerticalStrut(20);
+			panel_7.add(verticalStrut_10_2_1);
 
-			JLabel lblNewLabel_2 = new JLabel("Salary *");
-			lblNewLabel_2.setPreferredSize(new Dimension(100, 30));
-			lblNewLabel_2.setMinimumSize(new Dimension(50, 30));
-			lblNewLabel_2.setMaximumSize(new Dimension(100, 30));
-			panel_7.add(lblNewLabel_2);
-
-			Component verticalStrut_10_3 = Box.createVerticalStrut(20);
-			panel_7.add(verticalStrut_10_3);
-
-			JLabel lblNewLabel_3 = new JLabel("Job *");
-			lblNewLabel_3.setPreferredSize(new Dimension(100, 30));
-			lblNewLabel_3.setMinimumSize(new Dimension(50, 30));
-			lblNewLabel_3.setMaximumSize(new Dimension(100, 30));
-			panel_7.add(lblNewLabel_3);
-
-			Component verticalStrut_10_2 = Box.createVerticalStrut(20);
-			panel_7.add(verticalStrut_10_2);
-
-			JLabel lblNewLabel_4 = new JLabel("Company *");
+			JLabel lblNewLabel_4 = new JLabel("Due date");
 			lblNewLabel_4.setPreferredSize(new Dimension(100, 30));
 			lblNewLabel_4.setMinimumSize(new Dimension(50, 30));
 			lblNewLabel_4.setMaximumSize(new Dimension(100, 30));
@@ -344,21 +362,48 @@ public class LoanHistoryUpdate extends JDialog {
 
 			Component verticalStrut_10_1 = Box.createVerticalStrut(20);
 			panel_7.add(verticalStrut_10_1);
-
-			JLabel lblNewLabel_5 = new JLabel("Identity Card *");
-			lblNewLabel_5.setPreferredSize(new Dimension(100, 30));
-			lblNewLabel_5.setMinimumSize(new Dimension(50, 30));
-			lblNewLabel_5.setMaximumSize(new Dimension(100, 30));
-			panel_7.add(lblNewLabel_5);
+			
+						JLabel lblNewLabel_5 = new JLabel("Fine over days");
+						lblNewLabel_5.setPreferredSize(new Dimension(100, 30));
+						lblNewLabel_5.setMinimumSize(new Dimension(50, 30));
+						lblNewLabel_5.setMaximumSize(new Dimension(100, 30));
+						panel_7.add(lblNewLabel_5);
+			
+			Component verticalStrut_10_1_1 = Box.createVerticalStrut(20);
+			panel_7.add(verticalStrut_10_1_1);
+			
+						JLabel lblNewLabel_7 = new JLabel("Fine interest");
+						lblNewLabel_7.setPreferredSize(new Dimension(100, 30));
+						lblNewLabel_7.setMinimumSize(new Dimension(50, 30));
+						lblNewLabel_7.setMaximumSize(new Dimension(100, 30));
+						panel_7.add(lblNewLabel_7);
 
 			Component verticalStrut_10 = Box.createVerticalStrut(20);
 			panel_7.add(verticalStrut_10);
-
-			JLabel lblNewLabel_7 = new JLabel("Dob *");
-			lblNewLabel_7.setPreferredSize(new Dimension(100, 30));
-			lblNewLabel_7.setMinimumSize(new Dimension(50, 30));
-			lblNewLabel_7.setMaximumSize(new Dimension(100, 30));
-			panel_7.add(lblNewLabel_7);
+			
+			JLabel lblNewLabel_7_1 = new JLabel("Fine amount");
+			lblNewLabel_7_1.setPreferredSize(new Dimension(100, 30));
+			lblNewLabel_7_1.setMinimumSize(new Dimension(50, 30));
+			lblNewLabel_7_1.setMaximumSize(new Dimension(100, 30));
+			panel_7.add(lblNewLabel_7_1);
+			
+			Component verticalStrut_10_4 = Box.createVerticalStrut(20);
+			panel_7.add(verticalStrut_10_4);
+			
+			JLabel lblNewLabel_7_1_1 = new JLabel("Amount left");
+			lblNewLabel_7_1_1.setPreferredSize(new Dimension(100, 30));
+			lblNewLabel_7_1_1.setMinimumSize(new Dimension(50, 30));
+			lblNewLabel_7_1_1.setMaximumSize(new Dimension(100, 30));
+			panel_7.add(lblNewLabel_7_1_1);
+			
+			Component verticalStrut_10_4_1 = Box.createVerticalStrut(20);
+			panel_7.add(verticalStrut_10_4_1);
+			
+			JLabel lblNewLabel_7_1_1_1 = new JLabel("Amount left");
+			lblNewLabel_7_1_1_1.setPreferredSize(new Dimension(100, 30));
+			lblNewLabel_7_1_1_1.setMinimumSize(new Dimension(50, 30));
+			lblNewLabel_7_1_1_1.setMaximumSize(new Dimension(100, 30));
+			panel_7.add(lblNewLabel_7_1_1_1);
 
 			Component glue_8 = Box.createGlue();
 			panel_7.add(glue_8);
@@ -373,58 +418,100 @@ public class LoanHistoryUpdate extends JDialog {
 
 			Component glue_5 = Box.createGlue();
 			panel_5.add(glue_5);
-
-			txtSalary = new JTextField();
-			txtSalary.setMaximumSize(new Dimension(2147483647, 30));
-			txtSalary.setPreferredSize(new Dimension(7, 30));
-			panel_5.add(txtSalary);
-			txtSalary.setColumns(10);
-
-			Component verticalStrut_9_2 = Box.createVerticalStrut(20);
-			panel_5.add(verticalStrut_9_2);
-
-			txtJob = new JTextField();
-			txtJob.setMaximumSize(new Dimension(2147483647, 30));
-			txtJob.setPreferredSize(new Dimension(7, 30));
-			panel_5.add(txtJob);
-			txtJob.setColumns(10);
-
-			Component verticalStrut_9_1 = Box.createVerticalStrut(20);
-			panel_5.add(verticalStrut_9_1);
-
-			txtCompany = new JTextField();
-			txtCompany.setMaximumSize(new Dimension(2147483647, 30));
-			txtCompany.setPreferredSize(new Dimension(7, 30));
-			panel_5.add(txtCompany);
-			txtCompany.setColumns(10);
+			
+			txtPaymentAmount = new JTextField();
+			txtPaymentAmount.setText("Please enter customer identity");
+			txtPaymentAmount.setPreferredSize(new Dimension(7, 30));
+			txtPaymentAmount.setMaximumSize(new Dimension(2147483647, 30));
+			txtPaymentAmount.setForeground(Color.GRAY);
+			txtPaymentAmount.setFont(new Font("Tahoma", Font.ITALIC, 10));
+			txtPaymentAmount.setColumns(10);
+			panel_5.add(txtPaymentAmount);
+			
+			Component verticalStrut_9_4 = Box.createVerticalStrut(20);
+			panel_5.add(verticalStrut_9_4);
+			
+			JPanel panel_4 = new JPanel();
+			panel_4.setMinimumSize(new Dimension(10, 30));
+			panel_4.setMaximumSize(new Dimension(32767, 30));
+			panel_5.add(panel_4);
+			panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.X_AXIS));
+			
+			JDateChooser txtDueDate = new JDateChooser();
+			txtDueDate.getCalendarButton().setSize(new Dimension(0, 30));
+			txtDueDate.getCalendarButton().setPreferredSize(new Dimension(21, 30));
+			txtDueDate.getCalendarButton().setOpaque(false);
+			txtDueDate.getCalendarButton().setMinimumSize(new Dimension(100, 30));
+			txtDueDate.getCalendarButton().setMaximumSize(new Dimension(21, 30));
+			txtDueDate.getCalendarButton().setEnabled(false);
+			txtDueDate.getCalendarButton().setAlignmentX(0.5f);
+			panel_4.add(txtDueDate);
 
 			Component verticalStrut_9 = Box.createVerticalStrut(20);
 			panel_5.add(verticalStrut_9);
-
-			txtIdentity = new JTextField();
-			txtIdentity.setMaximumSize(new Dimension(2147483647, 30));
-			txtIdentity.setPreferredSize(new Dimension(7, 30));
-			panel_5.add(txtIdentity);
-			txtIdentity.setColumns(10);
+			
+						txtFineOverdays = new JTextField();
+						txtFineOverdays.setEditable(false);
+						txtFineOverdays.setEnabled(false);
+						txtFineOverdays.setMaximumSize(new Dimension(2147483647, 30));
+						txtFineOverdays.setPreferredSize(new Dimension(7, 30));
+						panel_5.add(txtFineOverdays);
+						txtFineOverdays.setColumns(10);
+						setTextHint(txtFineOverdays, hintIdentity);
+			
+			Component verticalStrut_9_3 = Box.createVerticalStrut(20);
+			panel_5.add(verticalStrut_9_3);
+			
+						txtFineInterest = new JTextField();
+						txtFineInterest.setEditable(false);
+						txtFineInterest.setEnabled(false);
+						txtFineInterest.setMaximumSize(new Dimension(2147483647, 30));
+						txtFineInterest.setPreferredSize(new Dimension(7, 30));
+						panel_5.add(txtFineInterest);
+						txtFineInterest.setColumns(10);
+						setTextHint(txtFineInterest, hintCompany);
 
 			Component verticalStrut_8 = Box.createVerticalStrut(20);
 			panel_5.add(verticalStrut_8);
-
-			JPanel panel_6 = new JPanel();
-			panel_6.setPreferredSize(new Dimension(10, 30));
-			panel_6.setMinimumSize(new Dimension(10, 30));
-			panel_6.setMaximumSize(new Dimension(32767, 30));
-			panel_5.add(panel_6);
-			panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.X_AXIS));
-
-			txtDob = new JDateChooser();
-			txtDob.getCalendarButton().setAlignmentX(Component.CENTER_ALIGNMENT);
-			panel_6.add(txtDob);
-			txtDob.getCalendarButton().setOpaque(false);
-			txtDob.getCalendarButton().setSize(new Dimension(0, 30));
-			txtDob.getCalendarButton().setMinimumSize(new Dimension(100, 30));
-			txtDob.getCalendarButton().setPreferredSize(new Dimension(21, 30));
-			txtDob.getCalendarButton().setMaximumSize(new Dimension(21, 30));
+			
+			txtFineAmount = new JTextField();
+			txtFineAmount.setText("Please enter customer company");
+			txtFineAmount.setPreferredSize(new Dimension(7, 30));
+			txtFineAmount.setMaximumSize(new Dimension(2147483647, 30));
+			txtFineAmount.setForeground(Color.GRAY);
+			txtFineAmount.setFont(new Font("Tahoma", Font.ITALIC, 10));
+			txtFineAmount.setEnabled(false);
+			txtFineAmount.setEditable(false);
+			txtFineAmount.setColumns(10);
+			panel_5.add(txtFineAmount);
+			
+			Component verticalStrut_10_5 = Box.createVerticalStrut(20);
+			panel_5.add(verticalStrut_10_5);
+			
+			txtAmountLeft = new JTextField();
+			txtAmountLeft.setText("Please enter customer company");
+			txtAmountLeft.setPreferredSize(new Dimension(7, 30));
+			txtAmountLeft.setMaximumSize(new Dimension(2147483647, 30));
+			txtAmountLeft.setForeground(Color.GRAY);
+			txtAmountLeft.setFont(new Font("Tahoma", Font.ITALIC, 10));
+			txtAmountLeft.setEnabled(false);
+			txtAmountLeft.setEditable(false);
+			txtAmountLeft.setColumns(10);
+			panel_5.add(txtAmountLeft);
+			
+			Component verticalStrut_10_4_2 = Box.createVerticalStrut(20);
+			panel_5.add(verticalStrut_10_4_2);
+			
+			txtTotalPayment = new JTextField();
+			txtTotalPayment.setText("Please enter customer company");
+			txtTotalPayment.setPreferredSize(new Dimension(7, 30));
+			txtTotalPayment.setMaximumSize(new Dimension(2147483647, 30));
+			txtTotalPayment.setForeground(Color.GRAY);
+			txtTotalPayment.setFont(new Font("Tahoma", Font.ITALIC, 10));
+			txtTotalPayment.setEnabled(false);
+			txtTotalPayment.setEditable(false);
+			txtTotalPayment.setColumns(10);
+			panel_5.add(txtTotalPayment);
 
 			Component glue_6 = Box.createGlue();
 			panel_5.add(glue_6);
@@ -444,9 +531,6 @@ public class LoanHistoryUpdate extends JDialog {
 			btnSave.setPreferredSize(new Dimension(120, 30));
 			buttonPane.add(btnSave);
 			btnSave.setFont(new Font("Tahoma", Font.BOLD, 10));
-
-			JTextFieldDateEditor endDateEditor = (JTextFieldDateEditor) txtDob.getDateEditor();
-			endDateEditor.setEditable(false);
 
 			btnSave.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -482,35 +566,30 @@ public class LoanHistoryUpdate extends JDialog {
 		}
 		initForm();
 		setTextHint(txtCustomerName, hintName);
-		setTextHint(txtEmail, hintEmail);
+		setTextHint(txtPaymentType, hintEmail);
 		setTextHint(txtLoanType, hintAddress);
-		setTextHint(txtCompany, hintCompany);
-		setTextHint(txtIdentity, hintIdentity);
-		setTextHint(txtPhone, hintPhone);
-		setTextHint(txtSalary, hintSalary);
-		setTextHint(txtJob, hintJob);
+		setTextHint(txtPeriod, hintPhone);
 	}
 
 	protected void addCustomerAction() {
 
 		String name = txtCustomerName.getText().trim();
-		String email = txtEmail.getText().trim();
+		String email = txtPaymentType.getText().trim();
 		String address = txtLoanType.getText().trim();
-		String phone = txtPhone.getText().trim();
-		String company = txtCompany.getText().trim();
-		String job = txtJob.getText().trim();
-		String salary = txtSalary.getText();
-		String identity_card = txtIdentity.getText().trim();
-		Date dob = txtDob.getDate();
+		String phone = txtPeriod.getText().trim();
+		String company = txtFineInterest.getText().trim();
+		String job = txtInterest.getText().trim();
+		String salary = txtLoanAmount.getText();
+		String identity_card = txtFineOverdays.getText().trim();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
 		calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) - 16);
 		Date dateCheck = calendar.getTime();
-		boolean isPhoneValid = Pattern.matches("^[0-9]{10}$", txtPhone.getText().trim());
-		boolean isIdentityValid = Pattern.matches("^[a-zA-Z0-9]{11}$", txtIdentity.getText().trim());
+		boolean isPhoneValid = Pattern.matches("^[0-9]{10}$", txtPeriod.getText().trim());
+		boolean isIdentityValid = Pattern.matches("^[a-zA-Z0-9]{11}$", txtFineOverdays.getText().trim());
 		boolean isEmailValid = Pattern.matches("^[a-zA-Z0-9]+(.+)+[@]{1}+(.+)+[.]{1}+[a-zA-Z0-9]+$",
-				txtEmail.getText().trim());
-		boolean isSalaryValid = Pattern.matches("^\\d+", txtSalary.getText().trim());
+				txtPaymentType.getText().trim());
+		boolean isSalaryValid = Pattern.matches("^\\d+", txtLoanAmount.getText().trim());
 		// Apply the validation logic checking all controls are empty or not
 		if (!isPhoneValid) {
 
@@ -528,11 +607,6 @@ public class LoanHistoryUpdate extends JDialog {
 
 			JOptionPane.showMessageDialog(null, "Salary invalid!");
 
-		} else if (dob.after(dateCheck)) {
-
-			JOptionPane.showMessageDialog(null, "Birthday invalid!");
-			txtDob.grabFocus();
-
 		} else if (name.trim().equals(hintName) || job.trim().equals(hintJob) || address.trim().equals(hintAddress)
 				|| company.trim().equals(hintCompany)) {
 
@@ -548,8 +622,6 @@ public class LoanHistoryUpdate extends JDialog {
 				customer.setCompany(company);
 				customer.setPhone(phone);
 				customer.setAddress(address);
-				customer.setGender(rdbMale_1.isSelected());
-				customer.setDob(dob);
 				customer.setIdentityCard(identity_card);
 
 				CustomerModel customerModel = new CustomerModel();
@@ -572,32 +644,30 @@ public class LoanHistoryUpdate extends JDialog {
 		txtCustomerName.setText(hintName);
 		txtCustomerName.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtCustomerName.setForeground(Color.GRAY);
-		txtEmail.setText(hintEmail);
-		txtEmail.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtEmail.setForeground(Color.GRAY);
+		txtPaymentType.setText(hintEmail);
+		txtPaymentType.setFont(new Font("Tahoma", Font.ITALIC, 10));
+		txtPaymentType.setForeground(Color.GRAY);
 		txtLoanType.setText(hintAddress);
 		txtLoanType.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtLoanType.setForeground(Color.GRAY);
-		txtCompany.setText(hintCompany);
-		txtCompany.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtCompany.setForeground(Color.GRAY);
-		txtIdentity.setText(hintIdentity);
-		txtIdentity.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtIdentity.setForeground(Color.GRAY);
+		txtFineInterest.setText(hintCompany);
+		txtFineInterest.setFont(new Font("Tahoma", Font.ITALIC, 10));
+		txtFineInterest.setForeground(Color.GRAY);
+		txtFineOverdays.setText(hintIdentity);
+		txtFineOverdays.setFont(new Font("Tahoma", Font.ITALIC, 10));
+		txtFineOverdays.setForeground(Color.GRAY);
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
 		calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) - 16);
-		txtDob.setDate(calendar.getTime());
-		txtPhone.setText(hintPhone);
-		txtPhone.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtPhone.setForeground(Color.GRAY);
-		txtSalary.setText(hintSalary);
-		txtSalary.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtSalary.setForeground(Color.GRAY);
-		txtJob.setText(hintJob);
-		txtJob.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtJob.setForeground(Color.GRAY);
-		rdbMale_1.setSelected(true);
+		txtPeriod.setText(hintPhone);
+		txtPeriod.setFont(new Font("Tahoma", Font.ITALIC, 10));
+		txtPeriod.setForeground(Color.GRAY);
+		txtLoanAmount.setText(hintSalary);
+		txtLoanAmount.setFont(new Font("Tahoma", Font.ITALIC, 10));
+		txtLoanAmount.setForeground(Color.GRAY);
+		txtInterest.setText(hintJob);
+		txtInterest.setFont(new Font("Tahoma", Font.ITALIC, 10));
+		txtInterest.setForeground(Color.GRAY);
 	}
 
 	private void setTextHint(JTextField textField, String hint) {
