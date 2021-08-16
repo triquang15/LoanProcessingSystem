@@ -293,13 +293,6 @@ public class Home extends JFrame {
 	}
 
 	protected void loadCustomerAction() {
-//		tabbedHome.removeAll();
-//		tabbedHome.revalidate();
-//		CustomerInfo customerInfo = new CustomerInfo();
-//		ImageIcon icon = new ImageIcon(
-//				getClass().getResource("/com/aptech/LoanProcessingSystem/images/customer (2).png"));
-//		tabbedHome.addTab("Customer Info", icon, customerInfo, "Customer Info");
-//		tabbedHome.setSelectedComponent(customerInfo);
 		panelHome.removeAll();
 		panelHome.revalidate();
 		CustomerInfo customerInfo = new CustomerInfo();
@@ -309,13 +302,6 @@ public class Home extends JFrame {
 	}
 
 	protected void loadLoanAction() {
-//		tabbedHome.removeAll();
-//		tabbedHome.revalidate();
-//		LoanDetail loanDetail = new LoanDetail();
-//		ImageIcon icon = new ImageIcon(getClass().getResource("/com/aptech/LoanProcessingSystem/images/loan.png"));
-//		tabbedHome.addTab("Loan Detail", icon, loanDetail, "Loan Detail");
-//		tabbedHome.setSelectedComponent(loanDetail);
-		
 		panelHome.removeAll();
 		panelHome.revalidate();
 		LoanDetail loanDetail = new LoanDetail();
