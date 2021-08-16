@@ -586,6 +586,8 @@ public class CreateLoan extends JDialog {
 //		int fine_id = fine.getId();
 //		double fineInterest = fine.getFineInterest();
 //		double fineAmount = installment * fineInterest;
+
+		amountDouble = Double.parseDouble(txtAmount.getText().trim());
 		LoanAndFineHistory loanAndFineHistory = new LoanAndFineHistory();
 		loanAndFineHistory.setLoanId(loanId);
 		loanAndFineHistory.setPaymentMethodId(1);
@@ -602,7 +604,6 @@ public class CreateLoan extends JDialog {
 		Calendar disbursementCalendar = Calendar.getInstance();
 		disbursementCalendar.setTime(disbursementDate);
 
-		double installment = amountDouble * Math.pow(1 + loanType.getInterest(), duration / 12) / duration;
 		double amountInAmount = amountDouble / duration;
 		double amountLeft = amountDouble;
 		int period = (int) cbbxPeriod.getSelectedItem();
@@ -613,10 +614,10 @@ public class CreateLoan extends JDialog {
 				dueDateCalendar.set(Calendar.MONTH, disbursementCalendar.get(Calendar.MONTH) + i);
 				Date dueDate = dueDateCalendar.getTime();
 				double paymentAmount = amountLeft * loanType.getInterest();
-				amountLeft = amountLeft - (amountInAmount * period);
 				loanAndFineHistory.setPaymentAmount(paymentAmount);
 				loanAndFineHistory.setAmountLeft(amountLeft);
 				loanAndFineHistory.setDueDate(dueDate);
+				amountLeft = amountLeft - (amountInAmount * period);
 				if (!loanAndFineHistoryModel.createLoanAndFineHistory(loanAndFineHistory)) {
 					loanAndFineHistoryModel.deleteWithLoanId(loanId);
 					new LoanModel().delete(loanId);
