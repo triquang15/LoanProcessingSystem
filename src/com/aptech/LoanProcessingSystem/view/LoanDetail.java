@@ -16,6 +16,7 @@ import com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory;
 import com.aptech.LoanProcessingSystem.entities.MyLoanAndFineHistory;
 import com.aptech.LoanProcessingSystem.model.CustomerModel;
 import com.aptech.LoanProcessingSystem.model.LoanModel;
+import com.aptech.LoanProcessingSystem.service.Common;
 import com.aptech.LoanProcessingSystem.service.MessageDialog;
 import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
 
@@ -439,7 +440,7 @@ public class LoanDetail extends JPanel {
 			tblModel.setRowCount(0);
 			for (Loan loans : list) {
 				tblModel.addRow(new Object[] { loans.getId(), loans.getCustomerName(), loans.getLoanTypeName(),
-						loans.getPaymentTypeName(), loans.getPeriod(), loans.getAmount(), loans.getDisbursementDate(),
+						loans.getPaymentTypeName(), loans.getPeriod(), Common.formatNumber(loans.getAmount()), loans.getDisbursementDate(),
 						loans.getDuration(), loans.getEndDate(), loans.getInterest(), loans.getDescription(),
 						loans.getStatus() == 0 ? "New" : (loans.getStatus() == 1 ? "Active" : "Update") });
 
@@ -466,13 +467,13 @@ public class LoanDetail extends JPanel {
 		try {
 
 			tblModel.setRowCount(0);
-			for (LoanAndFineHistory loanAndFineHistory : list) {
-				tblModel.addRow(new Object[] { loanAndFineHistory.getId(), loanAndFineHistory.getCustomer(),
-						loanAndFineHistory.getPaymentAmount(), loanAndFineHistory.getAmount(),
-						loanAndFineHistory.getAmountLeft(), loanAndFineHistory.getDueDate(),
-						loanAndFineHistory.getFineInterest(), loanAndFineHistory.getFineOverDays(),
-						loanAndFineHistory.getFineAmount(), loanAndFineHistory.getPaymentDate(),
-						loanAndFineHistory.getDescription(), loanAndFineHistory.isStatus() });
+			for (LoanAndFineHistory hisItem : list) {
+				tblModel.addRow(new Object[] { hisItem.getId(), hisItem.getCustomer(),
+						Common.formatNumber(hisItem.getPaymentAmount()), Common.formatNumber(hisItem.getAmount()),
+						Common.formatNumber(hisItem.getAmountLeft()), hisItem.getDueDate(),
+						hisItem.getFineInterest(), hisItem.getFineOverDays(),
+						hisItem.getFineAmount(), hisItem.getPaymentDate(),
+						hisItem.getDescription(), hisItem.isStatus() });
 			}
 			tblModel.fireTableDataChanged();
 

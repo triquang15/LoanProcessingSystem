@@ -78,38 +78,39 @@ public class AccountModel {
 		return account;
 	}
 	
-	public String loadAuthorityName (int id) {
-		String str = null;
-		try {
-			PreparedStatement preparedStatement = ConnectDB.connection()
-					.prepareStatement("select autho.name from "
-							+ "authorities as autho inner join "
-							+ "account on autho.id = account.AuthId "
-							+ "where account.id = ?");
-			preparedStatement.setInt(1, id);
-			ResultSet rs = preparedStatement.executeQuery();
-			if (rs.next()) {
-				str = rs.getString("name");
-			}
-		} catch (Exception e) {
-			// TODO: handle exception
-			str= null;
-		} finally {
-			ConnectDB.disconnect();
-		}
-		return str;
-	}
+//	public String loadAuthorityName (int id) {
+//		String str = null;
+//		try {
+//			PreparedStatement preparedStatement = ConnectDB.connection()
+//					.prepareStatement("select autho.name from "
+//							+ "authorities as autho inner join "
+//							+ "account on autho.id = account.AuthId "
+//							+ "where account.id = ?");
+//			preparedStatement.setInt(1, id);
+//			ResultSet rs = preparedStatement.executeQuery();
+//			if (rs.next()) {
+//				str = rs.getString("name");
+//			}
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			str= null;
+//		} finally {
+//			ConnectDB.disconnect();
+//		}
+//		return str;
+//	}
 	
 	public List<Account> loadAllEmployee() {
 		List<Account> employeeList = new ArrayList<Account>();
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-					.prepareStatement("select * from account");
+					.prepareStatement("select ac.*, a.name as AuthName from account as ac join authorities as a on ac.authId = a.id");
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 					Account account = new Account();
 					account.setId(resultSet.getInt("Id"));
 					account.setAuthId(resultSet.getInt("AuthId"));
+					account.setAuthName(resultSet.getString("AuthName"));
 					account.setDob(resultSet.getDate("DOB"));
 					account.setEmail(resultSet.getString("Email"));
 					account.setName(resultSet.getString("Name"));
@@ -151,12 +152,13 @@ public class AccountModel {
 		List<Account> employeeList = new ArrayList<Account>();
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-					.prepareStatement("select * from account where AuthId = 1 and status = true");
+					.prepareStatement("select ac.*, a.name as AuthName from account as ac join authorities as a on ac.authId = a.id where AuthId = 1 and status = true");
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 					Account account = new Account();
 					account.setId(resultSet.getInt("Id"));
 					account.setAuthId(resultSet.getInt("AuthId"));
+					account.setAuthName(resultSet.getString("AuthName"));
 					account.setDob(resultSet.getDate("DOB"));
 					account.setEmail(resultSet.getString("Email"));
 					account.setName(resultSet.getString("Name"));
@@ -179,12 +181,13 @@ public class AccountModel {
 		List<Account> employeeList = new ArrayList<Account>();
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-					.prepareStatement("select * from account where AuthId = 1 and status = false");
+					.prepareStatement("select ac.*, a.name as AuthName from account as ac join authorities as a on ac.authId = a.id where AuthId = 1 and status = false");
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 					Account account = new Account();
 					account.setId(resultSet.getInt("Id"));
 					account.setAuthId(resultSet.getInt("AuthId"));
+					account.setAuthName(resultSet.getString("AuthName"));
 					account.setDob(resultSet.getDate("DOB"));
 					account.setEmail(resultSet.getString("Email"));
 					account.setName(resultSet.getString("Name"));

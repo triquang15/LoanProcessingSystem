@@ -1,4 +1,4 @@
-package com.aptech.LoanProcessingSystem.view;
+package com.aptech.LoanProcessingSystem.view.admin;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -31,6 +31,7 @@ import com.aptech.LoanProcessingSystem.entities.Authority;
 import com.aptech.LoanProcessingSystem.model.AccountModel;
 import com.aptech.LoanProcessingSystem.model.AuthorityModel;
 import com.aptech.LoanProcessingSystem.service.ShareData;
+import com.aptech.LoanProcessingSystem.view.Login;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Toolkit;
 import javax.swing.JComboBox;

@@ -185,7 +185,7 @@ public class LoanAndFineHistoryModel {
 					result = true;
 				} else {
 					PreparedStatement psDelete = ConnectDB.connection()
-							.prepareStatement("delete from LoanAndFineHistory where loanId = ?");
+							.prepareStatement("update LoanAndFineHistory SET status = false where loanId = ?");
 					psDelete.setInt(1, loanId);
 					result = psDelete.executeUpdate() > 0;
 				}
@@ -200,38 +200,47 @@ public class LoanAndFineHistoryModel {
 	}
 
 	public LoanAndFineHistory search_history_based_on_id(int keyword) {
-		LoanAndFineHistory loanAndFineHistory = new LoanAndFineHistory();
+		LoanAndFineHistory result = new LoanAndFineHistory();
 		try {
-			PreparedStatement preparedStatement = ConnectDB.connection()
-					.prepareStatement("select * from LoanAndFineHistory where id = ?");
+			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
+					"SELECT c.Name as Customer, lt.Name as LoanType, pt.Name as PaymentType, l.Period, l.Duration, l.EndDate, l.Interest, hs.* "
+					+ "FROM `loanandfinehistory` as hs JOIN `loan` as l on hs.LoanId = l.Id JOIN `loantype` as lt on l.LoanTypeId = lt.Id "
+					+ "JOIN `customer` as c ON l.CustomerId = c.Id JOIN `paymenttype` as pt ON l.PaymentTypeId = pt.Id where hs.id = ?");
 			preparedStatement.setInt(1, keyword);
 			ResultSet rs = preparedStatement.executeQuery();
 			if (rs.next()) {
-				loanAndFineHistory.setId(rs.getInt("Id"));
-				loanAndFineHistory.setLoanId(rs.getInt("LoanId"));
-				loanAndFineHistory.setFineId(rs.getInt("FineId"));
-				loanAndFineHistory.setPaymentMethodId(rs.getInt("PaymentMethodId"));
-				loanAndFineHistory.setPaymentAmount(rs.getDouble("PaymentAmount"));
-				loanAndFineHistory.setAmount(rs.getDouble("Amount"));
-				loanAndFineHistory.setAmountLeft(rs.getDouble("AmountLeft"));
-				loanAndFineHistory.setDueDate(rs.getDate("DueDate"));
-				loanAndFineHistory.setFineInterest(rs.getFloat("FineInterest"));
-				loanAndFineHistory.setFineOverDays(rs.getInt("FineOverDays"));
-				loanAndFineHistory.setFineAmount(rs.getDouble("FineAmount"));
-				loanAndFineHistory.setPaymentDate(rs.getDate("PaymentDate"));
-				loanAndFineHistory.setDescription(rs.getString("Description"));
-				loanAndFineHistory.setStatus(rs.getBoolean("Status"));
+				result.setCustomer(rs.getString("Customer"));
+				result.setLoanType(rs.getString("LoanType"));
+				result.setPaymentType(rs.getString("PaymentType"));
+				result.setPeriod(rs.getInt("Period"));
+				result.setDuration(rs.getInt("Duration"));
+				result.setEndDate(rs.getDate("EndDate"));
+				result.setLoanInterest(rs.getFloat("Interest"));
+				result.setId(rs.getInt("Id"));
+				result.setLoanId(rs.getInt("LoanId"));
+				result.setFineId(rs.getInt("FineId"));
+				result.setPaymentMethodId(rs.getInt("PaymentMethodId"));
+				result.setPaymentAmount(rs.getDouble("PaymentAmount"));
+				result.setAmount(rs.getDouble("Amount"));
+				result.setAmountLeft(rs.getDouble("AmountLeft"));
+				result.setDueDate(rs.getDate("DueDate"));
+				result.setFineInterest(rs.getFloat("FineInterest"));
+				result.setFineOverDays(rs.getInt("FineOverDays"));
+				result.setFineAmount(rs.getDouble("FineAmount"));
+				result.setPaymentDate(rs.getDate("PaymentDate"));
+				result.setDescription(rs.getString("Description"));
+				result.setStatus(rs.getBoolean("Status"));
 			} else {
-				loanAndFineHistory = null;
+				result = null;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			loanAndFineHistory = null;
+			result = null;
 		} finally {
 			ConnectDB.disconnect();
 		}
 
-		return loanAndFineHistory;
+		return result;
 	}
 
 	public Boolean update_payment(LoanAndFineHistory loanAndFineHistory) {
