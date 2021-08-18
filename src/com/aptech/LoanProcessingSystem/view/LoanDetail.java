@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import com.aptech.LoanProcessingSystem.entities.Customer;
 import com.aptech.LoanProcessingSystem.entities.Loan;
@@ -44,6 +46,7 @@ import javax.swing.UIManager;
 import java.awt.SystemColor;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.RowFilter;
 
 public class LoanDetail extends JPanel {
 
@@ -69,6 +72,10 @@ public class LoanDetail extends JPanel {
 	private JButton btnBackShort;
 	private JButton btnBackLong;
 	private JTextField textField_1;
+	private int currentPageIndex = 1;
+	private final int itemsPerPage = 4;
+	private int maxPageIndex;
+	private final TableRowSorter<TableModel> sorter1 = new TableRowSorter<TableModel>(tblModel);
 
 	public LoanDetail() {
 		initComponents();
@@ -123,6 +130,11 @@ public class LoanDetail extends JPanel {
 		panel_4.add(panel_5, BorderLayout.NORTH);
 		
 		btnBackLong = new JButton("");
+		btnBackLong.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				first_actionPerformed(e);
+			}
+		});
 		btnBackLong.setFocusPainted(false);
 		btnBackLong.setContentAreaFilled(false);
 		btnBackLong.setBorderPainted(false);
@@ -130,6 +142,11 @@ public class LoanDetail extends JPanel {
 		panel_5.add(btnBackLong);
 		
 		btnBackShort = new JButton("");
+		btnBackShort.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				prev_actionPerformed(e);
+			}
+		});
 		btnBackShort.setFocusPainted(false);
 		btnBackShort.setContentAreaFilled(false);
 		btnBackShort.setBorderPainted(false);
@@ -137,12 +154,22 @@ public class LoanDetail extends JPanel {
 		panel_5.add(btnBackShort);
 		
 		textField_1 = new JTextField();
+		textField_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				textField_1_actionPerformed(e);
+			}
+		});
 		textField_1.setPreferredSize(new Dimension(7, 30));
 		textField_1.setMinimumSize(new Dimension(7, 30));
 		panel_5.add(textField_1);
 		textField_1.setColumns(10);
 		
 		btnNextShort = new JButton("");
+		btnNextShort.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				next_actionPerformed(e);
+			}
+		});
 		btnNextShort.setFocusPainted(false);
 		btnNextShort.setContentAreaFilled(false);
 		btnNextShort.setBorderPainted(false);
@@ -150,6 +177,11 @@ public class LoanDetail extends JPanel {
 		panel_5.add(btnNextShort);
 		
 		btnNextLong = new JButton("");
+		btnNextLong.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				last_actionPerformed(e);
+			}
+		});
 		btnNextLong.setFocusPainted(false);
 		btnNextLong.setContentAreaFilled(false);
 		btnNextLong.setBorderPainted(false);
@@ -402,6 +434,7 @@ public class LoanDetail extends JPanel {
 				"Disbursement", "Duration", "End date", "Interest", "Description", "Status" });
 
 		table.setModel(tblModel);
+		table.setRowSorter(sorter1);
 		try {
 			tblModel.setRowCount(0);
 			for (Loan loans : list) {
@@ -411,6 +444,10 @@ public class LoanDetail extends JPanel {
 						loans.getStatus() == 0 ? "New" : (loans.getStatus() == 1 ? "Active" : "Update") });
 
 			}
+			int rowCount = tblModel.getRowCount();
+			int v = rowCount % itemsPerPage == 0 ? 0 : 1;
+			maxPageIndex = rowCount / itemsPerPage + v;
+			initFilterAndButton();
 			tblModel.fireTableDataChanged();
 
 		} catch (Exception e) {
@@ -420,6 +457,8 @@ public class LoanDetail extends JPanel {
 	}
 
 	private void loadHistoryToTable(List<LoanAndFineHistory> list) {
+		currentPageIndex = 1;
+		textField_1.setText(Integer.toString(currentPageIndex));
 		tblModel.setColumnIdentifiers(
 				new String[] { "Id", "Customer", "Payment Amount", "Amount", "Amount Left", "Due Date", "Fine Interest",
 						"Fine Over Days", "Fine Amount", "Payment Date", "Description", "Status" });
@@ -480,4 +519,52 @@ public class LoanDetail extends JPanel {
 			}
 		});
 	}
+	
+	public void next_actionPerformed(ActionEvent e) {
+		currentPageIndex += 1;
+		initFilterAndButton();
+	}
+	
+	public void last_actionPerformed(ActionEvent e) {
+		currentPageIndex = maxPageIndex;
+		initFilterAndButton();
+	}
+	
+	public void prev_actionPerformed(ActionEvent e) {
+		currentPageIndex -= 1;
+		initFilterAndButton();
+	}
+	
+	public void first_actionPerformed(ActionEvent e) {
+		currentPageIndex = 1;
+		initFilterAndButton();
+	}
+	
+	public void textField_1_actionPerformed(ActionEvent arg0) {
+		try {
+			int v = Integer.parseInt(textField_1.getText());
+			if (v > 0 && v <= maxPageIndex) {
+				currentPageIndex = v;
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		initFilterAndButton();
+	}
+	
+	private void initFilterAndButton() {
+		sorter1.setRowFilter(new RowFilter<TableModel, Integer>() {
+			@Override
+			public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
+				int ti = currentPageIndex - 1;
+				int ei = entry.getIdentifier();
+				return ti * itemsPerPage <= ei && ei < ti * itemsPerPage + itemsPerPage;
+			}
+		});
+		btnBackLong.setEnabled(currentPageIndex > 1);
+		btnBackShort.setEnabled(currentPageIndex > 1);
+		btnNextShort.setEnabled(currentPageIndex < maxPageIndex);
+		textField_1.setText(Integer.toString(currentPageIndex));
+	}
+
 }
