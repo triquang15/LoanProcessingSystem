@@ -22,6 +22,7 @@ import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
 import com.aptech.LoanProcessingSystem.model.LoanModel;
 import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
 import com.aptech.LoanProcessingSystem.model.PaymentTypeModel;
+import com.aptech.LoanProcessingSystem.service.Common;
 import com.aptech.LoanProcessingSystem.service.ShareData;
 import com.aptech.LoanProcessingSystem.view.LoanUpdate;
 import com.aptech.LoanProcessingSystem.view.admin.jpanelAddNewLoan.cbLoanTypeCellRender;
@@ -807,7 +808,7 @@ public class jpanelShowLoanDetail extends JPanel {
 		JPanel jpanelMain = (JPanel) this.getParent();
 		jpanelMain.removeAll();
 		jpanelMain.revalidate();
-		jpanelAddNewLoan addNewLoan = new jpanelAddNewLoan(ShareData.accountLogin, this.customer.getId());
+		jpanelAddNewLoan addNewLoan = new jpanelAddNewLoan(this.customer.getId());
 		jpanelMain.add(addNewLoan);
 		addNewLoan.setVisible(true);
 	}
@@ -885,7 +886,7 @@ public class jpanelShowLoanDetail extends JPanel {
 		}
 		defaultTableModel.addRow(new Object[] { loan.getId(), loadLoanTypeName(loan.getLoanTypeId()),
 				loan.getInterest(), loadEmployeeName(loan.getAccountId()), loadCustomerName(loan.getCustomerId()),
-				loadPaymentTypeName(loan.getPaymentTypeId()), loan.getAmount(), loan.getPeriod(), loan.getDuration(),
+				loadPaymentTypeName(loan.getPaymentTypeId()), Common.formatNumber(loan.getAmount()), loan.getPeriod(), loan.getDuration(),
 				loan.getCreateDate(), loan.getDisbursementDate(), loan.getEndDate(), loan.getDescription(),
 				statusMask });
 
@@ -924,10 +925,10 @@ public class jpanelShowLoanDetail extends JPanel {
 		for (MyLoanAndFineHistory myLoanAndFineHistory : list) {
 			statusMask = myLoanAndFineHistory.isStatus() ? "Repayment" : "Not Repayment";
 			defaultTableModel.addRow(new Object[] { myLoanAndFineHistory.getId(), myLoanAndFineHistory.getCustomer(),
-					myLoanAndFineHistory.getAmount(), myLoanAndFineHistory.getPaymentMethod(),
-					myLoanAndFineHistory.getPaymentAmount(), myLoanAndFineHistory.getAmountLeft(),
+					Common.formatNumber(myLoanAndFineHistory.getAmount()), myLoanAndFineHistory.getPaymentMethod(),
+					Common.formatNumber(myLoanAndFineHistory.getPaymentAmount()), Common.formatNumber(myLoanAndFineHistory.getAmountLeft()),
 					myLoanAndFineHistory.getDueDate(), myLoanAndFineHistory.getFineInterest(),
-					myLoanAndFineHistory.getFineOverDays(), myLoanAndFineHistory.getFineAmount(),
+					myLoanAndFineHistory.getFineOverDays(), Common.formatNumber(myLoanAndFineHistory.getFineAmount()),
 					myLoanAndFineHistory.getPaymentDate(), myLoanAndFineHistory.getDescription(), statusMask });
 		}
 		tableLoanHistory.setModel(defaultTableModel);

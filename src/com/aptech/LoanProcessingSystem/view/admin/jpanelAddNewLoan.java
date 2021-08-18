@@ -37,13 +37,13 @@ import com.aptech.LoanProcessingSystem.model.CustomerModel;
 import com.aptech.LoanProcessingSystem.model.LoanModel;
 import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
 import com.aptech.LoanProcessingSystem.model.PaymentTypeModel;
+import com.aptech.LoanProcessingSystem.service.ShareData;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.border.EmptyBorder;
 import java.awt.Dimension;
 import java.awt.Insets;
 
 public class jpanelAddNewLoan extends JPanel {
-	private Account account = new Account();
 	private JTextField txtCustomerID;
 	private JTextField txtAmount;
 	private JTextField txtDuration;
@@ -440,7 +440,7 @@ public class jpanelAddNewLoan extends JPanel {
 			PaymentType paymentType = (PaymentType) cbPaymentType.getSelectedItem();
 			Loan loan = new Loan();
 			loan.setLoanTypeId(loanType.getId());
-			loan.setAccountId(this.account.getId());
+			loan.setAccountId(ShareData.accountLogin.getId());
 			loan.setCustomerId(Integer.parseInt(txtCustomerID.getText().trim()));
 			loan.setPaymentTypeId(paymentType.getId());
 			loan.setAmount(Double.parseDouble(txtAmount.getText().trim()));
@@ -469,14 +469,8 @@ public class jpanelAddNewLoan extends JPanel {
 		}
 	}
 	
-	public jpanelAddNewLoan(Account account) {
+	public jpanelAddNewLoan(int customerID) {
 		this();
-		this.account = account;
-	}
-	
-	public jpanelAddNewLoan(Account account, int customerID) {
-		this();
-		this.account = account;
 		txtCustomerID.setText(String.valueOf(customerID));
 		txtCustomerID.setEditable(false);
 	}

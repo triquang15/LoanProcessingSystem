@@ -4,20 +4,25 @@ import java.util.Date;
 
 public class Account {
 
+	public String getAuthName() {
+		return authName;
+	}
+
+	public void setAuthName(String authName) {
+		this.authName = authName;
+	}
+
 	private int id, authId;
-	private String name, email, 
-	password, phone, address, 
-	identityCard;
+	private String name, email, password, phone, address, authName, identityCard;
 	private Date dob;
-	private boolean gender, 
-	status;
+	private boolean gender, status;
 
 	public Account() {
 		super();
 	}
 
 	public Account(int id, int authId, String name, String email, String password, String phone, String address,
-			String identityCard, Date dob, boolean gender, boolean status) {
+			String authName, String identityCard, Date dob, boolean gender, boolean status) {
 		super();
 		this.id = id;
 		this.authId = authId;
@@ -26,6 +31,7 @@ public class Account {
 		this.password = password;
 		this.phone = phone;
 		this.address = address;
+		this.authName = authName;
 		this.identityCard = identityCard;
 		this.dob = dob;
 		this.gender = gender;

@@ -55,7 +55,7 @@ public class jpnaelShowCustomerLoan extends JPanel {
 	 */
 	public jpnaelShowCustomerLoan() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-		
+
 		{
 			JPanel panel = new JPanel();
 			panel.setBackground(new Color(21, 25, 28));
@@ -72,7 +72,7 @@ public class jpnaelShowCustomerLoan extends JPanel {
 		}
 		{
 			JPanel panel = new JPanel();
-			panel.setBackground(new Color(34,40,44));
+			panel.setBackground(new Color(34, 40, 44));
 			add(panel);
 			panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
 			{
@@ -81,7 +81,7 @@ public class jpnaelShowCustomerLoan extends JPanel {
 				panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
 				{
 					JPanel panel_2 = new JPanel();
-					panel_2.setBackground(new Color(34,40,44));
+					panel_2.setBackground(new Color(34, 40, 44));
 					panel_1.add(panel_2);
 					{
 						JLabel lblNewLabel_1 = new JLabel("ID:");
@@ -98,7 +98,7 @@ public class jpnaelShowCustomerLoan extends JPanel {
 				}
 				{
 					JPanel panel_2 = new JPanel();
-					panel_2.setBackground(new Color(34,40,44));
+					panel_2.setBackground(new Color(34, 40, 44));
 					panel_1.add(panel_2);
 					{
 						JLabel lblNewLabel_1 = new JLabel("Name:");
@@ -115,7 +115,7 @@ public class jpnaelShowCustomerLoan extends JPanel {
 				}
 				{
 					JPanel panel_2 = new JPanel();
-					panel_2.setBackground(new Color(34,40,44));
+					panel_2.setBackground(new Color(34, 40, 44));
 					panel_1.add(panel_2);
 					{
 						JLabel lblNewLabel_1 = new JLabel("Address:");
@@ -132,16 +132,16 @@ public class jpnaelShowCustomerLoan extends JPanel {
 				}
 				{
 					JPanel panel_2 = new JPanel();
-					panel_2.setBackground(new Color(34,40,44));
+					panel_2.setBackground(new Color(34, 40, 44));
 					panel_1.add(panel_2);
 					{
 						JButton btnAddLoan = new JButton("Add Loan");
 						btnAddLoan.addActionListener(new ActionListener() {
-							
+
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								btnAddLoan_actionPerformed(e);
-								
+
 							}
 						});
 						panel_2.add(btnAddLoan);
@@ -150,12 +150,12 @@ public class jpnaelShowCustomerLoan extends JPanel {
 			}
 			{
 				JPanel panel_1 = new JPanel();
-				panel_1.setBackground(new Color(34,40,44));
+				panel_1.setBackground(new Color(34, 40, 44));
 				panel.add(panel_1);
 				panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
 				{
 					JPanel panel_2 = new JPanel();
-					panel_2.setBackground(new Color(34,40,44));
+					panel_2.setBackground(new Color(34, 40, 44));
 					panel_1.add(panel_2);
 					{
 						JLabel lblNewLabel_1 = new JLabel("Phone:");
@@ -172,7 +172,7 @@ public class jpnaelShowCustomerLoan extends JPanel {
 				}
 				{
 					JPanel panel_2 = new JPanel();
-					panel_2.setBackground(new Color(34,40,44));
+					panel_2.setBackground(new Color(34, 40, 44));
 					panel_1.add(panel_2);
 					{
 						JLabel lblNewLabel_1 = new JLabel("Email:");
@@ -189,7 +189,7 @@ public class jpnaelShowCustomerLoan extends JPanel {
 				}
 				{
 					JPanel panel_2 = new JPanel();
-					panel_2.setBackground(new Color(34,40,44));
+					panel_2.setBackground(new Color(34, 40, 44));
 					panel_1.add(panel_2);
 					{
 						JLabel lblNewLabel_1 = new JLabel("Gender:");
@@ -206,7 +206,7 @@ public class jpnaelShowCustomerLoan extends JPanel {
 				}
 				{
 					JPanel panel_2 = new JPanel();
-					panel_2.setBackground(new Color(34,40,44));
+					panel_2.setBackground(new Color(34, 40, 44));
 					panel_1.add(panel_2);
 					{
 						JLabel lblNewLabel_1 = new JLabel("DOB:");
@@ -224,12 +224,12 @@ public class jpnaelShowCustomerLoan extends JPanel {
 			}
 			{
 				JPanel panel_1 = new JPanel();
-				panel_1.setBackground(new Color(34,40,44));
+				panel_1.setBackground(new Color(34, 40, 44));
 				panel.add(panel_1);
 				panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
 				{
 					JPanel panel_2 = new JPanel();
-					panel_2.setBackground(new Color(34,40,44));
+					panel_2.setBackground(new Color(34, 40, 44));
 					panel_1.add(panel_2);
 					{
 						JLabel lblNewLabel_1 = new JLabel("Salary:");
@@ -246,7 +246,7 @@ public class jpnaelShowCustomerLoan extends JPanel {
 				}
 				{
 					JPanel panel_2 = new JPanel();
-					panel_2.setBackground(new Color(34,40,44));
+					panel_2.setBackground(new Color(34, 40, 44));
 					panel_1.add(panel_2);
 					{
 						JLabel lblNewLabel_1 = new JLabel("Job:");
@@ -263,7 +263,7 @@ public class jpnaelShowCustomerLoan extends JPanel {
 				}
 				{
 					JPanel panel_2 = new JPanel();
-					panel_2.setBackground(new Color(34,40,44));
+					panel_2.setBackground(new Color(34, 40, 44));
 					panel_1.add(panel_2);
 					{
 						JLabel lblNewLabel_1 = new JLabel("Company:");
@@ -280,7 +280,7 @@ public class jpnaelShowCustomerLoan extends JPanel {
 				}
 				{
 					JPanel panel_2 = new JPanel();
-					panel_2.setBackground(new Color(34,40,44));
+					panel_2.setBackground(new Color(34, 40, 44));
 					panel_1.add(panel_2);
 					{
 						JLabel lblNewLabel_1 = new JLabel("ID Card:");
@@ -317,29 +317,26 @@ public class jpnaelShowCustomerLoan extends JPanel {
 			}
 		}
 		LoanModel loanModel = new LoanModel();
-		FillDataToJTable(loanModel.getAllLoansByCustomerID(this.customer.getId()), 
-				tblLoanDetail);
+		FillDataToJTable(loanModel.getAllLoansByCustomerID(this.customer.getId()), tblLoanDetail);
 	}
-	
+
 	public jpnaelShowCustomerLoan(Customer customer) {
 		this();
 		this.customer = customer;
 		loadData();
 		LoanModel loanModel = new LoanModel();
-		FillDataToJTable(loanModel.getAllLoansByCustomerID(this.customer.getId()), 
-				tblLoanDetail);
+		FillDataToJTable(loanModel.getAllLoansByCustomerID(this.customer.getId()), tblLoanDetail);
 	}
-	
+
 	public void btnAddLoan_actionPerformed(ActionEvent e) {
 		JPanel jpanelMain = (JPanel) this.getParent();
 		jpanelMain.removeAll();
 		jpanelMain.revalidate();
-		jpanelAddNewLoan addNewLoan = new jpanelAddNewLoan(ShareData.accountLogin, 
-				this.customer.getId());
+		jpanelAddNewLoan addNewLoan = new jpanelAddNewLoan(this.customer.getId());
 		jpanelMain.add(addNewLoan);
 		addNewLoan.setVisible(true);
 	}
-	
+
 	private void loadData() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/YYYY");
 		lblId.setText(String.valueOf(this.customer.getId()));
@@ -354,10 +351,11 @@ public class jpnaelShowCustomerLoan extends JPanel {
 		lblPhone.setText(this.customer.getPhone());
 		lblSalary.setText(String.valueOf(this.customer.getSalary()));
 	}
+
 	public void FillDataToJTable(List<Loan> loanList, JTable tableLoan) {
 		String statusMask = "";
 		DefaultTableModel defaultTableModel = new DefaultTableModel() {
-			
+
 			@Override
 			public boolean isCellEditable(int row, int column) {
 				return super.isCellEditable(row, column);
@@ -386,10 +384,11 @@ public class jpnaelShowCustomerLoan extends JPanel {
 			} else if (loan.getStatus() == 1) {
 				statusMask = "Open";
 			}
-			defaultTableModel.addRow(new Object[] { loan.getCustomerId(), loan.getId(), loadLoanTypeName(loan.getLoanTypeId()), loan.getInterest(),
-					loadEmployeeName(loan.getAccountId()), loadCustomerName(loan.getCustomerId()), loadPaymentTypeName(loan.getPaymentTypeId()), loan.getAmount(),
-					loan.getPeriod(), loan.getDuration(), loan.getCreateDate(), loan.getDisbursementDate(),
-					loan.getEndDate(), loan.getDescription(), statusMask, "View" });
+			defaultTableModel.addRow(new Object[] { loan.getCustomerId(), loan.getId(),
+					loadLoanTypeName(loan.getLoanTypeId()), loan.getInterest(), loadEmployeeName(loan.getAccountId()),
+					loadCustomerName(loan.getCustomerId()), loadPaymentTypeName(loan.getPaymentTypeId()),
+					loan.getAmount(), loan.getPeriod(), loan.getDuration(), loan.getCreateDate(),
+					loan.getDisbursementDate(), loan.getEndDate(), loan.getDescription(), statusMask, "View" });
 		}
 		tableLoan.setModel(defaultTableModel);
 		tableLoan.removeColumn(tableLoan.getColumnModel().getColumn(0));
@@ -402,17 +401,17 @@ public class jpnaelShowCustomerLoan extends JPanel {
 		tableLoan.setShowVerticalLines(false);
 		defaultTableModel.fireTableDataChanged();
 	}
-	
+
 	private String loadLoanTypeName(int id) {
 		LoanTypeModel loanTypeModel = new LoanTypeModel();
 		return loanTypeModel.loadLoanTypeNameById(id);
 	}
-	
+
 	private String loadPaymentTypeName(int id) {
 		PaymentTypeModel model = new PaymentTypeModel();
 		return model.loadPaymentTypeNameById(id);
 	}
-	
+
 	private String loadEmployeeName(int id) {
 		String str = "";
 		AccountModel accountModel = new AccountModel();
@@ -426,7 +425,7 @@ public class jpnaelShowCustomerLoan extends JPanel {
 		str = customerModel.findCustomerNameById(id);
 		return str;
 	}
-	
+
 	private void loadColorOfButton(String returnStatus, String status1, String status2, JButton status) {
 		if (returnStatus.equals(status1)) {
 			status.setForeground(SystemColor.WHITE);
@@ -436,8 +435,8 @@ public class jpnaelShowCustomerLoan extends JPanel {
 			status.setBackground(SystemColor.GREEN);
 		}
 	}
-	
-	private void callParentPanel (int customerId, int loanId) {
+
+	private void callParentPanel(int customerId, int loanId) {
 		LoanModel loanModel = new LoanModel();
 		Loan loan = loanModel.loadLoanByID(loanId);
 		JPanel jpanelMain = (JPanel) this.getParent();
@@ -447,7 +446,7 @@ public class jpnaelShowCustomerLoan extends JPanel {
 		jpanelMain.add(detail);
 		detail.setVisible(true);
 	}
-	
+
 	class LoanTableStatusButtonRenderer extends JButton implements TableCellRenderer {
 		public LoanTableStatusButtonRenderer() {
 			setOpaque(true);
@@ -462,7 +461,7 @@ public class jpnaelShowCustomerLoan extends JPanel {
 			return this;
 		}
 	}
-	
+
 	class LoanTableViewButtonRenderer extends JButton implements TableCellRenderer {
 		public LoanTableViewButtonRenderer() {
 			setOpaque(true);
@@ -495,7 +494,7 @@ public class jpnaelShowCustomerLoan extends JPanel {
 					int loanId = (int) table.getValueAt(row, 0);
 					int customerId = (int) table.getModel().getValueAt(row, 0);
 					callParentPanel(customerId, loanId);
-					//adding reload table function
+					// adding reload table function
 				}
 			});
 		}
@@ -516,7 +515,7 @@ public class jpnaelShowCustomerLoan extends JPanel {
 
 		public Object getCellEditorValue() {
 			if (clicked) {
-				
+
 			}
 			clicked = false;
 			return new String(label);

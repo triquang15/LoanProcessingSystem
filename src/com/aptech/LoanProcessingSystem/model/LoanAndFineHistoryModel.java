@@ -185,7 +185,7 @@ public class LoanAndFineHistoryModel {
 					result = true;
 				} else {
 					PreparedStatement psDelete = ConnectDB.connection()
-							.prepareStatement("delete from LoanAndFineHistory where loanId = ?");
+							.prepareStatement("update LoanAndFineHistory SET status = false where loanId = ?");
 					psDelete.setInt(1, loanId);
 					result = psDelete.executeUpdate() > 0;
 				}

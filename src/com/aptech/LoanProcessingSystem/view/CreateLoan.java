@@ -323,7 +323,7 @@ public class CreateLoan extends JDialog {
 		Component glue_6 = Box.createGlue();
 		panel_5.add(glue_6);
 
-		JLabel lblNewLabel_1_3 = new JLabel("Disbursement  *");
+		JLabel lblNewLabel_1_3 = new JLabel("Disbursement  *");
 		panel_5.add(lblNewLabel_1_3);
 		lblNewLabel_1_3.setPreferredSize(new Dimension(100, 30));
 		lblNewLabel_1_3.setMinimumSize(new Dimension(100, 30));
@@ -508,45 +508,7 @@ public class CreateLoan extends JDialog {
 			disbursementDate = txtDisbursement.getDate();
 			System.out.println("disbursementDate: " + disbursementDate);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Amount invalid!");
-			return;
-		}
-
-		LoanType loanType = (LoanType) cbbxLoanType.getSelectedItem();
-		PaymentType paymentType = (PaymentType) cbbxPaymentType.getSelectedItem();
-		int period = (int) cbbxPeriod.getSelectedItem();
-		int duration = (int) cbbxDuration.getSelectedItem();
-		String description = txtDescription.getText();
-		Date disbursement = txtDisbursement.getDate();
-		Date endDate = txtEndDate.getDate();
-
-		double installment = amountDouble * Math.pow(1 + loanType.getInterest(), duration / 12) / duration;
-		FineModel fineModel = new FineModel();
-		Fine fine = new Fine();
-		fine = fineModel.find_fine_interest(installment);
-		int fine_id = fine.getId();
-		double fine_interest = fine.getFineInterest();
-		double fine_amount = installment * fine_interest;
-
-//			if ((installment > 1) && (installment <= 5000)) {
-//				fine_interest = 0.02;
-//				fine_id = 1;
-//				fine_amount = installment * fine_interest;
-//			} else if ((installment > 5001) && (installment <= 20000)) {
-//				fine_interest = 0.05;
-//				fine_id = 2;
-//				fine_amount = installment * fine_interest;
-//			} else {
-//				fine_interest = 0.08;
-//				fine_id = 3;
-//				fine_amount = installment * fine_interest;
-//			}
-
-		// Apply the validation logic checking all controls are empty or not
-		if (period==0) {
-			JOptionPane.showMessageDialog(null, "Please enter full information !!!");
-		} else if (disbursement == null & endDate == null) {
-			JOptionPane.showMessageDialog(null, "Please select Disbursement");
+			JOptionPane.showMessageDialog(null, "Please select disbursement valid 1");
 			txtDisbursement.grabFocus();
 		}
 		try {
@@ -580,11 +542,11 @@ public class CreateLoan extends JDialog {
 			JOptionPane.showMessageDialog(null, "Amount invalid!");
 		} else {
 
-			loanType = (LoanType) cbbxLoanType.getSelectedItem();
-			paymentType = (PaymentType) cbbxPaymentType.getSelectedItem();
-			period = (int) cbbxPeriod.getSelectedItem();
-			duration = (int) cbbxDuration.getSelectedItem();
-			description = txtDescription.getText();
+			LoanType loanType = (LoanType) cbbxLoanType.getSelectedItem();
+			PaymentType paymentType = (PaymentType) cbbxPaymentType.getSelectedItem();
+			int period = (int) cbbxPeriod.getSelectedItem();
+			int duration = (int) cbbxDuration.getSelectedItem();
+			String description = txtDescription.getText();
 
 			try {
 
@@ -604,44 +566,6 @@ public class CreateLoan extends JDialog {
 				LoanModel loanModel = new LoanModel();
 				int id = loanModel.createResultId(loan);
 
-
-//				if (id != -1) {
-					createLoanHistory(id);
-
-				LoanAndFineHistory loanAndFineHistory = new LoanAndFineHistory();
-				LoanModel lastIdLoanModel = new LoanModel();
-				Loan last_loan_row = lastIdLoanModel.find_last_id_with_amount();
-				Date today = new Date();
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTime(today);
-
-				loanAndFineHistory.setLoanId(last_loan_row.getId() + 1);
-				loanAndFineHistory.setFineId(fine_id);
-				loanAndFineHistory.setFineInterest(fine_interest);
-				loanAndFineHistory.setPaymentDate(today);
-				loanAndFineHistory.setAmount(installment);
-				loanAndFineHistory.setPaymentAmount(0);
-				loanAndFineHistory.setDescription(txtDescription.getText());
-				loanAndFineHistory.setStatus(false);
-				loanAndFineHistory.setPaymentMethodId(1);
-				loanAndFineHistory.setAmountLeft(installment);
-				loanAndFineHistory.setFineAmount(0);
-				loanAndFineHistory.setFineOverDays(0);
-				LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
-				try {
-					loanModel.create(loan);
-					for (int i = 1; i <= duration; i++) {
-						calendar.add(calendar.MONTH, 1);
-						loanAndFineHistory.setDueDate(calendar.getTime());
-						loanAndFineHistoryModel.createLoanAndFineHistory(loanAndFineHistory);
-					}
-					JOptionPane.showMessageDialog(null, "Successful!");
-				} catch (Exception a) {
-					JOptionPane.showMessageDialog(null, "Please try again!");
-					a.printStackTrace();
-
-				}
-
 				this.dispose();
 			} catch (Exception e2) {
 				e2.printStackTrace();
@@ -650,60 +574,6 @@ public class CreateLoan extends JDialog {
 		}
 	}
 
-	private void createLoanHistory(int loanId) {
-
-//		FineModel fineModel = new FineModel();
-//		Fine fine = new Fine();
-//		fine = fineModel.find_fine_interest(installment);
-//		int fine_id = fine.getId();
-//		double fineInterest = fine.getFineInterest();
-//		double fineAmount = installment * fineInterest;
-
-		amountDouble = Double.parseDouble(txtAmount.getText().trim());
-		LoanAndFineHistory loanAndFineHistory = new LoanAndFineHistory();
-		loanAndFineHistory.setLoanId(loanId);
-		loanAndFineHistory.setPaymentMethodId(1);
-		loanAndFineHistory.setPaymentAmount(0);
-		loanAndFineHistory.setDescription(txtDescription.getText());
-		loanAndFineHistory.setStatus(false);
-		loanAndFineHistory.setFineAmount(0);
-		loanAndFineHistory.setFineOverDays(0);
-		loanAndFineHistory.setAmount(amountDouble);
-
-		Calendar dueDateCalendar = Calendar.getInstance();
-		dueDateCalendar.setTime(disbursementDate);
-
-		Calendar disbursementCalendar = Calendar.getInstance();
-		disbursementCalendar.setTime(disbursementDate);
-
-		double amountInAmount = amountDouble / duration;
-		double amountLeft = amountDouble;
-		int period = (int) cbbxPeriod.getSelectedItem();
-		dueDateCalendar.set(Calendar.MONTH, disbursementCalendar.get(Calendar.MONTH));
-		LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
-		try {
-			for (int i = period; i <= duration; i += period) {
-				Date dueDate = dueDateCalendar.getTime();
-				double paymentAmount = (amountInAmount + (amountDouble * loanType.getInterest()) / 12) * period;
-				amountLeft = amountLeft - (amountInAmount * period);
-				loanAndFineHistory.setPaymentAmount(paymentAmount);
-				loanAndFineHistory.setAmountLeft(Math.abs(amountLeft));
-				loanAndFineHistory.setDueDate(dueDate);
-				dueDateCalendar.set(Calendar.MONTH, dueDateCalendar.get(Calendar.MONTH) + 1);
-				if (!loanAndFineHistoryModel.createLoanAndFineHistory(loanAndFineHistory)) {
-					loanAndFineHistoryModel.deleteWithLoanId(loanId);
-					new LoanModel().closeLoan(loanId);
-					JOptionPane.showMessageDialog(null, "Please try again!");
-					return;
-				}
-			}
-			JOptionPane.showMessageDialog(null, "Successful!");
-		} catch (Exception a) {
-			JOptionPane.showMessageDialog(null, "Please try again!");
-			a.printStackTrace();
-		}
-
-	}
 
 	private void initForm() {
 		txtAmount.setText(hintAmount);
@@ -864,4 +734,58 @@ public class CreateLoan extends JDialog {
 		}
 	}
 
+//	private void createLoanHistory(int loanId) {
+//
+////		FineModel fineModel = new FineModel();
+////		Fine fine = new Fine();
+////		fine = fineModel.find_fine_interest(installment);
+////		int fine_id = fine.getId();
+////		double fineInterest = fine.getFineInterest();
+////		double fineAmount = installment * fineInterest;
+//
+//		amountDouble = Double.parseDouble(txtAmount.getText().trim());
+//		LoanAndFineHistory loanAndFineHistory = new LoanAndFineHistory();
+//		loanAndFineHistory.setLoanId(loanId);
+//		loanAndFineHistory.setPaymentMethodId(1);
+//		loanAndFineHistory.setPaymentAmount(0);
+//		loanAndFineHistory.setDescription(txtDescription.getText());
+//		loanAndFineHistory.setStatus(false);
+//		loanAndFineHistory.setFineAmount(0);
+//		loanAndFineHistory.setFineOverDays(0);
+//		loanAndFineHistory.setAmount(amountDouble);
+//
+//		Calendar dueDateCalendar = Calendar.getInstance();
+//		dueDateCalendar.setTime(disbursementDate);
+//
+//		Calendar disbursementCalendar = Calendar.getInstance();
+//		disbursementCalendar.setTime(disbursementDate);
+//
+//		double amountInAmount = amountDouble / duration;
+//		double amountLeft = amountDouble;
+//		int period = (int) cbbxPeriod.getSelectedItem();
+//		dueDateCalendar.set(Calendar.MONTH, disbursementCalendar.get(Calendar.MONTH));
+//		LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
+//		try {
+//			for (int i = period; i <= duration; i += period) {
+//				Date dueDate = dueDateCalendar.getTime();
+//				double paymentAmount = (amountInAmount + (amountDouble * loanType.getInterest()) / 12) * period;
+//				amountLeft = amountLeft - (amountInAmount * period);
+//				loanAndFineHistory.setPaymentAmount(paymentAmount);
+//				loanAndFineHistory.setAmountLeft(Math.abs(amountLeft));
+//				loanAndFineHistory.setDueDate(dueDate);
+//				dueDateCalendar.set(Calendar.MONTH, dueDateCalendar.get(Calendar.MONTH) + 1);
+//				if (!loanAndFineHistoryModel.createLoanAndFineHistory(loanAndFineHistory)) {
+//					loanAndFineHistoryModel.deleteWithLoanId(loanId);
+//					new LoanModel().delete(loanId);
+//					JOptionPane.showMessageDialog(null, "Please try again!");
+//					return;
+//				}
+//			}
+//			JOptionPane.showMessageDialog(null, "Successful!");
+//		} catch (Exception a) {
+//			JOptionPane.showMessageDialog(null, "Please try again!");
+//			a.printStackTrace();
+//		}
+//
+//	}
 }

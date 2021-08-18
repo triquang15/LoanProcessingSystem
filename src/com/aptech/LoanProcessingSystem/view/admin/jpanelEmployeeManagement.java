@@ -26,7 +26,6 @@ import com.aptech.LoanProcessingSystem.model.AccountModel;
 import com.aptech.LoanProcessingSystem.model.CustomerModel;
 import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
 import com.aptech.LoanProcessingSystem.view.Login;
-import com.aptech.LoanProcessingSystem.view.SignUp;
 
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
@@ -204,7 +203,7 @@ public class jpanelEmployeeManagement extends JPanel {
 		defaultTableModel.addColumn("Status");
 		for (Account account : accountList) {
 			defaultTableModel.addRow(new Object[] {
-					account.getId(), accountModel.loadAuthorityName(account.getAuthId()), 
+					account.getId(), account.getAuthName(), 
 					account.getName(), account.getEmail(), account.getPhone(),
 					account.getAddress(), account.isGender() ? "Male" : "Female",
 					account.getDob(), account.getIdentityCard(), account.isStatus() 

@@ -52,6 +52,7 @@ import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
 import com.aptech.LoanProcessingSystem.model.LoanModel;
 import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
 import com.aptech.LoanProcessingSystem.model.PaymentTypeModel;
+import com.aptech.LoanProcessingSystem.service.Common;
 import com.aptech.LoanProcessingSystem.view.admin.jpanelCustomerProfile.ButtonEditor;
 import com.aptech.LoanProcessingSystem.view.admin.jpanelCustomerProfile.LoanInfosPane;
 
@@ -172,7 +173,8 @@ public class jpanelLoadData extends JPanel {
 		tabbedPane.addTab(loanType.getName(), null, panel_1, null);
 		panel_1.setBackground(new Color(34, 40, 44));
 		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.Y_AXIS));
-
+		
+		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBackground(new Color(21, 25, 28));
 		panel_5.setBorder(new EmptyBorder(0, 0, 0, 0));
@@ -245,7 +247,7 @@ public class jpanelLoadData extends JPanel {
 		tableLoan.setRowHeight(40);
 		LoanModel loanModel = new LoanModel();
 		tableLoan.setBackground(new Color(34, 40, 44));
-		FillDataToJTable(loanModel.getAllLoanHome(loanType), tableLoan);
+		FillDataToJTable(loanModel.getAllLoanHome(loanType), tableLoan, loanType);
 		cbFilter.addActionListener(new ActionListener() {
 
 			@Override
@@ -253,16 +255,16 @@ public class jpanelLoadData extends JPanel {
 				int i = cbFilter.getSelectedIndex();
 				LoanModel loanModel = new LoanModel();
 				if (i == 0) {
-					FillDataToJTable(loanModel.getLoanByStatus(loanType, 0), tableLoan);
+					FillDataToJTable(loanModel.getLoanByStatus(loanType, 0), tableLoan, loanType);
 				}
 				if (i == 1) {
-					FillDataToJTable(loanModel.getLoanByStatus(loanType, 1), tableLoan);
+					FillDataToJTable(loanModel.getLoanByStatus(loanType, 1), tableLoan, loanType);
 				}
 				if (i == 2) {
-					FillDataToJTable(loanModel.getLoanByStatus(loanType, 3), tableLoan);
+					FillDataToJTable(loanModel.getLoanByStatus(loanType, 3), tableLoan, loanType);
 				}
 				if (i == 3) {
-					FillDataToJTable(loanModel.getLoanByStatus(loanType, 2), tableLoan);
+					FillDataToJTable(loanModel.getLoanByStatus(loanType, 2), tableLoan, loanType);
 				}
 			}
 		});
@@ -276,7 +278,7 @@ public class jpanelLoadData extends JPanel {
 		btnReload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				LoanModel loanModel = new LoanModel();
-				FillDataToJTable(loanModel.getAllLoanHome(loanType), tableLoan);
+				FillDataToJTable(loanModel.getAllLoanHome(loanType), tableLoan, loanType);
 			}
 		});
 
@@ -292,12 +294,12 @@ public class jpanelLoadData extends JPanel {
 		JPanel jpanelMain = (JPanel) this.getParent();
 		jpanelMain.removeAll();
 		jpanelMain.revalidate();
-		jpanelAddNewLoan addNewLoan = new jpanelAddNewLoan(this.account);
+		jpanelAddNewLoan addNewLoan = new jpanelAddNewLoan();
 		jpanelMain.add(addNewLoan);
 		addNewLoan.setVisible(true);
 	}
 
-	public void FillDataToJTable(List<Loan> loanList, JTable tableLoan) {
+	public void FillDataToJTable(List<Loan> loanList, JTable tableLoan, LoanType loanType) {
 		String statusMask = "";
 		DefaultTableModel defaultTableModel = new DefaultTableModel() {
 
@@ -336,7 +338,7 @@ public class jpanelLoadData extends JPanel {
 			defaultTableModel.addRow(new Object[] { loan.getCustomerId(), loan.getId(),
 					loadLoanTypeName(loan.getLoanTypeId()), loan.getInterest(), loadEmployeeName(loan.getAccountId()),
 					loadCustomerName(loan.getCustomerId()), loadPaymentTypeName(loan.getPaymentTypeId()),
-					loan.getAmount(), loan.getPeriod(), loan.getDuration(), loan.getCreateDate(),
+					Common.formatNumber(loan.getAmount()), loan.getPeriod(), loan.getDuration(), loan.getCreateDate(),
 					loan.getDisbursementDate(), loan.getEndDate(), loan.getDescription(), statusMask, "View/Modify" });
 		}
 //		TableColumnModel tcm = tableLoan.getColumnModel();
@@ -345,7 +347,7 @@ public class jpanelLoadData extends JPanel {
 		tableLoan.setModel(defaultTableModel);
 		tableLoan.removeColumn(tableLoan.getColumnModel().getColumn(0));
 		tableLoan.getColumnModel().getColumn(13).setCellRenderer(new LoanTableStatusButtonRenderer());
-		tableLoan.getColumnModel().getColumn(13).setCellEditor(new ClientsTableRenderer(new JCheckBox()));
+		tableLoan.getColumnModel().getColumn(13).setCellEditor(new ClientsTableRenderer(new JCheckBox(), loanType));
 		tableLoan.getColumnModel().getColumn(14).setCellRenderer(new LoanTableViewButtonRenderer());
 		tableLoan.getColumnModel().getColumn(14).setCellEditor(new ViewClientsTableRenderer(new JCheckBox()));
 		tableLoan.getTableHeader().setReorderingAllowed(false);
@@ -488,7 +490,7 @@ public class jpanelLoadData extends JPanel {
 		private int row, col;
 		private JTable table;
 
-		public ClientsTableRenderer(JCheckBox checkBox) {
+		public ClientsTableRenderer(JCheckBox checkBox, LoanType loanType) {
 			super(checkBox);
 			button = new JButton();
 			button.setOpaque(true);
@@ -499,6 +501,8 @@ public class jpanelLoadData extends JPanel {
 						int id = (int) table.getValueAt(row, 0);
 						updateStatus(id);
 						createLoanAndFineHistory(id);
+						LoanModel loanModel = new LoanModel();
+						FillDataToJTable(loanModel.getAllLoanHome(loanType), table, loanType);
 					}
 
 					// adding reload table function

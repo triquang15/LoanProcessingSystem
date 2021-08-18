@@ -220,7 +220,7 @@ public class jpanelCustomerProfile extends JPanel {
 	}
 
 	public void btnAdd_actionPerformed(ActionEvent e) {
-		jDialogAddNewCustomer addNewCustomer = new jDialogAddNewCustomer();
+		SignUp addNewCustomer = new SignUp();
 		addNewCustomer.setVisible(true);
 	}
 
@@ -379,7 +379,7 @@ public class jpanelCustomerProfile extends JPanel {
 			addNewCustomer.setVisible(true);
 		}
 	}
-
+	
 	public void btnLoans() {
 		int i = jtableCustomer.getSelectedRow();
 		if (i > -1) {
