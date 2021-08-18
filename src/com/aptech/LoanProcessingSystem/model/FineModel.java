@@ -74,7 +74,7 @@ public class FineModel {
 		return result;
 	}
 	
-	public Fine find_fine_interest(int id) {
+	public Fine findFineInterest(int id) {
 		Fine fine = new Fine();
 		try {
 			PreparedStatement statement = ConnectDB.connection().prepareStatement("SELECT * "
@@ -98,12 +98,12 @@ public class FineModel {
 		return fine;
 	}
 	
-	public Fine find_fine_interest(double installment) {
+	public Fine findFineInterest(double paymentAmount) {
 		Fine fine = new Fine();
 		try {
 			PreparedStatement statement = ConnectDB.connection().prepareStatement("SELECT * FROM fine WHERE ? >= Min and (? < MAX OR MAX IS NULL)");
-			statement.setDouble(1, installment);
-			statement.setDouble(2, installment);
+			statement.setDouble(1, paymentAmount);
+			statement.setDouble(2, paymentAmount);
 			ResultSet resultset = statement.executeQuery();
 			while (resultset.next()) {
 				fine.setId(resultset.getInt("Id"));

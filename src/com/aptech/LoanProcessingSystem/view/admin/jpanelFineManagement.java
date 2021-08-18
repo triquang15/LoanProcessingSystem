@@ -502,17 +502,17 @@ public class jpanelFineManagement extends JPanel {
 
 	private void loadData() {
 		FineModel fineModel = new FineModel();
-		this.fine1 = fineModel.find_fine_interest(1);
+		this.fine1 = fineModel.findFineInterest(1);
 		txtInterest1.setText(String.valueOf(fine1.getFineInterest()));
 		txtMin1.setText(String.valueOf(fine1.getMin()));
 		txtMax1.setText(String.valueOf(fine1.getMax()));
 		jtextareaDes1.setText(fine1.getDescription());
-		this.fine2 = fineModel.find_fine_interest(2);
+		this.fine2 = fineModel.findFineInterest(2);
 		txtInterest2.setText(String.valueOf(fine2.getFineInterest()));
 		txtMin2.setText(String.valueOf(fine2.getMin()));
 		txtMax2.setText(String.valueOf(fine2.getMax()));
 		jtextareaDis2.setText(fine2.getDescription());
-		this.fine3 = fineModel.find_fine_interest(3);
+		this.fine3 = fineModel.findFineInterest(3);
 		txtInterest3.setText(String.valueOf(fine3.getFineInterest()));
 		txtMin3.setText(String.valueOf(fine3.getMin()));
 		txtMax3.setText(String.valueOf(fine3.getMax()));

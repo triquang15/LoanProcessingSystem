@@ -4,12 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import javax.swing.JOptionPane;
 
 import com.aptech.LoanProcessingSystem.database.ConnectDB;
-import com.aptech.LoanProcessingSystem.entities.Loan;
 import com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory;
 import com.aptech.LoanProcessingSystem.entities.MyLoanAndFineHistory;
 
@@ -141,21 +137,6 @@ public class LoanAndFineHistoryModel {
 		return result;
 	}
 
-//	public boolean delete(int id) {
-//		boolean result = true;
-//		try {
-//			PreparedStatement preparedStatement = ConnectDB.connection()
-//					.prepareStatement("update LoanAndFineHistory SET status = false where id = ?");
-//			preparedStatement.setInt(1, id);
-//			result = preparedStatement.executeUpdate() > 0;
-//		} catch (Exception e) {
-//			result = false;
-//		} finally {
-//			ConnectDB.disconnect();
-//		}
-//		return result;
-//	}
-
 	public boolean delete(int id) {
 		boolean result = false;
 		try {
@@ -171,36 +152,9 @@ public class LoanAndFineHistoryModel {
 		return result;
 	}
 
-	public boolean deleteWithLoanId(int loanId) {
-		boolean result = false;
-		try {
 
-			PreparedStatement psCheck = ConnectDB.connection()
-					.prepareStatement("select count(id) as Count FROM LoanAndFineHistory where loanId = ?");
-			psCheck.setInt(1, loanId);
-			ResultSet resultSet = psCheck.executeQuery();
-			if (resultSet.next()) {
-				int count = resultSet.getInt("Count");
-				if (count == 0) {
-					result = true;
-				} else {
-					PreparedStatement psDelete = ConnectDB.connection()
-							.prepareStatement("update LoanAndFineHistory SET status = false where loanId = ?");
-					psDelete.setInt(1, loanId);
-					result = psDelete.executeUpdate() > 0;
-				}
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			ConnectDB.disconnect();
-		}
-		return result;
-	}
-
-	public LoanAndFineHistory search_history_based_on_id(int keyword) {
-		LoanAndFineHistory result = new LoanAndFineHistory();
+	public LoanAndFineHistory searchHistoryBasedOnId(int keyword) {
+		LoanAndFineHistory result = null;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
 					"SELECT c.Name as Customer, lt.Name as LoanType, pt.Name as PaymentType, l.Period, l.Duration, l.EndDate, l.Interest, hs.* "
@@ -209,6 +163,7 @@ public class LoanAndFineHistoryModel {
 			preparedStatement.setInt(1, keyword);
 			ResultSet rs = preparedStatement.executeQuery();
 			if (rs.next()) {
+				result = new LoanAndFineHistory();
 				result.setCustomer(rs.getString("Customer"));
 				result.setLoanType(rs.getString("LoanType"));
 				result.setPaymentType(rs.getString("PaymentType"));
@@ -230,8 +185,6 @@ public class LoanAndFineHistoryModel {
 				result.setPaymentDate(rs.getDate("PaymentDate"));
 				result.setDescription(rs.getString("Description"));
 				result.setStatus(rs.getBoolean("Status"));
-			} else {
-				result = null;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

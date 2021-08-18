@@ -1,49 +1,53 @@
 package com.aptech.LoanProcessingSystem.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.border.EmptyBorder;
 import java.awt.Font;
+import java.awt.SystemColor;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.ActionEvent;
-import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
 import com.aptech.LoanProcessingSystem.entities.Customer;
+import com.aptech.LoanProcessingSystem.entities.Fine;
 import com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory;
+import com.aptech.LoanProcessingSystem.entities.PaymentMethod;
 import com.aptech.LoanProcessingSystem.model.CustomerModel;
+import com.aptech.LoanProcessingSystem.model.FineModel;
 import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
+import com.aptech.LoanProcessingSystem.model.PaymentMethodModel;
 import com.aptech.LoanProcessingSystem.service.Common;
 import com.aptech.LoanProcessingSystem.service.ShareData;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
-import javax.swing.BoxLayout;
-import java.awt.Dimension;
-import java.awt.Component;
-import javax.swing.Box;
-import java.awt.SystemColor;
-import javax.swing.JComboBox;
-
-public class LoanHistoryUpdate extends JDialog {
+@SuppressWarnings("serial")
+public class PaymentLoan extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtCustomerName;
 	private JTextField txtLoanType;
@@ -58,12 +62,15 @@ public class LoanHistoryUpdate extends JDialog {
 	private JTextField txtFineAmount;
 	private JTextField txtAmountLeft;
 	private JTextField txtTotalPayment;
-	private JComboBox cbbxPaymentMethod;
-
+	private JComboBox<PaymentMethod> cbbxPaymentMethod;
+	private Fine fine;
 	private LoanAndFineHistory loanAndFineHistory;
 	private JDateChooser txtDueDate;
 	private String hintPaymentAmount = "Please enter payment amount!";
 	private String hintFineAmount = "Please enter fine amount!";
+	private int fineOverDays = 0;
+	private double fineAmount = 0;
+
 	/**
 	 * Launch the application.
 	 */
@@ -74,7 +81,7 @@ public class LoanHistoryUpdate extends JDialog {
 				Login login = new Login();
 				login.setVisible(true);
 			} else {
-				LoanHistoryUpdate dialog = new LoanHistoryUpdate();
+				PaymentLoan dialog = new PaymentLoan();
 				dialog.setVisible(true);
 			}
 		} catch (Exception e) {
@@ -82,16 +89,18 @@ public class LoanHistoryUpdate extends JDialog {
 		}
 	}
 
-	public LoanHistoryUpdate(int loanHisId) {
+	public PaymentLoan(int loanHisId) {
 		this();
-		this.loanAndFineHistory = new LoanAndFineHistoryModel().search_history_based_on_id(loanHisId);
+		this.loanAndFineHistory = new LoanAndFineHistoryModel().searchHistoryBasedOnId(loanHisId);
+		this.fine = new FineModel().findFineInterest(loanAndFineHistory.getPaymentAmount());
+
 		initValue();
 	}
 
 	/**
 	 * Create the dialog.
 	 */
-	public LoanHistoryUpdate() {
+	public PaymentLoan() {
 		setMinimumSize(new Dimension(1200, 580));
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new java.awt.event.WindowAdapter() {
@@ -101,7 +110,7 @@ public class LoanHistoryUpdate extends JDialog {
 			}
 		});
 		setIconImage(Toolkit.getDefaultToolkit()
-				.getImage(LoanHistoryUpdate.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
+				.getImage(PaymentLoan.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
 		setFont(new Font("Dialog", Font.BOLD, 14));
 		setTitle("New Customer");
 		setBounds(100, 100, 1235, 745);
@@ -112,13 +121,13 @@ public class LoanHistoryUpdate extends JDialog {
 		setLocationRelativeTo(null);
 		contentPanel.setLayout(new BorderLayout(0, 0));
 
-		JLabel lblNewLabel = new JLabel("New Customer");
-		lblNewLabel.setPreferredSize(new Dimension(66, 50));
+		JLabel lblNewLabel = new JLabel("Payment");
+		lblNewLabel.setPreferredSize(new Dimension(66, 60));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setForeground(Color.RED);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 24));
 		lblNewLabel.setIcon(new ImageIcon(
-				LoanHistoryUpdate.class.getResource("/com/aptech/LoanProcessingSystem/images/customer (2).png")));
+				PaymentLoan.class.getResource("/com/aptech/LoanProcessingSystem/images/customer (2).png")));
 		contentPanel.add(lblNewLabel, BorderLayout.NORTH);
 
 		JPanel panel_1 = new JPanel();
@@ -227,7 +236,6 @@ public class LoanHistoryUpdate extends JDialog {
 		panel_3.add(glue_1);
 
 		txtCustomerName = new JTextField();
-		txtCustomerName.setEnabled(false);
 		txtCustomerName.setEditable(false);
 		txtCustomerName.setPreferredSize(new Dimension(7, 30));
 		txtCustomerName.setMinimumSize(new Dimension(7, 30));
@@ -239,7 +247,6 @@ public class LoanHistoryUpdate extends JDialog {
 		panel_3.add(verticalStrut_2);
 
 		txtLoanType = new JTextField();
-		txtLoanType.setEnabled(false);
 		txtLoanType.setEditable(false);
 		txtLoanType.setPreferredSize(new Dimension(7, 30));
 		txtLoanType.setMinimumSize(new Dimension(7, 30));
@@ -251,7 +258,6 @@ public class LoanHistoryUpdate extends JDialog {
 		panel_3.add(verticalStrut_1);
 
 		txtPaymentType = new JTextField();
-		txtPaymentType.setEnabled(false);
 		txtPaymentType.setEditable(false);
 		txtPaymentType.setPreferredSize(new Dimension(7, 30));
 		txtPaymentType.setMinimumSize(new Dimension(7, 30));
@@ -263,7 +269,6 @@ public class LoanHistoryUpdate extends JDialog {
 		panel_3.add(verticalStrut);
 
 		txtPeriod = new JTextField();
-		txtPeriod.setEnabled(false);
 		txtPeriod.setEditable(false);
 		txtPeriod.setPreferredSize(new Dimension(7, 30));
 		txtPeriod.setMinimumSize(new Dimension(7, 30));
@@ -275,12 +280,11 @@ public class LoanHistoryUpdate extends JDialog {
 		panel_3.add(verticalStrut_3);
 
 		txtDuration = new JTextField();
-		txtDuration.setEnabled(false);
 		txtDuration.setEditable(false);
 		txtDuration.setPreferredSize(new Dimension(7, 30));
 		txtDuration.setMinimumSize(new Dimension(7, 30));
 		txtDuration.setMaximumSize(new Dimension(2147483647, 30));
-		txtDuration.setForeground(Color.GRAY);
+		txtDuration.setForeground(Color.BLACK);
 		txtDuration.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtDuration.setColumns(10);
 		panel_3.add(txtDuration);
@@ -289,7 +293,7 @@ public class LoanHistoryUpdate extends JDialog {
 		panel_3.add(verticalStrut_9_2);
 
 		txtLoanAmount = new JTextField();
-		txtLoanAmount.setEnabled(false);
+		txtLoanAmount.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		panel_3.add(txtLoanAmount);
 		txtLoanAmount.setEditable(false);
 		txtLoanAmount.setMaximumSize(new Dimension(2147483647, 30));
@@ -301,7 +305,6 @@ public class LoanHistoryUpdate extends JDialog {
 
 		txtInterest = new JTextField();
 		panel_3.add(txtInterest);
-		txtInterest.setEnabled(false);
 		txtInterest.setEditable(false);
 		txtInterest.setMaximumSize(new Dimension(2147483647, 30));
 		txtInterest.setPreferredSize(new Dimension(7, 30));
@@ -332,7 +335,7 @@ public class LoanHistoryUpdate extends JDialog {
 		panel.add(glue_2);
 
 		Component rigidArea = Box.createRigidArea(new Dimension(20, 20));
-		rigidArea.setPreferredSize(new Dimension(50, 20));
+		rigidArea.setPreferredSize(new Dimension(30, 20));
 		panel_1.add(rigidArea);
 
 		JPanel panel_1_1 = new JPanel();
@@ -432,10 +435,11 @@ public class LoanHistoryUpdate extends JDialog {
 		panel_5.add(glue_5);
 
 		txtPaymentAmount = new JTextField();
+		txtPaymentAmount.setEditable(false);
 		txtPaymentAmount.setPreferredSize(new Dimension(7, 30));
 		txtPaymentAmount.setMaximumSize(new Dimension(2147483647, 30));
-		txtPaymentAmount.setForeground(Color.GRAY);
-		txtPaymentAmount.setFont(new Font("Tahoma", Font.ITALIC, 10));
+		txtPaymentAmount.setForeground(Color.BLACK);
+		txtPaymentAmount.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		txtPaymentAmount.setColumns(10);
 		setTextHint(txtPaymentAmount, hintPaymentAmount);
 		panel_5.add(txtPaymentAmount);
@@ -464,7 +468,6 @@ public class LoanHistoryUpdate extends JDialog {
 
 		txtFineOverdays = new JTextField();
 		txtFineOverdays.setEditable(false);
-		txtFineOverdays.setEnabled(false);
 		txtFineOverdays.setMaximumSize(new Dimension(2147483647, 30));
 		txtFineOverdays.setPreferredSize(new Dimension(7, 30));
 		panel_5.add(txtFineOverdays);
@@ -474,7 +477,6 @@ public class LoanHistoryUpdate extends JDialog {
 
 		txtFineInterest = new JTextField();
 		txtFineInterest.setEditable(false);
-		txtFineInterest.setEnabled(false);
 		txtFineInterest.setMaximumSize(new Dimension(2147483647, 30));
 		txtFineInterest.setPreferredSize(new Dimension(7, 30));
 		panel_5.add(txtFineInterest);
@@ -484,9 +486,10 @@ public class LoanHistoryUpdate extends JDialog {
 		panel_5.add(verticalStrut_8);
 
 		txtFineAmount = new JTextField();
+		txtFineAmount.setEditable(false);
 		txtFineAmount.setPreferredSize(new Dimension(7, 30));
 		txtFineAmount.setMaximumSize(new Dimension(2147483647, 30));
-		txtFineAmount.setForeground(Color.GRAY);
+		txtFineAmount.setForeground(Color.BLACK);
 		txtFineAmount.setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtFineAmount.setColumns(10);
 		setTextHint(txtFineAmount, hintFineAmount);
@@ -498,9 +501,8 @@ public class LoanHistoryUpdate extends JDialog {
 		txtAmountLeft = new JTextField();
 		txtAmountLeft.setPreferredSize(new Dimension(7, 30));
 		txtAmountLeft.setMaximumSize(new Dimension(2147483647, 30));
-		txtAmountLeft.setForeground(Color.GRAY);
-		txtAmountLeft.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtAmountLeft.setEnabled(false);
+		txtAmountLeft.setForeground(Color.BLACK);
+		txtAmountLeft.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		txtAmountLeft.setEditable(false);
 		txtAmountLeft.setColumns(10);
 		panel_5.add(txtAmountLeft);
@@ -509,12 +511,13 @@ public class LoanHistoryUpdate extends JDialog {
 		panel_5.add(verticalStrut_10_4_2);
 
 		txtTotalPayment = new JTextField();
+		txtTotalPayment.setEditable(false);
 		txtTotalPayment.setPreferredSize(new Dimension(7, 30));
 		txtTotalPayment.setMaximumSize(new Dimension(2147483647, 30));
-		txtTotalPayment.setForeground(Color.GRAY);
+		txtTotalPayment.setForeground(Color.BLACK);
 		txtTotalPayment.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtTotalPayment.setEnabled(false);
 		txtTotalPayment.setColumns(10);
+		setTextHint(txtTotalPayment, hintFineAmount);
 		panel_5.add(txtTotalPayment);
 
 		Component verticalStrut_9_1_2 = Box.createVerticalStrut(20);
@@ -542,7 +545,7 @@ public class LoanHistoryUpdate extends JDialog {
 		btnSave.setFont(new Font("Tahoma", Font.BOLD, 10));
 
 		btnSave.setIcon(new ImageIcon(
-				LoanHistoryUpdate.class.getResource("/com/aptech/LoanProcessingSystem/images/floppy-disk.png")));
+				PaymentLoan.class.getResource("/com/aptech/LoanProcessingSystem/images/floppy-disk.png")));
 
 		JButton btnClear = new JButton("Clear");
 		btnClear.setPreferredSize(new Dimension(120, 30));
@@ -550,7 +553,7 @@ public class LoanHistoryUpdate extends JDialog {
 
 		btnClear.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnClear.setIcon(new ImageIcon(
-				LoanHistoryUpdate.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_refresh_16.png")));
+				PaymentLoan.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_refresh_16.png")));
 
 		JButton btnNewButton = new JButton("Cancel");
 		btnNewButton.setPreferredSize(new Dimension(120, 30));
@@ -559,18 +562,19 @@ public class LoanHistoryUpdate extends JDialog {
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 10));
 		JTextFieldDateEditor endDateEditor = (JTextFieldDateEditor) txtDueDate.getDateEditor();
 		endDateEditor.setEditable(false);
-		
-		btnNewButton.setIcon(new ImageIcon(
-				LoanHistoryUpdate.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
+
+		btnNewButton.setIcon(
+				new ImageIcon(PaymentLoan.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
 
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				addCustomerAction();
 			}
 		});
+		
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				initForm();
+				initValue();
 			}
 		});
 		btnNewButton.addActionListener(new ActionListener() {
@@ -578,8 +582,6 @@ public class LoanHistoryUpdate extends JDialog {
 				cancelAction();
 			}
 		});
-
-		initForm();
 	}
 
 	protected void addCustomerAction() {
@@ -592,16 +594,13 @@ public class LoanHistoryUpdate extends JDialog {
 		String job = txtInterest.getText().trim();
 		String salary = txtLoanAmount.getText();
 		String identity_card = txtFineOverdays.getText().trim();
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(new Date());
-		calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) - 16);
-		Date dateCheck = calendar.getTime();
+
 		boolean isPhoneValid = Pattern.matches("^[0-9]{10}$", txtPeriod.getText().trim());
 		boolean isIdentityValid = Pattern.matches("^[a-zA-Z0-9]{11}$", txtFineOverdays.getText().trim());
 		boolean isEmailValid = Pattern.matches("^[a-zA-Z0-9]+(.+)+[@]{1}+(.+)+[.]{1}+[a-zA-Z0-9]+$",
 				txtPaymentType.getText().trim());
 		boolean isSalaryValid = Pattern.matches("^\\d+", txtLoanAmount.getText().trim());
-		// Apply the validation logic checking all controls are empty or not
+
 		if (!isPhoneValid) {
 
 			JOptionPane.showMessageDialog(null, "Phone invalid!");
@@ -634,7 +633,7 @@ public class LoanHistoryUpdate extends JDialog {
 				if (customerModel.create(customer)) {
 					JOptionPane.showMessageDialog(null, "Successful!");
 
-					LoanHistoryUpdate.this.dispose();
+					PaymentLoan.this.dispose();
 				} else {
 					JOptionPane.showMessageDialog(null, "Please try again!");
 				}
@@ -646,46 +645,54 @@ public class LoanHistoryUpdate extends JDialog {
 		}
 	}
 
-	private void initForm() {
-		
-		txtCustomerName.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtCustomerName.setForeground(Color.BLACK);
-		txtPaymentType.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtPaymentType.setForeground(Color.BLACK);
-		txtLoanType.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtLoanType.setForeground(Color.BLACK);
-		txtFineInterest.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtFineInterest.setForeground(Color.BLACK);
-		txtFineOverdays.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtFineOverdays.setForeground(Color.BLACK);
-		txtPeriod.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtPeriod.setForeground(Color.BLACK);
-		txtLoanAmount.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtLoanAmount.setForeground(Color.BLACK);
-		txtInterest.setFont(new Font("Tahoma", Font.ITALIC, 10));
-		txtInterest.setForeground(Color.BLACK);
-	}
-
+	@SuppressWarnings("deprecation")
 	private void initValue() {
-
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(new Date());
-		calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) - 16);
-		
 		txtCustomerName.setText(loanAndFineHistory.getCustomer());
 		txtLoanType.setText(loanAndFineHistory.getLoanType());
 		txtPaymentType.setText(loanAndFineHistory.getPaymentType());
 		txtPeriod.setText(String.valueOf(loanAndFineHistory.getPeriod()));
 		txtDuration.setText(String.valueOf(loanAndFineHistory.getDuration()));
 		txtLoanAmount.setText(Common.formatNumber(loanAndFineHistory.getAmount()));
-		txtInterest.setText(String.valueOf(loanAndFineHistory.getLoanInterest()*100)+ " %");
+		txtInterest.setText(String.valueOf(loanAndFineHistory.getLoanInterest() * 100) + " %");
 		txtPaymentAmount.setText(Common.formatNumber(loanAndFineHistory.getPaymentAmount()));
 		txtDueDate.setDate(loanAndFineHistory.getDueDate());
-		txtFineInterest.setText(String.valueOf(loanAndFineHistory.getFineInterest()*100)+ " %");
-//		txtFineOverdays.setText(String.valueOf());
-//		txtFineAmount.setText(Common.formatNumber());
+		txtFineInterest.setText(String.valueOf(fine.getFineInterest() + " %"));
+		fineOverDays = (new Date().getDay() - loanAndFineHistory.getDueDate().getDay());
+		txtFineOverdays.setText(String.valueOf(fineOverDays < 0 ? 0 : fineOverDays));
+		fineAmount = fineOverDays < 0 ? 0
+				: loanAndFineHistory.getPaymentAmount() * fineOverDays * fine.getFineInterest();
+		txtFineAmount.setText(Common.formatNumber(fineAmount));
 		txtAmountLeft.setText(Common.formatNumber(loanAndFineHistory.getAmountLeft()));
-//		txtTotalPayment.setText(Common.formatNumber());
+		txtTotalPayment.setText(Common.formatNumber(fineAmount + loanAndFineHistory.getPaymentAmount()));
+		initPaymentMethodValue();
+	}
+
+	public static long getDifferenceDays(Date d1, Date d2) {
+		long diff = d2.getTime() - d1.getTime();
+		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+	}
+
+	@SuppressWarnings("unchecked")
+	private void initPaymentMethodValue() {
+
+		PaymentMethodModel paymentMethodModel = new PaymentMethodModel();
+		DefaultComboBoxModel<PaymentMethod> model = new DefaultComboBoxModel<>();
+		for (PaymentMethod paymentMethod : paymentMethodModel.getAllPaymentMethods()) {
+			model.addElement(paymentMethod);
+		}
+		cbbxPaymentMethod.setModel(model);
+		cbbxPaymentMethod.setRenderer(new PaymentListCellRenderer());
+
+	}
+
+	private class PaymentListCellRenderer extends DefaultListCellRenderer {
+
+		@Override
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+				boolean cellHasFocus) {
+			PaymentMethod item = (PaymentMethod) value;
+			return super.getListCellRendererComponent(list, item.getName(), index, isSelected, cellHasFocus);
+		}
 	}
 
 	private void setTextHint(JTextField textField, String hint) {
@@ -698,7 +705,7 @@ public class LoanHistoryUpdate extends JDialog {
 					if (textField instanceof JPasswordField) {
 						((JPasswordField) textField).setEchoChar('●');
 					}
-					textField.setForeground(Color.DARK_GRAY);
+					txtLoanAmount.setForeground(Color.BLACK);
 				} else {
 					textField.selectAll();
 				}

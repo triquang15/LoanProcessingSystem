@@ -184,7 +184,6 @@ public class LoanUpdate extends JDialog {
 					txtVali1.setText("");
 
 				} catch (Exception e1) {
-					// TODO: handle exception
 					txtVali1.setText("Invalid number");
 
 				}
@@ -316,7 +315,7 @@ public class LoanUpdate extends JDialog {
 						Integer history_id = Integer.parseInt(txtHistoryId.getText());
 						LoanAndFineHistory loanAndFineHistory = new LoanAndFineHistory();
 						LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
-						loanAndFineHistory = loanAndFineHistoryModel.search_history_based_on_id(history_id);
+						loanAndFineHistory = loanAndFineHistoryModel.searchHistoryBasedOnId(history_id);
 						if (Objects.isNull(loanAndFineHistory)) {
 							JOptionPane.showMessageDialog(null, "No Id");
 						} else {
@@ -360,7 +359,6 @@ public class LoanUpdate extends JDialog {
 									LoanUpdate.this.dispose();
 
 								} catch (Exception e2) {
-									// TODO: handle exception
 									e2.printStackTrace();
 								}
 
@@ -428,7 +426,7 @@ public class LoanUpdate extends JDialog {
 	public void jbuttoncheck_actionPerformed(ActionEvent e) {
 		Integer history_id = Integer.parseInt(txtHistoryId.getText());
 		LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
-		LoanAndFineHistory loanAndFineHistory = loanAndFineHistoryModel.search_history_based_on_id(history_id);
+		LoanAndFineHistory loanAndFineHistory = loanAndFineHistoryModel.searchHistoryBasedOnId(history_id);
 		if (Objects.isNull(loanAndFineHistory)) {
 			JOptionPane.showMessageDialog(null, "No Id");
 		} else {

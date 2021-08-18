@@ -427,7 +427,7 @@ public class jpanelLoadData extends JPanel {
 		double installment = amountDouble * Math.pow(1 + loanType.getInterest(), duration / 12) / duration;
 		FineModel fineModel = new FineModel();
 		Fine fine = new Fine();
-		fine = fineModel.find_fine_interest(installment);
+		fine = fineModel.findFineInterest(installment);
 		int fine_id = fine.getId();
 		double fine_interest = fine.getFineInterest();
 		double fine_amount = installment * fine_interest;

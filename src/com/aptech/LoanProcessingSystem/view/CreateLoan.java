@@ -1,67 +1,53 @@
 package com.aptech.LoanProcessingSystem.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.border.EmptyBorder;
 import java.awt.Font;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.ActionEvent;
-import java.awt.Color;
-import java.awt.Component;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.regex.Pattern;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
-import java.util.Date;
-import java.util.Objects;
-import java.util.regex.Pattern;
-
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-
+import javax.swing.border.EmptyBorder;
 import com.aptech.LoanProcessingSystem.entities.Customer;
-import com.aptech.LoanProcessingSystem.entities.Fine;
 import com.aptech.LoanProcessingSystem.entities.Loan;
-import com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory;
 import com.aptech.LoanProcessingSystem.entities.LoanType;
 import com.aptech.LoanProcessingSystem.entities.PaymentType;
 import com.aptech.LoanProcessingSystem.model.CustomerModel;
-import com.aptech.LoanProcessingSystem.model.FineModel;
-import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
 import com.aptech.LoanProcessingSystem.model.LoanModel;
+import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
+import com.aptech.LoanProcessingSystem.model.PaymentTypeModel;
+import com.aptech.LoanProcessingSystem.service.ShareData;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
-import javax.swing.JComboBox;
-import javax.swing.JTextArea;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import com.aptech.LoanProcessingSystem.model.PaymentTypeModel;
-import com.aptech.LoanProcessingSystem.service.ShareData;
-import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
-import java.util.Calendar;
-import java.util.Date;
-import java.awt.Dimension;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.text.SimpleDateFormat;
-import java.beans.PropertyChangeEvent;
-
+@SuppressWarnings("serial")
 public class CreateLoan extends JDialog {
-	private ButtonGroup bg;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtAmount;
 	private JDateChooser txtEndDate;
@@ -69,20 +55,17 @@ public class CreateLoan extends JDialog {
 	private JTextArea txtDescription;
 	private JComboBox<Integer> cbbxDuration;
 	private JTextField txtCustomerName;
-	private JComboBox cbbxPaymentType;
-	private JComboBox cbbxLoanType;
+	private JComboBox<PaymentType> cbbxPaymentType;
+	private JComboBox<LoanType> cbbxLoanType;
 	private JLabel txtInterest;
 	private String hintAmount = "Please enter amount";
-	private String hintPeriod = "Please enter period";
 	private Customer customer;
-	private JComboBox cbbxPeriod;
 	private Date disbursementDate;
 	private Date endDate;
-	private float interest;
 	private int duration;
 	private Loan loan = new Loan();
 	private LoanType loanType = new LoanType();
-	private double amountDouble = 0;
+	private JTextField txtPeriod;
 
 	/**
 	 * Launch the application.
@@ -119,7 +102,7 @@ public class CreateLoan extends JDialog {
 				cancelAction();
 			}
 		});
-		bg = new ButtonGroup();
+		new ButtonGroup();
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(CreateLoan.class.getResource("/com/aptech/LoanProcessingSystem/images/bank (4).png")));
 		setFont(new Font("Dialog", Font.BOLD, 14));
@@ -217,6 +200,7 @@ public class CreateLoan extends JDialog {
 		panel_2.add(glue_1);
 
 		txtCustomerName = new JTextField();
+		txtCustomerName.setForeground(Color.BLACK);
 		txtCustomerName.setEditable(false);
 		txtCustomerName.setMaximumSize(new Dimension(1000, 30));
 		txtCustomerName.setMinimumSize(new Dimension(300, 30));
@@ -228,7 +212,7 @@ public class CreateLoan extends JDialog {
 		Component verticalStrut_4 = Box.createVerticalStrut(20);
 		panel_2.add(verticalStrut_4);
 
-		cbbxLoanType = new JComboBox();
+		cbbxLoanType = new JComboBox<LoanType>();
 		cbbxLoanType.setPreferredSize(new Dimension(29, 30));
 		cbbxLoanType.setMinimumSize(new Dimension(29, 30));
 		cbbxLoanType.setMaximumSize(new Dimension(32767, 30));
@@ -251,7 +235,8 @@ public class CreateLoan extends JDialog {
 		panel_9.setLayout(new BoxLayout(panel_9, BoxLayout.X_AXIS));
 
 		txtInterest = new JLabel("");
-		txtInterest.setEnabled(false);
+		txtInterest.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 10));
+		txtInterest.setForeground(Color.BLACK);
 		txtInterest.setMinimumSize(new Dimension(300, 30));
 		txtInterest.setMaximumSize(new Dimension(1000, 30));
 		txtInterest.setPreferredSize(new Dimension(0, 30));
@@ -273,20 +258,22 @@ public class CreateLoan extends JDialog {
 		Component verticalStrut = Box.createVerticalStrut(20);
 		panel_2.add(verticalStrut);
 
-		JPanel panel_7 = new JPanel();
-		panel_2.add(panel_7);
-		panel_7.setMinimumSize(new Dimension(10, 30));
-		panel_7.setMaximumSize(new Dimension(32767, 30));
-		panel_7.setPreferredSize(new Dimension(10, 30));
-		panel_7.setLayout(new BoxLayout(panel_7, BoxLayout.X_AXIS));
-
-		cbbxPeriod = new JComboBox();
-		panel_7.add(cbbxPeriod);
+		txtPeriod = new JTextField();
+		txtPeriod.setForeground(Color.BLACK);
+		txtPeriod.setText("1");
+		txtPeriod.setPreferredSize(new Dimension(0, 30));
+		txtPeriod.setMinimumSize(new Dimension(300, 30));
+		txtPeriod.setMaximumSize(new Dimension(1000, 30));
+		txtPeriod.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 10));
+		txtPeriod.setEditable(false);
+		txtPeriod.setColumns(10);
+		panel_2.add(txtPeriod);
 
 		Component verticalStrut_6 = Box.createVerticalStrut(20);
 		panel_2.add(verticalStrut_6);
 
-		cbbxPaymentType = new JComboBox();
+		cbbxPaymentType = new JComboBox<PaymentType>();
+		cbbxPaymentType.setForeground(Color.BLACK);
 		panel_2.add(cbbxPaymentType);
 		cbbxPaymentType.setMaximumSize(new Dimension(1000, 30));
 		cbbxPaymentType.setMinimumSize(new Dimension(200, 30));
@@ -387,7 +374,7 @@ public class CreateLoan extends JDialog {
 		Component verticalStrut_10 = Box.createVerticalStrut(20);
 		panel_4.add(verticalStrut_10);
 
-		cbbxDuration = new JComboBox();
+		cbbxDuration = new JComboBox<Integer>();
 		cbbxDuration.setPreferredSize(new Dimension(29, 30));
 		cbbxDuration.setMinimumSize(new Dimension(29, 30));
 		cbbxDuration.setMaximumSize(new Dimension(32767, 30));
@@ -403,6 +390,7 @@ public class CreateLoan extends JDialog {
 		panel_4.add(panel_6);
 		panel_6.setLayout(new BoxLayout(panel_6, BoxLayout.X_AXIS));
 		txtEndDate = new JDateChooser();
+		txtEndDate.getCalendarButton().setFont(new Font("Tahoma", Font.ITALIC, 10));
 		txtEndDate.getCalendarButton().setVisible(false);
 		txtEndDate.getCalendarButton().setEnabled(false);
 		panel_6.add(txtEndDate);
@@ -472,7 +460,7 @@ public class CreateLoan extends JDialog {
 		getContentPane().add(lblNewLabel, BorderLayout.NORTH);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setForeground(Color.RED);
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 24));
 		lblNewLabel.setIcon(
 				new ImageIcon(CreateLoan.class.getResource("/com/aptech/LoanProcessingSystem/images/personal.png")));
 
@@ -503,28 +491,13 @@ public class CreateLoan extends JDialog {
 
 	protected void createLoanAction() {
 		boolean isAmountValid = Pattern.matches("^\\d+", txtAmount.getText().trim());
-
-		try {
-			disbursementDate = txtDisbursement.getDate();
-			System.out.println("disbursementDate: " + disbursementDate);
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Please select disbursement valid 1");
-			txtDisbursement.grabFocus();
-		}
-		try {
-			endDate = txtEndDate.getDate();
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "Please select end date valid");
-
-		}
-
+		disbursementDate = txtDisbursement.getDate();
+		endDate = txtEndDate.getDate();
 		Calendar nowCalendar = Calendar.getInstance();
 		nowCalendar.setTime(new Date());
 		nowCalendar.set(Calendar.HOUR_OF_DAY, 0);
 		nowCalendar.set(Calendar.MINUTE, 0);
 		nowCalendar.set(Calendar.SECOND, 0);
-		Date now = nowCalendar.getTime();
-
 		Calendar disburCalendar = Calendar.getInstance();
 		disburCalendar.setTime(disbursementDate);
 
@@ -541,15 +514,11 @@ public class CreateLoan extends JDialog {
 		} else if (!isAmountValid) {
 			JOptionPane.showMessageDialog(null, "Amount invalid!");
 		} else {
-
 			LoanType loanType = (LoanType) cbbxLoanType.getSelectedItem();
 			PaymentType paymentType = (PaymentType) cbbxPaymentType.getSelectedItem();
-			int period = (int) cbbxPeriod.getSelectedItem();
+			int period = Integer.parseInt(txtPeriod.getText().trim());
 			int duration = (int) cbbxDuration.getSelectedItem();
-			String description = txtDescription.getText();
-
 			try {
-
 				loan.setAmount(Double.parseDouble(txtAmount.getText()));
 				loan.setDescription(txtDescription.getText());
 				loan.setInterest(loanType.getInterest());
@@ -562,18 +531,20 @@ public class CreateLoan extends JDialog {
 				loan.setCreateDate(new Date());
 				loan.setDisbursementDate(disbursementDate);
 				loan.setEndDate(endDate);
-
 				LoanModel loanModel = new LoanModel();
-				int id = loanModel.createResultId(loan);
-
-				this.dispose();
+				if(loanModel.create(loan)) {
+					JOptionPane.showMessageDialog(null, "Successfully created!");
+					this.dispose();
+				}else {
+					JOptionPane.showMessageDialog(null, "Created failed!");
+				}
 			} catch (Exception e2) {
 				e2.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Please try again!");
 			}
 
 		}
 	}
-
 
 	private void initForm() {
 		txtAmount.setText(hintAmount);
@@ -583,10 +554,8 @@ public class CreateLoan extends JDialog {
 		initDurationValue();
 		initPaymentValue();
 		initLoanType();
-		initPeriodValue();
 		setInterestValue();
 		setEndDateValue();
-
 	}
 
 	private void setInterestValue() {
@@ -607,18 +576,6 @@ public class CreateLoan extends JDialog {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, "Disbursement or end date is invalid!");
 		}
-	}
-
-	private void initPeriodValue() {
-
-		int[] durations = new int[] { 1, 3, 6 };
-		DefaultComboBoxModel<Integer> model = new DefaultComboBoxModel<>();
-		for (int dur : durations) {
-			model.addElement(dur);
-		}
-		cbbxPeriod.setModel(model);
-		cbbxPeriod.setRenderer(new PeriodListCellRenderer());
-
 	}
 
 	private void initDurationValue() {
@@ -667,16 +624,6 @@ public class CreateLoan extends JDialog {
 		}
 	}
 
-	private class PeriodListCellRenderer extends DefaultListCellRenderer {
-
-		@Override
-		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
-				boolean cellHasFocus) {
-			int item = (int) value;
-			return super.getListCellRendererComponent(list, item + " Month", index, isSelected, cellHasFocus);
-		}
-	}
-
 	private class PaymentListCellRenderer extends DefaultListCellRenderer {
 
 		@Override
@@ -703,7 +650,7 @@ public class CreateLoan extends JDialog {
 			public void focusGained(FocusEvent e) {
 				if (textField.getText().equals(hint)) {
 					textField.setText("");
-					textField.setFont(new Font("Tahoma", Font.PLAIN, 10));
+					txtPeriod.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 10));
 					if (textField instanceof JPasswordField) {
 						((JPasswordField) textField).setEchoChar('●');
 					}
