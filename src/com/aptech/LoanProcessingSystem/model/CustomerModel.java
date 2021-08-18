@@ -126,6 +126,7 @@ public class CustomerModel {
 		}
 		return customers;
 	}
+	
 	public Customer findById(int CustomerId) {
 		Customer customer = null;
 		try {
@@ -155,6 +156,25 @@ public class CustomerModel {
 			ConnectDB.disconnect();
 		}
 		return customer;
+	}
+	
+	public String findCustomerNameById(int id) {
+		String str = "";
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection()
+					.prepareStatement("SELECT Name FROM customer WHERE Id = ?");
+			preparedStatement.setInt(1, id);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				str = resultSet.getString("name");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			str = null;
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return str;
 	}
 	
 	public boolean findCustomerByEmail (String email) {

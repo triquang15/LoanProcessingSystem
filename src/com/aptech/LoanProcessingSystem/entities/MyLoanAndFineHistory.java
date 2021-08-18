@@ -17,7 +17,6 @@ public class MyLoanAndFineHistory {
 	private String description;
 	private boolean status;
 
-	
 	public MyLoanAndFineHistory(int id, String customer, double amount, String fine, String paymentMethod,
 			double paymentAmount, double amountLeft, Date dueDate, double fineInterest, int fineOverDays,
 			double fineAmount, Date paymentDate, String description, boolean status) {

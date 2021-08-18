@@ -128,6 +128,25 @@ public class AccountModel {
 		return employeeList;
 	}
 	
+	public String loadEmployeeNameByID (int id) {
+		String str = "";
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection()
+					.prepareStatement("SELECT name FROM account WHERE id = ?");
+			preparedStatement.setInt(1, id);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				str = resultSet.getString("name");
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			str = null;
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return str;
+	}
+	
 	public List<Account> loadEmployeeExisted() {
 		List<Account> employeeList = new ArrayList<Account>();
 		try {

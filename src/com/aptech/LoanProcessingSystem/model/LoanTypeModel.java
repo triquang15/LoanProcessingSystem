@@ -114,6 +114,29 @@ public class LoanTypeModel {
 		return loanType;
 	}
 	
+	public LoanType loadLoanType (int id) {
+		LoanType loanType = null;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection()
+					.prepareStatement("SELECT * FROM loantype WHERE id = ?");
+			preparedStatement.setInt(1, id);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				loanType = new LoanType();
+				loanType.setId(resultSet.getInt("Id"));
+				loanType.setName(resultSet.getString("Name"));
+				loanType.setInterest(resultSet.getFloat("Interest"));
+				loanType.setDescription(resultSet.getString("Description"));
+				loanType.setStatus(resultSet.getBoolean("Status"));
+			}
+		} catch (Exception e) {
+			loanType = null;
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return loanType;
+	}
+	
 	public boolean update (LoanType loanType) {
 		boolean result = false;
 		try {

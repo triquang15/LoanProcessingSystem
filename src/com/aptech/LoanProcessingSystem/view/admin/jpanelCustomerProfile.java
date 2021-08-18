@@ -141,20 +141,20 @@ public class jpanelCustomerProfile extends JPanel {
 //			}
 //		});
 		panel_4.add(cbFilter);
-		
+
 		panelEmployeeID = new JPanel();
 		panelEmployeeID.setBackground(new Color(30, 40, 44));
 		panelEmployeeID.setVisible(false);
 		add(panelEmployeeID);
-		
+
 		JLabel lblNewLabel_4 = new JLabel("Employee ID");
 		lblNewLabel_4.setForeground(SystemColor.text);
 		panelEmployeeID.add(lblNewLabel_4);
-		
+
 		txtEmployeeID = new JTextField();
 		panelEmployeeID.add(txtEmployeeID);
 		txtEmployeeID.setColumns(10);
-		
+
 		btnFind = new JButton("Find");
 		btnFind.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -231,7 +231,6 @@ public class jpanelCustomerProfile extends JPanel {
 			public boolean isCellEditable(int row, int column) {
 				return column == 11;
 			}
-			
 
 		};
 		defaultTableModel.addColumn("ID");
@@ -251,7 +250,7 @@ public class jpanelCustomerProfile extends JPanel {
 			defaultTableModel.addRow(new Object[] { customer.getId(), customer.getName(), customer.getAddress(),
 					customer.getPhone(), customer.getEmail(), customer.isGender() ? "Male" : "Female",
 					customer.getDob(), customer.getSalary(), customer.getJob(), customer.getCompany(),
-					customer.getIdentityCard(), new Object[] {"Loans", "Info"}, customer.isStatus() });
+					customer.getIdentityCard(), new Object[] { "Loans", "Info" }, customer.isStatus() });
 		}
 		jtableCustomer.setModel(defaultTableModel);
 		LoanInfosPane infosPane = new LoanInfosPane();
@@ -260,49 +259,40 @@ public class jpanelCustomerProfile extends JPanel {
 		jtableCustomer.getTableHeader().setReorderingAllowed(false);
 		jtableCustomer.addNotify();
 	}
-	
-    public class LoanInfosPane extends JPanel implements TableCellRenderer {
 
-        private JButton loan;
-        private JButton info;
-        private String state;
+	public class LoanInfosPane extends JPanel implements TableCellRenderer {
 
-        public LoanInfosPane() {
-        	setBackground(new Color(34,40,44));
-            setLayout(new GridBagLayout());
-            loan = new JButton("Loans");
-            loan.setActionCommand("loans");
-            info = new JButton("Infos");
-            info.setActionCommand("infos");
+		private JButton loan;
+		private String state;
 
-            add(loan);
-            add(info);
+		public LoanInfosPane() {
+			setBackground(new Color(34, 40, 44));
+			setLayout(new GridBagLayout());
+			loan = new JButton("Loans");
+			loan.setActionCommand("loans");
 
-            ActionListener listener = new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    state = e.getActionCommand();
-                    if (state.equals("loans")) {
-                    	btnLoans();
-                    } else {
-                    	jDialogAddNewCustomer addNewCustomer  = new jDialogAddNewCustomer();
-                    	addNewCustomer.setVisible(true);
-                    }
-                }
-            };
+			add(loan);
 
-            loan.addActionListener(listener);
-            info.addActionListener(listener);
-        }
+			ActionListener listener = new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					state = e.getActionCommand();
+					if (state.equals("loans")) {
+						btnLoans();
+					}
+				}
+			};
 
-        public void addActionListener(ActionListener listener) {
-        	loan.addActionListener(listener);
-        	info.addActionListener(listener);
-        }
+			loan.addActionListener(listener);
+		}
 
-        public String getState() {
-            return state;
-        }
+		public void addActionListener(ActionListener listener) {
+			loan.addActionListener(listener);
+		}
+
+		public String getState() {
+			return state;
+		}
 
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
@@ -310,13 +300,12 @@ public class jpanelCustomerProfile extends JPanel {
 			// TODO Auto-generated method stub
 			return this;
 		}
-    }
+	}
 
-
-	class ButtonRenderer extends DefaultTableCellRenderer  {
+	class ButtonRenderer extends DefaultTableCellRenderer {
 
 		private LoanInfosPane loanInfosPane;
-		
+
 		public ButtonRenderer() {
 			loanInfosPane = new LoanInfosPane();
 		}
@@ -325,32 +314,32 @@ public class jpanelCustomerProfile extends JPanel {
 				int row, int column) {
 			if (isSelected) {
 				loanInfosPane.setBackground(table.getSelectionBackground());
-            } else {
-            	loanInfosPane.setBackground(table.getBackground());
-            }
+			} else {
+				loanInfosPane.setBackground(table.getBackground());
+			}
 			return loanInfosPane;
 		}
 	}
 
 	class ButtonEditor extends AbstractCellEditor implements TableCellEditor {
-		
+
 		private LoanInfosPane loanInfosPane;
 
 		public ButtonEditor() {
 			loanInfosPane = new LoanInfosPane();
 			loanInfosPane.addActionListener(new ActionListener() {
-				
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					SwingUtilities.invokeLater(new Runnable() {
-						
+
 						@Override
 						public void run() {
 							stopCellEditing();
-							
+
 						}
 					});
-					
+
 				}
 			});
 		}
@@ -368,7 +357,7 @@ public class jpanelCustomerProfile extends JPanel {
 		public Object getCellEditorValue() {
 			return loanInfosPane.getState();
 		}
-		
+
 		@Override
 		public boolean isCellEditable(EventObject e) {
 			return true;
@@ -405,7 +394,7 @@ public class jpanelCustomerProfile extends JPanel {
 			jpnaelShowCustomerLoan.setVisible(true);
 		}
 	}
-	
+
 	public void btnDelete_actionPerformed(ActionEvent e) {
 		int i = jtableCustomer.getSelectedRow();
 		if (i > -1) {
@@ -426,7 +415,7 @@ public class jpanelCustomerProfile extends JPanel {
 
 	public void cbFilter_actionPerformed(ActionEvent e) {
 		int i = cbFilter.getSelectedIndex();
-		
+
 		if (i == 0) {
 			panelEmployeeID.setVisible(true);
 //			try {
@@ -434,21 +423,22 @@ public class jpanelCustomerProfile extends JPanel {
 //			} catch (Exception ex) {
 //				JOptionPane.showMessageDialog(null, "You must enter integer");
 //			}
-		} else if (i == 1) {
-//			fillDataToJTable(customerModel.sortInterestHighToLow());
 		}
 	}
-	
+
 	public void btnFind_actionPerformed(ActionEvent e) {
 		CustomerModel customerModel = new CustomerModel();
-		int accountID = Integer.parseInt(txtEmployeeID.getText().trim());
-		fillDataToJTable(customerModel.findCustomerByAccountID(accountID)); 
+		try {
+			int accountID = Integer.parseInt(txtEmployeeID.getText().trim());
+			fillDataToJTable(customerModel.findCustomerByAccountID(accountID)); 
+		} catch (Exception ex) {
+			JOptionPane.showMessageDialog(this, "Please input an integer");
+		}
 	}
-	
+
 	public void fillComboBox() {
 		DefaultComboBoxModel<String> boxModel = new DefaultComboBoxModel<String>();
-		boxModel.addElement("Load customer by loan ammount");
-		boxModel.addElement("Interest from high to low");
+		boxModel.addElement("Load customer by employee");
 		cbFilter.setModel(boxModel);
 	}
 }

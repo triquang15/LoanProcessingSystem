@@ -29,6 +29,7 @@ import java.util.Map;
 import java.awt.event.ActionEvent;
 import javax.swing.BoxLayout;
 import java.awt.CardLayout;
+import javax.swing.JScrollPane;
 
 public class Admin extends JFrame {
 
@@ -113,6 +114,18 @@ public class Admin extends JFrame {
 				btnInterest_actionPerformed(e);
 			}
 		});
+		
+		JButton btnFine = new JButton("");
+		btnFine.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnFine_actionPerformed(e);
+			}
+		});
+		btnFine.setIcon(new ImageIcon(Admin.class.getResource("/com/aptech/LoanProcessingSystem/images/icons8_services_20px.png")));
+		btnFine.setPreferredSize(new Dimension(40, 40));
+		btnFine.setBorderPainted(false);
+		btnFine.setBackground(new Color(21, 25, 28));
+		jpanelSide.add(btnFine);
 		btnInterest.setIcon(new ImageIcon(
 				Admin.class.getResource("/com/aptech/LoanProcessingSystem/images/icons8_currency_exchange_20px.png")));
 		btnInterest.setPreferredSize(new Dimension(40, 40));
@@ -177,7 +190,7 @@ public class Admin extends JFrame {
 		jpanelRoot.add(jpanelMain, BorderLayout.CENTER);
 		jpanelMain.setLayout(new CardLayout(0, 0));
 
-		JButton[] btns = { btnHome, btnExit, btnEmployeeProfile, btnInterest, btnUserProfile, btnLoanData };
+		JButton[] btns = { btnHome, btnExit, btnEmployeeProfile, btnInterest, btnUserProfile, btnLoanData, btnFine };
 		for (JButton jButton : btns) {
 			jButton.setBackground(new Color(21, 25, 28));
 			jButton.setUI(new BasicButtonUI());
@@ -223,6 +236,13 @@ public class Admin extends JFrame {
 	public Admin(Account account) {
 		this();
 		this.account = account;
+	}
+	
+	public void btnFine_actionPerformed(ActionEvent e) {
+		clearScreen();
+		jpanelFineManagement fineManagement = new jpanelFineManagement();
+		jpanelMain.add(fineManagement);
+		fineManagement.setVisible(true);
 	}
 	
 	public void btnExit_actionPerformed(ActionEvent e) {

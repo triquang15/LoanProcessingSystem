@@ -384,7 +384,7 @@ public class LoanDetail extends JPanel {
 
 					if (new LoanAndFineHistoryModel().deleteWithLoanId(id)) {
 
-						if (new LoanModel().delete(id)) {
+						if (new LoanModel().closeLoan(id)) {
 
 							JOptionPane.showMessageDialog(null, "Successful Delete");
 							loadLoanToTable(new LoanModel().findAll());

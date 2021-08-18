@@ -9,6 +9,7 @@ public class ConnectDB {
 	public static Connection connection() {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
+
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/loan_processing_system?serverTimezone=UTC", "root",
 					"");
 

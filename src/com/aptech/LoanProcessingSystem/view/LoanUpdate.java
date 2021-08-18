@@ -132,161 +132,161 @@ public class LoanUpdate extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		setLocationRelativeTo(null);
 		contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
-		
+
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(new Color(105, 105, 105));
 		contentPanel.add(panel_1);
-				panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.X_AXIS));
-		
-				JPanel panel = new JPanel();
-				panel_1.add(panel);
-				panel.setBackground(Color.LIGHT_GRAY);
-				panel.setLayout(null);
-				
-						txtVali1 = new JLabel("");
-						txtVali1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 9));
-						txtVali1.setForeground(Color.RED);
-						txtVali1.setBounds(133, 59, 306, 14);
-						panel.add(txtVali1);
-						
-						JPanel panel_2 = new JPanel();
-						panel_2.setBackground(Color.LIGHT_GRAY);
-						panel_2.setBounds(36, 22, 409, 27);
-						panel.add(panel_2);
-						panel_2.setLayout(new BorderLayout(0, 0));
-						
-								txtHistoryId = new JTextField();
-								panel_2.add(txtHistoryId, BorderLayout.CENTER);
-								txtHistoryId.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 10));
-								txtHistoryId.setColumns(10);
-								
-										JLabel lblNewLabel_1_4 = new JLabel("History ID*");
-										lblNewLabel_1_4.setBorder(null);
-										lblNewLabel_1_4.setBackground(Color.LIGHT_GRAY);
-										lblNewLabel_1_4.setPreferredSize(new Dimension(100, 0));
-										lblNewLabel_1_4.setAlignmentX(10.0f);
-										panel_2.add(lblNewLabel_1_4, BorderLayout.WEST);
-										
-										JPanel panel_2_1 = new JPanel();
-										panel_2_1.setBackground(Color.LIGHT_GRAY);
-										panel_2_1.setBounds(36, 70, 409, 27);
-										panel.add(panel_2_1);
-										panel_2_1.setLayout(new BorderLayout(0, 0));
-										
-												txtAmount = new JTextField();
-												panel_2_1.add(txtAmount, BorderLayout.CENTER);
-												txtAmount.addKeyListener(new KeyAdapter() {
-													@Override
-													public void keyPressed(KeyEvent e) {
+		panel_1.setLayout(new BoxLayout(panel_1, BoxLayout.X_AXIS));
 
-														try {
-															int i = Integer.parseInt(txtAmount.getText());
-															txtVali1.setText("");
+		JPanel panel = new JPanel();
+		panel_1.add(panel);
+		panel.setBackground(Color.LIGHT_GRAY);
+		panel.setLayout(null);
 
-														} catch (Exception e1) {
-															// TODO: handle exception
-															txtVali1.setText("Invalid number");
+		txtVali1 = new JLabel("");
+		txtVali1.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 9));
+		txtVali1.setForeground(Color.RED);
+		txtVali1.setBounds(133, 59, 306, 14);
+		panel.add(txtVali1);
 
-														}
+		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(Color.LIGHT_GRAY);
+		panel_2.setBounds(36, 22, 409, 27);
+		panel.add(panel_2);
+		panel_2.setLayout(new BorderLayout(0, 0));
 
-													}
-												});
-												
-														txtAmount.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 10));
-														txtAmount.setColumns(10);
-														
-																JLabel lblNewLabel_1 = new JLabel("Amount *");
-																lblNewLabel_1.setPreferredSize(new Dimension(100, 0));
-																lblNewLabel_1.setBackground(Color.LIGHT_GRAY);
-																panel_2_1.add(lblNewLabel_1, BorderLayout.WEST);
-																
-																JPanel panel_2_1_1 = new JPanel();
-																panel_2_1_1.setBackground(Color.LIGHT_GRAY);
-																panel_2_1_1.setBounds(36, 119, 409, 27);
-																panel.add(panel_2_1_1);
-																panel_2_1_1.setLayout(new BorderLayout(0, 0));
-																
-																		JLabel lblNewLabel_1_2 = new JLabel("Update Date *");
-																		panel_2_1_1.add(lblNewLabel_1_2, BorderLayout.WEST);
-																		lblNewLabel_1_2.setPreferredSize(new Dimension(100, 0));
-																		lblNewLabel_1_2.setBackground(Color.LIGHT_GRAY);
-																		
-																				txtUpdateDate = new JDateChooser();
-																				panel_2_1_1.add(txtUpdateDate, BorderLayout.CENTER);
-																				txtUpdateDate.getCalendarButton().setBackground(new Color(255, 255, 255));
-																						
-																						Component horizontalStrut = Box.createHorizontalStrut(20);
-																						panel_1.add(horizontalStrut);
-																				
-																						{
-																							JPanel panel_1_1 = new JPanel();
-																							panel_1.add(panel_1_1);
-																							panel_1_1.setLayout(null);
-																							panel_1_1.setBackground(Color.LIGHT_GRAY);
-																				
-																							txtValid3 = new JLabel("");
-																							txtValid3.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 9));
-																							txtValid3.setForeground(Color.RED);
-																							txtValid3.setBounds(146, 145, 306, 14);
-																							panel_1_1.add(txtValid3);
-																							
-																							JPanel panel_2_1_2 = new JPanel();
-																							panel_2_1_2.setBackground(Color.LIGHT_GRAY);
-																							panel_2_1_2.setBounds(36, 23, 409, 27);
-																							panel_1_1.add(panel_2_1_2);
-																							panel_2_1_2.setLayout(new BorderLayout(0, 0));
-																							
-																										textAmountLeft = new JLabel("");
-																										panel_2_1_2.add(textAmountLeft, BorderLayout.CENTER);
-																										
-																													JLabel lblNewLabel_3 = new JLabel("Amount Left *");
-																													lblNewLabel_3.setPreferredSize(new Dimension(100, 0));
-																													lblNewLabel_3.setBackground(Color.LIGHT_GRAY);
-																													panel_2_1_2.add(lblNewLabel_3, BorderLayout.WEST);
-																													
-																													JPanel panel_2_1_3 = new JPanel();
-																													panel_2_1_3.setBackground(Color.LIGHT_GRAY);
-																													panel_2_1_3.setBounds(36, 71, 409, 27);
-																													panel_1_1.add(panel_2_1_3);
-																													panel_2_1_3.setLayout(new BorderLayout(0, 0));
-																													
-																																textFineOverDay = new JLabel("");
-																																panel_2_1_3.add(textFineOverDay, BorderLayout.CENTER);
-																																
-																																			JLabel lblNewLabel_2 = new JLabel("FineOverDay *");
-																																			lblNewLabel_2.setPreferredSize(new Dimension(100, 0));
-																																			lblNewLabel_2.setBackground(Color.LIGHT_GRAY);
-																																			panel_2_1_3.add(lblNewLabel_2, BorderLayout.WEST);
-																																			
-																																			JPanel panel_2_1_4 = new JPanel();
-																																			panel_2_1_4.setBackground(Color.LIGHT_GRAY);
-																																			panel_2_1_4.setBounds(36, 119, 409, 27);
-																																			panel_1_1.add(panel_2_1_4);
-																																			panel_2_1_4.setLayout(new BorderLayout(0, 0));
-																																			
-																																						textFineAmount = new JLabel("");
-																																						panel_2_1_4.add(textFineAmount, BorderLayout.CENTER);
-																																						
-																																									JLabel lblNewLabel_4 = new JLabel("Fine Amount *");
-																																									lblNewLabel_4.setPreferredSize(new Dimension(100, 0));
-																																									lblNewLabel_4.setBackground(Color.LIGHT_GRAY);
-																																									panel_2_1_4.add(lblNewLabel_4, BorderLayout.WEST);
-																																									
-																																									JPanel panel_2_1_4_1 = new JPanel();
-																																									panel_2_1_4_1.setBackground(Color.LIGHT_GRAY);
-																																									panel_2_1_4_1.setBounds(36, 165, 409, 75);
-																																									panel_1_1.add(panel_2_1_4_1);
-																																									panel_2_1_4_1.setLayout(new BorderLayout(0, 0));
-																																									
-																																												txtDescription = new JTextArea();
-																																												txtDescription.setPreferredSize(new Dimension(5, 200));
-																																												panel_2_1_4_1.add(txtDescription, BorderLayout.CENTER);
-																																												
-																																															JLabel lblNewLabel_6 = new JLabel("Description *");
-																																															lblNewLabel_6.setVerticalAlignment(SwingConstants.TOP);
-																																															lblNewLabel_6.setPreferredSize(new Dimension(100, 13));
-																																															panel_2_1_4_1.add(lblNewLabel_6, BorderLayout.WEST);
-																						}
+		txtHistoryId = new JTextField();
+		panel_2.add(txtHistoryId, BorderLayout.CENTER);
+		txtHistoryId.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 10));
+		txtHistoryId.setColumns(10);
+
+		JLabel lblNewLabel_1_4 = new JLabel("History ID*");
+		lblNewLabel_1_4.setBorder(null);
+		lblNewLabel_1_4.setBackground(Color.LIGHT_GRAY);
+		lblNewLabel_1_4.setPreferredSize(new Dimension(100, 0));
+		lblNewLabel_1_4.setAlignmentX(10.0f);
+		panel_2.add(lblNewLabel_1_4, BorderLayout.WEST);
+
+		JPanel panel_2_1 = new JPanel();
+		panel_2_1.setBackground(Color.LIGHT_GRAY);
+		panel_2_1.setBounds(36, 70, 409, 27);
+		panel.add(panel_2_1);
+		panel_2_1.setLayout(new BorderLayout(0, 0));
+
+		txtAmount = new JTextField();
+		panel_2_1.add(txtAmount, BorderLayout.CENTER);
+		txtAmount.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+
+				try {
+					int i = Integer.parseInt(txtAmount.getText());
+					txtVali1.setText("");
+
+				} catch (Exception e1) {
+					// TODO: handle exception
+					txtVali1.setText("Invalid number");
+
+				}
+
+			}
+		});
+
+		txtAmount.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 10));
+		txtAmount.setColumns(10);
+
+		JLabel lblNewLabel_1 = new JLabel("Amount *");
+		lblNewLabel_1.setPreferredSize(new Dimension(100, 0));
+		lblNewLabel_1.setBackground(Color.LIGHT_GRAY);
+		panel_2_1.add(lblNewLabel_1, BorderLayout.WEST);
+
+		JPanel panel_2_1_1 = new JPanel();
+		panel_2_1_1.setBackground(Color.LIGHT_GRAY);
+		panel_2_1_1.setBounds(36, 119, 409, 27);
+		panel.add(panel_2_1_1);
+		panel_2_1_1.setLayout(new BorderLayout(0, 0));
+
+		JLabel lblNewLabel_1_2 = new JLabel("Update Date *");
+		panel_2_1_1.add(lblNewLabel_1_2, BorderLayout.WEST);
+		lblNewLabel_1_2.setPreferredSize(new Dimension(100, 0));
+		lblNewLabel_1_2.setBackground(Color.LIGHT_GRAY);
+
+		txtUpdateDate = new JDateChooser();
+		panel_2_1_1.add(txtUpdateDate, BorderLayout.CENTER);
+		txtUpdateDate.getCalendarButton().setBackground(new Color(255, 255, 255));
+
+		Component horizontalStrut = Box.createHorizontalStrut(20);
+		panel_1.add(horizontalStrut);
+
+		{
+			JPanel panel_1_1 = new JPanel();
+			panel_1.add(panel_1_1);
+			panel_1_1.setLayout(null);
+			panel_1_1.setBackground(Color.LIGHT_GRAY);
+
+			txtValid3 = new JLabel("");
+			txtValid3.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 9));
+			txtValid3.setForeground(Color.RED);
+			txtValid3.setBounds(146, 145, 306, 14);
+			panel_1_1.add(txtValid3);
+
+			JPanel panel_2_1_2 = new JPanel();
+			panel_2_1_2.setBackground(Color.LIGHT_GRAY);
+			panel_2_1_2.setBounds(36, 23, 409, 27);
+			panel_1_1.add(panel_2_1_2);
+			panel_2_1_2.setLayout(new BorderLayout(0, 0));
+
+			textAmountLeft = new JLabel("");
+			panel_2_1_2.add(textAmountLeft, BorderLayout.CENTER);
+
+			JLabel lblNewLabel_3 = new JLabel("Amount Left *");
+			lblNewLabel_3.setPreferredSize(new Dimension(100, 0));
+			lblNewLabel_3.setBackground(Color.LIGHT_GRAY);
+			panel_2_1_2.add(lblNewLabel_3, BorderLayout.WEST);
+
+			JPanel panel_2_1_3 = new JPanel();
+			panel_2_1_3.setBackground(Color.LIGHT_GRAY);
+			panel_2_1_3.setBounds(36, 71, 409, 27);
+			panel_1_1.add(panel_2_1_3);
+			panel_2_1_3.setLayout(new BorderLayout(0, 0));
+
+			textFineOverDay = new JLabel("");
+			panel_2_1_3.add(textFineOverDay, BorderLayout.CENTER);
+
+			JLabel lblNewLabel_2 = new JLabel("FineOverDay *");
+			lblNewLabel_2.setPreferredSize(new Dimension(100, 0));
+			lblNewLabel_2.setBackground(Color.LIGHT_GRAY);
+			panel_2_1_3.add(lblNewLabel_2, BorderLayout.WEST);
+
+			JPanel panel_2_1_4 = new JPanel();
+			panel_2_1_4.setBackground(Color.LIGHT_GRAY);
+			panel_2_1_4.setBounds(36, 119, 409, 27);
+			panel_1_1.add(panel_2_1_4);
+			panel_2_1_4.setLayout(new BorderLayout(0, 0));
+
+			textFineAmount = new JLabel("");
+			panel_2_1_4.add(textFineAmount, BorderLayout.CENTER);
+
+			JLabel lblNewLabel_4 = new JLabel("Fine Amount *");
+			lblNewLabel_4.setPreferredSize(new Dimension(100, 0));
+			lblNewLabel_4.setBackground(Color.LIGHT_GRAY);
+			panel_2_1_4.add(lblNewLabel_4, BorderLayout.WEST);
+
+			JPanel panel_2_1_4_1 = new JPanel();
+			panel_2_1_4_1.setBackground(Color.LIGHT_GRAY);
+			panel_2_1_4_1.setBounds(36, 165, 409, 75);
+			panel_1_1.add(panel_2_1_4_1);
+			panel_2_1_4_1.setLayout(new BorderLayout(0, 0));
+
+			txtDescription = new JTextArea();
+			txtDescription.setPreferredSize(new Dimension(5, 200));
+			panel_2_1_4_1.add(txtDescription, BorderLayout.CENTER);
+
+			JLabel lblNewLabel_6 = new JLabel("Description *");
+			lblNewLabel_6.setVerticalAlignment(SwingConstants.TOP);
+			lblNewLabel_6.setPreferredSize(new Dimension(100, 13));
+			panel_2_1_4_1.add(lblNewLabel_6, BorderLayout.WEST);
+		}
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setBackground(Color.LIGHT_GRAY);
@@ -303,119 +303,126 @@ public class LoanUpdate extends JDialog {
 						CreateLoan.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
 				btnCancel.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-
 						LoanUpdate.this.dispose();
 					}
 				});
-							
-										JButton btnSave = new JButton("Save");
-										btnSave.setPreferredSize(new Dimension(120, 30));
-										buttonPane.add(btnSave);
-										btnSave.setFont(new Font("Tahoma", Font.BOLD, 10));
-										btnSave.addActionListener(new ActionListener() {
-											public void actionPerformed(ActionEvent e) {
-												Integer history_id = Integer.parseInt(txtHistoryId.getText());
-												LoanAndFineHistory loanAndFineHistory = new LoanAndFineHistory();
-												LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
-												loanAndFineHistory = loanAndFineHistoryModel.search_history_based_on_id(history_id);
-												if (Objects.isNull(loanAndFineHistory)) {
-													JOptionPane.showMessageDialog(null, "No Id");
-												} else {
-													String amount = txtAmount.getText();
-													Double amount_double = Double.parseDouble(amount);
-													String description = txtDescription.getText();
-													Double amount_left = loanAndFineHistory.getAmount() - amount_double;
-													Date update_date = txtUpdateDate.getDate();
-													long difference_In_Time = update_date.getTime() - loanAndFineHistory.getDueDate().getTime();
-													long difference_In_Days = TimeUnit.MILLISECONDS.toDays(difference_In_Time) % 365;
-													Double fine_amount = loanAndFineHistory.getFineInterest() * loanAndFineHistory.getAmount();
-													// Apply the validation logic checking all controls are empty or not
-													if (txtAmount.getText().trim().equals("") || txtUpdateDate.getDate() == null
-															|| txtHistoryId.getText().trim().equals("")) {
-														JOptionPane.showMessageDialog(null, "Please enter full information !!!");
-													} else {
 
-														try {
-															com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory loanAndFineHistory_update = new LoanAndFineHistory();
-															Date today = new Date();
-															loanAndFineHistory_update.setId(history_id);
-															loanAndFineHistory_update.setPaymentDate(today);
-															loanAndFineHistory_update.setPaymentAmount(amount_double);
-															loanAndFineHistory_update.setDescription(description);
-															loanAndFineHistory_update.setAmountLeft(amount_left);
-															if (difference_In_Days > 0) {
-																loanAndFineHistory_update.setFineAmount(fine_amount);
-																loanAndFineHistory_update.setFineOverDays((int) difference_In_Days);
-															} else {
-																loanAndFineHistory_update.setFineAmount(0);
-																loanAndFineHistory_update.setFineOverDays(0);
-															}
+				JButton btnSave = new JButton("Save");
+				btnSave.setPreferredSize(new Dimension(120, 30));
+				buttonPane.add(btnSave);
+				btnSave.setFont(new Font("Tahoma", Font.BOLD, 10));
+				btnSave.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						Integer history_id = Integer.parseInt(txtHistoryId.getText());
+						LoanAndFineHistory loanAndFineHistory = new LoanAndFineHistory();
+						LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
+						loanAndFineHistory = loanAndFineHistoryModel.search_history_based_on_id(history_id);
+						if (Objects.isNull(loanAndFineHistory)) {
+							JOptionPane.showMessageDialog(null, "No Id");
+						} else {
+							String amount = txtAmount.getText();
+							Double amount_double = Double.parseDouble(amount);
+							String description = txtDescription.getText();
+							Double amount_left = loanAndFineHistory.getAmount() - amount_double;
+							Date update_date = txtUpdateDate.getDate();
+							long difference_In_Time = update_date.getTime() - loanAndFineHistory.getDueDate().getTime();
+							long difference_In_Days = TimeUnit.MILLISECONDS.toDays(difference_In_Time) % 365;
+							Double fine_amount = loanAndFineHistory.getFineInterest() * loanAndFineHistory.getAmount();
+							// Apply the validation logic checking all controls are empty or not
+							if (txtAmount.getText().trim().equals("") || txtUpdateDate.getDate() == null
+									|| txtHistoryId.getText().trim().equals("")) {
+								JOptionPane.showMessageDialog(null, "Please enter full information !!!");
+							} else {
 
-															try {
-																loanAndFineHistoryModel.update_payment(loanAndFineHistory_update);
-																JOptionPane.showMessageDialog(null, "Successful!");
-															} catch (Exception a) {
-																JOptionPane.showMessageDialog(null, "Please try again!");
-																a.printStackTrace();
-															}
-															LoanUpdate.this.dispose();
+								try {
+									com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory loanAndFineHistory_update = new LoanAndFineHistory();
+									Date today = new Date();
+									loanAndFineHistory_update.setId(history_id);
+									loanAndFineHistory_update.setPaymentDate(today);
+									loanAndFineHistory_update.setPaymentAmount(amount_double);
+									loanAndFineHistory_update.setDescription(description);
+									loanAndFineHistory_update.setAmountLeft(amount_left);
+									if (difference_In_Days > 0) {
+										loanAndFineHistory_update.setFineAmount(fine_amount);
+										loanAndFineHistory_update.setFineOverDays((int) difference_In_Days);
+									} else {
+										loanAndFineHistory_update.setFineAmount(0);
+										loanAndFineHistory_update.setFineOverDays(0);
+									}
 
-														} catch (Exception e2) {
-															// TODO: handle exception
-															e2.printStackTrace();
-														}
+									try {
+										loanAndFineHistoryModel.update_payment(loanAndFineHistory_update);
+										JOptionPane.showMessageDialog(null, "Successful!");
+									} catch (Exception a) {
+										JOptionPane.showMessageDialog(null, "Please try again!");
+										a.printStackTrace();
+									}
+									LoanUpdate.this.dispose();
 
-													}
-												}
-
-											}
-										});
-										btnSave.setIcon(new ImageIcon(
-												CreateLoan.class.getResource("/com/aptech/LoanProcessingSystem/images/floppy-disk.png")));
-							
-										btnCheck = new JButton("Check");
-										btnCheck.setIcon(new ImageIcon(LoanUpdate.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_review_20.png")));
-										btnCheck.setPreferredSize(new Dimension(120, 30));
-										buttonPane.add(btnCheck);
-										btnCheck.addActionListener(new ActionListener() {
-											public void actionPerformed(ActionEvent e) {
-												jbuttoncheck_actionPerformed(e);
-											}
-										});
-										btnCheck.setFont(new Font("Tahoma", Font.BOLD, 10));
-				
-							JButton btnClear = new JButton("Clear");
-							btnClear.setPreferredSize(new Dimension(120, 30));
-							buttonPane.add(btnClear);
-							btnClear.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-									txtHistoryId.setText("");
-									txtAmount.setText("");
-									txtDescription.setText("");
-									txtUpdateDate.setDate(null);
-									textAmountLeft.setText("");
-									textFineOverDay.setText("");
-									textFineAmount.setText("");
-									bg.clearSelection();
-
+								} catch (Exception e2) {
+									// TODO: handle exception
+									e2.printStackTrace();
 								}
-							});
-							btnClear.setFont(new Font("Tahoma", Font.BOLD, 10));
-							btnClear.setIcon(new ImageIcon(LoanUpdate.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_refresh_16.png")));
+
+							}
+						}
+
+					}
+				});
+				btnSave.setIcon(new ImageIcon(
+						CreateLoan.class.getResource("/com/aptech/LoanProcessingSystem/images/floppy-disk.png")));
+
+				btnCheck = new JButton("Check");
+				btnCheck.setIcon(new ImageIcon(
+						LoanUpdate.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_review_20.png")));
+				btnCheck.setPreferredSize(new Dimension(120, 30));
+				buttonPane.add(btnCheck);
+				btnCheck.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						jbuttoncheck_actionPerformed(e);
+					}
+				});
+				btnCheck.setFont(new Font("Tahoma", Font.BOLD, 10));
+
+				JButton btnClear = new JButton("Clear");
+				btnClear.setPreferredSize(new Dimension(120, 30));
+				buttonPane.add(btnClear);
+				btnClear.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						txtHistoryId.setText("");
+						txtAmount.setText("");
+						txtDescription.setText("");
+						txtUpdateDate.setDate(null);
+						textAmountLeft.setText("");
+						textFineOverDay.setText("");
+						textFineAmount.setText("");
+						bg.clearSelection();
+
+					}
+				});
+				btnClear.setFont(new Font("Tahoma", Font.BOLD, 10));
+				btnClear.setIcon(new ImageIcon(
+						LoanUpdate.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_refresh_16.png")));
 				btnCancel.setBackground(Color.GRAY);
 				btnCancel.setActionCommand("Cancel");
 				buttonPane.add(btnCancel);
 			}
 		}
-		
+
 		JLabel lblNewLabel = new JLabel("Loan Payment");
-		lblNewLabel.setIcon(new ImageIcon(LoanUpdate.class.getResource("/com/aptech/LoanProcessingSystem/images/loan (2).png")));
+		lblNewLabel.setIcon(
+				new ImageIcon(LoanUpdate.class.getResource("/com/aptech/LoanProcessingSystem/images/loan (2).png")));
 		lblNewLabel.setBackground(new Color(105, 105, 105));
 		lblNewLabel.setPreferredSize(new Dimension(64, 50));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setForeground(Color.RED);
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 18));
 		getContentPane().add(lblNewLabel, BorderLayout.NORTH);
+	}
+	
+	public LoanUpdate(int id) {
+		this();
+		txtHistoryId.setText(String.valueOf(id));
 	}
 
 	public void jbuttoncheck_actionPerformed(ActionEvent e) {
@@ -426,9 +433,7 @@ public class LoanUpdate extends JDialog {
 			JOptionPane.showMessageDialog(null, "No Id");
 		} else {
 			if (txtAmount.getText().trim().equals("") || txtUpdateDate.getDate() == null
-					|| txtHistoryId.getText().trim().equals("")
-
-			) {
+					|| txtHistoryId.getText().trim().equals("")) {
 				JOptionPane.showMessageDialog(null, "Please enter full information !!!");
 			} else {
 				String amount = txtAmount.getText();
@@ -438,7 +443,7 @@ public class LoanUpdate extends JDialog {
 				long difference_In_Time = update_date.getTime() - loanAndFineHistory.getDueDate().getTime();
 				long difference_In_Days = TimeUnit.MILLISECONDS.toDays(difference_In_Time) % 365;
 				String fine_amount = String
-						.valueOf(loanAndFineHistory.getFineInterest() * loanAndFineHistory.getAmount());
+						.valueOf(loanAndFineHistory.getFineInterest() * loanAndFineHistory.getAmountLeft());
 
 				if (difference_In_Days > 0) {
 					textFineAmount.setText(fine_amount);
@@ -454,7 +459,6 @@ public class LoanUpdate extends JDialog {
 		}
 
 	}
-	
 
 	private void cancelAction() {
 		if (JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel?", "Confirm",

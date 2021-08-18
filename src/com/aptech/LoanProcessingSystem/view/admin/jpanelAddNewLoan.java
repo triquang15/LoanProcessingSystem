@@ -37,11 +37,10 @@ import com.aptech.LoanProcessingSystem.model.CustomerModel;
 import com.aptech.LoanProcessingSystem.model.LoanModel;
 import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
 import com.aptech.LoanProcessingSystem.model.PaymentTypeModel;
-import com.aptech.LoanProcessingSystem.view.admin.JDialogAddNewLoan.cbLoanTypeCellRender;
-import com.aptech.LoanProcessingSystem.view.admin.JDialogAddNewLoan.cbPaymentTypt_CellRender;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.border.EmptyBorder;
 import java.awt.Dimension;
+import java.awt.Insets;
 
 public class jpanelAddNewLoan extends JPanel {
 	private Account account = new Account();
@@ -54,9 +53,9 @@ public class jpanelAddNewLoan extends JPanel {
 	private JDateChooser jdatechooserEndDate;
 	private JDateChooser jdatechooserDisbursementDate;
 	private JScrollPane scrollPane;
-	private JTextArea jtextAreaDescription;
 	private JCheckBox chkStatus;
 	private JButton btnAdd;
+	private JTextArea textArea;
 
 	/**
 	 * Create the panel.
@@ -71,15 +70,15 @@ public class jpanelAddNewLoan extends JPanel {
 			add(panel);
 			{
 				JLabel lblNewLabel = new JLabel("");
-				lblNewLabel.setFont(new Font("Dialog", Font.PLAIN, 25));
-				lblNewLabel.setIcon(new ImageIcon(JDialogAddNewLoan.class
+				lblNewLabel.setFont(new Font("Dialog", Font.PLAIN, 30));
+				lblNewLabel.setIcon(new ImageIcon(jpanelAddNewLoan.class
 						.getResource("/com/aptech/LoanProcessingSystem/images/icons8_add_tab_20px_1.png")));
 				panel.add(lblNewLabel);
 			}
 			{
 				JLabel lblNewLabel_1 = new JLabel("Add New Loan");
 				lblNewLabel_1.setForeground(Color.WHITE);
-				lblNewLabel_1.setFont(new Font("Dialog", Font.PLAIN, 25));
+				lblNewLabel_1.setFont(new Font("Dialog", Font.PLAIN, 30));
 				panel.add(lblNewLabel_1);
 			}
 		}
@@ -106,15 +105,9 @@ public class jpanelAddNewLoan extends JPanel {
 						{
 							JLabel lblNewLabel_2 = new JLabel("Customer ID");
 							lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 20));
-							lblNewLabel_2.setBorder(new EmptyBorder(0, 300, 0, 0));
+							lblNewLabel_2.setBorder(new EmptyBorder(0, 200, 0, 0));
 							lblNewLabel_2.setForeground(Color.WHITE);
 							panel_3.add(lblNewLabel_2);
-						}
-						{
-							txtCustomerID = new JTextField();
-							txtCustomerID.setFont(new Font("Tahoma", Font.PLAIN, 20));
-							txtCustomerID.setColumns(10);
-							panel_3.add(txtCustomerID);
 						}
 					}
 					{
@@ -126,15 +119,10 @@ public class jpanelAddNewLoan extends JPanel {
 						panel_2.add(panel_3);
 						{
 							JLabel lblNewLabel_2_1 = new JLabel("Payment Type");
+							lblNewLabel_2_1.setBorder(new EmptyBorder(0, 200, 0, 0));
 							lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-							lblNewLabel_2_1.setBorder(new EmptyBorder(0, 300, 0, 0));
 							lblNewLabel_2_1.setForeground(Color.WHITE);
 							panel_3.add(lblNewLabel_2_1);
-						}
-						{
-							cbPaymentType = new JComboBox();
-							cbPaymentType.setFont(new Font("Tahoma", Font.PLAIN, 20));
-							panel_3.add(cbPaymentType);
 						}
 					}
 					{
@@ -147,15 +135,9 @@ public class jpanelAddNewLoan extends JPanel {
 						{
 							JLabel lblNewLabel_2_1 = new JLabel("Amount");
 							lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-							lblNewLabel_2_1.setBorder(new EmptyBorder(0, 300, 0, 0));
+							lblNewLabel_2_1.setBorder(new EmptyBorder(0, 200, 0, 0));
 							lblNewLabel_2_1.setForeground(Color.WHITE);
 							panel_3.add(lblNewLabel_2_1);
-						}
-						{
-							txtAmount = new JTextField();
-							txtAmount.setFont(new Font("Tahoma", Font.PLAIN, 20));
-							txtAmount.setColumns(10);
-							panel_3.add(txtAmount);
 						}
 					}
 					{
@@ -168,21 +150,9 @@ public class jpanelAddNewLoan extends JPanel {
 						{
 							JLabel lblNewLabel_2_1 = new JLabel("Duration");
 							lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-							lblNewLabel_2_1.setBorder(new EmptyBorder(0, 300, 0, 0));
+							lblNewLabel_2_1.setBorder(new EmptyBorder(0, 200, 0, 0));
 							lblNewLabel_2_1.setForeground(Color.WHITE);
 							panel_3.add(lblNewLabel_2_1);
-						}
-						{
-							txtDuration = new JTextField();
-							txtDuration.addFocusListener(new FocusAdapter() {
-								@Override
-								public void focusLost(FocusEvent e) {
-									txtDuration_focusLost(e);
-								}
-							});
-							txtDuration.setFont(new Font("Tahoma", Font.PLAIN, 20));
-							txtDuration.setColumns(10);
-							panel_3.add(txtDuration);
 						}
 					}
 					{
@@ -195,14 +165,89 @@ public class jpanelAddNewLoan extends JPanel {
 						{
 							JLabel lblNewLabel_2_1 = new JLabel("Loan Type");
 							lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-							lblNewLabel_2_1.setBorder(new EmptyBorder(0, 300, 0, 0));
+							lblNewLabel_2_1.setBorder(new EmptyBorder(0, 200, 0, 0));
 							lblNewLabel_2_1.setForeground(Color.WHITE);
 							panel_3.add(lblNewLabel_2_1);
 						}
+					}
+				}
+				{
+					JPanel panel_2 = new JPanel();
+					panel_2.setBackground(new Color(34,40,44));
+					panel_1.add(panel_2);
+					panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.Y_AXIS));
+					{
+						JPanel panel_3 = new JPanel();
+						panel_3.setBackground(new Color(34,40,44));
+						FlowLayout flowLayout = (FlowLayout) panel_3.getLayout();
+						flowLayout.setAlignment(FlowLayout.LEFT);
+						flowLayout.setVgap(50);
+						panel_2.add(panel_3);
+						{
+							txtCustomerID = new JTextField();
+							panel_3.add(txtCustomerID);
+							txtCustomerID.setFont(new Font("Tahoma", Font.PLAIN, 20));
+							txtCustomerID.setColumns(15);
+						}
+					}
+					{
+						JPanel panel_3 = new JPanel();
+						panel_3.setBackground(new Color(34,40,44));
+						FlowLayout flowLayout = (FlowLayout) panel_3.getLayout();
+						flowLayout.setAlignment(FlowLayout.LEFT);
+						flowLayout.setVgap(50);
+						panel_2.add(panel_3);
+						{
+							cbPaymentType = new JComboBox();
+							panel_3.add(cbPaymentType);
+							cbPaymentType.setFont(new Font("Tahoma", Font.PLAIN, 20));
+						}
+					}
+					{
+						JPanel panel_3 = new JPanel();
+						panel_3.setBackground(new Color(34,40,44));
+						FlowLayout flowLayout = (FlowLayout) panel_3.getLayout();
+						flowLayout.setAlignment(FlowLayout.LEFT);
+						flowLayout.setVgap(50);
+						panel_2.add(panel_3);
+						{
+							txtAmount = new JTextField();
+							panel_3.add(txtAmount);
+							txtAmount.setFont(new Font("Tahoma", Font.PLAIN, 20));
+							txtAmount.setColumns(15);
+						}
+					}
+					{
+						JPanel panel_3 = new JPanel();
+						panel_3.setBackground(new Color(34,40,44));
+						FlowLayout flowLayout = (FlowLayout) panel_3.getLayout();
+						flowLayout.setAlignment(FlowLayout.LEFT);
+						flowLayout.setVgap(50);
+						panel_2.add(panel_3);
+						{
+							txtDuration = new JTextField();
+							panel_3.add(txtDuration);
+							txtDuration.addFocusListener(new FocusAdapter() {
+								@Override
+								public void focusLost(FocusEvent e) {
+									txtDuration_focusLost(e);
+								}
+							});
+							txtDuration.setFont(new Font("Tahoma", Font.PLAIN, 20));
+							txtDuration.setColumns(15);
+						}
+					}
+					{
+						JPanel panel_3 = new JPanel();
+						panel_3.setBackground(new Color(34,40,44));
+						FlowLayout flowLayout = (FlowLayout) panel_3.getLayout();
+						flowLayout.setAlignment(FlowLayout.LEFT);
+						flowLayout.setVgap(50);
+						panel_2.add(panel_3);
 						{
 							cbLoanType = new JComboBox();
-							cbLoanType.setFont(new Font("Tahoma", Font.PLAIN, 20));
 							panel_3.add(cbLoanType);
+							cbLoanType.setFont(new Font("Tahoma", Font.PLAIN, 20));
 						}
 					}
 				}
@@ -221,15 +266,9 @@ public class jpanelAddNewLoan extends JPanel {
 						{
 							JLabel lblNewLabel_2_1 = new JLabel("Period");
 							lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-							lblNewLabel_2_1.setBorder(new EmptyBorder(0, 300, 0, 0));
+							lblNewLabel_2_1.setBorder(new EmptyBorder(0, 200, 0, 0));
 							lblNewLabel_2_1.setForeground(Color.WHITE);
 							panel_3.add(lblNewLabel_2_1);
-						}
-						{
-							txtPeriod = new JTextField();
-							txtPeriod.setFont(new Font("Tahoma", Font.PLAIN, 20));
-							txtPeriod.setColumns(10);
-							panel_3.add(txtPeriod);
 						}
 					}
 					{
@@ -242,15 +281,9 @@ public class jpanelAddNewLoan extends JPanel {
 						{
 							JLabel lblNewLabel_2_1 = new JLabel("End Date");
 							lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-							lblNewLabel_2_1.setBorder(new EmptyBorder(0, 300, 0, 0));
+							lblNewLabel_2_1.setBorder(new EmptyBorder(0, 200, 0, 0));
 							lblNewLabel_2_1.setForeground(Color.WHITE);
 							panel_3.add(lblNewLabel_2_1);
-						}
-						{
-							jdatechooserEndDate = new JDateChooser();
-							jdatechooserEndDate.setBackground(new Color(34,40,44));
-							jdatechooserEndDate.setBorder(new EmptyBorder(0, 100, 0, 0));
-							panel_3.add(jdatechooserEndDate);
 						}
 					}
 					{
@@ -263,13 +296,9 @@ public class jpanelAddNewLoan extends JPanel {
 						{
 							JLabel lblNewLabel_2_1 = new JLabel("Disbursement Date");
 							lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-							lblNewLabel_2_1.setBorder(new EmptyBorder(0, 300, 0, 0));
+							lblNewLabel_2_1.setBorder(new EmptyBorder(0, 200, 0, 0));
 							lblNewLabel_2_1.setForeground(Color.WHITE);
 							panel_3.add(lblNewLabel_2_1);
-						}
-						{
-							jdatechooserDisbursementDate = new JDateChooser();
-							panel_3.add(jdatechooserDisbursementDate);
 						}
 					}
 					{
@@ -282,20 +311,9 @@ public class jpanelAddNewLoan extends JPanel {
 						{
 							JLabel lblNewLabel_2_1 = new JLabel("Description");
 							lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-							lblNewLabel_2_1.setBorder(new EmptyBorder(0, 300, 0, 0));
+							lblNewLabel_2_1.setBorder(new EmptyBorder(0, 200, 0, 0));
 							lblNewLabel_2_1.setForeground(Color.WHITE);
 							panel_3.add(lblNewLabel_2_1);
-						}
-						{
-							scrollPane = new JScrollPane();
-							panel_3.add(scrollPane);
-							{
-								jtextAreaDescription = new JTextArea();
-								jtextAreaDescription.setFont(new Font("Monospaced", Font.PLAIN, 20));
-								jtextAreaDescription.setPreferredSize(new Dimension(300, 100));
-								jtextAreaDescription.setSize(new Dimension(50, 50));
-								scrollPane.setViewportView(jtextAreaDescription);
-							}
 						}
 					}
 					{
@@ -308,15 +326,88 @@ public class jpanelAddNewLoan extends JPanel {
 						{
 							JLabel lblNewLabel_2_1 = new JLabel("Status");
 							lblNewLabel_2_1.setFont(new Font("Tahoma", Font.PLAIN, 20));
-							lblNewLabel_2_1.setBorder(new EmptyBorder(0, 300, 0, 0));
+							lblNewLabel_2_1.setBorder(new EmptyBorder(0, 200, 0, 0));
 							lblNewLabel_2_1.setForeground(Color.WHITE);
 							panel_3.add(lblNewLabel_2_1);
 						}
+					}
+				}
+				{
+					JPanel panel_2 = new JPanel();
+					panel_2.setBackground(new Color(34,40,44));
+					panel_1.add(panel_2);
+					panel_2.setLayout(new BoxLayout(panel_2, BoxLayout.Y_AXIS));
+					{
+						JPanel panel_3 = new JPanel();
+						panel_3.setBackground(new Color(34,40,44));
+						FlowLayout flowLayout = (FlowLayout) panel_3.getLayout();
+						flowLayout.setAlignment(FlowLayout.LEFT);
+						flowLayout.setVgap(50);
+						panel_2.add(panel_3);
+						{
+							txtPeriod = new JTextField();
+							panel_3.add(txtPeriod);
+							txtPeriod.setFont(new Font("Tahoma", Font.PLAIN, 20));
+							txtPeriod.setColumns(15);
+						}
+					}
+					{
+						JPanel panel_3 = new JPanel();
+						panel_3.setBackground(new Color(34,40,44));
+						FlowLayout flowLayout = (FlowLayout) panel_3.getLayout();
+						flowLayout.setAlignment(FlowLayout.LEFT);
+						flowLayout.setVgap(50);
+						panel_2.add(panel_3);
+						{
+							jdatechooserEndDate = new JDateChooser();
+							jdatechooserEndDate.setPreferredSize(new Dimension(264, 35));
+							panel_3.add(jdatechooserEndDate);
+							jdatechooserEndDate.setBackground(new Color(34,40,44));
+						}
+					}
+					{
+						JPanel panel_3 = new JPanel();
+						panel_3.setBackground(new Color(34,40,44));
+						FlowLayout flowLayout = (FlowLayout) panel_3.getLayout();
+						flowLayout.setAlignment(FlowLayout.LEFT);
+						flowLayout.setVgap(50);
+						panel_2.add(panel_3);
+						{
+							jdatechooserDisbursementDate = new JDateChooser();
+							jdatechooserDisbursementDate.setPreferredSize(new Dimension(264, 35));
+							panel_3.add(jdatechooserDisbursementDate);
+						}
+					}
+					{
+						JPanel panel_3 = new JPanel();
+						panel_3.setBackground(new Color(34,40,44));
+						FlowLayout flowLayout = (FlowLayout) panel_3.getLayout();
+						flowLayout.setAlignment(FlowLayout.LEFT);
+						flowLayout.setVgap(15);
+						panel_2.add(panel_3);
+						{
+							scrollPane = new JScrollPane();
+							panel_3.add(scrollPane);
+							{
+								textArea = new JTextArea();
+								textArea.setPreferredSize(new Dimension(300, 100));
+								scrollPane.setViewportView(textArea);
+							}
+						}
+					}
+					{
+						JPanel panel_3 = new JPanel();
+						panel_3.setBackground(new Color(34,40,44));
+						FlowLayout flowLayout = (FlowLayout) panel_3.getLayout();
+						flowLayout.setAlignment(FlowLayout.LEFT);
+						flowLayout.setVgap(45);
+						panel_2.add(panel_3);
 						{
 							chkStatus = new JCheckBox("Public");
+							chkStatus.setBackground(new Color(34, 40, 44));
+							panel_3.add(chkStatus);
 							chkStatus.setFont(new Font("Tahoma", Font.PLAIN, 20));
 							chkStatus.setForeground(Color.WHITE);
-							panel_3.add(chkStatus);
 						}
 					}
 				}
@@ -335,7 +426,7 @@ public class jpanelAddNewLoan extends JPanel {
 						btnAdd_actionPerformed(e);
 					}
 				});
-				btnAdd.setPreferredSize(new Dimension(100, 50));
+				btnAdd.setPreferredSize(new Dimension(120, 40));
 				panel.add(btnAdd);
 			}
 		}
@@ -359,10 +450,10 @@ public class jpanelAddNewLoan extends JPanel {
 			loan.setDuration(Integer.parseInt(txtDuration.getText().trim()));
 			loan.setEndDate(jdatechooserEndDate.getDate());
 			loan.setInterest(loanType.getInterest());
-			loan.setDescription(jtextAreaDescription.getText().trim());
-			loan.setStatus(1);
+			loan.setDescription(textArea.getText().trim());
+			loan.setStatus(chkStatus.isSelected() ? 1 : 0);
 			LoanModel loanModel = new LoanModel();
-			if (loanModel.createLoan(loan)) {
+			if (loanModel.create(loan)) {
 				JOptionPane.showMessageDialog(null, "Done");
 				JPanel jpanelMain = (JPanel) this.getParent();
 				jpanelMain.removeAll();

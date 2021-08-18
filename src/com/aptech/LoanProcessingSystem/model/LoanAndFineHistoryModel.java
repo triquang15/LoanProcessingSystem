@@ -19,11 +19,13 @@ public class LoanAndFineHistoryModel {
 		List<LoanAndFineHistory> loanAndFineHistorys = null;
 		try {
 			loanAndFineHistorys = new ArrayList<>();
+
 			PreparedStatement statement = ConnectDB.connection()
 					.prepareStatement("Select a.*, c.Name as 'CName', d.Name as 'PMName' from LoanAndFineHistory a\r\n"
 							+ "left JOIN loan b on a.LoanId = b.Id\r\n"
 							+ "left join customer c on c.id = b.CustomerId\r\n"
 							+ "left join paymentmethod d on d.id = a.PaymentMethodId");
+
 			ResultSet resultset = statement.executeQuery();
 			while (resultset.next()) {
 				LoanAndFineHistory loanAndFineHistory = new LoanAndFineHistory();
@@ -31,6 +33,43 @@ public class LoanAndFineHistoryModel {
 				loanAndFineHistory.setCustomer(resultset.getString("CName"));
 				loanAndFineHistory.setAmount(resultset.getDouble("Amount"));
 				loanAndFineHistory.setPaymentMenthodName(resultset.getString("PMName"));
+				loanAndFineHistory.setPaymentAmount(resultset.getDouble("PaymentAmount"));
+				loanAndFineHistory.setAmountLeft(resultset.getDouble("AmountLeft"));
+				loanAndFineHistory.setDueDate(resultset.getDate("DueDate"));
+				loanAndFineHistory.setFineInterest(resultset.getFloat("FineInterest"));
+				loanAndFineHistory.setFineOverDays(resultset.getInt("FineOverDays"));
+				loanAndFineHistory.setFineAmount(resultset.getDouble("FineAmount"));
+				loanAndFineHistory.setPaymentDate(resultset.getDate("PaymentDate"));
+				loanAndFineHistory.setDescription(resultset.getString("Description"));
+				loanAndFineHistory.setStatus(resultset.getBoolean("Status"));
+				loanAndFineHistorys.add(loanAndFineHistory);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			loanAndFineHistorys = null;
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return loanAndFineHistorys;
+	}
+	
+	public List<MyLoanAndFineHistory> getAllLoanAndFineHistorys(int loanID) {
+		List<MyLoanAndFineHistory> loanAndFineHistorys = null;
+		try {
+			loanAndFineHistorys = new ArrayList<>();
+			PreparedStatement statement = ConnectDB.connection().prepareStatement("Select a.*, c.Name as 'CName', d.Name as "
+					+ "'PMName' from LoanAndFineHistory a\r\n"
+					+ "left JOIN loan b on a.LoanId = b.Id\r\n"
+					+ "left join customer c on c.id = b.CustomerId\r\n"
+					+ "left join paymentmethod d on d.id = a.PaymentMethodId Where a.LoanId = ?");
+			statement.setInt(1, loanID);
+			ResultSet resultset = statement.executeQuery();
+			while (resultset.next()) {
+				MyLoanAndFineHistory loanAndFineHistory = new MyLoanAndFineHistory();
+				loanAndFineHistory.setId(resultset.getInt("Id"));
+				loanAndFineHistory.setCustomer(resultset.getString("CName"));
+				loanAndFineHistory.setAmount(resultset.getDouble("Amount"));
+				loanAndFineHistory.setPaymentMethod(resultset.getString("PMName"));
 				loanAndFineHistory.setPaymentAmount(resultset.getDouble("PaymentAmount"));
 				loanAndFineHistory.setAmountLeft(resultset.getDouble("AmountLeft"));
 				loanAndFineHistory.setDueDate(resultset.getDate("DueDate"));
@@ -199,7 +238,7 @@ public class LoanAndFineHistoryModel {
 		Boolean result = false;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
-					"update LoanAndFineHistory SET PaymentAmount = ?, AmountLeft = ?, FineOverDays = ?, FineAmount = ?, PaymentDate = ?, Description = ? WHERE Id = ?");
+					"update LoanAndFineHistory SET PaymentAmount = ?, AmountLeft = ?, FineOverDays = ?, FineAmount = ?, PaymentDate = ?, Description = ?, Status = true WHERE Id = ?");
 			preparedStatement.setDouble(1, loanAndFineHistory.getPaymentAmount());
 			preparedStatement.setDouble(2, loanAndFineHistory.getAmountLeft());
 			preparedStatement.setInt(3, loanAndFineHistory.getFineOverDays());
