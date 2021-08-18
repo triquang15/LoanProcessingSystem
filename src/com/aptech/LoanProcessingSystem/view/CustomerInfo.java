@@ -6,6 +6,8 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import com.aptech.LoanProcessingSystem.entities.Customer;
 import com.aptech.LoanProcessingSystem.model.CustomerModel;
@@ -31,9 +33,11 @@ import java.awt.FlowLayout;
 import java.awt.ComponentOrientation;
 import java.awt.SystemColor;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.RowFilter.Entry;
 
 public class CustomerInfo extends JPanel {
 
@@ -44,7 +48,15 @@ public class CustomerInfo extends JPanel {
 	List<Customer> list = new ArrayList<>();
 	private JLabel txtHeader;
 	private JTextField textField;
-
+	private int currentPageIndex = 1;
+	private final int itemsPerPage = 2;
+	private int maxPageIndex;
+	private final TableRowSorter<TableModel> sorter1 = new TableRowSorter<TableModel>(tblModel);
+	private JButton btnBackLong;
+	private JButton btnBackShort;
+	private JButton btnNextShort;
+	private JButton btnNextLong;
+	
 	public CustomerInfo() {
 		initComponents();
 
@@ -58,6 +70,7 @@ public class CustomerInfo extends JPanel {
 		tblModel.setColumnIdentifiers(new String[] { "Id", "Name", "Email", "Phone", "Gender", "Dob", "Salary", "Job",
 				"Company", "Identity", "Address", "Status" });
 		table.setModel(tblModel);
+		table.setRowSorter(sorter1);
 	}
 
 	private void loadDataToTable(List<Customer> list) {
@@ -72,6 +85,10 @@ public class CustomerInfo extends JPanel {
 				});
 
 			}
+			int rowCount = tblModel.getRowCount();
+			int v = rowCount % itemsPerPage == 0 ? 0 : 1;
+			maxPageIndex = rowCount / itemsPerPage + v;
+			initFilterAndButton();
 			tblModel.fireTableDataChanged();
 
 		} catch (Exception e) {
@@ -169,14 +186,24 @@ public class CustomerInfo extends JPanel {
 																						JPanel panel_5 = new JPanel();
 																						panel_2.add(panel_5, BorderLayout.NORTH);
 																						
-																						JButton btnBackLong = new JButton("");
+																						btnBackLong = new JButton("");
+																						btnBackLong.addActionListener(new ActionListener() {
+																							public void actionPerformed(ActionEvent e) {
+																								first_actionPerformed(e);
+																							}
+																						});
 																						btnBackLong.setIcon(new ImageIcon(CustomerInfo.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_back_long_20.png")));
 																						btnBackLong.setFocusPainted(false);
 																						btnBackLong.setContentAreaFilled(false);
 																						btnBackLong.setBorderPainted(false);
 																						panel_5.add(btnBackLong);
 																						
-																						JButton btnBackShort = new JButton("");
+																						btnBackShort = new JButton("");
+																						btnBackShort.addActionListener(new ActionListener() {
+																							public void actionPerformed(ActionEvent e) {
+																								prev_actionPerformed(e);
+																							}
+																						});
 																						btnBackShort.setIcon(new ImageIcon(CustomerInfo.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_back_short_20.png")));
 																						btnBackShort.setFocusPainted(false);
 																						btnBackShort.setContentAreaFilled(false);
@@ -189,14 +216,24 @@ public class CustomerInfo extends JPanel {
 																						textField.setColumns(10);
 																						panel_5.add(textField);
 																						
-																						JButton btnNextShort = new JButton("");
+																						btnNextShort = new JButton("");
+																						btnNextShort.addActionListener(new ActionListener() {
+																							public void actionPerformed(ActionEvent e) {
+																								next_actionPerformed(e);
+																							}
+																						});
 																						btnNextShort.setIcon(new ImageIcon(CustomerInfo.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_next_short_20.png")));
 																						btnNextShort.setFocusPainted(false);
 																						btnNextShort.setContentAreaFilled(false);
 																						btnNextShort.setBorderPainted(false);
 																						panel_5.add(btnNextShort);
 																						
-																						JButton btnNextLong = new JButton("");
+																						btnNextLong = new JButton("");
+																						btnNextLong.addActionListener(new ActionListener() {
+																							public void actionPerformed(ActionEvent e) {
+																								last_actionPerformed(e);
+																							}
+																						});
 																						btnNextLong.setIcon(new ImageIcon(CustomerInfo.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_next_long_20.png")));
 																						btnNextLong.setFocusPainted(false);
 																						btnNextLong.setContentAreaFilled(false);
@@ -299,6 +336,53 @@ public class CustomerInfo extends JPanel {
 		Font bigFont = new Font("sansserif", Font.BOLD, 17);
 		table.getTableHeader().setFont(bigFont);
 		scrollPane.setViewportView(table);
+	}
+
+	public void next_actionPerformed(ActionEvent e) {
+		currentPageIndex += 1;
+		initFilterAndButton();
+	}
+	
+	public void last_actionPerformed(ActionEvent e) {
+		currentPageIndex = maxPageIndex;
+		initFilterAndButton();
+	}
+	
+	public void prev_actionPerformed(ActionEvent e) {
+		currentPageIndex -= 1;
+		initFilterAndButton();
+	}
+	
+	public void first_actionPerformed(ActionEvent e) {
+		currentPageIndex = 1;
+		initFilterAndButton();
+	}
+	
+	public void textField_1_actionPerformed(ActionEvent arg0) {
+		try {
+			int v = Integer.parseInt(textField.getText());
+			if (v > 0 && v <= maxPageIndex) {
+				currentPageIndex = v;
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		initFilterAndButton();
+	}
+	
+	private void initFilterAndButton() {
+		sorter1.setRowFilter(new RowFilter<TableModel, Integer>() {
+			@Override
+			public boolean include(Entry<? extends TableModel, ? extends Integer> entry) {
+				int ti = currentPageIndex - 1;
+				int ei = entry.getIdentifier();
+				return ti * itemsPerPage <= ei && ei < ti * itemsPerPage + itemsPerPage;
+			}
+		});
+		btnBackLong.setEnabled(currentPageIndex > 1);
+		btnBackShort.setEnabled(currentPageIndex > 1);
+		btnNextShort.setEnabled(currentPageIndex < maxPageIndex);
+		textField.setText(Integer.toString(currentPageIndex));
 	}
 
 }
