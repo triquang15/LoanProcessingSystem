@@ -12,7 +12,7 @@ public class LoanAndFineHistory {
 	private double paymentAmount;
 	private double amountLeft;
 	private Date dueDate;
-	private float fineInterest;
+	private double fineInterest;
 	private int fineOverDays;
 	private double fineAmount;
 	private Date paymentDate;
@@ -24,7 +24,7 @@ public class LoanAndFineHistory {
 	private int period;
 	private int duration;
 	private Date endDate;
-	private float loanInterest;
+	private double loanInterest;
 
 	public LoanAndFineHistory() {
 		super();
@@ -131,7 +131,7 @@ public class LoanAndFineHistory {
 		this.dueDate = dueDate;
 	}
 
-	public float getFineInterest() {
+	public double getFineInterest() {
 		return fineInterest;
 	}
 
@@ -219,7 +219,7 @@ public class LoanAndFineHistory {
 		this.duration = duration;
 	}
 
-	public float getLoanInterest() {
+	public double getLoanInterest() {
 		return loanInterest;
 	}
 
