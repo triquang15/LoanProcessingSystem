@@ -34,14 +34,14 @@ public class CustomerModel {
 		}
 		return rs;
 	}
-	
+
 	public boolean update(Customer customer) {
 		boolean rs = false;
 		try {
-			PreparedStatement ps = ConnectDB.connection().prepareStatement(
-					"UPDATE customer SET Name = ?, Address = ?, Phone = ?, Email = ?,"
-					+ " Gender = ?, DOB = ?, Salary = ?, Job = ?, Company = ?, "
-					+ "IdentityCard = ?, Status = ? WHERE Id = ?");
+			PreparedStatement ps = ConnectDB.connection()
+					.prepareStatement("UPDATE customer SET Name = ?, Address = ?, Phone = ?, Email = ?,"
+							+ " Gender = ?, DOB = ?, Salary = ?, Job = ?, Company = ?, "
+							+ "IdentityCard = ?, Status = ? WHERE Id = ?");
 			ps.setString(1, customer.getName());
 			ps.setString(2, customer.getAddress());
 			ps.setString(3, customer.getPhone());
@@ -65,11 +65,11 @@ public class CustomerModel {
 	}
 
 	public List<Customer> findAll() {
-		java.util.List<Customer> customers = new ArrayList<Customer>();
+		List<Customer> customers = new ArrayList<Customer>();
 
 		try {
 
-			PreparedStatement ps = ConnectDB.connection().prepareStatement("select * from customer");
+			PreparedStatement ps = ConnectDB.connection().prepareStatement("select * from customer order by id desc");
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Customer customer = new Customer();
@@ -95,12 +95,12 @@ public class CustomerModel {
 		}
 		return customers;
 	}
-	
+
 	public List<Customer> search(String keyword) {
 		java.util.List<Customer> customers = new ArrayList<Customer>();
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-					.prepareStatement("select * from customer where name like ?");
+					.prepareStatement("select * from customer where name like ? order by id desc");
 			preparedStatement.setString(1, "%" + keyword + "%");
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {
@@ -126,7 +126,7 @@ public class CustomerModel {
 		}
 		return customers;
 	}
-	
+
 	public Customer findById(int CustomerId) {
 		Customer customer = null;
 		try {
@@ -151,15 +151,15 @@ public class CustomerModel {
 			}
 		} catch (Exception e) {
 			customer = null;
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			ConnectDB.disconnect();
 		}
 		return customer;
 	}
-	
+
 	public String findCustomerNameById(int id) {
-		String str = "";
+		String str = null;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
 					.prepareStatement("SELECT Name FROM customer WHERE Id = ?");
@@ -169,15 +169,14 @@ public class CustomerModel {
 				str = resultSet.getString("name");
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
-			str = null;
+			e.printStackTrace();
 		} finally {
 			ConnectDB.disconnect();
 		}
 		return str;
 	}
-	
-	public boolean findCustomerByEmail (String email) {
+
+	public boolean findCustomerByEmail(String email) {
 		boolean result = false;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
@@ -185,20 +184,19 @@ public class CustomerModel {
 			preparedStatement.setString(1, email);
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 		} finally {
 			ConnectDB.disconnect();
 		}
 		return result;
 	}
-	
-	public java.util.List<Customer> findCustomerByAccountID(int id) {
-		java.util.List<Customer> customerList = new ArrayList<Customer>();
+
+	public List<Customer> findCustomerByAccountID(int id) {
+		List<Customer> customerList = new ArrayList<Customer>();
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
 					.prepareStatement("SELECT DISTINCT loan.CustomerId FROM customer"
-							+ " as cus INNER JOIN loan ON cus.Id = loan.CustomerId "
-							+ "WHERE loan.AccountId = ?");
+							+ " as cus INNER JOIN loan ON cus.Id = loan.CustomerId " + "WHERE loan.AccountId = ?");
 			preparedStatement.setInt(1, id);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
@@ -206,19 +204,19 @@ public class CustomerModel {
 				customerList.add(findById(customerId));
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 			customerList = null;
 		} finally {
 			ConnectDB.disconnect();
 		}
 		return customerList;
 	}
- 	
+
 	public boolean delete(int id) {
 		boolean result = false;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-				.prepareStatement("delete from customer where id = ?");
+					.prepareStatement("delete from customer where id = ?");
 			preparedStatement.setInt(1, id);
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
@@ -228,5 +226,5 @@ public class CustomerModel {
 		}
 		return result;
 	}
-	
+
 }

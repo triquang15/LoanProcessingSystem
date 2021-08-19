@@ -1,54 +1,47 @@
 package com.aptech.LoanProcessingSystem.view;
 
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTable;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
-
-import com.aptech.LoanProcessingSystem.entities.Customer;
-import com.aptech.LoanProcessingSystem.entities.Loan;
-import com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory;
-import com.aptech.LoanProcessingSystem.entities.MyLoanAndFineHistory;
-import com.aptech.LoanProcessingSystem.model.CustomerModel;
-import com.aptech.LoanProcessingSystem.model.LoanModel;
-import com.aptech.LoanProcessingSystem.service.Common;
-import com.aptech.LoanProcessingSystem.service.MessageDialog;
-import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
-
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import javax.swing.ImageIcon;
-import javax.swing.JScrollPane;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.MessageFormat;
-import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
-import java.awt.FlowLayout;
-import java.awt.Insets;
-import java.awt.Dimension;
-import javax.swing.UIManager;
-import java.awt.SystemColor;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.RowFilter;
+import java.util.List;
 
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
+import com.aptech.LoanProcessingSystem.entities.Loan;
+import com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory;
+import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
+import com.aptech.LoanProcessingSystem.model.LoanModel;
+import com.aptech.LoanProcessingSystem.service.Common;
+import com.aptech.LoanProcessingSystem.service.MessageDialog;
+
+@SuppressWarnings("serial")
 public class LoanDetail extends JPanel {
 
 	private Home mainForm;
@@ -65,7 +58,7 @@ public class LoanDetail extends JPanel {
 	private JLabel txtHeader;
 	private JButton btnSearch;
 	private JButton btnRefesh;
-	private JButton btnUpdate;
+	private JButton btnPayment;
 	private JPanel panel_4;
 	private JPanel panel_5;
 	private JButton btnNextLong;
@@ -77,10 +70,11 @@ public class LoanDetail extends JPanel {
 	private final int itemsPerPage = 4;
 	private int maxPageIndex;
 	private final TableRowSorter<TableModel> sorter1 = new TableRowSorter<TableModel>(tblModel);
+	private JButton btnDelete;
 
 	public LoanDetail() {
 		initComponents();
-		loadLoanToTable(new LoanModel().findAll());
+		loadLoanToTable(new LoanModel().findAllActive());
 	}
 
 	/**
@@ -122,14 +116,14 @@ public class LoanDetail extends JPanel {
 		Font bigFont = new Font("sansserif", Font.BOLD, 17);
 		table.getTableHeader().setFont(bigFont);
 		scrollPane.setViewportView(table);
-		
+
 		panel_4 = new JPanel();
 		add(panel_4, BorderLayout.SOUTH);
 		panel_4.setLayout(new BorderLayout(0, 0));
-		
+
 		panel_5 = new JPanel();
 		panel_4.add(panel_5, BorderLayout.NORTH);
-		
+
 		btnBackLong = new JButton("");
 		btnBackLong.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -139,9 +133,10 @@ public class LoanDetail extends JPanel {
 		btnBackLong.setFocusPainted(false);
 		btnBackLong.setContentAreaFilled(false);
 		btnBackLong.setBorderPainted(false);
-		btnBackLong.setIcon(new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_back_long_20.png")));
+		btnBackLong.setIcon(new ImageIcon(
+				LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_back_long_20.png")));
 		panel_5.add(btnBackLong);
-		
+
 		btnBackShort = new JButton("");
 		btnBackShort.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -151,9 +146,10 @@ public class LoanDetail extends JPanel {
 		btnBackShort.setFocusPainted(false);
 		btnBackShort.setContentAreaFilled(false);
 		btnBackShort.setBorderPainted(false);
-		btnBackShort.setIcon(new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_back_short_20.png")));
+		btnBackShort.setIcon(new ImageIcon(
+				LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_back_short_20.png")));
 		panel_5.add(btnBackShort);
-		
+
 		textField_1 = new JTextField();
 		textField_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -164,7 +160,7 @@ public class LoanDetail extends JPanel {
 		textField_1.setMinimumSize(new Dimension(7, 30));
 		panel_5.add(textField_1);
 		textField_1.setColumns(10);
-		
+
 		btnNextShort = new JButton("");
 		btnNextShort.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -174,9 +170,10 @@ public class LoanDetail extends JPanel {
 		btnNextShort.setFocusPainted(false);
 		btnNextShort.setContentAreaFilled(false);
 		btnNextShort.setBorderPainted(false);
-		btnNextShort.setIcon(new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_next_short_20.png")));
+		btnNextShort.setIcon(new ImageIcon(
+				LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_next_short_20.png")));
 		panel_5.add(btnNextShort);
-		
+
 		btnNextLong = new JButton("");
 		btnNextLong.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -186,7 +183,8 @@ public class LoanDetail extends JPanel {
 		btnNextLong.setFocusPainted(false);
 		btnNextLong.setContentAreaFilled(false);
 		btnNextLong.setBorderPainted(false);
-		btnNextLong.setIcon(new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_next_long_20.png")));
+		btnNextLong.setIcon(new ImageIcon(
+				LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_next_long_20.png")));
 		panel_5.add(btnNextLong);
 
 		JPanel panel = new JPanel();
@@ -229,13 +227,29 @@ public class LoanDetail extends JPanel {
 		FlowLayout fl_panel_2 = new FlowLayout(FlowLayout.TRAILING, 20, 20);
 		panel_2.setLayout(fl_panel_2);
 
-		btnUpdate = new JButton("Update");
-		btnUpdate.setIcon(new ImageIcon(
-				LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_update_20.png")));
-		btnUpdate.setPreferredSize(new Dimension(120, 30));
-		btnUpdate.setMargin(new Insets(2, 20, 2, 20));
-		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 10));
-		panel_2.add(btnUpdate);
+		btnBack = new JButton("Back");
+
+		btnBack.setIcon(
+				new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/back.png")));
+		btnBack.setPreferredSize(new Dimension(120, 30));
+		btnBack.setMargin(new Insets(2, 20, 2, 20));
+		btnBack.setFont(new Font("Tahoma", Font.BOLD, 10));
+		panel_2.add(btnBack);
+
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pageState = loanPage;
+				initPage();
+			}
+		});
+
+		btnPayment = new JButton("Payment");
+		btnPayment.setIcon(new ImageIcon(
+				LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_payment_24.png")));
+		btnPayment.setPreferredSize(new Dimension(120, 30));
+		btnPayment.setMargin(new Insets(2, 20, 2, 20));
+		btnPayment.setFont(new Font("Tahoma", Font.BOLD, 10));
+		panel_2.add(btnPayment);
 
 		btnDetail = new JButton("Detail");
 
@@ -247,7 +261,7 @@ public class LoanDetail extends JPanel {
 		btnDetail.setIcon(new ImageIcon(
 				LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_detail_16.png")));
 
-		JButton btnDelete = new JButton("Delete");
+		btnDelete = new JButton("Delete");
 		btnDelete.setPreferredSize(new Dimension(120, 30));
 		btnDelete.setMargin(new Insets(2, 20, 2, 20));
 		panel_2.add(btnDelete);
@@ -263,20 +277,10 @@ public class LoanDetail extends JPanel {
 		btnPrint.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnPrint.setIcon(
 				new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/print.png")));
-
-		btnBack = new JButton("Back");
-
-		btnBack.setIcon(
-				new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/back.png")));
-		btnBack.setPreferredSize(new Dimension(120, 30));
-		btnBack.setMargin(new Insets(2, 20, 2, 20));
-		btnBack.setFont(new Font("Tahoma", Font.BOLD, 10));
-		panel_2.add(btnBack);
 		btnPrint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MessageFormat header = new MessageFormat("Loan Detail");
 				MessageFormat footer = new MessageFormat("Page{0, number, integer}");
-
 				try {
 					table.print(JTable.PrintMode.NORMAL, header, footer);
 
@@ -285,51 +289,44 @@ public class LoanDetail extends JPanel {
 				}
 			}
 		});
-		
-				btnSearch.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						searchAction();
-					}
-				});
-				
-						btnRefesh.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								refreshAction();
-							}
-						});
-						
-								btnDelete.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent e) {
-										deleteAction();
-									}
-								});
-								
-										btnDetail.addMouseListener(new MouseAdapter() {
-											@Override
-											public void mouseClicked(MouseEvent e) {
-												int selectedRow = table.getSelectedRow();
-												if (selectedRow != -1) {
-													loanSelectedId = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
-													pageState = historyPage;
-													initPage();
-												} else {
-													JOptionPane.showMessageDialog(null, "Please choose a value!");
-												}
-											}
-										});
-										
-												btnBack.addActionListener(new ActionListener() {
-													public void actionPerformed(ActionEvent e) {
-														pageState = loanPage;
-														initPage();
-													}
-												});
-												
-														btnUpdate.addActionListener(new ActionListener() {
-															public void actionPerformed(ActionEvent e) {
-																updateAction();
-															}
-														});
+
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				searchAction();
+			}
+		});
+
+		btnRefesh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				refreshAction();
+			}
+		});
+
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				deleteAction();
+			}
+		});
+
+		btnDetail.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int selectedRow = table.getSelectedRow();
+				if (selectedRow != -1) {
+					loanSelectedId = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
+					pageState = historyPage;
+					initPage();
+				} else {
+					JOptionPane.showMessageDialog(null, "Please choose a value!");
+				}
+			}
+		});
+
+		btnPayment.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateAction();
+			}
+		});
 		initForm();
 	}
 
@@ -337,9 +334,9 @@ public class LoanDetail extends JPanel {
 		int selectedRow = table.getSelectedRow();
 		if (selectedRow != -1) {
 			int id = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
-			LoanHistoryUpdate loanHistoryUpdate = new LoanHistoryUpdate(id);
-			loanHistoryUpdate.setVisible(true);
-			loanHistoryUpdate.addWindowListener(new WindowAdapter() {
+			PaymentLoan paymentLoan = new PaymentLoan(id);
+			paymentLoan.setVisible(true);
+			paymentLoan.addWindowListener(new WindowAdapter() {
 
 				@Override
 				public void windowClosed(WindowEvent e) {
@@ -359,7 +356,8 @@ public class LoanDetail extends JPanel {
 			txtSearch.setVisible(true);
 			btnSearch.setVisible(true);
 			btnRefesh.setVisible(true);
-			btnUpdate.setVisible(false);
+			btnDelete.setVisible(true);
+			btnPayment.setVisible(false);
 			btnBack.setVisible(false);
 			txtHeader.setText("LOAN LIST");
 			loadLoanToTable(new LoanModel().findAllActive());
@@ -368,7 +366,8 @@ public class LoanDetail extends JPanel {
 			txtSearch.setVisible(false);
 			btnSearch.setVisible(false);
 			btnRefesh.setVisible(false);
-			btnUpdate.setVisible(true);
+			btnDelete.setVisible(false);
+			btnPayment.setVisible(true);
 			btnBack.setVisible(true);
 			txtHeader.setText("LOAN DETAIL LIST");
 			loadHistoryToTable(new LoanAndFineHistoryModel().searchByLoanId(loanSelectedId));
@@ -378,36 +377,28 @@ public class LoanDetail extends JPanel {
 	protected void deleteAction() {
 		int selectedRow = table.getSelectedRow();
 		if (selectedRow != -1) {
+
 			int id = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
+
 			if (JOptionPane.showConfirmDialog(null, "Are you sure you want to delete?", "Confirm",
+
 					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
 				if (pageState.equals(loanPage)) {
 
-					if (new LoanAndFineHistoryModel().deleteWithLoanId(id)) {
+					if (new LoanModel().closeLoan(id)) {
 
-						if (new LoanModel().closeLoan(id)) {
-
-							JOptionPane.showMessageDialog(null, "Successful Delete");
-							loadLoanToTable(new LoanModel().findAll());
-
-						} else {
-							JOptionPane.showMessageDialog(null, "Delete failed, please try again!");
-						}
-
-					} else {
-						JOptionPane.showMessageDialog(null, "Delete failed, please try again!");
-					}
-
-				} else {
-					if (new LoanAndFineHistoryModel().delete(id)) {
 						JOptionPane.showMessageDialog(null, "Successful Delete");
-						loadHistoryToTable(new LoanAndFineHistoryModel().searchByLoanId(loanSelectedId));
+						loadLoanToTable(new LoanModel().findAllActive());
+
 					} else {
+
 						JOptionPane.showMessageDialog(null, "Delete failed, please try again!");
 					}
 				}
 			}
 		} else {
+
 			JOptionPane.showMessageDialog(null, "Please choose a value!");
 		}
 	}
@@ -440,8 +431,9 @@ public class LoanDetail extends JPanel {
 			tblModel.setRowCount(0);
 			for (Loan loans : list) {
 				tblModel.addRow(new Object[] { loans.getId(), loans.getCustomerName(), loans.getLoanTypeName(),
-						loans.getPaymentTypeName(), loans.getPeriod(), Common.formatNumber(loans.getAmount()), loans.getDisbursementDate(),
-						loans.getDuration(), loans.getEndDate(), loans.getInterest(), loans.getDescription(),
+						loans.getPaymentTypeName(), loans.getPeriod(), Common.formatNumber(loans.getAmount()),
+						loans.getDisbursementDate(), loans.getDuration(), loans.getEndDate(), loans.getInterest(),
+						loans.getDescription(),
 						loans.getStatus() == 0 ? "New" : (loans.getStatus() == 1 ? "Active" : "Update") });
 
 			}
@@ -470,10 +462,9 @@ public class LoanDetail extends JPanel {
 			for (LoanAndFineHistory hisItem : list) {
 				tblModel.addRow(new Object[] { hisItem.getId(), hisItem.getCustomer(),
 						Common.formatNumber(hisItem.getPaymentAmount()), Common.formatNumber(hisItem.getAmount()),
-						Common.formatNumber(hisItem.getAmountLeft()), hisItem.getDueDate(),
-						hisItem.getFineInterest(), hisItem.getFineOverDays(),
-						hisItem.getFineAmount(), hisItem.getPaymentDate(),
-						hisItem.getDescription(), hisItem.isStatus() });
+						Common.formatNumber(hisItem.getAmountLeft()), hisItem.getDueDate(), hisItem.getFineInterest(),
+						hisItem.getFineOverDays(), hisItem.getFineAmount(), hisItem.getPaymentDate(),
+						hisItem.getDescription(), hisItem.isStatus()?"Paid":"Unpaid" });
 			}
 			tblModel.fireTableDataChanged();
 
@@ -520,27 +511,27 @@ public class LoanDetail extends JPanel {
 			}
 		});
 	}
-	
+
 	public void next_actionPerformed(ActionEvent e) {
 		currentPageIndex += 1;
 		initFilterAndButton();
 	}
-	
+
 	public void last_actionPerformed(ActionEvent e) {
 		currentPageIndex = maxPageIndex;
 		initFilterAndButton();
 	}
-	
+
 	public void prev_actionPerformed(ActionEvent e) {
 		currentPageIndex -= 1;
 		initFilterAndButton();
 	}
-	
+
 	public void first_actionPerformed(ActionEvent e) {
 		currentPageIndex = 1;
 		initFilterAndButton();
 	}
-	
+
 	public void textField_1_actionPerformed(ActionEvent arg0) {
 		try {
 			int v = Integer.parseInt(textField_1.getText());
@@ -552,7 +543,7 @@ public class LoanDetail extends JPanel {
 		}
 		initFilterAndButton();
 	}
-	
+
 	private void initFilterAndButton() {
 		sorter1.setRowFilter(new RowFilter<TableModel, Integer>() {
 			@Override
