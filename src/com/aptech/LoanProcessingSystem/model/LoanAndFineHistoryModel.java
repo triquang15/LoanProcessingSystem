@@ -200,14 +200,15 @@ public class LoanAndFineHistoryModel {
 		Boolean result = false;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
-					"update LoanAndFineHistory SET PaymentAmount = ?, AmountLeft = ?, FineOverDays = ?, FineAmount = ?, PaymentDate = ?, Description = ?, Status = true WHERE Id = ?");
+					"update LoanAndFineHistory SET PaymentAmount = ?, AmountLeft = ?, FineOverDays = ?, FineAmount = ?, PaymentDate = ?, Description = ?, FineInterest = ?, Status = true WHERE Id = ?");
 			preparedStatement.setDouble(1, loanAndFineHistory.getPaymentAmount());
 			preparedStatement.setDouble(2, loanAndFineHistory.getAmountLeft());
 			preparedStatement.setInt(3, loanAndFineHistory.getFineOverDays());
 			preparedStatement.setDouble(4, loanAndFineHistory.getFineAmount());
 			preparedStatement.setDate(5, new java.sql.Date(loanAndFineHistory.getPaymentDate().getTime()));
 			preparedStatement.setString(6, loanAndFineHistory.getDescription());
-			preparedStatement.setInt(7, loanAndFineHistory.getId());
+			preparedStatement.setFloat(7, loanAndFineHistory.getFineInterest());
+			preparedStatement.setInt(8, loanAndFineHistory.getId());
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
 			e.printStackTrace();

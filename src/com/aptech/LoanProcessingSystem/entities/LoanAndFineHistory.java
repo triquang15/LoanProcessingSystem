@@ -3,27 +3,6 @@ package com.aptech.LoanProcessingSystem.entities;
 import java.util.Date;
 
 public class LoanAndFineHistory {
-
-
-	public float getLoanInterest() {
-		return loanInterest;
-	}
-
-
-	public void setLoanInterest(float loanInterest) {
-		this.loanInterest = loanInterest;
-	}
-
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
 	private int id;
 	private int loanId;
 	private String customer;
@@ -33,7 +12,7 @@ public class LoanAndFineHistory {
 	private double paymentAmount;
 	private double amountLeft;
 	private Date dueDate;
-	private double fineInterest;
+	private float fineInterest;
 	private int fineOverDays;
 	private double fineAmount;
 	private Date paymentDate;
@@ -46,16 +25,13 @@ public class LoanAndFineHistory {
 	private int duration;
 	private Date endDate;
 	private float loanInterest;
-	
 
 	public LoanAndFineHistory() {
 		super();
 	}
 
-
-
 	public LoanAndFineHistory(int id, int loanId, String customer, int fineId, int paymentMethodId,
-			String paymentMenthodName, double paymentAmount, double amountLeft, Date dueDate, double fineInterest,
+			String paymentMenthodName, double paymentAmount, double amountLeft, Date dueDate, float fineInterest,
 			int fineOverDays, double fineAmount, Date paymentDate, String description, boolean status, double amount,
 			String loanType, String paymentType, int period, int duration, Date endDate, float loanInterest) {
 		super();
@@ -83,196 +59,157 @@ public class LoanAndFineHistory {
 		this.loanInterest = loanInterest;
 	}
 
-
 	public int getId() {
 		return id;
 	}
-
 
 	public void setId(int id) {
 		this.id = id;
 	}
 
-
 	public int getLoanId() {
 		return loanId;
 	}
-
 
 	public void setLoanId(int loanId) {
 		this.loanId = loanId;
 	}
 
-
 	public String getCustomer() {
 		return customer;
 	}
-
 
 	public void setCustomer(String customer) {
 		this.customer = customer;
 	}
 
-
 	public int getFineId() {
 		return fineId;
 	}
-
 
 	public void setFineId(int fineId) {
 		this.fineId = fineId;
 	}
 
-
 	public int getPaymentMethodId() {
 		return paymentMethodId;
 	}
-
 
 	public void setPaymentMethodId(int paymentMethodId) {
 		this.paymentMethodId = paymentMethodId;
 	}
 
-
 	public String getPaymentMenthodName() {
 		return paymentMenthodName;
 	}
-
 
 	public void setPaymentMenthodName(String paymentMenthodName) {
 		this.paymentMenthodName = paymentMenthodName;
 	}
 
-
 	public double getPaymentAmount() {
 		return paymentAmount;
 	}
-
 
 	public void setPaymentAmount(double paymentAmount) {
 		this.paymentAmount = paymentAmount;
 	}
 
-
 	public double getAmountLeft() {
 		return amountLeft;
 	}
-
 
 	public void setAmountLeft(double amountLeft) {
 		this.amountLeft = amountLeft;
 	}
 
-
 	public Date getDueDate() {
 		return dueDate;
 	}
-
 
 	public void setDueDate(Date dueDate) {
 		this.dueDate = dueDate;
 	}
 
-
-	public double getFineInterest() {
+	public float getFineInterest() {
 		return fineInterest;
 	}
 
-
-	public void setFineInterest(double fineInterest) {
+	public void setFineInterest(float fineInterest) {
 		this.fineInterest = fineInterest;
 	}
-
 
 	public int getFineOverDays() {
 		return fineOverDays;
 	}
 
-
 	public void setFineOverDays(int fineOverDays) {
 		this.fineOverDays = fineOverDays;
 	}
-
 
 	public double getFineAmount() {
 		return fineAmount;
 	}
 
-
 	public void setFineAmount(double fineAmount) {
 		this.fineAmount = fineAmount;
 	}
-
 
 	public Date getPaymentDate() {
 		return paymentDate;
 	}
 
-
 	public void setPaymentDate(Date paymentDate) {
 		this.paymentDate = paymentDate;
 	}
-
 
 	public String getDescription() {
 		return description;
 	}
 
-
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
 
 	public boolean isStatus() {
 		return status;
 	}
 
-
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
-
 
 	public double getAmount() {
 		return amount;
 	}
 
-
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-
 
 	public String getLoanType() {
 		return loanType;
 	}
 
-
 	public void setLoanType(String loanType) {
 		this.loanType = loanType;
 	}
-
 
 	public String getPaymentType() {
 		return paymentType;
 	}
 
-
 	public void setPaymentType(String paymentType) {
 		this.paymentType = paymentType;
 	}
-
 
 	public int getPeriod() {
 		return period;
 	}
 
-
 	public void setPeriod(int period) {
 		this.period = period;
 	}
-
 
 	public int getDuration() {
 		return duration;
@@ -281,4 +218,21 @@ public class LoanAndFineHistory {
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
+
+	public float getLoanInterest() {
+		return loanInterest;
+	}
+
+	public void setLoanInterest(float loanInterest) {
+		this.loanInterest = loanInterest;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
 }
