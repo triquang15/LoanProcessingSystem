@@ -1,34 +1,5 @@
 package com.aptech.LoanProcessingSystem.view.admin;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-
-import com.aptech.LoanProcessingSystem.entities.Customer;
-import com.aptech.LoanProcessingSystem.entities.Loan;
-import com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory;
-import com.aptech.LoanProcessingSystem.entities.LoanType;
-import com.aptech.LoanProcessingSystem.entities.MyLoanAndFineHistory;
-import com.aptech.LoanProcessingSystem.entities.PaymentType;
-import com.aptech.LoanProcessingSystem.model.AccountModel;
-import com.aptech.LoanProcessingSystem.model.CustomerModel;
-import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
-import com.aptech.LoanProcessingSystem.model.LoanModel;
-import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
-import com.aptech.LoanProcessingSystem.model.PaymentTypeModel;
-import com.aptech.LoanProcessingSystem.service.Common;
-import com.aptech.LoanProcessingSystem.service.ShareData;
-import com.aptech.LoanProcessingSystem.view.LoanUpdate;
-import com.aptech.LoanProcessingSystem.view.admin.jpanelAddNewLoan.cbLoanTypeCellRender;
-import com.aptech.LoanProcessingSystem.view.admin.jpanelAddNewLoan.cbPaymentTypt_CellRender;
-import com.toedter.calendar.JDateChooser;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -40,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -53,13 +26,32 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.border.TitledBorder;
-import java.awt.CardLayout;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
+import com.aptech.LoanProcessingSystem.entities.Customer;
+import com.aptech.LoanProcessingSystem.entities.Loan;
+import com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory;
+import com.aptech.LoanProcessingSystem.entities.LoanType;
+import com.aptech.LoanProcessingSystem.entities.PaymentType;
+import com.aptech.LoanProcessingSystem.model.AccountModel;
+import com.aptech.LoanProcessingSystem.model.CustomerModel;
+import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
+import com.aptech.LoanProcessingSystem.model.LoanModel;
+import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
+import com.aptech.LoanProcessingSystem.model.PaymentTypeModel;
+import com.aptech.LoanProcessingSystem.service.Common;
+import com.aptech.LoanProcessingSystem.view.LoanUpdate;
+import com.toedter.calendar.JDateChooser;
 
 public class jpanelShowLoanDetail extends JPanel {
 	private JTable tblLoanDetail;
@@ -899,7 +891,7 @@ public class jpanelShowLoanDetail extends JPanel {
 		defaultTableModel.fireTableDataChanged();
 	}
 
-	public void FillDataToJTableLoanHistory(List<MyLoanAndFineHistory> list, JTable tableLoanHistory) {
+	public void FillDataToJTableLoanHistory(List<LoanAndFineHistory> list, JTable tableLoanHistory) {
 		String statusMask = "";
 		DefaultTableModel defaultTableModel = new DefaultTableModel() {
 
@@ -922,10 +914,10 @@ public class jpanelShowLoanDetail extends JPanel {
 		defaultTableModel.addColumn("Payment Date");
 		defaultTableModel.addColumn("Description");
 		defaultTableModel.addColumn("Action");
-		for (MyLoanAndFineHistory myLoanAndFineHistory : list) {
+		for (LoanAndFineHistory myLoanAndFineHistory : list) {
 			statusMask = myLoanAndFineHistory.isStatus() ? "Repayment" : "Not Repayment";
 			defaultTableModel.addRow(new Object[] { myLoanAndFineHistory.getId(), myLoanAndFineHistory.getCustomer(),
-					Common.formatNumber(myLoanAndFineHistory.getAmount()), myLoanAndFineHistory.getPaymentMethod(),
+					Common.formatNumber(myLoanAndFineHistory.getAmount()), myLoanAndFineHistory.getPaymentMenthodName(),
 					Common.formatNumber(myLoanAndFineHistory.getPaymentAmount()), Common.formatNumber(myLoanAndFineHistory.getAmountLeft()),
 					myLoanAndFineHistory.getDueDate(), myLoanAndFineHistory.getFineInterest(),
 					myLoanAndFineHistory.getFineOverDays(), Common.formatNumber(myLoanAndFineHistory.getFineAmount()),

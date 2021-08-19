@@ -413,7 +413,6 @@ public class jpanelLoadData extends JPanel {
 		}
 	}
 
-
 	private void createLoanAndFineHistory(int loanId) {
 		Loan loan = new LoanModel().loadLoanByID(loanId);
 		Double amountDouble = loan.getAmount();
@@ -446,10 +445,9 @@ public class jpanelLoadData extends JPanel {
 				loanAndFineHistory.setAmountLeft(Math.abs(amountLeft));
 				loanAndFineHistory.setDueDate(dueDate);
 				dueDateCalendar.set(Calendar.MONTH, dueDateCalendar.get(Calendar.MONTH) + 1);
-				if (loanAndFineHistoryModel.createLoanAndFineHistory(loanAndFineHistory)) {
-					JOptionPane.showMessageDialog(null, "Successful!");
-				}
+				loanAndFineHistoryModel.createLoanAndFineHistory(loanAndFineHistory);
 			}
+			JOptionPane.showMessageDialog(null, "Successful!");
 		} catch (Exception a) {
 			JOptionPane.showMessageDialog(null, "Please try again!");
 			a.printStackTrace();

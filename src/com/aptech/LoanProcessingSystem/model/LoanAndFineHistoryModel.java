@@ -7,7 +7,6 @@ import java.util.List;
 
 import com.aptech.LoanProcessingSystem.database.ConnectDB;
 import com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory;
-import com.aptech.LoanProcessingSystem.entities.MyLoanAndFineHistory;
 
 public class LoanAndFineHistoryModel {
 
@@ -49,8 +48,8 @@ public class LoanAndFineHistoryModel {
 		return loanAndFineHistorys;
 	}
 	
-	public List<MyLoanAndFineHistory> getAllLoanAndFineHistorys(int loanID) {
-		List<MyLoanAndFineHistory> loanAndFineHistorys = null;
+	public List<LoanAndFineHistory> getAllLoanAndFineHistorys(int loanID) {
+		List<LoanAndFineHistory> loanAndFineHistorys = null;
 		try {
 			loanAndFineHistorys = new ArrayList<>();
 			PreparedStatement statement = ConnectDB.connection().prepareStatement("Select a.*, c.Name as 'CName', d.Name as "
@@ -61,11 +60,11 @@ public class LoanAndFineHistoryModel {
 			statement.setInt(1, loanID);
 			ResultSet resultset = statement.executeQuery();
 			while (resultset.next()) {
-				MyLoanAndFineHistory loanAndFineHistory = new MyLoanAndFineHistory();
+				LoanAndFineHistory loanAndFineHistory = new LoanAndFineHistory();
 				loanAndFineHistory.setId(resultset.getInt("Id"));
 				loanAndFineHistory.setCustomer(resultset.getString("CName"));
 				loanAndFineHistory.setAmount(resultset.getDouble("Amount"));
-				loanAndFineHistory.setPaymentMethod(resultset.getString("PMName"));
+				loanAndFineHistory.setPaymentMenthodName(resultset.getString("PMName"));
 				loanAndFineHistory.setPaymentAmount(resultset.getDouble("PaymentAmount"));
 				loanAndFineHistory.setAmountLeft(resultset.getDouble("AmountLeft"));
 				loanAndFineHistory.setDueDate(resultset.getDate("DueDate"));
@@ -207,7 +206,7 @@ public class LoanAndFineHistoryModel {
 			preparedStatement.setDouble(4, loanAndFineHistory.getFineAmount());
 			preparedStatement.setDate(5, new java.sql.Date(loanAndFineHistory.getPaymentDate().getTime()));
 			preparedStatement.setString(6, loanAndFineHistory.getDescription());
-			preparedStatement.setFloat(7, loanAndFineHistory.getFineInterest());
+			preparedStatement.setDouble(7, loanAndFineHistory.getFineInterest());
 			preparedStatement.setInt(8, loanAndFineHistory.getId());
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
