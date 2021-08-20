@@ -34,6 +34,7 @@ import javax.swing.table.TableRowSorter;
 
 import com.aptech.LoanProcessingSystem.entities.Customer;
 import com.aptech.LoanProcessingSystem.model.CustomerModel;
+import com.aptech.LoanProcessingSystem.service.Common;
 import com.aptech.LoanProcessingSystem.service.MessageDialog;
 
 @SuppressWarnings("serial")
@@ -47,7 +48,7 @@ public class CustomerInfo extends JPanel {
 	private JLabel txtHeader;
 	private JTextField textField;
 	private int currentPageIndex = 1;
-	private final int itemsPerPage = 2;
+	private final int itemsPerPage = 20;
 	private int maxPageIndex;
 	private final TableRowSorter<TableModel> sorter1 = new TableRowSorter<TableModel>(tblModel);
 	private JButton btnBackLong;
@@ -75,7 +76,7 @@ public class CustomerInfo extends JPanel {
 			for (Customer customer : list) {
 				tblModel.addRow(new Object[] { customer.getId(), customer.getName(), customer.getEmail(),
 						customer.getPhone(), customer.isGender() ? "Male" : "Female", customer.getDob(),
-						customer.getSalary(), customer.getJob(), customer.getCompany(), customer.getIdentityCard(),
+						Common.formatNumber(customer.getSalary()), customer.getJob(), customer.getCompany(), customer.getIdentityCard(),
 						customer.getAddress(), customer.isStatus() ? "Active" : "Inactive"
 
 				});
@@ -210,8 +211,10 @@ public class CustomerInfo extends JPanel {
 		panel_5.add(btnBackShort);
 
 		textField = new JTextField();
-		textField.setPreferredSize(new Dimension(7, 30));
-		textField.setMinimumSize(new Dimension(7, 30));
+		textField.setMaximumSize(new Dimension(30, 30));
+		textField.setHorizontalAlignment(SwingConstants.CENTER);
+		textField.setPreferredSize(new Dimension(30, 30));
+		textField.setMinimumSize(new Dimension(30, 30));
 		textField.setColumns(10);
 		panel_5.add(textField);
 

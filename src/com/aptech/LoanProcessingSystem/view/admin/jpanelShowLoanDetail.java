@@ -342,6 +342,7 @@ public class jpanelShowLoanDetail extends JPanel {
 		}
 		{
 			JPanel panel = new JPanel();
+			panel.setMinimumSize(new Dimension(100, 100));
 			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Loan Detail",
 					TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
 			panel.setBackground(new Color(34, 40, 44));
