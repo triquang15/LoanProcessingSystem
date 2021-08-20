@@ -1,35 +1,5 @@
 package com.aptech.LoanProcessingSystem.view.admin;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-
-import com.aptech.LoanProcessingSystem.entities.Customer;
-import com.aptech.LoanProcessingSystem.entities.Loan;
-import com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory;
-import com.aptech.LoanProcessingSystem.entities.LoanType;
-import com.aptech.LoanProcessingSystem.entities.MyLoanAndFineHistory;
-import com.aptech.LoanProcessingSystem.entities.PaymentType;
-import com.aptech.LoanProcessingSystem.model.AccountModel;
-import com.aptech.LoanProcessingSystem.model.CustomerModel;
-import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
-import com.aptech.LoanProcessingSystem.model.LoanModel;
-import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
-import com.aptech.LoanProcessingSystem.model.PaymentTypeModel;
-import com.aptech.LoanProcessingSystem.service.Common;
-import com.aptech.LoanProcessingSystem.service.ShareData;
-import com.aptech.LoanProcessingSystem.view.CreateLoan;
-import com.aptech.LoanProcessingSystem.view.LoanUpdate;
-import com.aptech.LoanProcessingSystem.view.PaymentLoan;
-import com.aptech.LoanProcessingSystem.view.admin.jpanelAddNewLoan.cbLoanTypeCellRender;
-import com.aptech.LoanProcessingSystem.view.admin.jpanelAddNewLoan.cbPaymentTypt_CellRender;
-import com.toedter.calendar.JDateChooser;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -82,7 +52,8 @@ import com.aptech.LoanProcessingSystem.model.LoanModel;
 import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
 import com.aptech.LoanProcessingSystem.model.PaymentTypeModel;
 import com.aptech.LoanProcessingSystem.service.Common;
-import com.aptech.LoanProcessingSystem.view.LoanUpdate;
+import com.aptech.LoanProcessingSystem.view.CreateLoan;
+import com.aptech.LoanProcessingSystem.view.PaymentLoan;
 import com.toedter.calendar.JDateChooser;
 
 public class jpanelShowLoanDetail extends JPanel {
@@ -371,6 +342,7 @@ public class jpanelShowLoanDetail extends JPanel {
 		}
 		{
 			JPanel panel = new JPanel();
+			panel.setMinimumSize(new Dimension(100, 100));
 			panel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Loan Detail",
 					TitledBorder.LEADING, TitledBorder.TOP, null, new Color(255, 255, 255)));
 			panel.setBackground(new Color(34, 40, 44));

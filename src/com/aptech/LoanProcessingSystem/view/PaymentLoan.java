@@ -68,6 +68,11 @@ public class PaymentLoan extends JDialog {
 	private int fineOverDays = 0;
 	private double fineAmount = 0;
 	private JTextArea txtDescription;
+	private JButton btnSave;
+	private JButton btnClear;
+	private JButton btnCancel;
+	private JTextField txtPaymentMethod;
+	private JTextField txtStatus;
 
 	/**
 	 * Launch the application.
@@ -218,10 +223,15 @@ public class PaymentLoan extends JDialog {
 		lblNewLabel_7_1_1_1_1.setPreferredSize(new Dimension(100, 30));
 		lblNewLabel_7_1_1_1_1.setMinimumSize(new Dimension(50, 30));
 		lblNewLabel_7_1_1_1_1.setMaximumSize(new Dimension(100, 30));
-		
-		Component verticalStrut_10_4_2_1_1_2 = Box.createVerticalStrut(20);
-		verticalStrut_10_4_2_1_1_2.setPreferredSize(new Dimension(0, 60));
-		panel_2.add(verticalStrut_10_4_2_1_1_2);
+
+		Component verticalStrut_11 = Box.createVerticalStrut(20);
+		panel_2.add(verticalStrut_11);
+
+		JLabel lblNewLabel_7_1_1_1_1_1 = new JLabel("Status");
+		lblNewLabel_7_1_1_1_1_1.setPreferredSize(new Dimension(100, 30));
+		lblNewLabel_7_1_1_1_1_1.setMinimumSize(new Dimension(50, 30));
+		lblNewLabel_7_1_1_1_1_1.setMaximumSize(new Dimension(100, 30));
+		panel_2.add(lblNewLabel_7_1_1_1_1_1);
 
 		Component glue_4 = Box.createGlue();
 		panel_2.add(glue_4);
@@ -238,6 +248,7 @@ public class PaymentLoan extends JDialog {
 		panel_3.add(glue_1);
 
 		txtCustomerName = new JTextField();
+		txtCustomerName.setFont(new Font("Dialog", Font.PLAIN, 13));
 		txtCustomerName.setEditable(false);
 		txtCustomerName.setPreferredSize(new Dimension(7, 30));
 		txtCustomerName.setMinimumSize(new Dimension(7, 30));
@@ -249,6 +260,7 @@ public class PaymentLoan extends JDialog {
 		panel_3.add(verticalStrut_2);
 
 		txtLoanType = new JTextField();
+		txtLoanType.setFont(new Font("Dialog", Font.PLAIN, 13));
 		txtLoanType.setEditable(false);
 		txtLoanType.setPreferredSize(new Dimension(7, 30));
 		txtLoanType.setMinimumSize(new Dimension(7, 30));
@@ -260,6 +272,7 @@ public class PaymentLoan extends JDialog {
 		panel_3.add(verticalStrut_1);
 
 		txtPaymentType = new JTextField();
+		txtPaymentType.setFont(new Font("Dialog", Font.PLAIN, 13));
 		txtPaymentType.setEditable(false);
 		txtPaymentType.setPreferredSize(new Dimension(7, 30));
 		txtPaymentType.setMinimumSize(new Dimension(7, 30));
@@ -271,6 +284,7 @@ public class PaymentLoan extends JDialog {
 		panel_3.add(verticalStrut);
 
 		txtPeriod = new JTextField();
+		txtPeriod.setFont(new Font("Dialog", Font.PLAIN, 13));
 		txtPeriod.setEditable(false);
 		txtPeriod.setPreferredSize(new Dimension(7, 30));
 		txtPeriod.setMinimumSize(new Dimension(7, 30));
@@ -287,7 +301,7 @@ public class PaymentLoan extends JDialog {
 		txtDuration.setMinimumSize(new Dimension(7, 30));
 		txtDuration.setMaximumSize(new Dimension(2147483647, 30));
 		txtDuration.setForeground(Color.BLACK);
-		txtDuration.setFont(new Font("Tahoma", Font.ITALIC, 10));
+		txtDuration.setFont(new Font("Dialog", Font.PLAIN, 13));
 		txtDuration.setColumns(10);
 		panel_3.add(txtDuration);
 
@@ -295,7 +309,7 @@ public class PaymentLoan extends JDialog {
 		panel_3.add(verticalStrut_9_2);
 
 		txtLoanAmount = new JTextField();
-		txtLoanAmount.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		txtLoanAmount.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_3.add(txtLoanAmount);
 		txtLoanAmount.setEditable(false);
 		txtLoanAmount.setMaximumSize(new Dimension(2147483647, 30));
@@ -306,6 +320,7 @@ public class PaymentLoan extends JDialog {
 		panel_3.add(verticalStrut_9_1);
 
 		txtInterest = new JTextField();
+		txtInterest.setFont(new Font("Dialog", Font.PLAIN, 13));
 		panel_3.add(txtInterest);
 		txtInterest.setEditable(false);
 		txtInterest.setMaximumSize(new Dimension(2147483647, 30));
@@ -325,10 +340,27 @@ public class PaymentLoan extends JDialog {
 		cbbxPaymentMethod.setPreferredSize(new Dimension(29, 30));
 		cbbxPaymentMethod.setMinimumSize(new Dimension(29, 30));
 		panel_6.add(cbbxPaymentMethod);
-		
-		Component verticalStrut_10_4_2_1_1_1 = Box.createVerticalStrut(20);
-		verticalStrut_10_4_2_1_1_1.setPreferredSize(new Dimension(0, 60));
-		panel_3.add(verticalStrut_10_4_2_1_1_1);
+
+		txtPaymentMethod = new JTextField();
+		txtPaymentMethod.setFont(new Font("Dialog", Font.PLAIN, 13));
+		txtPaymentMethod.setVisible(false);
+		txtPaymentMethod.setPreferredSize(new Dimension(7, 30));
+		txtPaymentMethod.setMaximumSize(new Dimension(2147483647, 30));
+		txtPaymentMethod.setEditable(false);
+		txtPaymentMethod.setColumns(10);
+		panel_3.add(txtPaymentMethod);
+
+		Component verticalStrut_11_1 = Box.createVerticalStrut(20);
+		panel_3.add(verticalStrut_11_1);
+
+		txtStatus = new JTextField();
+		txtStatus.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		txtStatus.setForeground(Color.RED);
+		txtStatus.setPreferredSize(new Dimension(7, 30));
+		txtStatus.setMaximumSize(new Dimension(2147483647, 30));
+		txtStatus.setEditable(false);
+		txtStatus.setColumns(10);
+		panel_3.add(txtStatus);
 
 		Component glue = Box.createGlue();
 		panel_3.add(glue);
@@ -420,16 +452,16 @@ public class PaymentLoan extends JDialog {
 		lblNewLabel_7_1_1_1.setMinimumSize(new Dimension(50, 30));
 		lblNewLabel_7_1_1_1.setMaximumSize(new Dimension(100, 30));
 		panel_7.add(lblNewLabel_7_1_1_1);
-		
+
 		Component verticalStrut_10_4_1_1 = Box.createVerticalStrut(20);
 		panel_7.add(verticalStrut_10_4_1_1);
-		
+
 		JLabel lblNewLabel_7_1_1_1_2 = new JLabel("Description");
 		lblNewLabel_7_1_1_1_2.setPreferredSize(new Dimension(100, 30));
 		lblNewLabel_7_1_1_1_2.setMinimumSize(new Dimension(50, 30));
 		lblNewLabel_7_1_1_1_2.setMaximumSize(new Dimension(100, 30));
 		panel_7.add(lblNewLabel_7_1_1_1_2);
-		
+
 		Component verticalStrut_10_4_2_1_1 = Box.createVerticalStrut(20);
 		verticalStrut_10_4_2_1_1.setPreferredSize(new Dimension(0, 60));
 		panel_7.add(verticalStrut_10_4_2_1_1);
@@ -453,7 +485,7 @@ public class PaymentLoan extends JDialog {
 		txtPaymentAmount.setPreferredSize(new Dimension(7, 30));
 		txtPaymentAmount.setMaximumSize(new Dimension(2147483647, 30));
 		txtPaymentAmount.setForeground(Color.BLACK);
-		txtPaymentAmount.setFont(new Font("Dialog", Font.BOLD, 12));
+		txtPaymentAmount.setFont(new Font("Dialog", Font.PLAIN, 13));
 		txtPaymentAmount.setColumns(10);
 		setTextHint(txtPaymentAmount, hintPaymentAmount);
 		panel_5.add(txtPaymentAmount);
@@ -468,6 +500,7 @@ public class PaymentLoan extends JDialog {
 		panel_4.setLayout(new BoxLayout(panel_4, BoxLayout.X_AXIS));
 
 		txtDueDate = new JDateChooser();
+		txtDueDate.getCalendarButton().setFont(new Font("Tahoma", Font.PLAIN, 13));
 		txtDueDate.getCalendarButton().setSize(new Dimension(0, 30));
 		txtDueDate.getCalendarButton().setPreferredSize(new Dimension(21, 30));
 		txtDueDate.getCalendarButton().setOpaque(false);
@@ -481,7 +514,7 @@ public class PaymentLoan extends JDialog {
 		panel_5.add(verticalStrut_9);
 
 		txtFineOverdays = new JTextField();
-		txtFineOverdays.setFont(new Font("Dialog", Font.BOLD, 12));
+		txtFineOverdays.setFont(new Font("Dialog", Font.PLAIN, 13));
 		txtFineOverdays.setEditable(false);
 		txtFineOverdays.setMaximumSize(new Dimension(2147483647, 30));
 		txtFineOverdays.setPreferredSize(new Dimension(7, 30));
@@ -491,7 +524,7 @@ public class PaymentLoan extends JDialog {
 		panel_5.add(verticalStrut_9_3);
 
 		txtFineInterest = new JTextField();
-		txtFineInterest.setFont(new Font("Dialog", Font.BOLD, 12));
+		txtFineInterest.setFont(new Font("Dialog", Font.PLAIN, 13));
 		txtFineInterest.setEditable(false);
 		txtFineInterest.setMaximumSize(new Dimension(2147483647, 30));
 		txtFineInterest.setPreferredSize(new Dimension(7, 30));
@@ -506,7 +539,7 @@ public class PaymentLoan extends JDialog {
 		txtFineAmount.setPreferredSize(new Dimension(7, 30));
 		txtFineAmount.setMaximumSize(new Dimension(2147483647, 30));
 		txtFineAmount.setForeground(Color.BLACK);
-		txtFineAmount.setFont(new Font("Dialog", Font.BOLD, 12));
+		txtFineAmount.setFont(new Font("Dialog", Font.PLAIN, 13));
 		txtFineAmount.setColumns(10);
 		setTextHint(txtFineAmount, hintFineAmount);
 		panel_5.add(txtFineAmount);
@@ -518,7 +551,7 @@ public class PaymentLoan extends JDialog {
 		txtAmountLeft.setPreferredSize(new Dimension(7, 30));
 		txtAmountLeft.setMaximumSize(new Dimension(2147483647, 30));
 		txtAmountLeft.setForeground(Color.BLACK);
-		txtAmountLeft.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		txtAmountLeft.setFont(new Font("Dialog", Font.PLAIN, 13));
 		txtAmountLeft.setEditable(false);
 		txtAmountLeft.setColumns(10);
 		panel_5.add(txtAmountLeft);
@@ -531,15 +564,16 @@ public class PaymentLoan extends JDialog {
 		txtTotalPayment.setPreferredSize(new Dimension(7, 30));
 		txtTotalPayment.setMaximumSize(new Dimension(2147483647, 30));
 		txtTotalPayment.setForeground(Color.BLACK);
-		txtTotalPayment.setFont(new Font("Dialog", Font.BOLD, 12));
+		txtTotalPayment.setFont(new Font("Dialog", Font.PLAIN, 13));
 		txtTotalPayment.setColumns(10);
 		setTextHint(txtTotalPayment, hintFineAmount);
 		panel_5.add(txtTotalPayment);
-		
+
 		Component verticalStrut_10_4_2_1 = Box.createVerticalStrut(20);
 		panel_5.add(verticalStrut_10_4_2_1);
-		
+
 		txtDescription = new JTextArea();
+		txtDescription.setFont(new Font("Monospaced", Font.PLAIN, 13));
 		txtDescription.setPreferredSize(new Dimension(5, 90));
 		txtDescription.setMinimumSize(new Dimension(5, 90));
 		txtDescription.setMaximumSize(new Dimension(2147483647, 90));
@@ -559,7 +593,7 @@ public class PaymentLoan extends JDialog {
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 20));
 
-		JButton btnSave = new JButton("Save");
+		btnSave = new JButton("Save");
 		btnSave.setPreferredSize(new Dimension(120, 30));
 		buttonPane.add(btnSave);
 		btnSave.setFont(new Font("Tahoma", Font.BOLD, 10));
@@ -567,7 +601,7 @@ public class PaymentLoan extends JDialog {
 		btnSave.setIcon(new ImageIcon(
 				PaymentLoan.class.getResource("/com/aptech/LoanProcessingSystem/images/floppy-disk.png")));
 
-		JButton btnClear = new JButton("Clear");
+		btnClear = new JButton("Clear");
 		btnClear.setPreferredSize(new Dimension(120, 30));
 		buttonPane.add(btnClear);
 
@@ -575,58 +609,58 @@ public class PaymentLoan extends JDialog {
 		btnClear.setIcon(new ImageIcon(
 				PaymentLoan.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_refresh_16.png")));
 
-		JButton btnNewButton = new JButton("Cancel");
-		btnNewButton.setPreferredSize(new Dimension(120, 30));
-		buttonPane.add(btnNewButton);
+		btnCancel = new JButton("Cancel");
+		btnCancel.setPreferredSize(new Dimension(120, 30));
+		buttonPane.add(btnCancel);
 
-		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 10));
+		btnCancel.setFont(new Font("Tahoma", Font.BOLD, 10));
 		JTextFieldDateEditor endDateEditor = (JTextFieldDateEditor) txtDueDate.getDateEditor();
 		endDateEditor.setEditable(false);
 
-		btnNewButton.setIcon(
+		btnCancel.setIcon(
 				new ImageIcon(PaymentLoan.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
 
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				addCustomerAction();
+				paymentAction();
 			}
 		});
-		
+
 		btnClear.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				initValue();
 			}
 		});
-		btnNewButton.addActionListener(new ActionListener() {
+		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cancelAction();
 			}
 		});
 	}
 
-	protected void addCustomerAction() {
+	protected void paymentAction() {
 
-			try {
-				int paymemtMethodId = ((PaymentMethod) cbbxPaymentMethod.getSelectedItem()).getId();
-				loanAndFineHistory.setFineId(fine.getId());
-				loanAndFineHistory.setFineInterest(fine.getFineInterest());
-				loanAndFineHistory.setFineOverDays(fineOverDays);
-				loanAndFineHistory.setFineAmount(fineAmount);
-				loanAndFineHistory.setPaymentDate(new Date());
-				loanAndFineHistory.setPaymentMethodId(paymemtMethodId);
-				loanAndFineHistory.setStatus(true);
-				loanAndFineHistory.setDescription(txtDescription.getText());
-				LoanAndFineHistoryModel model = new LoanAndFineHistoryModel();
-				if (model.update_payment(loanAndFineHistory)) {
-					JOptionPane.showMessageDialog(null, "Successful!");
-					PaymentLoan.this.dispose();
-				} else {
-					JOptionPane.showMessageDialog(null, "Please try again!");
-				}
-
-			} catch (Exception e2) {
-				e2.printStackTrace();
+		try {
+			int paymemtMethodId = ((PaymentMethod) cbbxPaymentMethod.getSelectedItem()).getId();
+			loanAndFineHistory.setFineId(fine.getId());
+			loanAndFineHistory.setFineInterest(fine.getFineInterest());
+			loanAndFineHistory.setFineOverDays(fineOverDays);
+			loanAndFineHistory.setFineAmount(fineAmount);
+			loanAndFineHistory.setPaymentDate(new Date());
+			loanAndFineHistory.setPaymentMethodId(paymemtMethodId);
+			loanAndFineHistory.setStatus(true);
+			loanAndFineHistory.setDescription(txtDescription.getText());
+			LoanAndFineHistoryModel model = new LoanAndFineHistoryModel();
+			if (model.updatePayment(loanAndFineHistory)) {
+				JOptionPane.showMessageDialog(null, "Successful!");
+				PaymentLoan.this.dispose();
+			} else {
+				JOptionPane.showMessageDialog(null, "Please try again!");
 			}
+
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
 
 	}
 
@@ -642,14 +676,33 @@ public class PaymentLoan extends JDialog {
 		txtPaymentAmount.setText(Common.formatNumber(loanAndFineHistory.getPaymentAmount()));
 		txtDueDate.setDate(loanAndFineHistory.getDueDate());
 		txtFineInterest.setText(String.valueOf(fine.getFineInterest() + " %"));
-		fineOverDays = (new Date().getDay() - loanAndFineHistory.getDueDate().getDay());
-		txtFineOverdays.setText(String.valueOf(fineOverDays < 0 ? 0 : fineOverDays));
-		fineAmount = fineOverDays < 0 ? 0
-				: loanAndFineHistory.getPaymentAmount() * fineOverDays * fine.getFineInterest();
-		txtFineAmount.setText(Common.formatNumber(fineAmount));
-		txtAmountLeft.setText(Common.formatNumber(loanAndFineHistory.getAmountLeft()));
-		txtTotalPayment.setText(Common.formatNumber(fineAmount + loanAndFineHistory.getPaymentAmount()));
-		initPaymentMethodValue();
+		txtStatus.setText(loanAndFineHistory.isStatus() ? "Paid" : "Unpaid");
+		if (loanAndFineHistory.isStatus()) {
+			btnSave.setVisible(false);
+			btnClear.setVisible(false);
+			txtDescription.setEditable(false);
+			txtPaymentMethod.setVisible(true);
+			cbbxPaymentMethod.setVisible(false);
+			txtFineOverdays.setText(String.valueOf(loanAndFineHistory.getFineOverDays()));
+			txtFineAmount.setText(Common.formatNumber(loanAndFineHistory.getFineAmount()));
+			txtAmountLeft.setText(Common.formatNumber(loanAndFineHistory.getAmountLeft()));
+			txtTotalPayment.setText(
+					Common.formatNumber(loanAndFineHistory.getFineAmount() + loanAndFineHistory.getPaymentAmount()));
+			txtPaymentMethod.setText(loanAndFineHistory.getPaymentMenthodName());
+			txtDescription.setText(loanAndFineHistory.getDescription());
+			btnCancel.setText("Close");
+
+		} else {
+			fineOverDays = (new Date().getDay() - loanAndFineHistory.getDueDate().getDay());
+			txtFineOverdays.setText(String.valueOf(fineOverDays < 0 ? 0 : fineOverDays));
+			fineAmount = fineOverDays < 0 ? 0
+					: loanAndFineHistory.getPaymentAmount() * fineOverDays * fine.getFineInterest();
+			txtFineAmount.setText(Common.formatNumber(fineAmount));
+			txtAmountLeft.setText(Common.formatNumber(loanAndFineHistory.getAmountLeft()));
+			txtTotalPayment.setText(Common.formatNumber(fineAmount + loanAndFineHistory.getPaymentAmount()));
+			txtDescription.setText("");
+			initPaymentMethodValue();
+		}
 	}
 
 	private void initPaymentMethodValue() {

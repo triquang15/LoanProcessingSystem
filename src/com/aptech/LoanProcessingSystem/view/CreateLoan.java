@@ -591,25 +591,25 @@ public class CreateLoan extends JDialog {
 				loan.setCustomerId(customer.getId());
 				loan.setPaymentTypeId(paymentType.getId());
 				loan.setLoanTypeId(loanType.getId());
+				loan.setDuration(duration);
+				loan.setCreateDate(new Date());
+				loan.setDisbursementDate(disbursementDate);
+				loan.setEndDate(endDate);
 				if (ShareData.accountLogin.getAuthId() == 1) {
 					loan.setStatus(0);
 				} else if (ShareData.accountLogin.getAuthId() == 2) {
 					loan.setStatus(1);
 				}
+				
 				LoanModel loanModel = new LoanModel();
-				loan.setDuration(duration);
-				loan.setCreateDate(new Date());
-				loan.setDisbursementDate(disbursementDate);
-				loan.setEndDate(endDate);
-				loanModel = new LoanModel();
-
 				int id = loanModel.createResultId(loan);
-				if (id > 0) {
-					JOptionPane.showMessageDialog(this, "Successfully create loan!");
-				}
-				if (loan.getStatus() == 1) {
-					if (id != -1) {
+				
+				if(id!= -1) {
+					if(loan.getStatus()==1) {
 						createLoanAndFineHistory(id);
+					}else {
+						JOptionPane.showMessageDialog(this, "Successfully create loan!");
+						this.dispose();
 					}
 				}
 			} catch (Exception e2) {
