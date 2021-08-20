@@ -457,7 +457,7 @@ public class LoanDetail extends JPanel {
 		textField_1.setText(Integer.toString(currentPageIndex));
 		tblModel.setColumnIdentifiers(
 				new String[] { "Id", "Customer", "Payment Amount", "Amount", "Amount Left", "Due Date", "Fine Interest",
-						"Fine Over Days", "Fine Amount", "Payment Date", "Description", "Status" });
+						"Fine Over Days", "Fine Amount", "Payment Date", "Payment method", "Description", "Status" });
 		table.setModel(tblModel);
 		try {
 
@@ -466,9 +466,11 @@ public class LoanDetail extends JPanel {
 				tblModel.addRow(new Object[] { hisItem.getId(), hisItem.getCustomer(),
 						Common.formatNumber(hisItem.getPaymentAmount()), Common.formatNumber(hisItem.getAmount()),
 						Common.formatNumber(hisItem.getAmountLeft()), hisItem.getDueDate(),
-						hisItem.getFineInterest() * 100 + " %",
-						hisItem.getFineOverDays() + hisItem.getFineOverDays() > 1 ? " Days" : " Day",
-						Common.formatNumber(hisItem.getFineAmount()), hisItem.getPaymentDate(),
+						hisItem.getFineInterest() == 0 ? "-" : hisItem.getFineInterest() * 100 + " %",
+						hisItem.getFineOverDays() == 0 ? "-"
+								: hisItem.getFineOverDays() + (hisItem.getFineOverDays() > 1 ? " days" : " day"),
+						hisItem.getFineAmount() == 0 ? "-" : Common.formatNumber(hisItem.getFineAmount()),
+						hisItem.getPaymentDate(), hisItem.isStatus() ? hisItem.getPaymentMenthodName() : "-",
 						hisItem.getDescription(), hisItem.isStatus() ? "Paid" : "Unpaid" });
 			}
 			tblModel.fireTableDataChanged();

@@ -156,12 +156,7 @@ public class LoanAndFineHistoryModel {
 		LoanAndFineHistory result = null;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
-					"SELECT c.Name as Customer, pm.Name as PaymemtMethod, lt.Name as LoanType, "
-					+ "pt.Name as PaymentType, l.Period, l.Duration, l.EndDate, l.Interest, hs.* "
-					+ "FROM `loanandfinehistory` as hs JOIN `loan` as l on hs.LoanId = l.Id "
-					+ "JOIN `loantype` as lt on l.LoanTypeId = lt.Id JOIN `customer` as c ON l.CustomerId = c.Id "
-					+ "JOIN `paymenttype` as pt ON l.PaymentTypeId = pt.Id "
-					+ "JOIN `paymentmethod` as pm ON pm.Id = hs.PaymentMethodId where hs.id = ?");
+					"SELECT c.Name as Customer, pm.Name as PaymemtMethod, lt.Name as LoanType, pt.Name as PaymentType, l.Period, l.Duration, l.EndDate, l.Interest, hs.* FROM `loanandfinehistory` as hs LEFT JOIN `loan` as l on hs.LoanId = l.Id LEFT JOIN `loantype` as lt on l.LoanTypeId = lt.Id JOIN `customer` as c ON l.CustomerId = c.Id LEFT JOIN `paymenttype` as pt ON l.PaymentTypeId = pt.Id LEFT JOIN `paymentmethod` as pm ON pm.Id = hs.PaymentMethodId where hs.id = ?");
 			preparedStatement.setInt(1, keyword);
 			ResultSet rs = preparedStatement.executeQuery();
 			if (rs.next()) {

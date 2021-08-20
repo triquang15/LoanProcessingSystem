@@ -12,6 +12,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.Box;
@@ -95,8 +97,12 @@ public class PaymentLoan extends JDialog {
 	public PaymentLoan(int loanHisId) {
 		this();
 		this.loanAndFineHistory = new LoanAndFineHistoryModel().searchHistoryBasedOnId(loanHisId);
-		this.fine = new FineModel().findFineInterest(loanAndFineHistory.getPaymentAmount());
+		if(loanAndFineHistory==null) {
+			JOptionPane.showMessageDialog(null, "Something went wrong!");
+			this.dispose();
+		}
 
+		this.fine = new FineModel().findFineInterest(loanAndFineHistory.getPaymentAmount());
 		initValue();
 	}
 
@@ -672,11 +678,12 @@ public class PaymentLoan extends JDialog {
 		txtPeriod.setText(String.valueOf(loanAndFineHistory.getPeriod()));
 		txtDuration.setText(String.valueOf(loanAndFineHistory.getDuration()));
 		txtLoanAmount.setText(Common.formatNumber(loanAndFineHistory.getAmount()));
-		txtInterest.setText(String.valueOf(loanAndFineHistory.getLoanInterest() * 100) + " %");
+		txtInterest.setText(Common.formatNumber(loanAndFineHistory.getLoanInterest() * 100) + " %");
 		txtPaymentAmount.setText(Common.formatNumber(loanAndFineHistory.getPaymentAmount()));
 		txtDueDate.setDate(loanAndFineHistory.getDueDate());
-		txtFineInterest.setText(String.valueOf(fine.getFineInterest() + " %"));
+		txtFineInterest.setText(Common.formatNumber(fine.getFineInterest()*100) + " %");
 		txtStatus.setText(loanAndFineHistory.isStatus() ? "Paid" : "Unpaid");
+		txtAmountLeft.setText(Common.formatNumber(loanAndFineHistory.getAmountLeft()));
 		if (loanAndFineHistory.isStatus()) {
 			btnSave.setVisible(false);
 			btnClear.setVisible(false);
@@ -685,7 +692,6 @@ public class PaymentLoan extends JDialog {
 			cbbxPaymentMethod.setVisible(false);
 			txtFineOverdays.setText(String.valueOf(loanAndFineHistory.getFineOverDays()));
 			txtFineAmount.setText(Common.formatNumber(loanAndFineHistory.getFineAmount()));
-			txtAmountLeft.setText(Common.formatNumber(loanAndFineHistory.getAmountLeft()));
 			txtTotalPayment.setText(
 					Common.formatNumber(loanAndFineHistory.getFineAmount() + loanAndFineHistory.getPaymentAmount()));
 			txtPaymentMethod.setText(loanAndFineHistory.getPaymentMenthodName());
@@ -693,12 +699,23 @@ public class PaymentLoan extends JDialog {
 			btnCancel.setText("Close");
 
 		} else {
-			fineOverDays = (new Date().getDay() - loanAndFineHistory.getDueDate().getDay());
+			
+
+			Calendar nowCalendar = Calendar.getInstance();
+			nowCalendar.setTime(new Date());
+			nowCalendar.set(Calendar.HOUR_OF_DAY, 0);
+			nowCalendar.set(Calendar.MINUTE, 0);
+			nowCalendar.set(Calendar.SECOND, 0);
+			Calendar dueCalendar = Calendar.getInstance();
+			dueCalendar.setTime(loanAndFineHistory.getDueDate());
+			dueCalendar.set(Calendar.HOUR_OF_DAY, 0);
+			dueCalendar.set(Calendar.MINUTE, 0);
+			dueCalendar.set(Calendar.SECOND, 0);
+			fineOverDays = (int) ChronoUnit.DAYS.between(dueCalendar.toInstant(), nowCalendar.toInstant());
 			txtFineOverdays.setText(String.valueOf(fineOverDays < 0 ? 0 : fineOverDays));
 			fineAmount = fineOverDays < 0 ? 0
 					: loanAndFineHistory.getPaymentAmount() * fineOverDays * fine.getFineInterest();
 			txtFineAmount.setText(Common.formatNumber(fineAmount));
-			txtAmountLeft.setText(Common.formatNumber(loanAndFineHistory.getAmountLeft()));
 			txtTotalPayment.setText(Common.formatNumber(fineAmount + loanAndFineHistory.getPaymentAmount()));
 			txtDescription.setText("");
 			initPaymentMethodValue();
