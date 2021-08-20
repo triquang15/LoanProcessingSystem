@@ -44,6 +44,7 @@ import com.aptech.LoanProcessingSystem.model.CustomerModel;
 import com.aptech.LoanProcessingSystem.model.LoanModel;
 import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
 import com.aptech.LoanProcessingSystem.model.PaymentTypeModel;
+import com.aptech.LoanProcessingSystem.service.Common;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
@@ -299,7 +300,7 @@ public class jDialogAddNewCustomer extends JDialog {
 		txtAdress.setText(this.customer.getAddress());
 		txtPhone.setText(this.customer.getPhone());
 		txtEmail.setText(this.customer.getEmail());
-		txtSalary.setText(String.valueOf(this.customer.getSalary()));
+		txtSalary.setText(Common.formatInt(this.customer.getSalary()));
 		txtJob.setText(this.customer.getJob());
 		jdatechooserDOB.setDate(this.customer.getDob());
 		txtCompany.setText(this.customer.getCompany());

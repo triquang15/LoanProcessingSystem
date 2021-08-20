@@ -72,7 +72,7 @@ public class LoanTypeModel {
 		List<LoanType> loanTypeList = new ArrayList<LoanType>();
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
-					.prepareStatement("SELECT * FROM loantype");
+					.prepareStatement("SELECT * FROM loantype where status = true");
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				LoanType loanType = new LoanType();

@@ -222,6 +222,8 @@ public class jpanelCustomerProfile extends JPanel {
 	public void btnAdd_actionPerformed(ActionEvent e) {
 		SignUp addNewCustomer = new SignUp();
 		addNewCustomer.setVisible(true);
+		jDialogAddNewCustomer addNewCustomer2 = new jDialogAddNewCustomer();
+		addNewCustomer2.setVisible(true);
 	}
 
 	public void fillDataToJTable(List<Customer> customerList) {
@@ -377,6 +379,16 @@ public class jpanelCustomerProfile extends JPanel {
 			Customer customer = customerModel.findById(id);
 			jDialogAddNewCustomer addNewCustomer = new jDialogAddNewCustomer(customer);
 			addNewCustomer.setVisible(true);
+			addNewCustomer.addWindowListener(new WindowAdapter() {
+
+				@Override
+				public void windowClosed(WindowEvent e) {
+					CustomerModel customerModel = new CustomerModel();
+					fillDataToJTable(customerModel.findAll());
+					super.windowClosed(e);
+				}
+				
+			});
 		}
 	}
 	
