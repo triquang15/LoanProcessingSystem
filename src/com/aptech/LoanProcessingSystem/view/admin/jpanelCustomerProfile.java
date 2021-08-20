@@ -32,6 +32,7 @@ import com.aptech.LoanProcessingSystem.entities.Customer;
 import com.aptech.LoanProcessingSystem.entities.LoanType;
 import com.aptech.LoanProcessingSystem.model.CustomerModel;
 import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
+import com.aptech.LoanProcessingSystem.view.AddCustomer;
 import com.aptech.LoanProcessingSystem.view.admin.jpanelCustomerProfile.LoanInfosPane;
 
 import javax.swing.JComboBox;
@@ -220,7 +221,7 @@ public class jpanelCustomerProfile extends JPanel {
 	}
 
 	public void btnAdd_actionPerformed(ActionEvent e) {
-		SignUp addNewCustomer = new SignUp();
+		AddCustomer addNewCustomer = new AddCustomer();
 		addNewCustomer.setVisible(true);
 		jDialogAddNewCustomer addNewCustomer2 = new jDialogAddNewCustomer();
 		addNewCustomer2.setVisible(true);
