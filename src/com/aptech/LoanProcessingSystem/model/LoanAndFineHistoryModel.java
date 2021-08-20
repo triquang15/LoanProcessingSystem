@@ -207,6 +207,7 @@ public class LoanAndFineHistoryModel {
 			preparedStatement.setDate(5, new java.sql.Date(loanAndFineHistory.getPaymentDate().getTime()));
 			preparedStatement.setString(6, loanAndFineHistory.getDescription());
 			preparedStatement.setDouble(7, loanAndFineHistory.getFineInterest());
+
 			preparedStatement.setInt(8, loanAndFineHistory.getId());
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {

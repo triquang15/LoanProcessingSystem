@@ -415,7 +415,6 @@ public class LoanModel {
 		return result;
 	}
 
-
 	public Loan loadLoanByID(int id) {
 		Loan loan = new Loan();
 		try {
@@ -445,6 +444,42 @@ public class LoanModel {
 			ConnectDB.disconnect();
 		}
 		return loan;
+	}
+	
+	public int createResultId(Loan loan) {
+		int rs = -1;
+		try {
+			String generatedColums[] = { "Id" };
+			PreparedStatement ps = ConnectDB.connection().prepareStatement(
+					"insert into loan(Amount, Period, CreateDate, DisbursementDate, Duration, EndDate, Interest, Description, CustomerId, PaymentTypeId, LoanTypeId, AccountId, Status) values(?,?,?,?,?,?,?,?,?,?,?,?,?)",
+					generatedColums);
+			ps.setDouble(1, loan.getAmount());
+			ps.setInt(2, loan.getPeriod());
+			ps.setDate(3, new java.sql.Date(loan.getCreateDate().getTime()));
+			ps.setDate(4, new java.sql.Date(loan.getDisbursementDate().getTime()));
+			ps.setInt(5, loan.getDuration());
+			ps.setDate(6, new java.sql.Date(loan.getEndDate().getTime()));
+			ps.setDouble(7, loan.getInterest());
+			ps.setString(8, loan.getDescription());
+			ps.setInt(9, loan.getCustomerId());
+			ps.setInt(10, loan.getPaymentTypeId());
+			ps.setInt(11, loan.getLoanTypeId());
+			ps.setInt(12, ShareData.accountLogin.getId());
+			ps.setInt(13, loan.getStatus());
+			boolean response = ps.executeUpdate() > 0;
+			if (response) {
+				ResultSet resultSet = ps.getGeneratedKeys();
+				if (resultSet.next()) {
+					int id = resultSet.getInt(1);
+					rs = id;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return rs;
 	}
 
 	public LoanType loadLoanTypeByLoanID(int id) {

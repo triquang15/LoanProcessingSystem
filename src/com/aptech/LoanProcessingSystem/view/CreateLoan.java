@@ -36,9 +36,11 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import com.aptech.LoanProcessingSystem.entities.Customer;
 import com.aptech.LoanProcessingSystem.entities.Loan;
+import com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory;
 import com.aptech.LoanProcessingSystem.entities.LoanType;
 import com.aptech.LoanProcessingSystem.entities.PaymentType;
 import com.aptech.LoanProcessingSystem.model.CustomerModel;
+import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
 import com.aptech.LoanProcessingSystem.model.LoanModel;
 import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
 import com.aptech.LoanProcessingSystem.model.PaymentTypeModel;
@@ -66,6 +68,8 @@ public class CreateLoan extends JDialog {
 	private Loan loan = new Loan();
 	private LoanType loanType = new LoanType();
 	private JTextField txtPeriod;
+	private JTextField txtCustomerNameKeyWord;
+	private JComboBox cbCustomerName;
 
 	/**
 	 * Launch the application.
@@ -88,6 +92,9 @@ public class CreateLoan extends JDialog {
 	public CreateLoan(int id) {
 		this();
 		initData(id);
+		txtCustomerName.setVisible(true);
+		txtCustomerNameKeyWord.setVisible(false);
+		cbCustomerName.setVisible(false);
 	}
 
 	/**
@@ -200,6 +207,7 @@ public class CreateLoan extends JDialog {
 		panel_2.add(glue_1);
 
 		txtCustomerName = new JTextField();
+		txtCustomerName.setVisible(false);
 		txtCustomerName.setForeground(Color.BLACK);
 		txtCustomerName.setEditable(false);
 		txtCustomerName.setMaximumSize(new Dimension(1000, 30));
@@ -208,6 +216,34 @@ public class CreateLoan extends JDialog {
 		panel_2.add(txtCustomerName);
 		txtCustomerName.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 10));
 		txtCustomerName.setColumns(10);
+
+		JPanel panel_7 = new JPanel();
+		panel_2.add(panel_7);
+		panel_7.setLayout(new BoxLayout(panel_7, BoxLayout.X_AXIS));
+
+		txtCustomerNameKeyWord = new JTextField();
+		txtCustomerNameKeyWord.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				txtCustomerNameKeyWord_focusLost(e);
+			}
+		});
+		txtCustomerNameKeyWord.setPreferredSize(new Dimension(700, 30));
+		txtCustomerNameKeyWord.setMinimumSize(new Dimension(700, 30));
+		txtCustomerNameKeyWord.setMaximumSize(new Dimension(700, 30));
+		panel_7.add(txtCustomerNameKeyWord);
+		txtCustomerNameKeyWord.setColumns(10);
+
+		cbCustomerName = new JComboBox();
+		cbCustomerName.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cbCustomerName_actionPerformed(e);
+			}
+		});
+		cbCustomerName.setMinimumSize(new Dimension(700, 30));
+		cbCustomerName.setMaximumSize(new Dimension(700, 30));
+		cbCustomerName.setPreferredSize(new Dimension(28, 30));
+		panel_7.add(cbCustomerName);
 
 		Component verticalStrut_4 = Box.createVerticalStrut(20);
 		panel_2.add(verticalStrut_4);
@@ -484,6 +520,35 @@ public class CreateLoan extends JDialog {
 		});
 	}
 
+	public void txtCustomerNameKeyWord_focusLost(FocusEvent e) {
+		String keyValue = txtCustomerNameKeyWord.getText().trim();
+		CustomerModel customerModel = new CustomerModel();
+		DefaultComboBoxModel<Customer> boxModel = new DefaultComboBoxModel<Customer>();
+		for (Customer cus : customerModel.search(keyValue)) {
+			boxModel.addElement(cus);
+		}
+		cbCustomerName.setModel(boxModel);
+		cbCustomerName.setRenderer(new CustomerNameCellRenderer());
+	}
+
+	public void cbCustomerName_actionPerformed(ActionEvent e) {
+		JComboBox<Customer> cb = (JComboBox<Customer>) e.getSource();
+		Customer customer = (Customer) cb.getSelectedItem();
+		this.customer = customer;
+		txtCustomerNameKeyWord.setText(customer.getName());
+	}
+
+	private class CustomerNameCellRenderer extends DefaultListCellRenderer {
+
+		@Override
+		public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
+				boolean cellHasFocus) {
+			Customer customer = (Customer) value;
+			return super.getListCellRendererComponent(list, customer.getName(), index, isSelected, cellHasFocus);
+		}
+
+	}
+
 	private void initData(int customerId) {
 		customer = new CustomerModel().findById(customerId);
 		txtCustomerName.setText(customer.getName());
@@ -526,17 +591,26 @@ public class CreateLoan extends JDialog {
 				loan.setCustomerId(customer.getId());
 				loan.setPaymentTypeId(paymentType.getId());
 				loan.setLoanTypeId(loanType.getId());
-				loan.setStatus(0);
+				if (ShareData.accountLogin.getAuthId() == 1) {
+					loan.setStatus(0);
+				} else if (ShareData.accountLogin.getAuthId() == 2) {
+					loan.setStatus(1);
+				}
+				LoanModel loanModel = new LoanModel();
 				loan.setDuration(duration);
 				loan.setCreateDate(new Date());
 				loan.setDisbursementDate(disbursementDate);
 				loan.setEndDate(endDate);
-				LoanModel loanModel = new LoanModel();
-				if(loanModel.create(loan)) {
-					JOptionPane.showMessageDialog(null, "Successfully created!");
-					this.dispose();
-				}else {
-					JOptionPane.showMessageDialog(null, "Created failed!");
+				loanModel = new LoanModel();
+
+				int id = loanModel.createResultId(loan);
+				if (id > 0) {
+					JOptionPane.showMessageDialog(this, "Successfully create loan!");
+				}
+				if (loan.getStatus() == 1) {
+					if (id != -1) {
+						createLoanAndFineHistory(id);
+					}
 				}
 			} catch (Exception e2) {
 				e2.printStackTrace();
@@ -681,58 +755,45 @@ public class CreateLoan extends JDialog {
 		}
 	}
 
-//	private void createLoanHistory(int loanId) {
-//
-////		FineModel fineModel = new FineModel();
-////		Fine fine = new Fine();
-////		fine = fineModel.find_fine_interest(installment);
-////		int fine_id = fine.getId();
-////		double fineInterest = fine.getFineInterest();
-////		double fineAmount = installment * fineInterest;
-//
-//		amountDouble = Double.parseDouble(txtAmount.getText().trim());
-//		LoanAndFineHistory loanAndFineHistory = new LoanAndFineHistory();
-//		loanAndFineHistory.setLoanId(loanId);
-//		loanAndFineHistory.setPaymentMethodId(1);
-//		loanAndFineHistory.setPaymentAmount(0);
-//		loanAndFineHistory.setDescription(txtDescription.getText());
-//		loanAndFineHistory.setStatus(false);
-//		loanAndFineHistory.setFineAmount(0);
-//		loanAndFineHistory.setFineOverDays(0);
-//		loanAndFineHistory.setAmount(amountDouble);
-//
-//		Calendar dueDateCalendar = Calendar.getInstance();
-//		dueDateCalendar.setTime(disbursementDate);
-//
-//		Calendar disbursementCalendar = Calendar.getInstance();
-//		disbursementCalendar.setTime(disbursementDate);
-//
-//		double amountInAmount = amountDouble / duration;
-//		double amountLeft = amountDouble;
-//		int period = (int) cbbxPeriod.getSelectedItem();
-//		dueDateCalendar.set(Calendar.MONTH, disbursementCalendar.get(Calendar.MONTH));
-//		LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
-//		try {
-//			for (int i = period; i <= duration; i += period) {
-//				Date dueDate = dueDateCalendar.getTime();
-//				double paymentAmount = (amountInAmount + (amountDouble * loanType.getInterest()) / 12) * period;
-//				amountLeft = amountLeft - (amountInAmount * period);
-//				loanAndFineHistory.setPaymentAmount(paymentAmount);
-//				loanAndFineHistory.setAmountLeft(Math.abs(amountLeft));
-//				loanAndFineHistory.setDueDate(dueDate);
-//				dueDateCalendar.set(Calendar.MONTH, dueDateCalendar.get(Calendar.MONTH) + 1);
-//				if (!loanAndFineHistoryModel.createLoanAndFineHistory(loanAndFineHistory)) {
-//					loanAndFineHistoryModel.deleteWithLoanId(loanId);
-//					new LoanModel().delete(loanId);
-//					JOptionPane.showMessageDialog(null, "Please try again!");
-//					return;
-//				}
-//			}
-//			JOptionPane.showMessageDialog(null, "Successful!");
-//		} catch (Exception a) {
-//			JOptionPane.showMessageDialog(null, "Please try again!");
-//			a.printStackTrace();
-//		}
-//
-//	}
+	private void createLoanAndFineHistory(int loanId) {
+		Loan loan = new LoanModel().loadLoanByID(loanId);
+		Double amountDouble = loan.getAmount();
+		LoanAndFineHistory loanAndFineHistory = new LoanAndFineHistory();
+		loanAndFineHistory.setLoanId(loanId);
+		loanAndFineHistory.setPaymentMethodId(1);
+		loanAndFineHistory.setPaymentAmount(0);
+		loanAndFineHistory.setStatus(false);
+		loanAndFineHistory.setFineAmount(0);
+		loanAndFineHistory.setFineOverDays(0);
+		loanAndFineHistory.setAmount(amountDouble);
+
+		Calendar dueDateCalendar = Calendar.getInstance();
+		dueDateCalendar.setTime(loan.getDisbursementDate());
+
+		Calendar disbursementCalendar = Calendar.getInstance();
+		disbursementCalendar.setTime(loan.getDisbursementDate());
+
+		double amountInAmount = amountDouble / loan.getDuration();
+		double amountLeft = amountDouble;
+		int period = loan.getPeriod();
+		dueDateCalendar.set(Calendar.MONTH, disbursementCalendar.get(Calendar.MONTH));
+		LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
+		try {
+			for (int i = period; i <= loan.getDuration(); i += period) {
+				Date dueDate = dueDateCalendar.getTime();
+				double paymentAmount = (amountInAmount + (amountDouble * loan.getInterest()) / 12) * period;
+				amountLeft = amountLeft - (amountInAmount * period);
+				loanAndFineHistory.setPaymentAmount(paymentAmount);
+				loanAndFineHistory.setAmountLeft(Math.abs(amountLeft));
+				loanAndFineHistory.setDueDate(dueDate);
+				dueDateCalendar.set(Calendar.MONTH, dueDateCalendar.get(Calendar.MONTH) + 1);
+				loanAndFineHistoryModel.createLoanAndFineHistory(loanAndFineHistory);
+			}
+			JOptionPane.showMessageDialog(null, "Successfully created loan and fine history!");
+			this.dispose();
+		} catch (Exception a) {
+			JOptionPane.showMessageDialog(null, "Please try again!");
+			a.printStackTrace();
+		}
+	}
 }

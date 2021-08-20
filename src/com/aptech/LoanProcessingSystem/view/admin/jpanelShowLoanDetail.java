@@ -1,5 +1,35 @@
 package com.aptech.LoanProcessingSystem.view.admin;
 
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
+import com.aptech.LoanProcessingSystem.entities.Customer;
+import com.aptech.LoanProcessingSystem.entities.Loan;
+import com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory;
+import com.aptech.LoanProcessingSystem.entities.LoanType;
+import com.aptech.LoanProcessingSystem.entities.MyLoanAndFineHistory;
+import com.aptech.LoanProcessingSystem.entities.PaymentType;
+import com.aptech.LoanProcessingSystem.model.AccountModel;
+import com.aptech.LoanProcessingSystem.model.CustomerModel;
+import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
+import com.aptech.LoanProcessingSystem.model.LoanModel;
+import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
+import com.aptech.LoanProcessingSystem.model.PaymentTypeModel;
+import com.aptech.LoanProcessingSystem.service.Common;
+import com.aptech.LoanProcessingSystem.service.ShareData;
+import com.aptech.LoanProcessingSystem.view.CreateLoan;
+import com.aptech.LoanProcessingSystem.view.LoanUpdate;
+import com.aptech.LoanProcessingSystem.view.PaymentLoan;
+import com.aptech.LoanProcessingSystem.view.admin.jpanelAddNewLoan.cbLoanTypeCellRender;
+import com.aptech.LoanProcessingSystem.view.admin.jpanelAddNewLoan.cbPaymentTypt_CellRender;
+import com.toedter.calendar.JDateChooser;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -14,6 +44,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -176,6 +208,15 @@ public class jpanelShowLoanDetail extends JPanel {
 							}
 						});
 						panel_2.add(btnAddLoan);
+					}
+					{
+						JButton btnViewAllLoans = new JButton("View All Loans");
+						btnViewAllLoans.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								btnViewAllLoans_actionPerformed(e);
+							}
+						});
+						panel_2.add(btnViewAllLoans);
 					}
 				}
 			}
@@ -720,11 +761,6 @@ public class jpanelShowLoanDetail extends JPanel {
 						panel_2.setBackground(new Color(34, 40, 44));
 						panel_1.add(panel_2, BorderLayout.SOUTH);
 						{
-							JButton btnUpdate = new JButton("Update");
-							btnUpdate.setFont(new Font("Tahoma", Font.PLAIN, 16));
-							panel_2.add(btnUpdate);
-						}
-						{
 							JButton btnDelete = new JButton("Delete");
 							btnDelete.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
@@ -739,16 +775,29 @@ public class jpanelShowLoanDetail extends JPanel {
 			}
 		}
 	}
+	
+	public void btnViewAllLoans_actionPerformed(ActionEvent e) {
+		JPanel jpanelMain = (JPanel) this.getParent();
+		jpanelMain.removeAll();
+		jpanelMain.revalidate();
+		jpnaelShowCustomerLoan customerLoan = new jpnaelShowCustomerLoan(this.customer);
+		jpanelMain.add(customerLoan);
+		customerLoan.setVisible(true);
+	}
 
 	public void btnDelete_actionPerformed(ActionEvent e) {
-		int i = JOptionPane.showConfirmDialog(this, "Do you want to close this loan?", "Close Loan",
-				JOptionPane.YES_NO_CANCEL_OPTION);
-		if (i == JOptionPane.YES_OPTION) {
-			LoanModel loanModel = new LoanModel();
-			if (loanModel.closeLoan(this.loan.getId())) {
-				JOptionPane.showMessageDialog(this, "Done");
-				this.loan = loanModel.loadLoanByID(this.loan.getId());
-				FillDataToJTable(this.loan, tblLoanDetail);
+		if (this.loan.getStatus() == 2) {
+			JOptionPane.showMessageDialog(this, "You can not stop fully paid loan");
+		} else {
+			int i = JOptionPane.showConfirmDialog(this, "Do you want to close this loan?", "Close Loan",
+					JOptionPane.YES_NO_CANCEL_OPTION);
+			if (i == JOptionPane.YES_OPTION) {
+				LoanModel loanModel = new LoanModel();
+				if (loanModel.closeLoan(this.loan.getId())) {
+					JOptionPane.showMessageDialog(this, "Done");
+					this.loan = loanModel.loadLoanByID(this.loan.getId());
+					FillDataToJTable(this.loan, tblLoanDetail);
+				}
 			}
 		}
 	}
@@ -756,12 +805,11 @@ public class jpanelShowLoanDetail extends JPanel {
 	private void repayment(int i) {
 		LoanModel loanModel = new LoanModel();
 		int statusFalse = loanModel.countStatusFalseInLoan(this.loan.getId());
-
-		if (statusFalse > 0) {
+		if (statusFalse > 1) {
 			if (this.loan.getStatus() == 1) {
-				LoanUpdate loanUpdate = new LoanUpdate(i);
-				loanUpdate.setVisible(true);
-				loanUpdate.addWindowListener(new WindowAdapter() {
+				PaymentLoan paymentLoan = new PaymentLoan(i);
+				paymentLoan.setVisible(true);
+				paymentLoan.addWindowListener(new WindowAdapter() {
 
 					@Override
 					public void windowClosed(WindowEvent e) {
@@ -783,6 +831,29 @@ public class jpanelShowLoanDetail extends JPanel {
 					JOptionPane.showMessageDialog(this, "Fully paid");
 				}
 			}
+		} else if (statusFalse == 1) {
+			if (this.loan.getStatus() == 1) {
+				PaymentLoan paymentLoan = new PaymentLoan(i);
+				paymentLoan.setVisible(true);
+				paymentLoan.addWindowListener(new WindowAdapter() {
+
+					@Override
+					public void windowClosed(WindowEvent e) {
+						LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
+						FillDataToJTableLoanHistory(loanAndFineHistoryModel.getAllLoanAndFineHistorys(loan.getId()),
+								tableLoanHistory);
+						if (loanModel.fullyPaidLoan(loan.getId())) {
+							JOptionPane.showMessageDialog(null, "Fully paid");
+							loan.setStatus(2);
+							FillDataToJTable(loan, tblLoanDetail);
+						}
+					}
+
+				});
+
+			} else if (this.loan.getStatus() == 3) {
+				JOptionPane.showMessageDialog(this, "You cannot repayment this loan because it was stopped!!!");
+			}
 		}
 	}
 
@@ -797,12 +868,8 @@ public class jpanelShowLoanDetail extends JPanel {
 	}
 
 	public void btnAddLoan_actionPerformed(ActionEvent e) {
-		JPanel jpanelMain = (JPanel) this.getParent();
-		jpanelMain.removeAll();
-		jpanelMain.revalidate();
-		jpanelAddNewLoan addNewLoan = new jpanelAddNewLoan(this.customer.getId());
-		jpanelMain.add(addNewLoan);
-		addNewLoan.setVisible(true);
+		CreateLoan createLoan = new CreateLoan(this.customer.getId());
+		createLoan.setVisible(true);
 	}
 
 	private void loadData() {
@@ -878,13 +945,13 @@ public class jpanelShowLoanDetail extends JPanel {
 		}
 		defaultTableModel.addRow(new Object[] { loan.getId(), loadLoanTypeName(loan.getLoanTypeId()),
 				loan.getInterest(), loadEmployeeName(loan.getAccountId()), loadCustomerName(loan.getCustomerId()),
-				loadPaymentTypeName(loan.getPaymentTypeId()), Common.formatNumber(loan.getAmount()), loan.getPeriod(), loan.getDuration(),
-				loan.getCreateDate(), loan.getDisbursementDate(), loan.getEndDate(), loan.getDescription(),
-				statusMask });
+				loadPaymentTypeName(loan.getPaymentTypeId()), Common.formatNumber(loan.getAmount()), loan.getPeriod(),
+				loan.getDuration(), loan.getCreateDate(), loan.getDisbursementDate(), loan.getEndDate(),
+				loan.getDescription(), statusMask });
 
 		tableLoan.setModel(defaultTableModel);
 		tableLoan.getColumnModel().getColumn(13).setCellRenderer(new LoanTableStatusButtonRenderer());
-//		tableLoan.getColumnModel().getColumn(13).setCellEditor(new ClientsTableRenderer(new JCheckBox()));
+		tableLoan.getColumnModel().getColumn(13).setCellEditor(new ClientsTableRenderer(new JCheckBox()));
 		tableLoan.getTableHeader().setReorderingAllowed(false);
 		tableLoan.setShowHorizontalLines(true);
 		tableLoan.setShowVerticalLines(false);
@@ -918,15 +985,16 @@ public class jpanelShowLoanDetail extends JPanel {
 			statusMask = myLoanAndFineHistory.isStatus() ? "Repayment" : "Not Repayment";
 			defaultTableModel.addRow(new Object[] { myLoanAndFineHistory.getId(), myLoanAndFineHistory.getCustomer(),
 					Common.formatNumber(myLoanAndFineHistory.getAmount()), myLoanAndFineHistory.getPaymentMenthodName(),
-					Common.formatNumber(myLoanAndFineHistory.getPaymentAmount()), Common.formatNumber(myLoanAndFineHistory.getAmountLeft()),
-					myLoanAndFineHistory.getDueDate(), myLoanAndFineHistory.getFineInterest(),
-					myLoanAndFineHistory.getFineOverDays(), Common.formatNumber(myLoanAndFineHistory.getFineAmount()),
-					myLoanAndFineHistory.getPaymentDate(), myLoanAndFineHistory.getDescription(), statusMask });
+					Common.formatNumber(myLoanAndFineHistory.getPaymentAmount()),
+					Common.formatNumber(myLoanAndFineHistory.getAmountLeft()), myLoanAndFineHistory.getDueDate(),
+					myLoanAndFineHistory.getFineInterest(), myLoanAndFineHistory.getFineOverDays(),
+					Common.formatNumber(myLoanAndFineHistory.getFineAmount()), myLoanAndFineHistory.getPaymentDate(),
+					myLoanAndFineHistory.getDescription(), statusMask });
 		}
 		tableLoanHistory.setModel(defaultTableModel);
 		tableLoanHistory.getColumnModel().getColumn(12)
 				.setCellRenderer(new LoanAndFineHistoryTableStatusButtonRenderer());
-		tableLoanHistory.getColumnModel().getColumn(12).setCellEditor(new ClientsTableRenderer(new JCheckBox()));
+		tableLoanHistory.getColumnModel().getColumn(12).setCellEditor(new HistoryClientsTableRenderer(new JCheckBox()));
 		tableLoanHistory.getTableHeader().setReorderingAllowed(false);
 		tableLoanHistory.setShowHorizontalLines(true);
 		tableLoanHistory.setShowVerticalLines(false);
@@ -972,6 +1040,61 @@ public class jpanelShowLoanDetail extends JPanel {
 		}
 	}
 
+	private void updateStatusNewToOpen(int id) {
+		int a = JOptionPane.showConfirmDialog(null, "Do you want to inspect this loan", "Warning",
+				JOptionPane.YES_NO_CANCEL_OPTION);
+		if (a == JOptionPane.YES_OPTION) {
+			LoanModel loanModel = new LoanModel();
+			if (loanModel.accpetLoan(id)) {
+				this.loan.setStatus(1);
+				JOptionPane.showMessageDialog(null, "Done");
+			} else {
+				JOptionPane.showMessageDialog(null, "Fail");
+			}
+		}
+	}
+
+	private void createLoanAndFineHistory(int loanId) {
+		Loan loan = new LoanModel().loadLoanByID(loanId);
+		Double amountDouble = loan.getAmount();
+		LoanAndFineHistory loanAndFineHistory = new LoanAndFineHistory();
+		loanAndFineHistory.setLoanId(loanId);
+		loanAndFineHistory.setPaymentMethodId(1);
+		loanAndFineHistory.setPaymentAmount(0);
+		loanAndFineHistory.setStatus(false);
+		loanAndFineHistory.setFineAmount(0);
+		loanAndFineHistory.setFineOverDays(0);
+		loanAndFineHistory.setAmount(amountDouble);
+
+		Calendar dueDateCalendar = Calendar.getInstance();
+		dueDateCalendar.setTime(loan.getDisbursementDate());
+
+		Calendar disbursementCalendar = Calendar.getInstance();
+		disbursementCalendar.setTime(loan.getDisbursementDate());
+
+		double amountInAmount = amountDouble / loan.getDuration();
+		double amountLeft = amountDouble;
+		int period = loan.getPeriod();
+		dueDateCalendar.set(Calendar.MONTH, disbursementCalendar.get(Calendar.MONTH));
+		LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
+		try {
+			for (int i = period; i <= loan.getDuration(); i += period) {
+				Date dueDate = dueDateCalendar.getTime();
+				double paymentAmount = (amountInAmount + (amountDouble * loan.getInterest()) / 12) * period;
+				amountLeft = amountLeft - (amountInAmount * period);
+				loanAndFineHistory.setPaymentAmount(paymentAmount);
+				loanAndFineHistory.setAmountLeft(Math.abs(amountLeft));
+				loanAndFineHistory.setDueDate(dueDate);
+				dueDateCalendar.set(Calendar.MONTH, dueDateCalendar.get(Calendar.MONTH) + 1);
+				loanAndFineHistoryModel.createLoanAndFineHistory(loanAndFineHistory);
+			}
+			JOptionPane.showMessageDialog(null, "Successful!");
+		} catch (Exception a) {
+			JOptionPane.showMessageDialog(null, "Please try again!");
+			a.printStackTrace();
+		}
+	}
+
 	class LoanTableStatusButtonRenderer extends JButton implements TableCellRenderer {
 		public LoanTableStatusButtonRenderer() {
 			setOpaque(true);
@@ -981,19 +1104,6 @@ public class jpanelShowLoanDetail extends JPanel {
 				int row, int column) {
 			setText((value == null) ? "" : value.toString());
 			loadColorOfButton(value.toString(), "New", "Open", "Fully Paid", "Stop", this);
-			return this;
-		}
-	}
-
-	class LoanAndFineHistoryTableStatusButtonRenderer extends JButton implements TableCellRenderer {
-		public LoanAndFineHistoryTableStatusButtonRenderer() {
-			setOpaque(true);
-		}
-
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-				int row, int column) {
-			setText((value == null) ? "" : value.toString());
-			loadColorOfButton(value.toString(), "Not Repayment", "Repayment", "", "", this);
 			return this;
 		}
 	}
@@ -1011,9 +1121,87 @@ public class jpanelShowLoanDetail extends JPanel {
 			button.setOpaque(true);
 			button.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					fireEditingStopped();
+					if (button.getText().equals("New") || button.getText().equals("Stop")) {
+						int id = (int) table.getValueAt(row, 0);
+						if (button.getText().equals("New")) {
+							updateStatusNewToOpen(id);
+							createLoanAndFineHistory(id);
+							LoanModel loanModel = new LoanModel();
+							FillDataToJTable(loan, table);
+						} else if (button.getText().equals("Stop")) {
+							updateStatusNewToOpen(id);
+							LoanModel loanModel = new LoanModel();
+							FillDataToJTable(loan, table);
+						}
+					}
+				}
+			});
+		}
+
+		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
+				int column) {
+			this.table = table;
+			this.row = row;
+			this.col = column;
+
+			button.setForeground(Color.black);
+			button.setBackground(UIManager.getColor("Button.background"));
+			label = (value == null) ? "" : value.toString();
+			button.setText(label);
+			clicked = true;
+			return button;
+		}
+
+		public Object getCellEditorValue() {
+			if (clicked) {
+
+			}
+			clicked = false;
+			return new String(label);
+		}
+
+		public boolean stopCellEditing() {
+			clicked = false;
+			return super.stopCellEditing();
+		}
+
+		protected void fireEditingStopped() {
+			super.fireEditingStopped();
+		}
+	}
+
+	class LoanAndFineHistoryTableStatusButtonRenderer extends JButton implements TableCellRenderer {
+		public LoanAndFineHistoryTableStatusButtonRenderer() {
+			setOpaque(true);
+		}
+
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+			setText((value == null) ? "" : value.toString());
+			loadColorOfButton(value.toString(), "Not Repayment", "Repayment", "", "", this);
+			return this;
+		}
+	}
+
+	public class HistoryClientsTableRenderer extends DefaultCellEditor {
+		private JButton button;
+		private String label;
+		private boolean clicked;
+		private int row, col;
+		private JTable table;
+
+		public HistoryClientsTableRenderer(JCheckBox checkBox) {
+			super(checkBox);
+			button = new JButton();
+			button.setOpaque(true);
+			button.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
 					if (button.getText().equals("Not Repayment")) {
 						int Id = (int) table.getValueAt(row, 0);
 						repayment(Id);
+					} else if (button.getText().equals("Repayment")) {
+						JOptionPane.showMessageDialog(null, "Already repayment this period!");
 					}
 				}
 			});

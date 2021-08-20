@@ -12,7 +12,7 @@ public class LoanAndFineHistory {
 	private double paymentAmount;
 	private double amountLeft;
 	private Date dueDate;
-	private double fineInterest;
+	private float fineInterest;
 	private int fineOverDays;
 	private double fineAmount;
 	private Date paymentDate;
@@ -33,7 +33,8 @@ public class LoanAndFineHistory {
 	public LoanAndFineHistory(int id, int loanId, String customer, int fineId, int paymentMethodId,
 			String paymentMenthodName, double paymentAmount, double amountLeft, Date dueDate, float fineInterest,
 			int fineOverDays, double fineAmount, Date paymentDate, String description, boolean status, double amount,
-			String loanType, String paymentType, int period, int duration, Date endDate, float loanInterest) {
+			String loanType, String paymentType, int period, int duration, Date endDate, double loanInterest) {
+
 		super();
 		this.id = id;
 		this.loanId = loanId;
@@ -131,7 +132,7 @@ public class LoanAndFineHistory {
 		this.dueDate = dueDate;
 	}
 
-	public double getFineInterest() {
+	public float getFineInterest() {
 		return fineInterest;
 	}
 

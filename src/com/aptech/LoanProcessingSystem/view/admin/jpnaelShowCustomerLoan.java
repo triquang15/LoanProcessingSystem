@@ -10,12 +10,16 @@ import javax.swing.table.TableCellRenderer;
 
 import com.aptech.LoanProcessingSystem.entities.Customer;
 import com.aptech.LoanProcessingSystem.entities.Loan;
+import com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory;
+import com.aptech.LoanProcessingSystem.entities.LoanType;
 import com.aptech.LoanProcessingSystem.model.AccountModel;
 import com.aptech.LoanProcessingSystem.model.CustomerModel;
+import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
 import com.aptech.LoanProcessingSystem.model.LoanModel;
 import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
 import com.aptech.LoanProcessingSystem.model.PaymentTypeModel;
 import com.aptech.LoanProcessingSystem.service.ShareData;
+import com.aptech.LoanProcessingSystem.view.CreateLoan;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -26,6 +30,8 @@ import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -329,12 +335,8 @@ public class jpnaelShowCustomerLoan extends JPanel {
 	}
 
 	public void btnAddLoan_actionPerformed(ActionEvent e) {
-		JPanel jpanelMain = (JPanel) this.getParent();
-		jpanelMain.removeAll();
-		jpanelMain.revalidate();
-		jpanelAddNewLoan addNewLoan = new jpanelAddNewLoan(this.customer.getId());
-		jpanelMain.add(addNewLoan);
-		addNewLoan.setVisible(true);
+		CreateLoan createLoan = new CreateLoan(this.customer.getId());
+		createLoan.setVisible(true);
 	}
 
 	private void loadData() {
@@ -380,9 +382,13 @@ public class jpnaelShowCustomerLoan extends JPanel {
 		defaultTableModel.addColumn("View/Modify");
 		for (Loan loan : loanList) {
 			if (loan.getStatus() == 0) {
-				statusMask = "Close";
+				statusMask = "New";
 			} else if (loan.getStatus() == 1) {
 				statusMask = "Open";
+			} else if (loan.getStatus() == 2) {
+				statusMask = "Fully Paid";
+			} else if (loan.getStatus() == 3) {
+				statusMask = "Stop";
 			}
 			defaultTableModel.addRow(new Object[] { loan.getCustomerId(), loan.getId(),
 					loadLoanTypeName(loan.getLoanTypeId()), loan.getInterest(), loadEmployeeName(loan.getAccountId()),
@@ -393,9 +399,9 @@ public class jpnaelShowCustomerLoan extends JPanel {
 		tableLoan.setModel(defaultTableModel);
 		tableLoan.removeColumn(tableLoan.getColumnModel().getColumn(0));
 		tableLoan.getColumnModel().getColumn(13).setCellRenderer(new LoanTableStatusButtonRenderer());
-//		tableLoan.getColumnModel().getColumn(13).setCellEditor(new ClientsTableRenderer(new JCheckBox()));
+		tableLoan.getColumnModel().getColumn(13).setCellEditor(new ClientsTableRenderer(new JCheckBox()));
 		tableLoan.getColumnModel().getColumn(14).setCellRenderer(new LoanTableViewButtonRenderer());
-		tableLoan.getColumnModel().getColumn(14).setCellEditor(new ClientsTableRenderer(new JCheckBox()));
+		tableLoan.getColumnModel().getColumn(14).setCellEditor(new ViewClientsTableRenderer(new JCheckBox()));
 		tableLoan.getTableHeader().setReorderingAllowed(false);
 		tableLoan.setShowHorizontalLines(true);
 		tableLoan.setShowVerticalLines(false);
@@ -426,13 +432,72 @@ public class jpnaelShowCustomerLoan extends JPanel {
 		return str;
 	}
 
-	private void loadColorOfButton(String returnStatus, String status1, String status2, JButton status) {
-		if (returnStatus.equals(status1)) {
-			status.setForeground(SystemColor.WHITE);
+	private void loadColorOfButton(String returnStatus, String statusNew, String statusOpen, String statusFully,
+			String statusStop, JButton status) {
+		status.setForeground(SystemColor.WHITE);
+		if (returnStatus.equals(statusNew)) {
 			status.setBackground(SystemColor.RED);
-		} else if (returnStatus.equals(status2)) {
-			status.setForeground(SystemColor.WHITE);
+		} else if (returnStatus.equals(statusOpen)) {
 			status.setBackground(SystemColor.GREEN);
+		} else if (returnStatus.equals(statusStop)) {
+			status.setForeground(SystemColor.BLACK);
+			status.setBackground(SystemColor.YELLOW);
+		} else if (returnStatus.equals(statusFully)) {
+			status.setBackground(SystemColor.BLUE);
+		}
+	}
+	
+	private void updateStatusNewToOpen(int id) {
+		int a = JOptionPane.showConfirmDialog(null, "Do you want to inspect this loan", "Warning",
+				JOptionPane.YES_NO_CANCEL_OPTION);
+		if (a == JOptionPane.YES_OPTION) {
+			LoanModel loanModel = new LoanModel();
+			if (loanModel.accpetLoan(id)) {
+				JOptionPane.showMessageDialog(null, "Done");
+			} else {
+				JOptionPane.showMessageDialog(null, "Fail");
+			}
+		}
+	}
+	
+	private void createLoanAndFineHistory(int loanId) {
+		Loan loan = new LoanModel().loadLoanByID(loanId);
+		Double amountDouble = loan.getAmount();
+		LoanAndFineHistory loanAndFineHistory = new LoanAndFineHistory();
+		loanAndFineHistory.setLoanId(loanId);
+		loanAndFineHistory.setPaymentMethodId(1);
+		loanAndFineHistory.setPaymentAmount(0);
+		loanAndFineHistory.setStatus(false);
+		loanAndFineHistory.setFineAmount(0);
+		loanAndFineHistory.setFineOverDays(0);
+		loanAndFineHistory.setAmount(amountDouble);
+
+		Calendar dueDateCalendar = Calendar.getInstance();
+		dueDateCalendar.setTime(loan.getDisbursementDate());
+
+		Calendar disbursementCalendar = Calendar.getInstance();
+		disbursementCalendar.setTime(loan.getDisbursementDate());
+
+		double amountInAmount = amountDouble / loan.getDuration();
+		double amountLeft = amountDouble;
+		int period = loan.getPeriod();
+		dueDateCalendar.set(Calendar.MONTH, disbursementCalendar.get(Calendar.MONTH));
+		LoanAndFineHistoryModel loanAndFineHistoryModel = new LoanAndFineHistoryModel();
+		try {
+			for (int i = period; i <= loan.getDuration(); i += period) {
+				Date dueDate = dueDateCalendar.getTime();
+				double paymentAmount = (amountInAmount + (amountDouble * loan.getInterest()) / 12) * period;
+				amountLeft = amountLeft - (amountInAmount * period);
+				loanAndFineHistory.setPaymentAmount(paymentAmount);
+				loanAndFineHistory.setAmountLeft(Math.abs(amountLeft));
+				loanAndFineHistory.setDueDate(dueDate);
+				dueDateCalendar.set(Calendar.MONTH, dueDateCalendar.get(Calendar.MONTH) + 1);
+				loanAndFineHistoryModel.createLoanAndFineHistory(loanAndFineHistory);
+			}
+			JOptionPane.showMessageDialog(null, "Successful!");
+		} catch (Exception a) {
+			JOptionPane.showMessageDialog(null, "Please try again!");
+			a.printStackTrace();
 		}
 	}
 
@@ -442,7 +507,8 @@ public class jpnaelShowCustomerLoan extends JPanel {
 		JPanel jpanelMain = (JPanel) this.getParent();
 		jpanelMain.removeAll();
 		jpanelMain.revalidate();
-		jpanelShowLoanDetail detail = new jpanelShowLoanDetail(this.customer, loan);
+		CustomerModel customerModel = new CustomerModel();
+		jpanelShowLoanDetail detail = new jpanelShowLoanDetail(customerModel.findById(customerId), loan);
 		jpanelMain.add(detail);
 		detail.setVisible(true);
 	}
@@ -457,8 +523,72 @@ public class jpnaelShowCustomerLoan extends JPanel {
 			setForeground(Color.black);
 			setBackground(UIManager.getColor("Button.background"));
 			setText((value == null) ? "" : value.toString());
-			loadColorOfButton(value.toString(), "Close", "Open", this);
+			loadColorOfButton(value.toString(), "New", "Open", "Fully Paid", "Stop", this);
 			return this;
+		}
+	}
+
+	public class ClientsTableRenderer extends DefaultCellEditor {
+		private JButton button;
+		private String label;
+		private boolean clicked;
+		private int row, col;
+		private JTable table;
+
+		public ClientsTableRenderer(JCheckBox checkBox) {
+			super(checkBox);
+			button = new JButton();
+			button.setOpaque(true);
+			button.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					fireEditingStopped();
+					if (button.getText().equals("New") || button.getText().equals("Stop")) {
+						int id = (int) table.getValueAt(row, 0);
+						if (button.getText().equals("New")) {
+							updateStatusNewToOpen(id);
+							createLoanAndFineHistory(id);
+							LoanModel loanModel = new LoanModel();
+							FillDataToJTable(loanModel.getAllLoansByCustomerID(customer.getId()), table);
+						}
+						else if (button.getText().equals("Stop")) {
+							updateStatusNewToOpen(id);
+							LoanModel loanModel = new LoanModel();
+							FillDataToJTable(loanModel.getAllLoansByCustomerID(customer.getId()), table);
+						}
+					}
+				}
+			});
+		}
+
+		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
+				int column) {
+			this.table = table;
+			this.row = row;
+			this.col = column;
+
+			button.setForeground(Color.black);
+			button.setBackground(UIManager.getColor("Button.background"));
+			label = (value == null) ? "" : value.toString();
+			button.setText(label);
+			clicked = true;
+			return button;
+		}
+
+		public Object getCellEditorValue() {
+			if (clicked) {
+
+			}
+			clicked = false;
+			return new String(label);
+		}
+
+		public boolean stopCellEditing() {
+			clicked = false;
+			return super.stopCellEditing();
+		}
+
+		protected void fireEditingStopped() {
+			super.fireEditingStopped();
 		}
 	}
 
@@ -472,19 +602,19 @@ public class jpnaelShowCustomerLoan extends JPanel {
 			setForeground(Color.black);
 			setBackground(UIManager.getColor("Button.background"));
 			setText((value == null) ? "" : value.toString());
-//			loadColorOfButton(value.toString(), "Close", "Open", this);
+//			loadColorOfButton(value.toString(), "New", "Open", this);
 			return this;
 		}
 	}
 
-	public class ClientsTableRenderer extends DefaultCellEditor {
+	public class ViewClientsTableRenderer extends DefaultCellEditor {
 		private JButton button;
 		private String label;
 		private boolean clicked;
 		private int row, col;
 		private JTable table;
 
-		public ClientsTableRenderer(JCheckBox checkBox) {
+		public ViewClientsTableRenderer(JCheckBox checkBox) {
 			super(checkBox);
 			button = new JButton();
 			button.setOpaque(true);
