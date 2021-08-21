@@ -711,9 +711,9 @@ public class PaymentLoan extends JDialog {
 			dueCalendar.set(Calendar.MINUTE, 0);
 			dueCalendar.set(Calendar.SECOND, 0);
 			fineOverDays = (int) ChronoUnit.DAYS.between(dueCalendar.toInstant(), nowCalendar.toInstant());
-			txtFineOverdays.setText(String.valueOf(fineOverDays < 0 ? 0 : fineOverDays));
-			fineAmount = fineOverDays < 0 ? 0
-					: loanAndFineHistory.getPaymentAmount() * fineOverDays * fine.getFineInterest();
+			fineOverDays = fineOverDays < 0 ? 0 : fineOverDays;
+			txtFineOverdays.setText(String.valueOf(fineOverDays));
+			fineAmount = loanAndFineHistory.getPaymentAmount() * fineOverDays * fine.getFineInterest();
 			txtFineAmount.setText(Common.formatNumber(fineAmount));
 			txtTotalPayment.setText(Common.formatNumber(fineAmount + loanAndFineHistory.getPaymentAmount()));
 			txtDescription.setText("");
