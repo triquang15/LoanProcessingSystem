@@ -36,7 +36,6 @@ import javax.swing.table.TableRowSorter;
 
 import com.aptech.LoanProcessingSystem.entities.Customer;
 import com.aptech.LoanProcessingSystem.model.CustomerModel;
-import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
 import com.aptech.LoanProcessingSystem.service.Common;
 import com.aptech.LoanProcessingSystem.service.MessageDialog;
 

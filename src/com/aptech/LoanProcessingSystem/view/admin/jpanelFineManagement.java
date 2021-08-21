@@ -44,6 +44,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Dimension;
 import java.awt.Insets;
 import javax.swing.JScrollBar;
+import javax.swing.SwingConstants;
 
 public class jpanelFineManagement extends JPanel {
 	private Account account = new Account();
@@ -125,6 +126,7 @@ public class jpanelFineManagement extends JPanel {
 						panel_2.add(panel_3);
 						{
 							txtMin1 = new JTextField();
+							txtMin1.setHorizontalAlignment(SwingConstants.CENTER);
 							txtMin1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 							panel_3.add(txtMin1);
 							txtMin1.setColumns(15);
@@ -151,6 +153,7 @@ public class jpanelFineManagement extends JPanel {
 						panel_2.add(panel_3);
 						{
 							txtMax1 = new JTextField();
+							txtMax1.setHorizontalAlignment(SwingConstants.CENTER);
 							txtMax1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 							panel_3.add(txtMax1);
 							txtMax1.setColumns(15);
@@ -177,6 +180,7 @@ public class jpanelFineManagement extends JPanel {
 						panel_2.add(panel_3);
 						{
 							txtInterest1 = new JTextField();
+							txtInterest1.setHorizontalAlignment(SwingConstants.CENTER);
 							txtInterest1.setFont(new Font("Tahoma", Font.PLAIN, 20));
 							panel_3.add(txtInterest1);
 							txtInterest1.setColumns(15);
@@ -238,6 +242,7 @@ public class jpanelFineManagement extends JPanel {
 						panel_2.add(panel_3);
 						{
 							txtMin2 = new JTextField();
+							txtMin2.setHorizontalAlignment(SwingConstants.CENTER);
 							txtMin2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 							panel_3.add(txtMin2);
 							txtMin2.setColumns(15);
@@ -264,6 +269,7 @@ public class jpanelFineManagement extends JPanel {
 						panel_2.add(panel_3);
 						{
 							txtMax2 = new JTextField();
+							txtMax2.setHorizontalAlignment(SwingConstants.CENTER);
 							txtMax2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 							panel_3.add(txtMax2);
 							txtMax2.setColumns(15);
@@ -290,6 +296,7 @@ public class jpanelFineManagement extends JPanel {
 						panel_2.add(panel_3);
 						{
 							txtInterest2 = new JTextField();
+							txtInterest2.setHorizontalAlignment(SwingConstants.CENTER);
 							txtInterest2.setFont(new Font("Tahoma", Font.PLAIN, 20));
 							panel_3.add(txtInterest2);
 							txtInterest2.setColumns(15);
@@ -351,6 +358,7 @@ public class jpanelFineManagement extends JPanel {
 						panel_2.add(panel_3);
 						{
 							txtMin3 = new JTextField();
+							txtMin3.setHorizontalAlignment(SwingConstants.CENTER);
 							txtMin3.setFont(new Font("Tahoma", Font.PLAIN, 20));
 							panel_3.add(txtMin3);
 							txtMin3.setColumns(15);
@@ -377,6 +385,7 @@ public class jpanelFineManagement extends JPanel {
 						panel_2.add(panel_3);
 						{
 							txtMax3 = new JTextField();
+							txtMax3.setHorizontalAlignment(SwingConstants.CENTER);
 							txtMax3.setFont(new Font("Tahoma", Font.PLAIN, 20));
 							panel_3.add(txtMax3);
 							txtMax3.setColumns(15);
@@ -403,6 +412,7 @@ public class jpanelFineManagement extends JPanel {
 						panel_2.add(panel_3);
 						{
 							txtInterest3 = new JTextField();
+							txtInterest3.setHorizontalAlignment(SwingConstants.CENTER);
 							txtInterest3.setFont(new Font("Tahoma", Font.PLAIN, 20));
 							panel_3.add(txtInterest3);
 							txtInterest3.setColumns(15);

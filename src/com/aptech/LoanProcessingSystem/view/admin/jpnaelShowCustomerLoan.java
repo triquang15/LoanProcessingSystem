@@ -1,26 +1,5 @@
 package com.aptech.LoanProcessingSystem.view.admin;
 
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
-
-import com.aptech.LoanProcessingSystem.entities.Customer;
-import com.aptech.LoanProcessingSystem.entities.Loan;
-import com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory;
-import com.aptech.LoanProcessingSystem.entities.LoanType;
-import com.aptech.LoanProcessingSystem.model.AccountModel;
-import com.aptech.LoanProcessingSystem.model.CustomerModel;
-import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
-import com.aptech.LoanProcessingSystem.model.LoanModel;
-import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
-import com.aptech.LoanProcessingSystem.model.PaymentTypeModel;
-import com.aptech.LoanProcessingSystem.service.ShareData;
-import com.aptech.LoanProcessingSystem.view.CreateLoan;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -40,6 +19,24 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+
+import com.aptech.LoanProcessingSystem.entities.Customer;
+import com.aptech.LoanProcessingSystem.entities.Loan;
+import com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory;
+import com.aptech.LoanProcessingSystem.model.AccountModel;
+import com.aptech.LoanProcessingSystem.model.CustomerModel;
+import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
+import com.aptech.LoanProcessingSystem.model.LoanModel;
+import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
+import com.aptech.LoanProcessingSystem.model.PaymentTypeModel;
+import com.aptech.LoanProcessingSystem.view.CreateLoan;
 
 public class jpnaelShowCustomerLoan extends JPanel {
 	private JTable tblLoanDetail;

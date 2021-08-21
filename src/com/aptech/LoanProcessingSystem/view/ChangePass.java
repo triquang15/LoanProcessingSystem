@@ -1,47 +1,36 @@
 package com.aptech.LoanProcessingSystem.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import com.aptech.LoanProcessingSystem.database.ConnectDB;
 import com.aptech.LoanProcessingSystem.entities.Account;
 import com.aptech.LoanProcessingSystem.model.AccountModel;
 import com.aptech.LoanProcessingSystem.service.ShareData;
 
-import java.awt.Font;
-import java.awt.Toolkit;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.ActionEvent;
-import javax.swing.UIManager;
-import java.awt.Color;
-import java.awt.Desktop;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.ImageIcon;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.JPasswordField;
-
+@SuppressWarnings("serial")
 public class ChangePass extends JDialog {
 
 	Connection conn = null;
@@ -252,7 +241,7 @@ public class ChangePass extends JDialog {
 				if (textField.getText().equals(hint)) {
 					textField.setText("");
 					if (textField instanceof JPasswordField) {
-						((JPasswordField) textField).setEchoChar('●');
+						((JPasswordField) textField).setEchoChar('*');
 					}
 					textField.setForeground(Color.DARK_GRAY);
 				} else {

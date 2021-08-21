@@ -16,6 +16,7 @@ import java.beans.PropertyChangeListener;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
@@ -34,6 +35,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+
 import com.aptech.LoanProcessingSystem.entities.Customer;
 import com.aptech.LoanProcessingSystem.entities.Loan;
 import com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory;
@@ -69,7 +71,7 @@ public class CreateLoan extends JDialog {
 	private LoanType loanType = new LoanType();
 	private JTextField txtPeriod;
 	private JTextField txtCustomerNameKeyWord;
-	private JComboBox cbCustomerName;
+	private JComboBox<Customer> cbCustomerName;
 
 	/**
 	 * Launch the application.
@@ -234,7 +236,7 @@ public class CreateLoan extends JDialog {
 		panel_7.add(txtCustomerNameKeyWord);
 		txtCustomerNameKeyWord.setColumns(10);
 
-		cbCustomerName = new JComboBox();
+		cbCustomerName = new JComboBox<Customer>();
 		cbCustomerName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cbCustomerName_actionPerformed(e);
@@ -726,7 +728,7 @@ public class CreateLoan extends JDialog {
 					textField.setText("");
 					txtPeriod.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 10));
 					if (textField instanceof JPasswordField) {
-						((JPasswordField) textField).setEchoChar('●');
+						((JPasswordField) textField).setEchoChar('*');
 					}
 					textField.setForeground(Color.DARK_GRAY);
 				} else {

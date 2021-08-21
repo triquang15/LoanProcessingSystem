@@ -503,7 +503,7 @@ public class LoanDetail extends JPanel {
 					textField.setText("");
 					textField.setFont(new Font("Tahoma", Font.PLAIN, 10));
 					if (textField instanceof JPasswordField) {
-						((JPasswordField) textField).setEchoChar('●');
+						((JPasswordField) textField).setEchoChar('*');
 					}
 					textField.setForeground(Color.DARK_GRAY);
 				} else {

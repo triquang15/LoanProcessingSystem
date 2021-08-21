@@ -1,31 +1,41 @@
 package com.aptech.LoanProcessingSystem.view.admin;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import java.awt.Font;
 import java.awt.Color;
-import javax.swing.border.EmptyBorder;
-import org.mindrot.jbcrypt.BCrypt;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Date;
+import java.util.regex.Pattern;
+
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.util.Date;
-import java.util.regex.Pattern;
-import java.awt.event.ActionEvent;
-import javax.swing.SwingConstants;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import org.mindrot.jbcrypt.BCrypt;
+
 import com.aptech.LoanProcessingSystem.entities.Account;
 import com.aptech.LoanProcessingSystem.entities.Authority;
 import com.aptech.LoanProcessingSystem.model.AccountModel;
@@ -33,13 +43,6 @@ import com.aptech.LoanProcessingSystem.model.AuthorityModel;
 import com.aptech.LoanProcessingSystem.service.ShareData;
 import com.aptech.LoanProcessingSystem.view.Login;
 import com.toedter.calendar.JDateChooser;
-import java.awt.Toolkit;
-import javax.swing.JComboBox;
-import java.awt.Dimension;
-import java.awt.Component;
-import java.awt.Insets;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class SignUp extends JDialog {
 
@@ -522,7 +525,7 @@ public class SignUp extends JDialog {
 					textField.setText("");
 					textField.setFont(new Font("Tahoma", Font.PLAIN, 10));
 					if (textField instanceof JPasswordField) {
-						((JPasswordField) textField).setEchoChar('●');
+						((JPasswordField) textField).setEchoChar('*');
 					}
 					textField.setForeground(Color.DARK_GRAY);
 				} else {

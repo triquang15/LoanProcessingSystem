@@ -1,118 +1,58 @@
 package com.aptech.LoanProcessingSystem.view.admin;
 
-import javax.swing.JPanel;
-import javax.swing.AbstractCellEditor;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import javax.swing.BoxLayout;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
-
-import java.awt.SystemColor;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.EventObject;
-import java.util.List;
-
-import java.awt.SystemColor;
-
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-
-import java.awt.FlowLayout;
-import java.awt.Component;
-import java.awt.Dimension;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import java.awt.GridBagLayout;
-import java.awt.Rectangle;
-
-import javax.swing.ImageIcon;
-import java.awt.BorderLayout;
-import java.awt.Color;
-
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import javax.swing.plaf.TabbedPaneUI;
-import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 
+import com.aptech.LoanProcessingSystem.entities.Account;
 import com.aptech.LoanProcessingSystem.entities.Loan;
 import com.aptech.LoanProcessingSystem.entities.LoanAndFineHistory;
 import com.aptech.LoanProcessingSystem.entities.LoanType;
-import com.aptech.LoanProcessingSystem.entities.PaymentType;
 import com.aptech.LoanProcessingSystem.model.AccountModel;
 import com.aptech.LoanProcessingSystem.model.CustomerModel;
-import com.aptech.LoanProcessingSystem.model.FineModel;
 import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
 import com.aptech.LoanProcessingSystem.model.LoanModel;
 import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
 import com.aptech.LoanProcessingSystem.model.PaymentTypeModel;
 import com.aptech.LoanProcessingSystem.service.Common;
 import com.aptech.LoanProcessingSystem.view.CreateLoan;
-import com.aptech.LoanProcessingSystem.view.admin.jpanelCustomerProfile.ButtonEditor;
-import com.aptech.LoanProcessingSystem.view.admin.jpanelCustomerProfile.LoanInfosPane;
-
-import com.aptech.LoanProcessingSystem.entities.Account;
-import com.aptech.LoanProcessingSystem.entities.Fine;
-
-import javax.swing.JComboBox;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTabbedPane;
-import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowStateListener;
-import java.awt.event.ActionEvent;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 
 public class jpanelLoadData extends JPanel {
 	private JTextField txtSearch;
-//	private JTextField txtVehicleSearch;
-//	private JTable jtableVehicle;
-//	private JTextField txtPersonalSearch;
-//	private JTable jtablePersonal;
-//	private JTextField txtEducationalSearch;
-//	private JTable jtableEducational;
-	private JComboBox<String> cbFilter;
-	private JButton btnAdd;
-	private JButton btnUpdate;
-	private JButton btnDelete;
-	private JButton btnSearch;
-	private JTable tableLoan;
-	private JButton btnReload;
-//	private JComboBox cbPersonalFilter;
-//	private JButton btnPersonalAdd;
-//	private JButton btnPersonaUpdate;
-//	private JButton btnPersonalDelete;
-//	private JButton btnEducationalSearch;
-//	private JComboBox cbEducationalFilter;
-//	private JButton btnEducationalAdd;
-//	private JButton btnEducationalUpdate;
-//	private JButton btnEducationalDelete;
-	private Account account = new Account();
 	private JTabbedPane tabbedPane;
 
 	/**
 	 * Create the panel.
 	 */
-	public jpanelLoadData(Account account) {
-		this();
-		this.account = account;
-	}
-
 	public jpanelLoadData() {
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -320,7 +260,7 @@ public class jpanelLoadData extends JPanel {
 		defaultTableModel.addColumn("Id");
 		defaultTableModel.addColumn("Loan Type");
 		defaultTableModel.addColumn("Interest");
-		defaultTableModel.addColumn("Employee ID");
+		defaultTableModel.addColumn("Employee");
 		defaultTableModel.addColumn("Customer");
 		defaultTableModel.addColumn("Payment Type");
 		defaultTableModel.addColumn("Amount");
