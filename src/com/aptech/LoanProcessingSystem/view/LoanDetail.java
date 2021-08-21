@@ -233,7 +233,7 @@ public class LoanDetail extends JPanel {
 
 		btnBack.setIcon(
 				new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/back.png")));
-		btnBack.setPreferredSize(new Dimension(120, 30));
+		btnBack.setPreferredSize(new Dimension(150, 30));
 		btnBack.setMargin(new Insets(2, 20, 2, 20));
 		btnBack.setFont(new Font("Tahoma", Font.BOLD, 10));
 		panel_2.add(btnBack);
@@ -248,14 +248,14 @@ public class LoanDetail extends JPanel {
 		btnPayment = new JButton("Payment");
 		btnPayment.setIcon(new ImageIcon(
 				LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_payment_24.png")));
-		btnPayment.setPreferredSize(new Dimension(120, 30));
+		btnPayment.setPreferredSize(new Dimension(150, 30));
 		btnPayment.setMargin(new Insets(2, 20, 2, 20));
 		btnPayment.setFont(new Font("Tahoma", Font.BOLD, 10));
 		panel_2.add(btnPayment);
 
 		btnDetail = new JButton("Detail");
 
-		btnDetail.setPreferredSize(new Dimension(120, 30));
+		btnDetail.setPreferredSize(new Dimension(150, 30));
 		btnDetail.setMargin(new Insets(2, 20, 2, 20));
 		panel_2.add(btnDetail);
 
@@ -264,7 +264,7 @@ public class LoanDetail extends JPanel {
 				LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_detail_16.png")));
 
 		btnDelete = new JButton("Delete");
-		btnDelete.setPreferredSize(new Dimension(120, 30));
+		btnDelete.setPreferredSize(new Dimension(150, 30));
 		btnDelete.setMargin(new Insets(2, 20, 2, 20));
 		panel_2.add(btnDelete);
 
@@ -273,7 +273,7 @@ public class LoanDetail extends JPanel {
 				new ImageIcon(LoanDetail.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
 
 		JButton btnPrint = new JButton("Print");
-		btnPrint.setPreferredSize(new Dimension(120, 30));
+		btnPrint.setPreferredSize(new Dimension(150, 30));
 		btnPrint.setMargin(new Insets(2, 20, 2, 20));
 		panel_2.add(btnPrint);
 		btnPrint.setFont(new Font("Tahoma", Font.BOLD, 10));

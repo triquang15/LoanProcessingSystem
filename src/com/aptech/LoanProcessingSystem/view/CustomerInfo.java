@@ -58,6 +58,7 @@ public class CustomerInfo extends JPanel {
 	private JButton btnBackShort;
 	private JButton btnNextShort;
 	private JButton btnNextLong;
+	private JButton btnNewCustomer;
 
 	public CustomerInfo() {
 		initComponents();
@@ -152,9 +153,18 @@ public class CustomerInfo extends JPanel {
 		panel.add(panel_4);
 		panel_4.setLayout(new FlowLayout(FlowLayout.TRAILING, 20, 20));
 		
+		btnNewCustomer = new JButton("New Customer");
+		btnNewCustomer.setIcon(new ImageIcon(CustomerInfo.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_new_customer_20.png")));
+		btnNewCustomer.setPreferredSize(new Dimension(150, 30));
+		btnNewCustomer.setMargin(new Insets(2, 20, 2, 20));
+		btnNewCustomer.setFont(new Font("Tahoma", Font.BOLD, 10));
+		btnNewCustomer.setAlignmentY(10.0f);
+		btnNewCustomer.setAlignmentX(20.0f);
+		panel_4.add(btnNewCustomer);
+		
 		JButton btnUpdate = new JButton("Update");
 		btnUpdate.setIcon(new ImageIcon(CustomerInfo.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_update_16.png")));
-		btnUpdate.setPreferredSize(new Dimension(120, 30));
+		btnUpdate.setPreferredSize(new Dimension(150, 30));
 		btnUpdate.setMargin(new Insets(2, 20, 2, 20));
 		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnUpdate.setAlignmentY(10.0f);
@@ -165,7 +175,7 @@ public class CustomerInfo extends JPanel {
 		btnCreateLoan.setAlignmentY(10.0f);
 		btnCreateLoan.setAlignmentX(20.0f);
 		panel_4.add(btnCreateLoan);
-		btnCreateLoan.setPreferredSize(new Dimension(120, 30));
+		btnCreateLoan.setPreferredSize(new Dimension(150, 30));
 		btnCreateLoan.setMargin(new Insets(2, 20, 2, 20));
 
 		btnCreateLoan.setFont(new Font("Tahoma", Font.BOLD, 10));
@@ -177,7 +187,7 @@ public class CustomerInfo extends JPanel {
 		btnDelete.setAlignmentY(10.0f);
 		btnDelete.setAlignmentX(20.0f);
 		panel_4.add(btnDelete);
-		btnDelete.setPreferredSize(new Dimension(120, 30));
+		btnDelete.setPreferredSize(new Dimension(150, 30));
 		btnDelete.setMargin(new Insets(2, 20, 2, 20));
 		btnDelete.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnDelete.setIcon(
@@ -341,6 +351,23 @@ public class CustomerInfo extends JPanel {
 					JOptionPane.showMessageDialog(null, "Please choose a value!");
 				}
 
+			}
+		});
+
+		btnNewCustomer.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			
+					AddCustomer addCustomer = new AddCustomer();
+					addCustomer.setVisible(true);
+					addCustomer.addWindowListener(new WindowAdapter() {
+						@Override
+						public void windowClosed(WindowEvent e) {
+							super.windowClosed(e);
+							CustomerModel customerModel = new CustomerModel();
+							loadDataToTable(customerModel.findAll());
+						}
+					});
 			}
 		});
 		

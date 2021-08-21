@@ -76,6 +76,7 @@ public class AddCustomer extends JDialog {
 	private double salary;
 	private String identity_card;
 	private Date dob;
+	private JLabel lblNewLabel;
 
 	/**
 	 * Launch the application.
@@ -127,7 +128,7 @@ public class AddCustomer extends JDialog {
 		setLocationRelativeTo(null);
 		contentPanel.setLayout(new BorderLayout(0, 0));
 
-		JLabel lblNewLabel = new JLabel("New Customer");
+		lblNewLabel = new JLabel("New Customer");
 		lblNewLabel.setPreferredSize(new Dimension(66, 50));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setForeground(Color.RED);
@@ -641,6 +642,7 @@ public class AddCustomer extends JDialog {
 			txtJob.setForeground(Color.GRAY);
 			rdbMale.setSelected(true);
 		} else {
+			lblNewLabel.setText("Update Customer Information");
 			txtName.setText(customer.getName());
 			txtEmail.setText(customer.getEmail());
 			txtAddress.setText(customer.getAddress());
