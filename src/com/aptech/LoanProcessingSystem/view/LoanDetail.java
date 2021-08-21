@@ -67,7 +67,7 @@ public class LoanDetail extends JPanel {
 	private JButton btnBackLong;
 	private JTextField textField_1;
 	private int currentPageIndex = 1;
-	private final int itemsPerPage = 4;
+	private final int itemsPerPage = 20;
 	private int maxPageIndex;
 	private final TableRowSorter<TableModel> sorter1 = new TableRowSorter<TableModel>(tblModel);
 	private JButton btnDelete;
@@ -151,13 +151,15 @@ public class LoanDetail extends JPanel {
 		panel_5.add(btnBackShort);
 
 		textField_1 = new JTextField();
+		textField_1.setMaximumSize(new Dimension(30, 30));
+		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				textField_1_actionPerformed(e);
 			}
 		});
-		textField_1.setPreferredSize(new Dimension(7, 30));
-		textField_1.setMinimumSize(new Dimension(7, 30));
+		textField_1.setPreferredSize(new Dimension(30, 30));
+		textField_1.setMinimumSize(new Dimension(30, 30));
 		panel_5.add(textField_1);
 		textField_1.setColumns(10);
 
@@ -431,8 +433,9 @@ public class LoanDetail extends JPanel {
 			tblModel.setRowCount(0);
 			for (Loan loans : list) {
 				tblModel.addRow(new Object[] { loans.getId(), loans.getCustomerName(), loans.getLoanTypeName(),
-						loans.getPaymentTypeName(), loans.getPeriod(), Common.formatNumber(loans.getAmount()),
-						loans.getDisbursementDate(), loans.getDuration(), loans.getEndDate(), loans.getInterest(),
+						loans.getPaymentTypeName(), loans.getPeriod() + " Month",
+						Common.formatNumber(loans.getAmount()), loans.getDisbursementDate(),
+						loans.getDuration() + " Month", loans.getEndDate(), loans.getInterest() * 100 + " %",
 						loans.getDescription(),
 						loans.getStatus() == 0 ? "New" : (loans.getStatus() == 1 ? "Active" : "Update") });
 
@@ -454,7 +457,7 @@ public class LoanDetail extends JPanel {
 		textField_1.setText(Integer.toString(currentPageIndex));
 		tblModel.setColumnIdentifiers(
 				new String[] { "Id", "Customer", "Payment Amount", "Amount", "Amount Left", "Due Date", "Fine Interest",
-						"Fine Over Days", "Fine Amount", "Payment Date", "Description", "Status" });
+						"Fine Over Days", "Fine Amount", "Payment Date", "Payment method", "Description", "Status" });
 		table.setModel(tblModel);
 		try {
 
@@ -462,9 +465,13 @@ public class LoanDetail extends JPanel {
 			for (LoanAndFineHistory hisItem : list) {
 				tblModel.addRow(new Object[] { hisItem.getId(), hisItem.getCustomer(),
 						Common.formatNumber(hisItem.getPaymentAmount()), Common.formatNumber(hisItem.getAmount()),
-						Common.formatNumber(hisItem.getAmountLeft()), hisItem.getDueDate(), hisItem.getFineInterest(),
-						hisItem.getFineOverDays(), hisItem.getFineAmount(), hisItem.getPaymentDate(),
-						hisItem.getDescription(), hisItem.isStatus()?"Paid":"Unpaid" });
+						Common.formatNumber(hisItem.getAmountLeft()), hisItem.getDueDate(),
+						hisItem.getFineInterest() == 0 ? "-" : hisItem.getFineInterest() * 100 + " %",
+						hisItem.getFineOverDays() == 0 ? "-"
+								: hisItem.getFineOverDays() + (hisItem.getFineOverDays() > 1 ? " days" : " day"),
+						hisItem.getFineAmount() == 0 ? "-" : Common.formatNumber(hisItem.getFineAmount()),
+						hisItem.getPaymentDate(), hisItem.isStatus() ? hisItem.getPaymentMenthodName() : "-",
+						hisItem.getDescription(), hisItem.isStatus() ? "Paid" : "Unpaid" });
 			}
 			tblModel.fireTableDataChanged();
 

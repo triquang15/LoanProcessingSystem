@@ -64,6 +64,7 @@ public class LoanModel {
 				loan.setPaymentTypeId(rs.getInt("PaymentTypeId"));
 				loan.setAmount(rs.getDouble("Amount"));
 				loan.setPeriod(rs.getInt("Period"));
+				loan.setInterest(rs.getDouble("Interest"));
 				loan.setCreateDate(rs.getDate("CreateDate"));
 				loan.setDisbursementDate(rs.getDate("DisbursementDate"));
 				loan.setEndDate(rs.getDate("EndDate"));

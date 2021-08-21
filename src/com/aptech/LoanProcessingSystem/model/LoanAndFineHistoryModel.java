@@ -156,9 +156,7 @@ public class LoanAndFineHistoryModel {
 		LoanAndFineHistory result = null;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
-					"SELECT c.Name as Customer, lt.Name as LoanType, pt.Name as PaymentType, l.Period, l.Duration, l.EndDate, l.Interest, hs.* "
-					+ "FROM `loanandfinehistory` as hs JOIN `loan` as l on hs.LoanId = l.Id JOIN `loantype` as lt on l.LoanTypeId = lt.Id "
-					+ "JOIN `customer` as c ON l.CustomerId = c.Id JOIN `paymenttype` as pt ON l.PaymentTypeId = pt.Id where hs.id = ?");
+					"SELECT c.Name as Customer, pm.Name as PaymemtMethod, lt.Name as LoanType, pt.Name as PaymentType, l.Period, l.Duration, l.EndDate, l.Interest, hs.* FROM `loanandfinehistory` as hs LEFT JOIN `loan` as l on hs.LoanId = l.Id LEFT JOIN `loantype` as lt on l.LoanTypeId = lt.Id JOIN `customer` as c ON l.CustomerId = c.Id LEFT JOIN `paymenttype` as pt ON l.PaymentTypeId = pt.Id LEFT JOIN `paymentmethod` as pm ON pm.Id = hs.PaymentMethodId where hs.id = ?");
 			preparedStatement.setInt(1, keyword);
 			ResultSet rs = preparedStatement.executeQuery();
 			if (rs.next()) {
@@ -174,6 +172,7 @@ public class LoanAndFineHistoryModel {
 				result.setLoanId(rs.getInt("LoanId"));
 				result.setFineId(rs.getInt("FineId"));
 				result.setPaymentMethodId(rs.getInt("PaymentMethodId"));
+				result.setPaymentMenthodName(rs.getString("PaymemtMethod"));
 				result.setPaymentAmount(rs.getDouble("PaymentAmount"));
 				result.setAmount(rs.getDouble("Amount"));
 				result.setAmountLeft(rs.getDouble("AmountLeft"));
@@ -195,11 +194,12 @@ public class LoanAndFineHistoryModel {
 		return result;
 	}
 
-	public Boolean update_payment(LoanAndFineHistory loanAndFineHistory) {
+	public Boolean updatePayment(LoanAndFineHistory loanAndFineHistory) {
 		Boolean result = false;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection().prepareStatement(
-					"update LoanAndFineHistory SET PaymentAmount = ?, AmountLeft = ?, FineOverDays = ?, FineAmount = ?, PaymentDate = ?, Description = ?, FineInterest = ?, Status = true WHERE Id = ?");
+					"update LoanAndFineHistory SET PaymentAmount = ?, AmountLeft = ?, FineOverDays = ?, FineAmount = ?,"
+					+ " PaymentDate = ?, Description = ?, FineInterest = ?, PaymentMethodId = ?, Status = true WHERE Id = ?");
 			preparedStatement.setDouble(1, loanAndFineHistory.getPaymentAmount());
 			preparedStatement.setDouble(2, loanAndFineHistory.getAmountLeft());
 			preparedStatement.setInt(3, loanAndFineHistory.getFineOverDays());
@@ -207,8 +207,8 @@ public class LoanAndFineHistoryModel {
 			preparedStatement.setDate(5, new java.sql.Date(loanAndFineHistory.getPaymentDate().getTime()));
 			preparedStatement.setString(6, loanAndFineHistory.getDescription());
 			preparedStatement.setDouble(7, loanAndFineHistory.getFineInterest());
-
-			preparedStatement.setInt(8, loanAndFineHistory.getId());
+			preparedStatement.setInt(8, loanAndFineHistory.getPaymentMethodId());
+			preparedStatement.setInt(9, loanAndFineHistory.getId());
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
 			e.printStackTrace();
