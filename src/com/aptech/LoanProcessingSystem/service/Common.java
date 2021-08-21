@@ -7,9 +7,14 @@ public class Common {
 		DecimalFormat df = new DecimalFormat("#,##0.00");
 		return df.format(number);
 	}
-	
+
 	public static String formatInt(double number) {
-		DecimalFormat df = new DecimalFormat("#,##0");
+		DecimalFormat df = new DecimalFormat("#,###");
+		return df.format(number);
+	}
+
+	public static String formatInt(int number) {
+		DecimalFormat df = new DecimalFormat("#,###");
 		return df.format(number);
 	}
 }

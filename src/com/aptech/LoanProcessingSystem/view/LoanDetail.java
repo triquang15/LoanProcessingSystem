@@ -316,8 +316,13 @@ public class LoanDetail extends JPanel {
 				int selectedRow = table.getSelectedRow();
 				if (selectedRow != -1) {
 					loanSelectedId = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
-					pageState = historyPage;
-					initPage();
+					String status = table.getValueAt(selectedRow, 11).toString();
+					if (status == "Active") {
+						pageState = historyPage;
+						initPage();
+					} else {
+						JOptionPane.showMessageDialog(null, "Loan waiting for approval!");
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Please choose a value!");
 				}
@@ -353,6 +358,7 @@ public class LoanDetail extends JPanel {
 	}
 
 	private void initPage() {
+		currentPageIndex = 1;
 		if (pageState.equals(loanPage)) {
 			btnDetail.setVisible(true);
 			txtSearch.setVisible(true);
