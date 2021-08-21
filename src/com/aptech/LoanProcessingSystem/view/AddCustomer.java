@@ -533,11 +533,10 @@ public class AddCustomer extends JDialog {
 		calendar.setTime(new Date());
 		calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR) - 16);
 		Date dateCheck = calendar.getTime();
-		boolean isPhoneValid = Pattern.matches("^[0-9]{10}$", txtPhone.getText().trim());
-		boolean isIdentityValid = Pattern.matches("^[a-zA-Z0-9]{11}$", txtIdentity.getText().trim());
+		boolean isPhoneValid = Pattern.matches("^[0-9]{9,12}$", txtPhone.getText().trim());
+		boolean isIdentityValid = Pattern.matches("^[a-zA-Z0-9]{9,12}$", txtIdentity.getText().trim());
 		boolean isEmailValid = Pattern.matches("^[a-zA-Z0-9]+(.+)+[@]{1}+(.+)+[.]{1}+[a-zA-Z0-9]+$",
 				txtEmail.getText().trim());
-		boolean isSalaryValid = Pattern.matches("^\\d+", txtSalary.getText().replace(",", "").trim());
 		// Apply the validation logic checking all controls are empty or not
 		if (!isPhoneValid) {
 
@@ -550,10 +549,6 @@ public class AddCustomer extends JDialog {
 		} else if (!isEmailValid) {
 
 			JOptionPane.showMessageDialog(null, "Email invalid!");
-
-		} else if (!isSalaryValid) {
-
-			JOptionPane.showMessageDialog(null, "Salary invalid!");
 
 		} else if (dob.after(dateCheck)) {
 

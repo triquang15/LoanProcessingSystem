@@ -473,8 +473,7 @@ public class LoanDetail extends JPanel {
 						Common.formatNumber(hisItem.getPaymentAmount()), Common.formatNumber(hisItem.getAmount()),
 						Common.formatNumber(hisItem.getAmountLeft()), hisItem.getDueDate(),
 						hisItem.getFineInterest() == 0 ? "-" : hisItem.getFineInterest() * 100 + " %",
-						hisItem.getFineOverDays() == 0 ? "-"
-								: hisItem.getFineOverDays() + (hisItem.getFineOverDays() > 1 ? " days" : " day"),
+						hisItem.getFineOverDays() == 0 ? "-" : hisItem.getFineOverDays() + " day",
 						hisItem.getFineAmount() == 0 ? "-" : Common.formatNumber(hisItem.getFineAmount()),
 						hisItem.getPaymentDate(), hisItem.isStatus() ? hisItem.getPaymentMenthodName() : "-",
 						hisItem.getDescription(), hisItem.isStatus() ? "Paid" : "Unpaid" });

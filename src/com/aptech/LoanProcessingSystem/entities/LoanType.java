@@ -33,7 +33,7 @@ public class LoanType {
 		return interest;
 	}
 
-	public void setInterest(float interest) {
+	public void setInterest(double interest) {
 		this.interest = interest;
 	}
 

@@ -747,7 +747,7 @@ public class jpanelShowLoanDetail extends JPanel {
 			}
 		}
 	}
-	
+
 	public void btnViewAllLoans_actionPerformed(ActionEvent e) {
 		JPanel jpanelMain = (JPanel) this.getParent();
 		jpanelMain.removeAll();
@@ -916,9 +916,9 @@ public class jpanelShowLoanDetail extends JPanel {
 			statusMask = "Stop";
 		}
 		defaultTableModel.addRow(new Object[] { loan.getId(), loadLoanTypeName(loan.getLoanTypeId()),
-				loan.getInterest(), loadEmployeeName(loan.getAccountId()), loadCustomerName(loan.getCustomerId()),
-				loadPaymentTypeName(loan.getPaymentTypeId()), Common.formatNumber(loan.getAmount()), loan.getPeriod(),
-				loan.getDuration(), loan.getCreateDate(), loan.getDisbursementDate(), loan.getEndDate(),
+				Common.formatInt(loan.getInterest()*100)+ " %", loadEmployeeName(loan.getAccountId()), loadCustomerName(loan.getCustomerId()),
+				loadPaymentTypeName(loan.getPaymentTypeId()), Common.formatNumber(loan.getAmount()), loan.getPeriod() + " Month",
+				loan.getDuration() + " Month", loan.getCreateDate(), loan.getDisbursementDate(), loan.getEndDate(),
 				loan.getDescription(), statusMask });
 
 		tableLoan.setModel(defaultTableModel);
@@ -953,15 +953,15 @@ public class jpanelShowLoanDetail extends JPanel {
 		defaultTableModel.addColumn("Payment Date");
 		defaultTableModel.addColumn("Description");
 		defaultTableModel.addColumn("Action");
-		for (LoanAndFineHistory myLoanAndFineHistory : list) {
-			statusMask = myLoanAndFineHistory.isStatus() ? "Repayment" : "Not Repayment";
-			defaultTableModel.addRow(new Object[] { myLoanAndFineHistory.getId(), myLoanAndFineHistory.getCustomer(),
-					Common.formatNumber(myLoanAndFineHistory.getAmount()), myLoanAndFineHistory.getPaymentMenthodName(),
-					Common.formatNumber(myLoanAndFineHistory.getPaymentAmount()),
-					Common.formatNumber(myLoanAndFineHistory.getAmountLeft()), myLoanAndFineHistory.getDueDate(),
-					myLoanAndFineHistory.getFineInterest(), myLoanAndFineHistory.getFineOverDays(),
-					Common.formatNumber(myLoanAndFineHistory.getFineAmount()), myLoanAndFineHistory.getPaymentDate(),
-					myLoanAndFineHistory.getDescription(), statusMask });
+		for (LoanAndFineHistory history : list) {
+			statusMask = history.isStatus() ? "Repayment" : "Not Repayment";
+			defaultTableModel.addRow(new Object[] { history.getId(), history.getCustomer(),
+					Common.formatNumber(history.getAmount()), history.getPaymentMenthodName(),
+					Common.formatNumber(history.getPaymentAmount()),
+					Common.formatNumber(history.getAmountLeft()), history.getDueDate(),
+					Common.formatInt(history.getFineInterest()*100)+ " %", history.getFineOverDays()+ " day",
+					Common.formatNumber(history.getFineAmount()), history.getPaymentDate(),
+					history.getDescription(), statusMask });
 		}
 		tableLoanHistory.setModel(defaultTableModel);
 		tableLoanHistory.getColumnModel().getColumn(12)

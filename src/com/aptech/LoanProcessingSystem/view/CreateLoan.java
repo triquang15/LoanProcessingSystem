@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Calendar;
@@ -46,6 +48,7 @@ import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
 import com.aptech.LoanProcessingSystem.model.LoanModel;
 import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
 import com.aptech.LoanProcessingSystem.model.PaymentTypeModel;
+import com.aptech.LoanProcessingSystem.service.Common;
 import com.aptech.LoanProcessingSystem.service.ShareData;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
@@ -288,7 +291,21 @@ public class CreateLoan extends JDialog {
 		txtAmount.setMinimumSize(new Dimension(300, 30));
 		txtAmount.setPreferredSize(new Dimension(0, 30));
 		panel_2.add(txtAmount);
+		txtAmount.addKeyListener(new KeyAdapter() {
 
+			@Override
+			public void keyReleased(KeyEvent e) {
+				try {
+					double amount = Double.parseDouble(txtAmount.getText().replace(",", "").trim());
+					txtAmount.setText(Common.formatInt(amount));
+				} catch (Exception e1) {
+					String amount = txtAmount.getText();
+					amount = amount.replaceAll("[^0-9\\,]", "");
+					txtAmount.setText(amount);
+				}
+			}
+
+		});
 		txtAmount.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 10));
 		txtAmount.setColumns(10);
 		setTextHint(txtAmount, hintAmount);
@@ -557,7 +574,8 @@ public class CreateLoan extends JDialog {
 	}
 
 	protected void createLoanAction() {
-		boolean isAmountValid = Pattern.matches("^\\d+", txtAmount.getText().trim());
+
+		double amount = Double.parseDouble(txtAmount.getText().replace(",", "").trim());
 		disbursementDate = txtDisbursement.getDate();
 		endDate = txtEndDate.getDate();
 		Calendar nowCalendar = Calendar.getInstance();
@@ -578,15 +596,13 @@ public class CreateLoan extends JDialog {
 		if (!checkDate) {
 			JOptionPane.showMessageDialog(null, "Disbursement invalid");
 			txtDisbursement.grabFocus();
-		} else if (!isAmountValid) {
-			JOptionPane.showMessageDialog(null, "Amount invalid!");
 		} else {
 			LoanType loanType = (LoanType) cbbxLoanType.getSelectedItem();
 			PaymentType paymentType = (PaymentType) cbbxPaymentType.getSelectedItem();
 			int period = Integer.parseInt(txtPeriod.getText().trim());
 			int duration = (int) cbbxDuration.getSelectedItem();
 			try {
-				loan.setAmount(Double.parseDouble(txtAmount.getText()));
+				loan.setAmount(amount);
 				loan.setDescription(txtDescription.getText());
 				loan.setInterest(loanType.getInterest());
 				loan.setPeriod(period);
@@ -636,7 +652,7 @@ public class CreateLoan extends JDialog {
 
 	private void setInterestValue() {
 		loanType = (LoanType) cbbxLoanType.getSelectedItem();
-		txtInterest.setText(String.valueOf(loanType.getInterest() * 100) + " %");
+		txtInterest.setText(Common.formatInt(loanType.getInterest() * 100) + " %");
 	}
 
 	private void setEndDateValue() {

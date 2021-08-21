@@ -32,6 +32,7 @@ import com.aptech.LoanProcessingSystem.entities.Customer;
 import com.aptech.LoanProcessingSystem.entities.LoanType;
 import com.aptech.LoanProcessingSystem.model.CustomerModel;
 import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
+import com.aptech.LoanProcessingSystem.service.Common;
 import com.aptech.LoanProcessingSystem.view.AddCustomer;
 import com.aptech.LoanProcessingSystem.view.admin.jpanelCustomerProfile.LoanInfosPane;
 
@@ -252,7 +253,7 @@ public class jpanelCustomerProfile extends JPanel {
 		for (Customer customer : customerList) {
 			defaultTableModel.addRow(new Object[] { customer.getId(), customer.getName(), customer.getAddress(),
 					customer.getPhone(), customer.getEmail(), customer.isGender() ? "Male" : "Female",
-					customer.getDob(), customer.getSalary(), customer.getJob(), customer.getCompany(),
+					customer.getDob(), Common.formatInt(customer.getSalary()), customer.getJob(), customer.getCompany(),
 					customer.getIdentityCard(), new Object[] { "Loans", "Info" }, customer.isStatus() });
 		}
 		jtableCustomer.setModel(defaultTableModel);
