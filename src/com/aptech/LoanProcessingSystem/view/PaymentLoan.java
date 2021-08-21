@@ -97,7 +97,7 @@ public class PaymentLoan extends JDialog {
 	public PaymentLoan(int loanHisId) {
 		this();
 		this.loanAndFineHistory = new LoanAndFineHistoryModel().searchHistoryBasedOnId(loanHisId);
-		if(loanAndFineHistory==null) {
+		if (loanAndFineHistory == null) {
 			JOptionPane.showMessageDialog(null, "Something went wrong!");
 			this.dispose();
 		}
@@ -681,7 +681,7 @@ public class PaymentLoan extends JDialog {
 		txtInterest.setText(Common.formatNumber(loanAndFineHistory.getLoanInterest() * 100) + " %");
 		txtPaymentAmount.setText(Common.formatNumber(loanAndFineHistory.getPaymentAmount()));
 		txtDueDate.setDate(loanAndFineHistory.getDueDate());
-		txtFineInterest.setText(Common.formatNumber(fine.getFineInterest()*100) + " %");
+		txtFineInterest.setText(Common.formatNumber(fine.getFineInterest() * 100) + " %");
 		txtStatus.setText(loanAndFineHistory.isStatus() ? "Paid" : "Unpaid");
 		txtAmountLeft.setText(Common.formatNumber(loanAndFineHistory.getAmountLeft()));
 		if (loanAndFineHistory.isStatus()) {
@@ -699,7 +699,6 @@ public class PaymentLoan extends JDialog {
 			btnCancel.setText("Close");
 
 		} else {
-			
 
 			Calendar nowCalendar = Calendar.getInstance();
 			nowCalendar.setTime(new Date());
@@ -774,9 +773,14 @@ public class PaymentLoan extends JDialog {
 	}
 
 	private void cancelAction() {
-		if (JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel?", "Confirm",
-				JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+		if (loanAndFineHistory.isStatus()) {
 			this.dispose();
+		} else {
+			if (JOptionPane.showConfirmDialog(null, "Are you sure you want to cancel?", "Confirm",
+					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+				this.dispose();
+			}
 		}
+
 	}
 }

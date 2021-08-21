@@ -388,7 +388,6 @@ public class SignUp extends JDialog {
 	private void registerAction() {
 		String name = txtName.getText();
 		int authId = ((Authority) cbbxAuth.getSelectedItem()).getId();
-		System.out.println("AUTHID: =============" + authId);
 		String email = txtEmail.getText();
 		String password = new String(txtPassword.getPassword());
 		String confirm_pass = new String(txtConfirmPass.getPassword());

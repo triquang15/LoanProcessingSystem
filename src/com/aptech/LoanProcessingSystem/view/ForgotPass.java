@@ -127,8 +127,10 @@ public class ForgotPass extends JDialog {
 						account.setPassword(hash);
 						account.setEmail(user);
 						if (new AccountModel().changePass(account)) {
-
 							JOptionPane.showMessageDialog(null, "Reset Successfully!");
+							Login login = new Login();
+							login.setVisible(true);
+							ForgotPass.this.dispose();
 						} else {
 
 							JOptionPane.showMessageDialog(null, "Please try again!");
