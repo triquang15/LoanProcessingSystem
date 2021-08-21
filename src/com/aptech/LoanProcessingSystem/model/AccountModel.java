@@ -78,28 +78,6 @@ public class AccountModel {
 		return account;
 	}
 	
-//	public String loadAuthorityName (int id) {
-//		String str = null;
-//		try {
-//			PreparedStatement preparedStatement = ConnectDB.connection()
-//					.prepareStatement("select autho.name from "
-//							+ "authorities as autho inner join "
-//							+ "account on autho.id = account.AuthId "
-//							+ "where account.id = ?");
-//			preparedStatement.setInt(1, id);
-//			ResultSet rs = preparedStatement.executeQuery();
-//			if (rs.next()) {
-//				str = rs.getString("name");
-//			}
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//			str= null;
-//		} finally {
-//			ConnectDB.disconnect();
-//		}
-//		return str;
-//	}
-	
 	public List<Account> loadAllEmployee() {
 		List<Account> employeeList = new ArrayList<Account>();
 		try {
@@ -123,6 +101,7 @@ public class AccountModel {
 					}
 		} catch (Exception e) {
 			employeeList = null;
+			e.printStackTrace();
 		} finally {
 			ConnectDB.disconnect();
 		}
@@ -140,7 +119,7 @@ public class AccountModel {
 				str = resultSet.getString("name");
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 			str = null;
 		} finally {
 			ConnectDB.disconnect();
@@ -171,6 +150,7 @@ public class AccountModel {
 					}
 		} catch (Exception e) {
 			employeeList = null;
+			e.printStackTrace();
 		} finally {
 			ConnectDB.disconnect();
 		}
@@ -200,6 +180,7 @@ public class AccountModel {
 					}
 		} catch (Exception e) {
 			employeeList = null;
+			e.printStackTrace();
 		} finally {
 			ConnectDB.disconnect();
 		}
@@ -229,6 +210,7 @@ public class AccountModel {
 					}
 		} catch (Exception e) {
 			employeeList = null;
+			e.printStackTrace();
 		} finally {
 			ConnectDB.disconnect();
 		}
@@ -253,7 +235,7 @@ public class AccountModel {
 	}
 
 	public boolean changePass(Account account) {
-		boolean result = true;
+		boolean result = false;
 		try {
 			PreparedStatement preparedStatement = ConnectDB.connection()
 					.prepareStatement("update account set Password = ? where email = ?");
@@ -262,11 +244,28 @@ public class AccountModel {
 			result = preparedStatement.executeUpdate() > 0;
 		} catch (Exception e) {
 			e.printStackTrace();
-			result = false;
 		} finally {
 			ConnectDB.disconnect();
 		}
 		return result;
 	}
 
+	public boolean checkEmail (String email) {
+		boolean result = false;
+		try {
+			PreparedStatement preparedStatement = ConnectDB.connection()
+					.prepareStatement("SELECT * FROM account WHERE Email = ?");
+			preparedStatement.setString(1, email);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			if (resultSet.next()) {
+				result = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			ConnectDB.disconnect();
+		}
+		return result;
+	}
+	
 }

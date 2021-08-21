@@ -33,6 +33,7 @@ import java.awt.FlowLayout;
 import javax.swing.border.EmptyBorder;
 import java.awt.Insets;
 import javax.swing.BoxLayout;
+import java.awt.SystemColor;
 
 public class Home extends JFrame {
 	private Account account;
@@ -40,7 +41,7 @@ public class Home extends JFrame {
 	private JLabel lblEmail;
 	private JLabel lblClock;
 	private JPanel panelHome;
-	private JMenu mnLoan;
+	private JMenu mnLoans;
 	private JMenu mnCustomers;
 	private JMenu mnChangePass;
 
@@ -100,64 +101,81 @@ public class Home extends JFrame {
 		setLocationRelativeTo(null);
 
 		JMenuBar menuBar_1 = new JMenuBar();
+		menuBar_1.setAutoscrolls(true);
 		menuBar_1.setBorder(new EmptyBorder(5, 10, 5, 0));
 		menuBar_1.setBackground(Color.BLACK);
 		setJMenuBar(menuBar_1);
 		
-		mnLoan = new JMenu("Loan");
-		mnLoan.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/loan (3).png")));
-		mnLoan.setMargin(new Insets(2, 10, 2, 10));
-		mnLoan.setForeground(new Color(230, 230, 250));
-		menuBar_1.add(mnLoan);
+		mnLoans = new JMenu("Loans");
+		mnLoans.setAutoscrolls(true);
+		mnLoans.setBackground(Color.BLACK);
+		mnLoans.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/loan (3).png")));
+		mnLoans.setMargin(new Insets(2, 10, 2, 10));
+		mnLoans.setForeground(SystemColor.controlShadow);
+		menuBar_1.add(mnLoans);
 		
-		mnCustomers = new JMenu("Customer");
+		mnCustomers = new JMenu("Customers");
+		mnCustomers.setAutoscrolls(true);
+		mnCustomers.setBackground(Color.BLACK);
 		mnCustomers.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/customer (3).png")));
 		mnCustomers.setMargin(new Insets(2, 10, 2, 10));
-		mnCustomers.setForeground(new Color(230, 230, 250));
+		mnCustomers.setForeground(SystemColor.controlShadow);
 		menuBar_1.add(mnCustomers);
 
 		JMenu mnStatistic = new JMenu("Statistic");
+		mnStatistic.setAutoscrolls(true);
+		mnStatistic.setBackground(Color.BLACK);
 		mnStatistic.setMargin(new Insets(2, 10, 2, 10));
 		mnStatistic.setIcon(
 				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/statistics (1).png")));
 		mnStatistic.setSelectedIcon(
 				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/statistics.png")));
-		mnStatistic.setForeground(new Color(230, 230, 250));
+		mnStatistic.setForeground(SystemColor.controlShadow);
 		menuBar_1.add(mnStatistic);
 		
-		mnChangePass = new JMenu("Update password");
+		mnChangePass = new JMenu("Change password");
+		mnChangePass.setAutoscrolls(true);
+		mnChangePass.setBackground(Color.BLACK);
 		mnChangePass.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_changpass_20.png")));
 		mnChangePass.setMargin(new Insets(2, 10, 2, 10));
-		mnChangePass.setForeground(new Color(230, 230, 250));
+		mnChangePass.setForeground(SystemColor.controlShadow);
 		menuBar_1.add(mnChangePass);
 
 		JMenu mnAbout = new JMenu("About");
+		mnAbout.setAutoscrolls(true);
+		mnAbout.setBackground(Color.BLACK);
 		mnAbout.setMargin(new Insets(2, 10, 2, 10));
 		mnAbout.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/info.png")));
 		mnAbout.setSelectedIcon(
 				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/info.png")));
-		mnAbout.setForeground(new Color(230, 230, 250));
+		mnAbout.setForeground(SystemColor.controlShadow);
 		menuBar_1.add(mnAbout);
 
 		JMenu mnHelp = new JMenu("Help");
+		mnHelp.setAutoscrolls(true);
+		mnHelp.setBackground(Color.BLACK);
 		mnHelp.setMargin(new Insets(2, 10, 2, 10));
 		mnHelp.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/help.png")));
 		mnHelp.setSelectedIcon(
 				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/help.png")));
-		mnHelp.setForeground(new Color(230, 230, 250));
+		mnHelp.setForeground(SystemColor.controlShadow);
 		menuBar_1.add(mnHelp);
 
 		JMenu mnLogout = new JMenu("Logout");
+		mnLogout.setAutoscrolls(true);
+		mnLogout.setBackground(Color.BLACK);
 		mnLogout.setIcon(
 				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_logout_20.png")));
 		mnLogout.setMargin(new Insets(2, 10, 2, 10));
-		mnLogout.setForeground(new Color(230, 230, 250));
+		mnLogout.setForeground(SystemColor.controlShadow);
 		menuBar_1.add(mnLogout);
 
 		JMenu mnExit = new JMenu("Exit");
+		mnExit.setAutoscrolls(true);
+		mnExit.setBackground(Color.BLACK);
 		mnExit.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_exit_20.png")));
 		mnExit.setMargin(new Insets(2, 10, 2, 10));
-		mnExit.setForeground(new Color(230, 230, 250));
+		mnExit.setForeground(SystemColor.controlShadow);
 		menuBar_1.add(mnExit);
 		
 				JPanel panel = new JPanel();
@@ -191,7 +209,7 @@ public class Home extends JFrame {
 			}
 		});
 
-		mnLoan.addMouseListener(new MouseAdapter() {
+		mnLoans.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				loadLoanAction();

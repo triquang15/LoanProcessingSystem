@@ -439,16 +439,10 @@ public class SignUp extends JDialog {
 				AccountModel accountModel = new AccountModel();
 
 				if (accountModel.create(account)) {
-
 					JOptionPane.showMessageDialog(null, "Successful account registration!");
-					Login login = new Login();
-					login.setVisible(true);
 					this.dispose();
-
 				} else {
-
 					JOptionPane.showMessageDialog(null, "Please try again!");
-
 				}
 			} catch (Exception e2) {
 

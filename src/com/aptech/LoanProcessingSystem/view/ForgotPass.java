@@ -1,52 +1,31 @@
 package com.aptech.LoanProcessingSystem.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import com.aptech.LoanProcessingSystem.database.ConnectDB;
 import com.aptech.LoanProcessingSystem.entities.Account;
 import com.aptech.LoanProcessingSystem.model.AccountModel;
 
-import java.awt.Font;
-import java.awt.Toolkit;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.UIManager;
-import java.awt.Color;
-import java.awt.Desktop;
-
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.ImageIcon;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.JPasswordField;
-
+@SuppressWarnings("serial")
 public class ForgotPass extends JDialog {
-
-	Connection conn = null;
-	ResultSet rs = null;
-	PreparedStatement ps = null;
-
-	public String user;
-
+	private String user;
 	private final JPanel contentPanel = new JPanel();
 	private JPasswordField txtNewPass;
 	private JPasswordField txtVerifyPass;
@@ -145,18 +124,14 @@ public class ForgotPass extends JDialog {
 						Account account = new Account();
 						String password = new String(txtNewPass.getPassword());
 						String hash = BCrypt.hashpw(password, BCrypt.gensalt());
-						String password1 = new String(txtVerifyPass.getPassword());
-						String hash1 = BCrypt.hashpw(password, BCrypt.gensalt());
-						account.setPassword(hash1);
 						account.setPassword(hash);
+						account.setEmail(user);
+						if (new AccountModel().changePass(account)) {
 
-						String updateQuery = "UPDATE `account` SET `Password`=? WHERE Email=?";
-						conn = ConnectDB.connection();
-						ps = conn.prepareStatement(updateQuery);
-						ps.setString(1, new String(account.getPassword()));
-						ps.setString(2, user);
-						if (ps.executeUpdate() > 0) {
-							JOptionPane.showMessageDialog(null, "Reset Successfully");
+							JOptionPane.showMessageDialog(null, "Reset Successfully!");
+						} else {
+
+							JOptionPane.showMessageDialog(null, "Please try again!");
 						}
 
 					} catch (Exception ex) {

@@ -7,6 +7,9 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import com.aptech.LoanProcessingSystem.model.AccountModel;
+
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
@@ -132,6 +135,11 @@ public class SendCode extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
+					
+					if(!new AccountModel().checkEmail(txtEmail.getText().trim())) {
+						JOptionPane.showMessageDialog(null, "Email does not exist!");
+						return;
+					}
 					Random rand = new Random();
 					randomCode = rand.nextInt(999999);
 					String host = "smtp.gmail.com";
@@ -148,7 +156,12 @@ public class SendCode extends JDialog {
 					pros.put("mail.smtp.auth", "true");
 					pros.put("mail.smtp.starttls.required", "true");
 			
-					Session mailSession = Session.getDefaultInstance(pros, null);
+					Session mailSession = Session.getDefaultInstance(pros,  new Authenticator() {
+						@Override
+						protected PasswordAuthentication getPasswordAuthentication() {
+							return new PasswordAuthentication(user, pass);
+						}
+					});
 					mailSession.setDebug(sessionDebug);
 					Message msg = new MimeMessage(mailSession);
 					msg.setFrom(new InternetAddress(user));
@@ -162,7 +175,7 @@ public class SendCode extends JDialog {
 					transport.close();
 					JOptionPane.showMessageDialog(null, "Code has been send to the email");
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(rootPane, ex);
+					JOptionPane.showMessageDialog(rootPane, ex.getMessage());
 				}
 			}
 		});

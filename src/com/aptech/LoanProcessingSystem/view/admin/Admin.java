@@ -12,7 +12,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicButtonUI;
 
 import com.aptech.LoanProcessingSystem.entities.Account;
-
+import com.aptech.LoanProcessingSystem.view.Login;
 import com.aptech.LoanProcessingSystem.entities.Account;
 
 import java.awt.SystemColor;
@@ -246,9 +246,10 @@ public class Admin extends JFrame {
 	}
 	
 	public void btnExit_actionPerformed(ActionEvent e) {
-		int a = JOptionPane.showConfirmDialog(null, "Do you want to"
-				+ "log out?", "Log out", JOptionPane.YES_NO_CANCEL_OPTION);
+		int a = JOptionPane.showConfirmDialog(null, "Do you want to logout?", "Log out", JOptionPane.YES_NO_CANCEL_OPTION);
 		if (a == JOptionPane.YES_OPTION) {
+			Login login = new Login();
+			login.setVisible(true);
 			this.dispose();
 		}
 	}

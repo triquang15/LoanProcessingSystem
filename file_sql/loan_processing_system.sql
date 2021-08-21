@@ -1,3 +1,8 @@
+-- Email admin: quickloansystem@gmail.com - password: Abcd@1234
+-- Default user password: 123 
+
+
+
 -- phpMyAdmin SQL Dump
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
@@ -10,6 +15,9 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+create database IF NOT EXISTS loan_processing_system CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+USE loan_processing_system;
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -40,13 +48,10 @@ CREATE TABLE `account` (
   `IdentityCard` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Status` tinyint(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `account`
---
-
+-- Email admin: quickloansystem@gmail.com - password: Abcd@1234
+-- Default user password: 123 
 INSERT INTO `account` (`Id`, `AuthId`, `Name`, `Password`, `Address`, `Phone`, `Email`, `Gender`, `DOB`, `IdentityCard`, `Status`) VALUES
-(1, 2, 'Admin', '$2a$10$mgY9/7i9MPQH8NoTImoGu.JK4G1FKCUZNjECZbyj3EgmiXQqCrC2W', '217 Thich Quang Duc, ward 04, Phu Nhuan Dist, HCM City', '098773230', 'admin@gmail.com', 0, '1991-07-08', '245207565', 1),
+(1, 2, 'Admin', '$2a$10$mgY9/7i9MPQH8NoTImoGu.JK4G1FKCUZNjECZbyj3EgmiXQqCrC2W', '217 Thich Quang Duc, ward 04, Phu Nhuan Dist, HCM City', '098773230', 'quickloansystem@gmail.com', 0, '1991-07-08', '245207565', 1),
 (2, 1, 'Nguyen Minh Thanh', '$2a$10$mgY9/7i9MPQH8NoTImoGu.JK4G1FKCUZNjECZbyj3EgmiXQqCrC2W', '198 No Trang Long, ward 12, Binh Thanh Dist, HCM City', '0987721223', 'minhthanh@gmail.com', 0, '1991-07-08', '245207565', 1),
 (3, 1, 'Le Co', '$2a$10$mgY9/7i9MPQH8NoTImoGu.JK4G1FKCUZNjECZbyj3EgmiXQqCrC2W', '183 Huynh Tan Phat, ward 12, Dist 7, HCM City', '098775464', 'leco@gmail.com', 0, '1993-07-08', '654852354', 1),
 (4, 1, 'Nguyen Tri Quang', '$2a$10$mgY9/7i9MPQH8NoTImoGu.JK4G1FKCUZNjECZbyj3EgmiXQqCrC2W', '58 Street, ward 12, Dist 7, HCM City', '098775464', 'triquang@gmail.com', 0, '1994-07-08', '654852354', 1),
@@ -474,7 +479,7 @@ INSERT INTO `loanandfinehistory` (`Id`, `LoanId`, `FineId`, `PaymentMethodId`, `
 
 CREATE TABLE `loantype` (
   `Id` int(11) NOT NULL,
-  `Interest` float DEFAULT NULL,
+  `Interest` double DEFAULT NULL,
   `Name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Status` tinyint(4) DEFAULT NULL
@@ -680,3 +685,4 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
