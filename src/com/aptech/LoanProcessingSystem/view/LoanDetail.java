@@ -410,10 +410,11 @@ public class LoanDetail extends JPanel {
 	}
 
 	private void refreshAction() {
+		txtSearch.setText("");
 		if (pageState.equals(loanPage)) {
 			loadLoanToTable(new LoanModel().findAllActive());
 		} else {
-			loadHistoryToTable(new LoanAndFineHistoryModel().getAllLoanAndFineHistorys());
+			loadHistoryToTable(new LoanAndFineHistoryModel().searchByLoanId(loanSelectedId));
 		}
 	}
 
