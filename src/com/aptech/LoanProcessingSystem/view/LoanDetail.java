@@ -363,7 +363,6 @@ public class LoanDetail extends JPanel {
 			btnDetail.setVisible(true);
 			txtSearch.setVisible(true);
 			btnSearch.setVisible(true);
-			btnRefesh.setVisible(true);
 			btnDelete.setVisible(true);
 			btnPayment.setVisible(false);
 			btnBack.setVisible(false);
@@ -373,7 +372,6 @@ public class LoanDetail extends JPanel {
 			btnDetail.setVisible(false);
 			txtSearch.setVisible(false);
 			btnSearch.setVisible(false);
-			btnRefesh.setVisible(false);
 			btnDelete.setVisible(false);
 			btnPayment.setVisible(true);
 			btnBack.setVisible(true);
