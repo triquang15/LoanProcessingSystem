@@ -21,7 +21,7 @@ public class CustomerModel {
 			ps.setString(4, customer.getEmail());
 			ps.setBoolean(5, customer.isGender());
 			ps.setDate(6, new java.sql.Date(customer.getDob().getTime()));
-			ps.setFloat(7, customer.getSalary());
+			ps.setDouble(7, customer.getSalary());
 			ps.setString(8, customer.getJob());
 			ps.setString(9, customer.getCompany());
 			ps.setString(10, customer.getIdentityCard());
@@ -48,7 +48,7 @@ public class CustomerModel {
 			ps.setString(4, customer.getEmail());
 			ps.setBoolean(5, customer.isGender());
 			ps.setDate(6, new java.sql.Date(customer.getDob().getTime()));
-			ps.setFloat(7, customer.getSalary());
+			ps.setDouble(7, customer.getSalary());
 			ps.setString(8, customer.getJob());
 			ps.setString(9, customer.getCompany());
 			ps.setString(10, customer.getIdentityCard());

@@ -3,7 +3,7 @@ package com.aptech.LoanProcessingSystem.entities;
 public class LoanType {
 
 	private int id;
-	private float interest;
+	private double interest;
 	private String name;
 	private String description;
 	private boolean status;
@@ -29,7 +29,7 @@ public class LoanType {
 		this.id = id;
 	}
 
-	public float getInterest() {
+	public double getInterest() {
 		return interest;
 	}
 

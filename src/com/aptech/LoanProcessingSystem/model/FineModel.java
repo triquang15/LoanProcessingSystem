@@ -101,7 +101,7 @@ public class FineModel {
 	public Fine findFineInterest(double paymentAmount) {
 		Fine fine = new Fine();
 		try {
-			PreparedStatement statement = ConnectDB.connection().prepareStatement("SELECT * FROM fine WHERE ? >= Min and (? < MAX OR MAX IS NULL)");
+			PreparedStatement statement = ConnectDB.connection().prepareStatement("SELECT * FROM fine WHERE ? >= Min and (? < MAX OR MAX IS NULL OR MAX = 0)");
 			statement.setDouble(1, paymentAmount);
 			statement.setDouble(2, paymentAmount);
 			ResultSet resultset = statement.executeQuery();

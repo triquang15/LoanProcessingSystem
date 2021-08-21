@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,7 @@ import javax.swing.table.TableRowSorter;
 
 import com.aptech.LoanProcessingSystem.entities.Customer;
 import com.aptech.LoanProcessingSystem.model.CustomerModel;
+import com.aptech.LoanProcessingSystem.model.LoanAndFineHistoryModel;
 import com.aptech.LoanProcessingSystem.service.Common;
 import com.aptech.LoanProcessingSystem.service.MessageDialog;
 
@@ -148,6 +151,15 @@ public class CustomerInfo extends JPanel {
 		panel_4.setBackground(Color.DARK_GRAY);
 		panel.add(panel_4);
 		panel_4.setLayout(new FlowLayout(FlowLayout.TRAILING, 20, 20));
+		
+		JButton btnUpdate = new JButton("Update");
+		btnUpdate.setIcon(new ImageIcon(CustomerInfo.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_update_16.png")));
+		btnUpdate.setPreferredSize(new Dimension(120, 30));
+		btnUpdate.setMargin(new Insets(2, 20, 2, 20));
+		btnUpdate.setFont(new Font("Tahoma", Font.BOLD, 10));
+		btnUpdate.setAlignmentY(10.0f);
+		btnUpdate.setAlignmentX(20.0f);
+		panel_4.add(btnUpdate);
 
 		JButton btnCreateLoan = new JButton("New Loan");
 		btnCreateLoan.setAlignmentY(10.0f);
@@ -308,6 +320,30 @@ public class CustomerInfo extends JPanel {
 			}
 		});
 
+		btnUpdate.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int selectedRow = table.getSelectedRow();
+				if (selectedRow != -1) {
+					int id = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
+					AddCustomer addCustomer = new AddCustomer(id);
+					addCustomer.setVisible(true);
+					addCustomer.addWindowListener(new WindowAdapter() {
+
+						@Override
+						public void windowClosed(WindowEvent e) {
+							super.windowClosed(e);
+							CustomerModel customerModel = new CustomerModel();
+							loadDataToTable(customerModel.findAll());
+						}
+					});
+				} else {
+					JOptionPane.showMessageDialog(null, "Please choose a value!");
+				}
+
+			}
+		});
+		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(UIManager.getColor("Button.shadow"));
 		add(panel_1, BorderLayout.NORTH);

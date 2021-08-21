@@ -10,7 +10,7 @@ public class Customer {
 	private String email;
 	private boolean gender;
 	private Date dob;
-	private float salary;
+	private double salary;
 	private String job;
 	private String company;
 	private String identityCard;
@@ -93,11 +93,11 @@ public class Customer {
 		this.dob = dob;
 	}
 
-	public float getSalary() {
+	public double getSalary() {
 		return salary;
 	}
 
-	public void setSalary(float salary) {
+	public void setSalary(double salary) {
 		this.salary = salary;
 	}
 
