@@ -41,6 +41,7 @@ import com.aptech.LoanProcessingSystem.service.ShareData;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
+@SuppressWarnings("serial")
 public class AddCustomer extends JDialog {
 
 	private ButtonGroup bg;
@@ -684,7 +685,7 @@ public class AddCustomer extends JDialog {
 					textField.setText("");
 					textField.setFont(new Font("Tahoma", Font.PLAIN, 12));
 					if (textField instanceof JPasswordField) {
-						((JPasswordField) textField).setEchoChar('●');
+						((JPasswordField) textField).setEchoChar('*');
 					}
 					textField.setForeground(Color.BLACK);
 				} else {

@@ -1,36 +1,31 @@
 package com.aptech.LoanProcessingSystem.view.admin;
 
-import javax.swing.JPanel;
-import javax.swing.BoxLayout;
-import javax.swing.DefaultComboBoxModel;
-
-import java.awt.SystemColor;
-import javax.swing.JButton;
-import java.awt.FlowLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import javax.swing.ImageIcon;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import com.aptech.LoanProcessingSystem.entities.LoanType;
 import com.aptech.LoanProcessingSystem.model.LoanTypeModel;
-
-import javax.swing.JComboBox;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import java.awt.event.ActionListener;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.awt.event.ActionEvent;
-import javax.swing.JCheckBox;
 
 public class jpanelLoanType extends JPanel {
 	private JTable jtableLoanType;

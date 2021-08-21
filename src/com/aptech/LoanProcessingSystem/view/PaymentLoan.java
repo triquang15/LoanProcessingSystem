@@ -751,7 +751,7 @@ public class PaymentLoan extends JDialog {
 					textField.setText("");
 					textField.setFont(new Font("Tahoma", Font.PLAIN, 10));
 					if (textField instanceof JPasswordField) {
-						((JPasswordField) textField).setEchoChar('●');
+						((JPasswordField) textField).setEchoChar('*');
 					}
 					txtLoanAmount.setForeground(Color.BLACK);
 				} else {
