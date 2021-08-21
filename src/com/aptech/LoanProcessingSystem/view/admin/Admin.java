@@ -270,7 +270,7 @@ public class Admin extends JFrame {
 
 	public void btnLoanData_actionPerformed(ActionEvent e) {
 		clearScreen();
-		jpanelLoadData jpanelLoanData = new jpanelLoadData(this.account);
+		jpanelLoadData jpanelLoanData = new jpanelLoadData();
 		jpanelMain.add(jpanelLoanData);
 		jpanelLoanData.setVisible(true);
 	}
