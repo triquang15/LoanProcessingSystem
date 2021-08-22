@@ -224,8 +224,6 @@ public class jpanelCustomerProfile extends JPanel {
 	public void btnAdd_actionPerformed(ActionEvent e) {
 		AddCustomer addNewCustomer = new AddCustomer();
 		addNewCustomer.setVisible(true);
-		jDialogAddNewCustomer addNewCustomer2 = new jDialogAddNewCustomer();
-		addNewCustomer2.setVisible(true);
 	}
 
 	public void fillDataToJTable(List<Customer> customerList) {
@@ -377,23 +375,21 @@ public class jpanelCustomerProfile extends JPanel {
 		int i = jtableCustomer.getSelectedRow();
 		if (i > -1) {
 			int id = (int) (jtableCustomer.getValueAt(i, 0));
-			CustomerModel customerModel = new CustomerModel();
-			Customer customer = customerModel.findById(id);
-			jDialogAddNewCustomer addNewCustomer = new jDialogAddNewCustomer(customer);
+			AddCustomer addNewCustomer = new AddCustomer(id);
 			addNewCustomer.setVisible(true);
 			addNewCustomer.addWindowListener(new WindowAdapter() {
-
 				@Override
 				public void windowClosed(WindowEvent e) {
 					CustomerModel customerModel = new CustomerModel();
 					fillDataToJTable(customerModel.findAll());
 					super.windowClosed(e);
 				}
-				
 			});
+		} else {
+			JOptionPane.showMessageDialog(null, "Please choose a value!");
 		}
 	}
-	
+
 	public void btnLoans() {
 		int i = jtableCustomer.getSelectedRow();
 		if (i > -1) {
@@ -444,7 +440,7 @@ public class jpanelCustomerProfile extends JPanel {
 		CustomerModel customerModel = new CustomerModel();
 		try {
 			int accountID = Integer.parseInt(txtEmployeeID.getText().trim());
-			fillDataToJTable(customerModel.findCustomerByAccountID(accountID)); 
+			fillDataToJTable(customerModel.findCustomerByAccountID(accountID));
 		} catch (Exception ex) {
 			JOptionPane.showMessageDialog(this, "Please input an integer");
 		}

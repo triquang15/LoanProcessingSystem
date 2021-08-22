@@ -35,8 +35,8 @@ import java.awt.Insets;
 import javax.swing.BoxLayout;
 import java.awt.SystemColor;
 
+@SuppressWarnings("serial")
 public class Home extends JFrame {
-	private Account account;
 	private JTabbedPane tabbedHome = new JTabbedPane(JTabbedPane.TOP);
 	private JLabel lblEmail;
 	private JLabel lblClock;
@@ -92,7 +92,7 @@ public class Home extends JFrame {
 		tabbedHome.setForeground(Color.GRAY);
 		tabbedHome.setBackground(Color.GRAY);
 		getContentPane().add(tabbedHome, BorderLayout.WEST);
-		
+
 		panelHome = new JPanel();
 		getContentPane().add(panelHome, BorderLayout.CENTER);
 		panelHome.setLayout(new BorderLayout(0, 0));
@@ -105,7 +105,7 @@ public class Home extends JFrame {
 		menuBar_1.setBorder(new EmptyBorder(5, 10, 5, 0));
 		menuBar_1.setBackground(Color.BLACK);
 		setJMenuBar(menuBar_1);
-		
+
 		mnLoans = new JMenu("Loans");
 		mnLoans.setAutoscrolls(true);
 		mnLoans.setBackground(Color.BLACK);
@@ -113,11 +113,12 @@ public class Home extends JFrame {
 		mnLoans.setMargin(new Insets(2, 10, 2, 10));
 		mnLoans.setForeground(SystemColor.controlShadow);
 		menuBar_1.add(mnLoans);
-		
+
 		mnCustomers = new JMenu("Customers");
 		mnCustomers.setAutoscrolls(true);
 		mnCustomers.setBackground(Color.BLACK);
-		mnCustomers.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/customer (3).png")));
+		mnCustomers.setIcon(
+				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/customer (3).png")));
 		mnCustomers.setMargin(new Insets(2, 10, 2, 10));
 		mnCustomers.setForeground(SystemColor.controlShadow);
 		menuBar_1.add(mnCustomers);
@@ -132,11 +133,12 @@ public class Home extends JFrame {
 				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/statistics.png")));
 		mnStatistic.setForeground(SystemColor.controlShadow);
 		menuBar_1.add(mnStatistic);
-		
+
 		mnChangePass = new JMenu("Change password");
 		mnChangePass.setAutoscrolls(true);
 		mnChangePass.setBackground(Color.BLACK);
-		mnChangePass.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_changpass_20.png")));
+		mnChangePass.setIcon(
+				new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/ic_changpass_20.png")));
 		mnChangePass.setMargin(new Insets(2, 10, 2, 10));
 		mnChangePass.setForeground(SystemColor.controlShadow);
 		menuBar_1.add(mnChangePass);
@@ -177,31 +179,31 @@ public class Home extends JFrame {
 		mnExit.setMargin(new Insets(2, 10, 2, 10));
 		mnExit.setForeground(SystemColor.controlShadow);
 		menuBar_1.add(mnExit);
-		
-				JPanel panel = new JPanel();
-				menuBar_1.add(panel);
-				panel.setBackground(Color.BLACK);
-						panel.setLayout(new FlowLayout(FlowLayout.RIGHT, 20, 5));
-				
-						lblEmail = new JLabel("");
-						lblEmail.setBorder(new EmptyBorder(0, 10, 0, 0));
-						lblEmail.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 9));
-						lblEmail.setIcon(new ImageIcon(
-								Home.class.getResource("/com/aptech/LoanProcessingSystem/images/unauthorized-person.png")));
-						lblEmail.setForeground(Color.WHITE);
-						panel.add(lblEmail);
-						lblEmail.setText(ShareData.accountLogin.getEmail());
-						
-								lblClock = new JLabel("");
-								lblClock.setBorder(new EmptyBorder(0, 0, 0, 10));
-								lblClock.setHorizontalTextPosition(SwingConstants.LEFT);
-								lblClock.setHorizontalAlignment(SwingConstants.LEFT);
-								lblClock.setFont(new Font("Tahoma", Font.BOLD, 12));
-								lblClock.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/clock.png")));
-								lblClock.setForeground(Color.WHITE);
-								panel.add(lblClock);
+
+		JPanel panel = new JPanel();
+		menuBar_1.add(panel);
+		panel.setBackground(Color.BLACK);
+		panel.setLayout(new FlowLayout(FlowLayout.RIGHT, 20, 5));
+
+		lblEmail = new JLabel("");
+		lblEmail.setBorder(new EmptyBorder(0, 10, 0, 0));
+		lblEmail.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 9));
+		lblEmail.setIcon(new ImageIcon(
+				Home.class.getResource("/com/aptech/LoanProcessingSystem/images/unauthorized-person.png")));
+		lblEmail.setForeground(Color.WHITE);
+		panel.add(lblEmail);
+		lblEmail.setText(ShareData.accountLogin.getEmail());
+
+		lblClock = new JLabel("");
+		lblClock.setBorder(new EmptyBorder(0, 0, 0, 10));
+		lblClock.setHorizontalTextPosition(SwingConstants.LEFT);
+		lblClock.setHorizontalAlignment(SwingConstants.LEFT);
+		lblClock.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblClock.setIcon(new ImageIcon(Home.class.getResource("/com/aptech/LoanProcessingSystem/images/clock.png")));
+		lblClock.setForeground(Color.WHITE);
+		panel.add(lblClock);
 		loadLoanAction();
-		
+
 		mnCustomers.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -215,13 +217,6 @@ public class Home extends JFrame {
 				loadLoanAction();
 			}
 		});
-
-//		btnNewCustomer.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				AddCustomer addCustomer = new AddCustomer();
-//				addCustomer.setVisible(true);
-//			}
-//		});
 
 		mnStatistic.addMouseListener(new MouseAdapter() {
 			@Override

@@ -440,10 +440,9 @@ public class LoanDetail extends JPanel {
 				tblModel.addRow(new Object[] { loans.getId(), loans.getCustomerName(), loans.getLoanTypeName(),
 						loans.getPaymentTypeName(), loans.getPeriod() + " Month",
 						Common.formatNumber(loans.getAmount()), loans.getDisbursementDate(),
-						loans.getDuration() + " Month", loans.getEndDate(), loans.getInterest() * 100 + " %",
-						loans.getDescription(),
+						loans.getDuration() + " Month", loans.getEndDate(),
+						Common.formatInt(loans.getInterest() * 100) + " %", loans.getDescription(),
 						loans.getStatus() == 0 ? "New" : (loans.getStatus() == 1 ? "Active" : "Update") });
-
 			}
 			int rowCount = tblModel.getRowCount();
 			int v = rowCount % itemsPerPage == 0 ? 0 : 1;

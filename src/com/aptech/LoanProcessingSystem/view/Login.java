@@ -1,43 +1,35 @@
 package com.aptech.LoanProcessingSystem.view;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import java.awt.Font;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Toolkit;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.util.regex.Pattern;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import com.aptech.LoanProcessingSystem.entities.Account;
 import com.aptech.LoanProcessingSystem.model.AccountModel;
 import com.aptech.LoanProcessingSystem.service.ShareData;
 import com.aptech.LoanProcessingSystem.view.admin.Admin;
-import com.aptech.LoanProcessingSystem.service.ShareData;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.ImageIcon;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.regex.Pattern;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 
-import java.awt.Toolkit;
-import java.awt.event.MouseMotionAdapter;
-import java.awt.Dimension;
-
+@SuppressWarnings("serial")
 public class Login extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
@@ -169,20 +161,20 @@ public class Login extends JDialog {
 		buttonPane.setBackground(Color.LIGHT_GRAY);
 		buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
-		
-				JButton cancelButton = new JButton("Close");
-				buttonPane.add(cancelButton);
-				cancelButton.setPreferredSize(new Dimension(120, 30));
-				cancelButton.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						closeAction();
-					}
-				});
-				cancelButton.setIcon(
-						new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
-				cancelButton.setFont(new Font("Tahoma", Font.BOLD, 11));
-				cancelButton.setActionCommand("Cancel");
+
+		JButton cancelButton = new JButton("Close");
+		buttonPane.add(cancelButton);
+		cancelButton.setPreferredSize(new Dimension(120, 30));
+		cancelButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				closeAction();
+			}
+		});
+		cancelButton.setIcon(
+				new ImageIcon(Login.class.getResource("/com/aptech/LoanProcessingSystem/images/close (2).png")));
+		cancelButton.setFont(new Font("Tahoma", Font.BOLD, 11));
+		cancelButton.setActionCommand("Cancel");
 		initForm();
 	}
 
@@ -258,5 +250,4 @@ public class Login extends JDialog {
 			}
 		});
 	}
-
 }
