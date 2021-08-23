@@ -648,8 +648,10 @@ public class PaymentLoan extends JDialog {
 
 		try {
 			int paymemtMethodId = ((PaymentMethod) cbbxPaymentMethod.getSelectedItem()).getId();
-			loanAndFineHistory.setFineId(fine.getId());
-			loanAndFineHistory.setFineInterest(fine.getFineInterest());
+			if(fineOverDays>0) {
+				loanAndFineHistory.setFineId(fine.getId());
+				loanAndFineHistory.setFineInterest(fine.getFineInterest());
+			}
 			loanAndFineHistory.setFineOverDays(fineOverDays);
 			loanAndFineHistory.setFineAmount(fineAmount);
 			loanAndFineHistory.setPaymentDate(new Date());
@@ -681,7 +683,6 @@ public class PaymentLoan extends JDialog {
 		txtInterest.setText(Common.formatNumber(loanAndFineHistory.getLoanInterest() * 100) + " %");
 		txtPaymentAmount.setText(Common.formatNumber(loanAndFineHistory.getPaymentAmount()));
 		txtDueDate.setDate(loanAndFineHistory.getDueDate());
-		txtFineInterest.setText(Common.formatNumber(fine.getFineInterest() * 100) + " %");
 		txtStatus.setText(loanAndFineHistory.isStatus() ? "Paid" : "Unpaid");
 		txtAmountLeft.setText(Common.formatNumber(loanAndFineHistory.getAmountLeft()));
 		if (loanAndFineHistory.isStatus()) {
@@ -691,6 +692,7 @@ public class PaymentLoan extends JDialog {
 			txtPaymentMethod.setVisible(true);
 			cbbxPaymentMethod.setVisible(false);
 			txtFineOverdays.setText(String.valueOf(loanAndFineHistory.getFineOverDays()));
+			txtFineInterest.setText(Common.formatNumber(fine.getFineInterest() * 100) + " %");
 			txtFineAmount.setText(Common.formatNumber(loanAndFineHistory.getFineAmount()));
 			txtTotalPayment.setText(
 					Common.formatNumber(loanAndFineHistory.getFineAmount() + loanAndFineHistory.getPaymentAmount()));
@@ -711,8 +713,13 @@ public class PaymentLoan extends JDialog {
 			dueCalendar.set(Calendar.MINUTE, 0);
 			dueCalendar.set(Calendar.SECOND, 0);
 			fineOverDays = (int) ChronoUnit.DAYS.between(dueCalendar.toInstant(), nowCalendar.toInstant());
-			fineOverDays = fineOverDays < 0 ? 0 : fineOverDays;
+			fineOverDays = fineOverDays < 1 ? 0 : fineOverDays;
 			txtFineOverdays.setText(String.valueOf(fineOverDays));
+			if (fineOverDays > 0) {
+				txtFineInterest.setText(Common.formatNumber(fine.getFineInterest() * 100) + " %");
+			} else {
+				txtFineInterest.setText("-");
+			}
 			fineAmount = loanAndFineHistory.getPaymentAmount() * fineOverDays * fine.getFineInterest();
 			txtFineAmount.setText(Common.formatNumber(fineAmount));
 			txtTotalPayment.setText(Common.formatNumber(fineAmount + loanAndFineHistory.getPaymentAmount()));

@@ -460,7 +460,7 @@ public class LoanDetail extends JPanel {
 		currentPageIndex = 1;
 		textField_1.setText(Integer.toString(currentPageIndex));
 		tblModel.setColumnIdentifiers(
-				new String[] { "Id", "Customer", "Payment Amount", "Amount", "Amount Left", "Due Date", "Fine Interest",
+				new String[] { "Id", "Customer", "Payment Amount", "Loan Amount", "Amount Left", "Due Date", "Fine Interest",
 						"Fine Over Days", "Fine Amount", "Payment Date", "Payment method", "Description", "Status" });
 		table.setModel(tblModel);
 		try {
